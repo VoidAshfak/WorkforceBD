@@ -1,0 +1,12 @@
+{
+  "name": "workforcebd",
+  "version": "1.0.0",
+  "description": "A short term job finding website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "author": "nishan|fahim|asif",
+  "license": "ISC"
+}
