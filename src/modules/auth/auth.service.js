@@ -1,4 +1,5 @@
 import { env } from "../../config/env.js";
+import { logger } from "../../config/logger.js";
 import { generateOtp } from "../../utils/otp.js";
 import { generateAccessToken, generateRefreshToken } from "../../utils/token.js";
 import * as authRepository from "./auth.repository.js";
@@ -15,7 +16,7 @@ export const sendOtp = async (phone, purpose) => {
   await authRepository.createOtpRequest({ phone, otp_code: otp, purpose, expires_at: expiresAt });
 
   // TODO: integrate SMS gateway
-  console.log(`[DEV] OTP for ${phone}: ${otp}`);
+  logger.debug(`OTP for ${phone}: ${otp}`);
 };
 
 /**
