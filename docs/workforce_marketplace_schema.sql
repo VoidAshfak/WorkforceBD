@@ -239,6 +239,7 @@ CREATE TABLE worker_profiles (
     user_id             UUID NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
 
     -- Personal
+    full_name           VARCHAR(100) NOT NULL,
     gender              gender_enum,
     date_of_birth       DATE,
     city_id             UUID REFERENCES cities(id),

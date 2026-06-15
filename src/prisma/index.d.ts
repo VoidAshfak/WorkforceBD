@@ -36242,6 +36242,8 @@ export namespace Prisma {
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
+    full_name: string | null
+    profile_picture: string | null
   }
 
   export type Worker_profilesMaxAggregateOutputType = {
@@ -36268,6 +36270,8 @@ export namespace Prisma {
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
+    full_name: string | null
+    profile_picture: string | null
   }
 
   export type Worker_profilesCountAggregateOutputType = {
@@ -36296,6 +36300,8 @@ export namespace Prisma {
     deleted_at: number
     created_by: number
     updated_by: number
+    full_name: number
+    profile_picture: number
     _all: number
   }
 
@@ -36344,6 +36350,8 @@ export namespace Prisma {
     deleted_at?: true
     created_by?: true
     updated_by?: true
+    full_name?: true
+    profile_picture?: true
   }
 
   export type Worker_profilesMaxAggregateInputType = {
@@ -36370,6 +36378,8 @@ export namespace Prisma {
     deleted_at?: true
     created_by?: true
     updated_by?: true
+    full_name?: true
+    profile_picture?: true
   }
 
   export type Worker_profilesCountAggregateInputType = {
@@ -36398,6 +36408,8 @@ export namespace Prisma {
     deleted_at?: true
     created_by?: true
     updated_by?: true
+    full_name?: true
+    profile_picture?: true
     _all?: true
   }
 
@@ -36513,6 +36525,8 @@ export namespace Prisma {
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
+    full_name: string | null
+    profile_picture: string | null
     _count: Worker_profilesCountAggregateOutputType | null
     _avg: Worker_profilesAvgAggregateOutputType | null
     _sum: Worker_profilesSumAggregateOutputType | null
@@ -36560,6 +36574,8 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    full_name?: boolean
+    profile_picture?: boolean
     applications?: boolean | worker_profiles$applicationsArgs<ExtArgs>
     business_favorite_workers?: boolean | worker_profiles$business_favorite_workersArgs<ExtArgs>
     worker_assignments?: boolean | worker_profiles$worker_assignmentsArgs<ExtArgs>
@@ -36597,6 +36613,8 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    full_name?: boolean
+    profile_picture?: boolean
     cities?: boolean | worker_profiles$citiesArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["worker_profiles"]>
@@ -36627,6 +36645,8 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    full_name?: boolean
+    profile_picture?: boolean
     cities?: boolean | worker_profiles$citiesArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["worker_profiles"]>
@@ -36657,9 +36677,11 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    full_name?: boolean
+    profile_picture?: boolean
   }
 
-  export type worker_profilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "gender" | "date_of_birth" | "city_id" | "travel_radius_km" | "availability_days" | "availability_slots" | "nid_front_url" | "nid_back_url" | "selfie_url" | "student_id_url" | "verification_status" | "verification_note" | "reliability_score" | "attendance_rate" | "completion_rate" | "response_rate" | "no_show_count" | "completed_shift_count" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["worker_profiles"]>
+  export type worker_profilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "gender" | "date_of_birth" | "city_id" | "travel_radius_km" | "availability_days" | "availability_slots" | "nid_front_url" | "nid_back_url" | "selfie_url" | "student_id_url" | "verification_status" | "verification_note" | "reliability_score" | "attendance_rate" | "completion_rate" | "response_rate" | "no_show_count" | "completed_shift_count" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "full_name" | "profile_picture", ExtArgs["result"]["worker_profiles"]>
   export type worker_profilesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | worker_profiles$applicationsArgs<ExtArgs>
     business_favorite_workers?: boolean | worker_profiles$business_favorite_workersArgs<ExtArgs>
@@ -36718,6 +36740,8 @@ export namespace Prisma {
       deleted_at: Date | null
       created_by: string | null
       updated_by: string | null
+      full_name: string | null
+      profile_picture: string | null
     }, ExtArgs["result"]["worker_profiles"]>
     composites: {}
   }
@@ -37174,6 +37198,8 @@ export namespace Prisma {
     readonly deleted_at: FieldRef<"worker_profiles", 'DateTime'>
     readonly created_by: FieldRef<"worker_profiles", 'String'>
     readonly updated_by: FieldRef<"worker_profiles", 'String'>
+    readonly full_name: FieldRef<"worker_profiles", 'String'>
+    readonly profile_picture: FieldRef<"worker_profiles", 'String'>
   }
     
 
@@ -39295,7 +39321,9 @@ export namespace Prisma {
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
     created_by: 'created_by',
-    updated_by: 'updated_by'
+    updated_by: 'updated_by',
+    full_name: 'full_name',
+    profile_picture: 'profile_picture'
   };
 
   export type Worker_profilesScalarFieldEnum = (typeof Worker_profilesScalarFieldEnum)[keyof typeof Worker_profilesScalarFieldEnum]
@@ -42267,6 +42295,8 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"worker_profiles"> | Date | string | null
     created_by?: UuidNullableFilter<"worker_profiles"> | string | null
     updated_by?: UuidNullableFilter<"worker_profiles"> | string | null
+    full_name?: StringNullableFilter<"worker_profiles"> | string | null
+    profile_picture?: StringNullableFilter<"worker_profiles"> | string | null
     applications?: ApplicationsListRelationFilter
     business_favorite_workers?: Business_favorite_workersListRelationFilter
     worker_assignments?: Worker_assignmentsListRelationFilter
@@ -42303,6 +42333,8 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
+    full_name?: SortOrderInput | SortOrder
+    profile_picture?: SortOrderInput | SortOrder
     applications?: applicationsOrderByRelationAggregateInput
     business_favorite_workers?: business_favorite_workersOrderByRelationAggregateInput
     worker_assignments?: worker_assignmentsOrderByRelationAggregateInput
@@ -42342,6 +42374,8 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"worker_profiles"> | Date | string | null
     created_by?: UuidNullableFilter<"worker_profiles"> | string | null
     updated_by?: UuidNullableFilter<"worker_profiles"> | string | null
+    full_name?: StringNullableFilter<"worker_profiles"> | string | null
+    profile_picture?: StringNullableFilter<"worker_profiles"> | string | null
     applications?: ApplicationsListRelationFilter
     business_favorite_workers?: Business_favorite_workersListRelationFilter
     worker_assignments?: Worker_assignmentsListRelationFilter
@@ -42378,6 +42412,8 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
+    full_name?: SortOrderInput | SortOrder
+    profile_picture?: SortOrderInput | SortOrder
     _count?: worker_profilesCountOrderByAggregateInput
     _avg?: worker_profilesAvgOrderByAggregateInput
     _max?: worker_profilesMaxOrderByAggregateInput
@@ -42414,6 +42450,8 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"worker_profiles"> | Date | string | null
     created_by?: UuidNullableWithAggregatesFilter<"worker_profiles"> | string | null
     updated_by?: UuidNullableWithAggregatesFilter<"worker_profiles"> | string | null
+    full_name?: StringNullableWithAggregatesFilter<"worker_profiles"> | string | null
+    profile_picture?: StringNullableWithAggregatesFilter<"worker_profiles"> | string | null
   }
 
   export type worker_skillsWhereInput = {
@@ -45352,6 +45390,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
@@ -45388,6 +45428,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -45420,6 +45462,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
@@ -45456,6 +45500,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -45490,6 +45536,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
   }
 
   export type worker_profilesUpdateManyMutationInput = {
@@ -45516,6 +45564,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type worker_profilesUncheckedUpdateManyInput = {
@@ -45544,6 +45594,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type worker_skillsCreateInput = {
@@ -47834,6 +47886,8 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+    full_name?: SortOrder
+    profile_picture?: SortOrder
   }
 
   export type worker_profilesAvgOrderByAggregateInput = {
@@ -47870,6 +47924,8 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+    full_name?: SortOrder
+    profile_picture?: SortOrder
   }
 
   export type worker_profilesMinOrderByAggregateInput = {
@@ -47896,6 +47952,8 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+    full_name?: SortOrder
+    profile_picture?: SortOrder
   }
 
   export type worker_profilesSumOrderByAggregateInput = {
@@ -51857,6 +51915,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
@@ -51891,6 +51951,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -51994,6 +52056,8 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"worker_profiles"> | Date | string | null
     created_by?: UuidNullableFilter<"worker_profiles"> | string | null
     updated_by?: UuidNullableFilter<"worker_profiles"> | string | null
+    full_name?: StringNullableFilter<"worker_profiles"> | string | null
+    profile_picture?: StringNullableFilter<"worker_profiles"> | string | null
   }
 
   export type zonesUpsertWithWhereUniqueWithoutCitiesInput = {
@@ -53560,6 +53624,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
@@ -53594,6 +53660,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -54177,6 +54245,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
@@ -54211,6 +54281,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -54717,6 +54789,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
@@ -54752,6 +54826,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -54924,6 +55000,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
@@ -54959,6 +55037,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -55410,6 +55490,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
@@ -55445,6 +55527,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -55567,6 +55651,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
@@ -55602,6 +55688,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -60351,6 +60439,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
@@ -60386,6 +60476,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -60585,6 +60677,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
@@ -60620,6 +60714,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -60684,6 +60780,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
@@ -60719,6 +60817,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -60805,6 +60905,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
@@ -60840,6 +60942,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -60871,6 +60975,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
@@ -60906,6 +61012,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -60988,6 +61096,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
@@ -61023,6 +61133,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -61592,6 +61704,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
@@ -61627,6 +61741,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -61709,6 +61825,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
@@ -61744,6 +61862,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -61966,6 +62086,8 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
   }
 
   export type zonesCreateManyCitiesInput = {
@@ -62003,6 +62125,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
@@ -62037,6 +62161,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -62070,6 +62196,8 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type zonesUpdateWithoutCitiesInput = {

@@ -593,6 +593,8 @@ model worker_profiles {
   deleted_at                DateTime?                   @db.Timestamptz(6)
   created_by                String?                     @db.Uuid
   updated_by                String?                     @db.Uuid
+  full_name                 String?                     @db.VarChar(100)
+  profile_picture           String?
   applications              applications[]
   business_favorite_workers business_favorite_workers[]
   worker_assignments        worker_assignments[]

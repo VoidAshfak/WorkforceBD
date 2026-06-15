@@ -535,7 +535,9 @@ exports.Prisma.Worker_profilesScalarFieldEnum = {
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
   created_by: 'created_by',
-  updated_by: 'updated_by'
+  updated_by: 'updated_by',
+  full_name: 'full_name',
+  profile_picture: 'profile_picture'
 };
 
 exports.Prisma.Worker_skillsScalarFieldEnum = {
