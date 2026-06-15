@@ -2,8 +2,6 @@ import { validationResult } from "express-validator";
 import { sendSuccess, sendError } from "../../utils/response.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import * as authService from "./auth.service.js";
-import { logger } from "../../config/logger.js";
-
 
 export const sendOtp = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
