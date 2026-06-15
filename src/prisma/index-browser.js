@@ -249,9 +249,308 @@ exports.Prisma.ZonesScalarFieldEnum = {
   updated_by: 'updated_by'
 };
 
+exports.Prisma.ApplicationsScalarFieldEnum = {
+  id: 'id',
+  shift_id: 'shift_id',
+  worker_profile_id: 'worker_profile_id',
+  status: 'status',
+  applied_at: 'applied_at',
+  note: 'note',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.Business_branchesScalarFieldEnum = {
+  id: 'id',
+  business_profile_id: 'business_profile_id',
+  branch_name: 'branch_name',
+  address: 'address',
+  landmark: 'landmark',
+  zone_id: 'zone_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.Business_favorite_workersScalarFieldEnum = {
+  business_profile_id: 'business_profile_id',
+  worker_profile_id: 'worker_profile_id',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Business_profilesScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  business_name: 'business_name',
+  business_type: 'business_type',
+  logo_url: 'logo_url',
+  manager_name: 'manager_name',
+  manager_phone: 'manager_phone',
+  address: 'address',
+  landmark: 'landmark',
+  zone_id: 'zone_id',
+  trade_license_url: 'trade_license_url',
+  business_doc_url: 'business_doc_url',
+  verification_status: 'verification_status',
+  verification_note: 'verification_note',
+  meal_included: 'meal_included',
+  transport_support: 'transport_support',
+  female_friendly: 'female_friendly',
+  uniform_required: 'uniform_required',
+  reliability_score: 'reliability_score',
+  cancellation_rate: 'cancellation_rate',
+  payment_reliability: 'payment_reliability',
+  dispute_count: 'dispute_count',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.DisputesScalarFieldEnum = {
+  id: 'id',
+  report_id: 'report_id',
+  shift_id: 'shift_id',
+  raised_by: 'raised_by',
+  against_user: 'against_user',
+  description: 'description',
+  status: 'status',
+  resolved_by: 'resolved_by',
+  resolution_note: 'resolution_note',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.NotificationsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  type: 'type',
+  priority: 'priority',
+  title: 'title',
+  body: 'body',
+  data: 'data',
+  is_read: 'is_read',
+  read_at: 'read_at',
+  delivered_at: 'delivered_at',
+  failed_at: 'failed_at',
+  failure_reason: 'failure_reason',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.Payout_requestsScalarFieldEnum = {
+  id: 'id',
+  wallet_id: 'wallet_id',
+  user_id: 'user_id',
+  amount: 'amount',
+  method: 'method',
+  account_number: 'account_number',
+  account_name: 'account_name',
+  status: 'status',
+  processed_by: 'processed_by',
+  processed_at: 'processed_at',
+  failure_reason: 'failure_reason',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.RatingsScalarFieldEnum = {
+  id: 'id',
+  shift_id: 'shift_id',
+  assignment_id: 'assignment_id',
+  rater_user_id: 'rater_user_id',
+  rated_user_id: 'rated_user_id',
+  overall_score: 'overall_score',
+  punctuality_score: 'punctuality_score',
+  behavior_score: 'behavior_score',
+  skill_score: 'skill_score',
+  review: 'review',
+  is_anonymous: 'is_anonymous',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.ReportsScalarFieldEnum = {
+  id: 'id',
+  shift_id: 'shift_id',
+  reporter_id: 'reporter_id',
+  reported_id: 'reported_id',
+  report_type: 'report_type',
+  description: 'description',
+  evidence_urls: 'evidence_urls',
+  status: 'status',
+  resolved_by: 'resolved_by',
+  resolved_note: 'resolved_note',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.ShiftsScalarFieldEnum = {
+  id: 'id',
+  business_profile_id: 'business_profile_id',
+  branch_id: 'branch_id',
+  title: 'title',
+  description: 'description',
+  category_id: 'category_id',
+  role_type: 'role_type',
+  shift_type: 'shift_type',
+  shift_date: 'shift_date',
+  start_time: 'start_time',
+  end_time: 'end_time',
+  pay_amount: 'pay_amount',
+  currency: 'currency',
+  workers_needed: 'workers_needed',
+  gender_preference: 'gender_preference',
+  meal_included: 'meal_included',
+  transport_support: 'transport_support',
+  address: 'address',
+  landmark: 'landmark',
+  zone_id: 'zone_id',
+  status: 'status',
+  cancellation_reason: 'cancellation_reason',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.TransactionsScalarFieldEnum = {
+  id: 'id',
+  wallet_id: 'wallet_id',
+  shift_id: 'shift_id',
+  assignment_id: 'assignment_id',
+  type: 'type',
+  amount: 'amount',
+  balance_after: 'balance_after',
+  description: 'description',
+  reference_id: 'reference_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.User_sanctionsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  sanction_type: 'sanction_type',
+  reason: 'reason',
+  severity: 'severity',
+  issued_by: 'issued_by',
+  expires_at: 'expires_at',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.WalletsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  balance: 'balance',
+  total_earned: 'total_earned',
+  total_withdrawn: 'total_withdrawn',
+  currency: 'currency',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.Worker_assignmentsScalarFieldEnum = {
+  id: 'id',
+  shift_id: 'shift_id',
+  application_id: 'application_id',
+  worker_profile_id: 'worker_profile_id',
+  checkin_method: 'checkin_method',
+  checked_in_at: 'checked_in_at',
+  checked_out_at: 'checked_out_at',
+  payment_status: 'payment_status',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.Worker_categoriesScalarFieldEnum = {
+  worker_profile_id: 'worker_profile_id',
+  category_id: 'category_id'
+};
+
+exports.Prisma.Worker_preferred_zonesScalarFieldEnum = {
+  worker_profile_id: 'worker_profile_id',
+  zone_id: 'zone_id'
+};
+
+exports.Prisma.Worker_profilesScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  gender: 'gender',
+  date_of_birth: 'date_of_birth',
+  city_id: 'city_id',
+  travel_radius_km: 'travel_radius_km',
+  availability_days: 'availability_days',
+  availability_slots: 'availability_slots',
+  nid_front_url: 'nid_front_url',
+  nid_back_url: 'nid_back_url',
+  selfie_url: 'selfie_url',
+  student_id_url: 'student_id_url',
+  verification_status: 'verification_status',
+  verification_note: 'verification_note',
+  reliability_score: 'reliability_score',
+  attendance_rate: 'attendance_rate',
+  completion_rate: 'completion_rate',
+  response_rate: 'response_rate',
+  no_show_count: 'no_show_count',
+  completed_shift_count: 'completed_shift_count',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.Worker_skillsScalarFieldEnum = {
+  worker_profile_id: 'worker_profile_id',
+  skill_id: 'skill_id'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -262,6 +561,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.otp_purpose_enum = exports.$Enums.otp_purpose_enum = {
   login: 'login',
@@ -276,6 +581,116 @@ exports.session_status_enum = exports.$Enums.session_status_enum = {
   revoked: 'revoked'
 };
 
+exports.application_status_enum = exports.$Enums.application_status_enum = {
+  pending: 'pending',
+  shortlisted: 'shortlisted',
+  accepted: 'accepted',
+  rejected: 'rejected',
+  withdrawn: 'withdrawn',
+  no_show: 'no_show'
+};
+
+exports.verification_status_enum = exports.$Enums.verification_status_enum = {
+  unverified: 'unverified',
+  pending: 'pending',
+  verified: 'verified',
+  rejected: 'rejected'
+};
+
+exports.report_status_enum = exports.$Enums.report_status_enum = {
+  open: 'open',
+  under_review: 'under_review',
+  resolved: 'resolved',
+  dismissed: 'dismissed'
+};
+
+exports.notification_type_enum = exports.$Enums.notification_type_enum = {
+  push: 'push',
+  sms: 'sms',
+  in_app: 'in_app'
+};
+
+exports.notification_priority_enum = exports.$Enums.notification_priority_enum = {
+  low: 'low',
+  normal: 'normal',
+  high: 'high',
+  urgent: 'urgent'
+};
+
+exports.payment_method_enum = exports.$Enums.payment_method_enum = {
+  bkash: 'bkash',
+  nagad: 'nagad',
+  bank_transfer: 'bank_transfer',
+  cash: 'cash'
+};
+
+exports.payment_status_enum = exports.$Enums.payment_status_enum = {
+  pending: 'pending',
+  approved: 'approved',
+  sent: 'sent',
+  received: 'received',
+  failed: 'failed'
+};
+
+exports.report_type_enum = exports.$Enums.report_type_enum = {
+  unsafe_environment: 'unsafe_environment',
+  abuse: 'abuse',
+  harassment: 'harassment',
+  unpaid_work: 'unpaid_work',
+  no_show: 'no_show',
+  misconduct: 'misconduct',
+  bad_behavior: 'bad_behavior',
+  other: 'other'
+};
+
+exports.shift_type_enum = exports.$Enums.shift_type_enum = {
+  instant: 'instant',
+  scheduled: 'scheduled',
+  prebooked: 'prebooked'
+};
+
+exports.gender_enum = exports.$Enums.gender_enum = {
+  male: 'male',
+  female: 'female',
+  other: 'other',
+  prefer_not_to_say: 'prefer_not_to_say'
+};
+
+exports.shift_status_enum = exports.$Enums.shift_status_enum = {
+  draft: 'draft',
+  published: 'published',
+  applications_open: 'applications_open',
+  worker_selected: 'worker_selected',
+  worker_confirmed: 'worker_confirmed',
+  worker_arriving: 'worker_arriving',
+  checked_in: 'checked_in',
+  active: 'active',
+  completed: 'completed',
+  payment_pending: 'payment_pending',
+  paid: 'paid',
+  closed: 'closed',
+  cancelled: 'cancelled'
+};
+
+exports.transaction_type_enum = exports.$Enums.transaction_type_enum = {
+  credit: 'credit',
+  debit: 'debit'
+};
+
+exports.incident_severity_enum = exports.$Enums.incident_severity_enum = {
+  low: 'low',
+  medium: 'medium',
+  high: 'high',
+  critical: 'critical'
+};
+
+exports.checkin_method_enum = exports.$Enums.checkin_method_enum = {
+  manual: 'manual',
+  gps: 'gps',
+  qr: 'qr',
+  pin: 'pin'
+};
+
 exports.Prisma.ModelName = {
   categories: 'categories',
   cities: 'cities',
@@ -286,7 +701,25 @@ exports.Prisma.ModelName = {
   skills: 'skills',
   spatial_ref_sys: 'spatial_ref_sys',
   users: 'users',
-  zones: 'zones'
+  zones: 'zones',
+  applications: 'applications',
+  business_branches: 'business_branches',
+  business_favorite_workers: 'business_favorite_workers',
+  business_profiles: 'business_profiles',
+  disputes: 'disputes',
+  notifications: 'notifications',
+  payout_requests: 'payout_requests',
+  ratings: 'ratings',
+  reports: 'reports',
+  shifts: 'shifts',
+  transactions: 'transactions',
+  user_sanctions: 'user_sanctions',
+  wallets: 'wallets',
+  worker_assignments: 'worker_assignments',
+  worker_categories: 'worker_categories',
+  worker_preferred_zones: 'worker_preferred_zones',
+  worker_profiles: 'worker_profiles',
+  worker_skills: 'worker_skills'
 };
 
 /**

@@ -1,4 +1,4 @@
-import { rateLimit } from "express-rate-limit";
+import { rateLimit, ipKeyGenerator } from "express-rate-limit";
 
 /**
  * 3 OTP requests per phone per 10 minutes.
@@ -7,7 +7,7 @@ import { rateLimit } from "express-rate-limit";
 export const otpSendLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
   limit: 3,
-  keyGenerator: (req) => req.body?.phone || req.ip,
+  keyGenerator: (req) => req.body?.phone || ipKeyGenerator(req),
   message: { success: false, message: "Too many OTP requests. Try again in 10 minutes." },
   standardHeaders: "draft-7",
   legacyHeaders: false,
@@ -20,7 +20,7 @@ export const otpSendLimiter = rateLimit({
 export const otpVerifyLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 5,
-  keyGenerator: (req) => req.ip,
+  keyGenerator: ipKeyGenerator,
   message: { success: false, message: "Too many failed attempts. Try again in 15 minutes." },
   standardHeaders: "draft-7",
   legacyHeaders: false,
