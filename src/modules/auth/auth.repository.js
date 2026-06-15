@@ -102,3 +102,11 @@ export const revokeSession = (sessionId) => {
     }),
   ]);
 };
+
+/** @param {string} token */
+export const revokeRefreshToken = (token) => {
+  return prisma.refresh_tokens.update({
+    where: { token },
+    data: { is_revoked: true },
+  });
+};

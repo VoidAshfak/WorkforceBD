@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { randomBytes } from "crypto";
 import { env } from "../config/env.js";
 
 /**
@@ -10,12 +11,11 @@ export const generateAccessToken = (payload) => {
 };
 
 /**
+ * Cryptographically random opaque token — expiry enforced via DB.
  * @returns {string}
  */
 export const generateRefreshToken = () => {
-  return jwt.sign({ rand: Math.random() }, env.jwtSecret, {
-    expiresIn: env.jwtRefreshExpiresIn,
-  });
+  return randomBytes(32).toString("hex");
 };
 
 /**

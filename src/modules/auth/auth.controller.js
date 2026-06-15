@@ -29,6 +29,7 @@ export const refreshToken = asyncHandler(async (req, res) => {
 
   const { refresh_token } = req.body;
   const result = await authService.refreshAccessToken(refresh_token);
+  // result contains both accessToken and new refreshToken (rotation)
   return sendSuccess(res, 200, "Token refreshed", result);
 });
 
