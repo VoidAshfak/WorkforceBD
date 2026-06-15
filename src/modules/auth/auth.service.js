@@ -1,20 +1,20 @@
 import { env } from "../../config/env.js";
 import { logger } from "../../config/logger.js";
+import { AppError } from "../../utils/AppError.js";
 import { generateOtp } from "../../utils/otp.js";
 import { generateAccessToken, generateRefreshToken } from "../../utils/token.js";
 import * as authRepository from "./auth.repository.js";
 
 /**
- * Generates and stores OTP. Logs to console in dev (no SMS yet).
+ * Generates and stores OTP. Logs OTP to console in dev (no SMS yet).
  * @param {string} phone
  * @param {"login"|"register"|"verify_phone"|"reset"} purpose
  */
 export const sendOtp = async (phone, purpose) => {
   const otp = generateOtp();
   const expiresAt = new Date(Date.now() + env.otpExpiresInMinutes * 60 * 1000);
-
   await authRepository.createOtpRequest({ phone, otp_code: otp, purpose, expires_at: expiresAt });
-
+  logger.info(`OTP requested | phone=${phone} purpose=${purpose}`);
   // TODO: integrate SMS gateway
   logger.debug(`OTP for ${phone}: ${otp}`);
 };
@@ -72,38 +72,36 @@ const issueTokens = async (user, meta = {}) => {
 export const verifyOtpAndAuthenticate = async (phone, otpCode, purpose, role, meta = {}) => {
   const otpRecord = await authRepository.findValidOtp(phone, otpCode, purpose);
   if (!otpRecord) {
-    const err = new Error("Invalid or expired OTP");
-    err.statusCode = 400;
-    throw err;
+    logger.warn(`OTP invalid or expired | phone=${phone} purpose=${purpose}`);
+    throw new AppError("Invalid or expired OTP", 400);
   }
 
   await authRepository.markOtpAsUsed(otpRecord.id);
+  logger.info(`OTP verified | phone=${phone} purpose=${purpose}`);
 
   let user = await authRepository.findUserByPhone(phone);
 
   if (purpose === "register") {
     if (!user) {
-      // New user — create with chosen role
       user = await authRepository.createUser({ phone, roles: [role] });
+      logger.info(`User registered | id=${user.id} phone=${phone} role=${role}`);
     } else if (!user.roles.includes(role)) {
-      // Existing user adding a new role
       user = await authRepository.updateUser(user.id, { roles: [...user.roles, role] });
+      logger.info(`Role added | userId=${user.id} role=${role} allRoles=${user.roles}`);
     }
-
-    // Auto-create worker profile stub (business profile needs more info — set up separately)
     if (role === "worker") {
       const existingProfile = await authRepository.findWorkerProfile(user.id);
       if (!existingProfile) {
         await authRepository.createWorkerProfile(user.id);
+        logger.info(`Worker profile stub created | userId=${user.id}`);
       }
     }
   } else {
-    // login
     if (!user) {
-      const err = new Error("No account found for this phone number. Please register first.");
-      err.statusCode = 404;
-      throw err;
+      logger.warn(`Login attempt for unregistered phone | phone=${phone}`);
+      throw new AppError("No account found for this phone number. Please register first.", 404);
     }
+    logger.info(`User login | id=${user.id} phone=${phone}`);
   }
 
   if (!user.is_phone_verified) {
@@ -111,13 +109,12 @@ export const verifyOtpAndAuthenticate = async (phone, otpCode, purpose, role, me
   }
 
   if (!user.is_active) {
-    const err = new Error("Account is deactivated");
-    err.statusCode = 403;
-    throw err;
+    logger.warn(`Login blocked — account deactivated | userId=${user.id}`);
+    throw new AppError("Account is deactivated", 403);
   }
 
   const { accessToken, refreshToken } = await issueTokens(user, meta);
-
+  logger.info(`Session issued | userId=${user.id}`);
   return { accessToken, refreshToken, user: formatUser(user) };
 };
 
@@ -127,22 +124,17 @@ export const verifyOtpAndAuthenticate = async (phone, otpCode, purpose, role, me
  */
 export const refreshAccessToken = async (refreshToken) => {
   const record = await authRepository.findRefreshToken(refreshToken);
-
   if (!record || record.is_revoked || record.expires_at < new Date()) {
-    const err = new Error("Invalid or expired refresh token");
-    err.statusCode = 401;
-    throw err;
+    logger.warn("Refresh token invalid, revoked, or expired");
+    throw new AppError("Invalid or expired refresh token", 401);
   }
-
   if (record.sessions.status !== "active") {
-    const err = new Error("Session is no longer active");
-    err.statusCode = 401;
-    throw err;
+    logger.warn(`Refresh token used on inactive session | sessionId=${record.session_id}`);
+    throw new AppError("Session is no longer active", 401);
   }
-
   const user = record.users;
   const accessToken = generateAccessToken({ id: user.id, roles: user.roles });
-
+  logger.info(`Access token refreshed | userId=${user.id}`);
   return { accessToken };
 };
 
@@ -152,6 +144,10 @@ export const refreshAccessToken = async (refreshToken) => {
  */
 export const logout = async (refreshToken) => {
   const record = await authRepository.findRefreshToken(refreshToken);
-  if (!record) return;
+  if (!record) {
+    logger.warn("Logout attempted with unknown refresh token");
+    return;
+  }
   await authRepository.revokeSession(record.session_id);
+  logger.info(`Session revoked | sessionId=${record.session_id} userId=${record.user_id}`);
 };

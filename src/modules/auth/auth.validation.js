@@ -4,7 +4,7 @@ export const sendOtpRules = [
   body("phone")
     .trim()
     .notEmpty().withMessage("Phone is required")
-    .matches(/^\+?[0-9]{10,15}$/).withMessage("Invalid phone number"),
+    .matches(/^(\+8801)[3-9]{1}[0-9]{8}$/).withMessage("Invalid phone number"),
   body("purpose")
     .isIn(["login", "register", "verify_phone", "reset"]).withMessage("Invalid purpose"),
   // role required only when registering
@@ -18,7 +18,7 @@ export const verifyOtpRules = [
   body("phone")
     .trim()
     .notEmpty().withMessage("Phone is required")
-    .matches(/^\+?[0-9]{10,15}$/).withMessage("Invalid phone number"),
+    .matches(/^(\+8801)[3-9]{1}[0-9]{8}$/).withMessage("Invalid phone number"),
   body("otp_code")
     .trim()
     .notEmpty().withMessage("OTP is required")

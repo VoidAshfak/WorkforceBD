@@ -1,0 +1,23 @@
+import { Router } from "express";
+import authenticate from "../../middleware/authenticate.js";
+import authorize from "../../middleware/authorize.js";
+import * as workerController from "./worker.controller.js";
+import {
+  basicInfoRules,
+  skillsRules,
+  availabilityRules,
+  documentsRules,
+} from "./worker.validation.js";
+
+const router = Router();
+
+// all worker routes require auth + worker role
+router.use(authenticate, authorize("worker"));
+
+router.get("/profile", workerController.getProfile);
+router.patch("/profile/basic", basicInfoRules, workerController.updateBasicInfo);
+router.patch("/profile/skills", skillsRules, workerController.updateSkills);
+router.patch("/profile/availability", availabilityRules, workerController.updateAvailability);
+router.patch("/profile/documents", documentsRules, workerController.submitDocuments);
+
+export default router;

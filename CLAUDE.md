@@ -36,7 +36,7 @@ npm run dev      # run app
 ```
 
 
-## Architecture
+## Architecture & Module
 
 - `src/index.js` — entry point
 - `src/app.js` — Express app setup (when populated)
@@ -44,6 +44,8 @@ npm run dev      # run app
 - Modular Monolith backend
 - Feature-based modules
 - role based access (a user may be worker, business and admin)
+- **Source of Truth:** The backend engine, state machines, and lifecycle rules are mapped out explicitly in `docs/BACKEND_MAP.md`.
+- **Rule:** Before writing any API endpoints, database migrations, hooks, or service layer logic, you MUST read the corresponding module section in `docs/BACKEND_MAP.md` and check the relevant screenshots in `docs/`.
 
 
 ## Database
@@ -77,7 +79,7 @@ WorkforceBD/
     │   └── index.js
     ├── index.js
     ├── middleware/
-    ├── models/
+    ├── modules/
     │   ├── auth/
     │   │   ├── auth.routes.js
     │   │   ├── auth.controller.js
@@ -91,3 +93,4 @@ WorkforceBD/
 ```
 ## Additional Instructions
 - write minimal comment for new developers
+- add logging to important checkpoints
