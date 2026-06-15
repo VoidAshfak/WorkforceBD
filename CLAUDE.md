@@ -43,6 +43,7 @@ npm run dev      # run app
 - `src/constants.js` — shared constants
 - Modular Monolith backend
 - Feature-based modules
+- ensure proper all security mesures
 - role based access (a user may be worker, business and admin)
 - **Source of Truth:** The backend engine, state machines, and lifecycle rules are mapped out explicitly in `docs/BACKEND_MAP.md`.
 - **Rule:** Before writing any API endpoints, database migrations, hooks, or service layer logic, you MUST read the corresponding module section in `docs/BACKEND_MAP.md` and check the relevant screenshots in `docs/`.

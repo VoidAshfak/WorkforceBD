@@ -142,6 +142,16 @@ export const refreshAccessToken = async (refreshToken) => {
  * Revokes session associated with the given refresh token.
  * @param {string} refreshToken
  */
+/**
+ * Returns the authenticated user's profile. Used for session validation on app open.
+ * @param {string} userId
+ */
+export const getMe = async (userId) => {
+  const user = await authRepository.findUserById(userId);
+  if (!user) throw new AppError("User not found", 404);
+  return formatUser(user);
+};
+
 export const logout = async (refreshToken) => {
   const record = await authRepository.findRefreshToken(refreshToken);
   if (!record) {

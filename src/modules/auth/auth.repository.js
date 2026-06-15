@@ -5,6 +5,11 @@ export const findUserByPhone = (phone) => {
   return prisma.users.findUnique({ where: { phone } });
 };
 
+/** @param {string} userId */
+export const findUserById = (userId) => {
+  return prisma.users.findUnique({ where: { id: userId } });
+};
+
 /** @param {{ phone: string, roles: string[] }} data */
 export const createUser = (data) => {
   return prisma.users.create({ data });

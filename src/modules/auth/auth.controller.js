@@ -32,6 +32,11 @@ export const refreshToken = asyncHandler(async (req, res) => {
   return sendSuccess(res, 200, "Token refreshed", result);
 });
 
+export const getMe = asyncHandler(async (req, res) => {
+  const user = await authService.getMe(req.user.id);
+  return sendSuccess(res, 200, "Authenticated", user);
+});
+
 export const logout = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
