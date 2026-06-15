@@ -132,10 +132,22 @@ export const refreshAccessToken = async (refreshToken) => {
     logger.warn(`Refresh token used on inactive session | sessionId=${record.session_id}`);
     throw new AppError("Session is no longer active", 401);
   }
+
   const user = record.users;
+
+  // Rotate: revoke old token, issue new one
+  await authRepository.revokeRefreshToken(refreshToken);
+  const newRefreshToken = generateRefreshToken();
+  await authRepository.createRefreshToken({
+    session_id: record.session_id,
+    user_id: user.id,
+    token: newRefreshToken,
+    expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+  });
+
   const accessToken = generateAccessToken({ id: user.id, roles: user.roles });
-  logger.info(`Access token refreshed | userId=${user.id}`);
-  return { accessToken };
+  logger.info(`Tokens rotated | userId=${user.id}`);
+  return { accessToken, refreshToken: newRefreshToken };
 };
 
 /**
