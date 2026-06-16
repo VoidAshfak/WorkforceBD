@@ -96,3 +96,4 @@ WorkforceBD/
 - write minimal comment for new developers
 - add logging to important checkpoints
 - whenever you change the db schema (adding a column), update the docs/workforce_marketplace_schema.sql file
+- whenever you add, change, or remove an API endpoint (route, request/response shape, params, error cases, or auth/role/verification requirements), update docs/api-guidelines.md to match in the same change
