@@ -94,7 +94,7 @@ CREATE TABLE users (
 CREATE TABLE otp_requests (
     id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     phone           VARCHAR(15) NOT NULL,
-    otp_code        VARCHAR(6) NOT NULL,
+    otp_code        VARCHAR(64) NOT NULL,          -- SHA-256 hex digest of OTP (hashed at rest)
     purpose         otp_purpose_enum NOT NULL DEFAULT 'login',
     is_used         BOOLEAN NOT NULL DEFAULT FALSE,
     expires_at      TIMESTAMPTZ NOT NULL,

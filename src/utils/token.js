@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { randomBytes } from "crypto";
+import { randomBytes, createHash } from "crypto";
 import { env } from "../config/env.js";
 
 /**
@@ -12,6 +12,7 @@ export const generateAccessToken = (payload) => {
 
 /**
  * Cryptographically random opaque token — expiry enforced via DB.
+ * The raw value is returned to the client once; only its hash is persisted.
  * @returns {string}
  */
 export const generateRefreshToken = () => {
@@ -19,9 +20,17 @@ export const generateRefreshToken = () => {
 };
 
 /**
+ * Hashes a refresh token for storage/lookup at rest. A DB leak then exposes
+ * only digests, not usable tokens.
+ * @param {string} token
+ * @returns {string} 64-char hex digest
+ */
+export const hashRefreshToken = (token) => createHash("sha256").update(token).digest("hex");
+
+/**
  * @param {string} token
  * @returns {{ id: string, roles: string[] }}
  */
 export const verifyAccessToken = (token) => {
-  return jwt.verify(token, env.jwtSecret);
+  return jwt.verify(token, env.jwtSecret, { algorithms: ["HS256"] });
 };

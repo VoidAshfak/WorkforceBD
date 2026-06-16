@@ -7,13 +7,14 @@ const APPLYABLE_SHIFT_STATUSES = ["published", "applications_open"];
 // Application states a worker is allowed to withdraw from
 const WITHDRAWABLE_STATUSES = ["pending", "shortlisted"];
 
-/** @param {string} userId */
-const getVerifiedWorker = async (userId) => {
+/**
+ * Resolves the worker profile for the requesting user.
+ * Verification is enforced upstream by the `requireVerifiedProfile` guard.
+ * @param {string} userId
+ */
+const getWorkerProfile = async (userId) => {
   const profile = await applicationRepository.findWorkerProfile(userId);
   if (!profile) throw new AppError("Worker profile not found", 404);
-  if (profile.verification_status !== "verified") {
-    throw new AppError("Your profile must be verified before applying to shifts", 403);
-  }
   return profile;
 };
 
@@ -31,7 +32,7 @@ const today = () => {
  * @param {{ shift_id: string, note?: string }} data
  */
 export const applyToShift = async (userId, { shift_id, note }) => {
-  const worker = await getVerifiedWorker(userId);
+  const worker = await getWorkerProfile(userId);
 
   const shift = await applicationRepository.findShiftById(shift_id);
   if (!shift) throw new AppError("Shift not found", 404);
