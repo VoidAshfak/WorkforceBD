@@ -7,9 +7,9 @@ export const sendOtp = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
 
-  const { phone, purpose } = req.body;
+  const { phone } = req.body;
 
-  await authService.sendOtp(phone, purpose);
+  await authService.sendOtp(phone);
   return sendSuccess(res, 200, "OTP sent successfully");
 });
 
@@ -17,9 +17,9 @@ export const verifyOtp = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
 
-  const { phone, otp_code, purpose, role } = req.body;
+  const { phone, otp_code, role } = req.body;
   const meta = { ipAddress: req.ip, userAgent: req.headers["user-agent"] };
-  const result = await authService.verifyOtpAndAuthenticate(phone, otp_code, purpose, role, meta);
+  const result = await authService.verifyOtpAndAuthenticate(phone, otp_code, role, meta);
   return sendSuccess(res, 200, "Authentication successful", result);
 });
 

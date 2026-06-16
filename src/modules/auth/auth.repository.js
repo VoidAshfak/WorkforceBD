@@ -34,6 +34,35 @@ export const findWorkerProfile = (userId) => {
 };
 
 /**
+ * Fields needed to compute worker verification + onboarding completion.
+ * @param {string} userId
+ */
+export const findWorkerProfileSummary = (userId) => {
+  return prisma.worker_profiles.findUnique({
+    where: { user_id: userId },
+    select: {
+      verification_status: true,
+      full_name: true,
+      date_of_birth: true,
+      availability_days: true,
+      availability_slots: true,
+      nid_front_url: true,
+      nid_back_url: true,
+      selfie_url: true,
+      _count: { select: { worker_skills: true } },
+    },
+  });
+};
+
+/** @param {string} userId */
+export const findBusinessProfileSummary = (userId) => {
+  return prisma.business_profiles.findUnique({
+    where: { user_id: userId },
+    select: { verification_status: true },
+  });
+};
+
+/**
  * @param {{ phone: string, otp_code: string, purpose: string, expires_at: Date }} data
  */
 export const createOtpRequest = (data) => {

@@ -95,3 +95,4 @@ WorkforceBD/
 ## Additional Instructions
 - write minimal comment for new developers
 - add logging to important checkpoints
+- whenever you change the db schema (adding a column), update the docs/workforce_marketplace_schema.sql file

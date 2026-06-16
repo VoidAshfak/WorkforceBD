@@ -5,13 +5,6 @@ export const sendOtpRules = [
     .trim()
     .notEmpty().withMessage("Phone is required")
     .matches(/^(\+8801)[3-9]{1}[0-9]{8}$/).withMessage("Invalid phone number"),
-  body("purpose")
-    .isIn(["login", "register", "verify_phone", "reset"]).withMessage("Invalid purpose"),
-  // role required only when registering
-  body("role")
-    .if(body("purpose").equals("register"))
-    .notEmpty().withMessage("Role is required for registration")
-    .isIn(["worker", "business"]).withMessage("Role must be 'worker' or 'business'"),
 ];
 
 export const verifyOtpRules = [
@@ -24,11 +17,10 @@ export const verifyOtpRules = [
     .notEmpty().withMessage("OTP is required")
     .isLength({ min: 6, max: 6 }).withMessage("OTP must be 6 digits")
     .isNumeric().withMessage("OTP must be numeric"),
-  body("purpose")
-    .isIn(["login", "register"]).withMessage("Invalid purpose"),
+  // Role chosen on the first screen. Optional (admins/returning users may omit),
+  // but required by the service when the phone has no account yet.
   body("role")
-    .if(body("purpose").equals("register"))
-    .notEmpty().withMessage("Role is required for registration")
+    .optional()
     .isIn(["worker", "business"]).withMessage("Role must be 'worker' or 'business'"),
 ];
 
