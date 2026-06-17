@@ -1,5 +1,4 @@
 import { prisma } from "./index.js";
-import { env } from "../config/env.js";
 
 const categories = [
   "Medical Assistant",
@@ -47,19 +46,7 @@ async function seed() {
     });
   }
   console.log(`${skills.length} skills done.`);
-
-  console.log("Seeding admin user...");
-  await prisma.users.upsert({
-    where: { phone: env.adminPhone },
-    update: { roles: { set: ["admin"] }, is_phone_verified: true },
-    create: {
-      phone: env.adminPhone,
-      full_name: "Platform Admin",
-      roles: ["admin"],
-      is_phone_verified: true,
-    },
-  });
-  console.log(`Admin user ready (${env.adminPhone}). Logs in via OTP — no role needed.`);
+  // Admins are provisioned through the separate admin portal, not seeded here.
 }
 
 seed()

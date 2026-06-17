@@ -117,10 +117,11 @@ const issueTokens = async (user, meta = {}) => {
 
 /**
  * Single passwordless entry: verifies OTP, then creates-or-logs-in the user.
+ * Worker/business only — admins authenticate through the separate admin portal.
  * Role is chosen first (role selection screen):
  * - new phone  → account created with [role] (role required), worker gets a profile stub
  * - known phone, new role → role added, worker gets a profile stub
- * - known phone, same role (or no role, e.g. admin) → login
+ * - known phone, same role → login
  * Returns tokens + the active role's profile summary so the frontend can pick
  * full vs restrictive access.
  * @param {string} phone
@@ -139,6 +140,12 @@ export const verifyOtpAndAuthenticate = async (phone, otpCode, role, meta = {}) 
   logger.info(`OTP verified | phone=${phone}`);
 
   let user = await authRepository.findUserByPhone(phone);
+
+  // Admins are kept out of the public OTP flow — they use the dedicated admin portal.
+  if (user?.roles.includes("admin")) {
+    logger.warn(`Admin blocked from public auth flow | userId=${user.id}`);
+    throw new AppError("Admins must sign in through the admin portal", 403);
+  }
 
   if (!user) {
     // First time on this phone — must know which role to create the account as.

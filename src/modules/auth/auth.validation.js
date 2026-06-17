@@ -17,8 +17,8 @@ export const verifyOtpRules = [
     .notEmpty().withMessage("OTP is required")
     .isLength({ min: 6, max: 6 }).withMessage("OTP must be 6 digits")
     .isNumeric().withMessage("OTP must be numeric"),
-  // Role chosen on the first screen. Optional (admins/returning users may omit),
-  // but required by the service when the phone has no account yet.
+  // Role chosen on the first screen. Optional for returning users, but required
+  // by the service when the phone has no account yet.
   body("role")
     .optional()
     .isIn(["worker", "business"]).withMessage("Role must be 'worker' or 'business'"),
