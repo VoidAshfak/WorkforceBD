@@ -1,6 +1,7 @@
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import * as adminRepository from "./admin.repository.js";
+import { createNotification } from "../notification/notification.service.js";
 
 /**
  * Sends the verification-decision notification to the profile owner.
@@ -11,7 +12,7 @@ import * as adminRepository from "./admin.repository.js";
  */
 const notifyDecision = (userId, type, decision, note) => {
   const approved = decision === "approve";
-  return adminRepository.createNotification({
+  return createNotification({
     user_id: userId,
     type: "in_app",
     priority: "high",
@@ -79,6 +80,78 @@ export const decideVerification = async (adminId, profileId, { type, decision, n
 
   await notifyDecision(profile.user_id, type, decision, note);
   logger.info(`Verification ${newStatus} | type=${type} profileId=${profileId} adminId=${adminId}`);
+
+  return updated;
+};
+
+/* ============================================================
+ * Shift-post moderation
+ * ========================================================== */
+
+/**
+ * Notifies a business about the moderation decision on their shift post.
+ * @param {string} userId
+ * @param {"approve"|"reject"} decision
+ * @param {string} shiftTitle
+ * @param {string} [note]
+ */
+const notifyShiftDecision = (userId, decision, shiftTitle, note) => {
+  const approved = decision === "approve";
+  return createNotification({
+    user_id: userId,
+    type: "in_app",
+    priority: approved ? "high" : "normal",
+    title: approved ? "Shift approved" : "Shift needs changes",
+    body: approved
+      ? `Your shift "${shiftTitle}" is approved and now live for workers.`
+      : `Your shift "${shiftTitle}" was not approved.${note ? ` Reason: ${note}` : ""} Edit and resubmit it for review.`,
+    data: { kind: "shift_moderation", status: approved ? "published" : "draft" },
+  });
+};
+
+/**
+ * Paginated queue of shift posts awaiting moderation (default: pending_approval).
+ * @param {{ status?: string, page?: number, limit?: number }} query
+ */
+export const listShiftPosts = async (query) => {
+  const status = query.status ?? "pending_approval";
+  const page = Math.max(1, query.page ?? 1);
+  const limit = Math.min(50, Math.max(1, query.limit ?? 10));
+  const skip = (page - 1) * limit;
+
+  const [items, total] = await Promise.all([
+    adminRepository.findShiftsForReview({ status, skip, take: limit }),
+    adminRepository.countShiftsForReview({ status }),
+  ]);
+
+  return {
+    items,
+    pagination: { page, limit, total, total_pages: Math.ceil(total / limit) },
+  };
+};
+
+/**
+ * Approves or rejects a shift post. Approve → published (worker-visible);
+ * reject → draft (business edits and resubmits). Notifies the business.
+ * @param {string} adminId
+ * @param {string} shiftId
+ * @param {{ decision: "approve"|"reject", note?: string }} data
+ */
+export const decideShiftPost = async (adminId, shiftId, { decision, note }) => {
+  const shift = await adminRepository.findShiftById(shiftId);
+  if (!shift) throw new AppError("Shift not found", 404);
+  if (shift.status !== "pending_approval") {
+    throw new AppError("Shift is not pending approval", 409);
+  }
+
+  const newStatus = decision === "approve" ? "published" : "draft";
+  const updated = await adminRepository.updateShiftStatus(shiftId, {
+    status: newStatus,
+    updated_by: adminId,
+  });
+
+  await notifyShiftDecision(shift.business_profiles.user_id, decision, shift.title, note);
+  logger.info(`Shift post ${decision} | shiftId=${shiftId} status=${newStatus} adminId=${adminId}`);
 
   return updated;
 };

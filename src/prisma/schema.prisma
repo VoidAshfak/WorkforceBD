@@ -58,7 +58,7 @@ model devices {
 model otp_requests {
   id         String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   phone      String           @db.VarChar(15)
-  otp_code   String           @db.VarChar(6)
+  otp_code   String           @db.VarChar(64) // SHA-256 hex digest of the OTP (hashed at rest)
   purpose    otp_purpose_enum @default(login)
   is_used    Boolean          @default(false)
   expires_at DateTime         @db.Timestamptz(6)
@@ -709,6 +709,7 @@ enum session_status_enum {
 
 enum shift_status_enum {
   draft
+  pending_approval
   published
   applications_open
   worker_selected

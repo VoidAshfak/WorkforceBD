@@ -30,3 +30,20 @@ export const decideVerificationRules = [
     .optional()
     .isLength({ max: 500 }).withMessage("note must be under 500 chars"),
 ];
+
+export const listShiftPostsRules = [
+  query("status").optional().isIn(["pending_approval", "published", "draft"]).withMessage("Invalid status"),
+  query("page").optional().isInt({ min: 1 }).toInt().withMessage("page must be a positive integer"),
+  query("limit").optional().isInt({ min: 1, max: 50 }).toInt().withMessage("limit must be 1–50"),
+];
+
+export const decideShiftPostRules = [
+  param("shiftId").isUUID().withMessage("Invalid shift id"),
+  body("decision").notEmpty().isIn(["approve", "reject"]).withMessage("decision must be 'approve' or 'reject'"),
+  body("note")
+    .if(body("decision").equals("reject"))
+    .trim()
+    .notEmpty().withMessage("note is required when rejecting")
+    .bail()
+    .isLength({ max: 500 }).withMessage("note must be under 500 chars"),
+];

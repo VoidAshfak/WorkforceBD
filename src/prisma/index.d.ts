@@ -285,6 +285,7 @@ export type session_status_enum = (typeof session_status_enum)[keyof typeof sess
 
 export const shift_status_enum: {
   draft: 'draft',
+  pending_approval: 'pending_approval',
   published: 'published',
   applications_open: 'applications_open',
   worker_selected: 'worker_selected',

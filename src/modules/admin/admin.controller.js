@@ -29,3 +29,22 @@ export const decideVerification = asyncHandler(async (req, res) => {
   const message = decision === "approve" ? "Profile verified" : "Profile rejected";
   return sendSuccess(res, 200, message, data);
 });
+
+export const listShiftPosts = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
+
+  const { status, page, limit } = req.query;
+  const data = await adminService.listShiftPosts({ status, page, limit });
+  return sendSuccess(res, 200, "Shift-post queue fetched", data);
+});
+
+export const decideShiftPost = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
+
+  const { decision, note } = req.body;
+  const data = await adminService.decideShiftPost(req.user.id, req.params.shiftId, { decision, note });
+  const message = decision === "approve" ? "Shift approved" : "Shift rejected";
+  return sendSuccess(res, 200, message, data);
+});
