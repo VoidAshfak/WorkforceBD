@@ -709,6 +709,7 @@ enum session_status_enum {
 
 enum shift_status_enum {
   draft
+  pending_approval
   published
   applications_open
   worker_selected

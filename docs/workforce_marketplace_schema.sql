@@ -22,7 +22,7 @@ CREATE TYPE otp_purpose_enum AS ENUM ('login', 'register', 'reset', 'verify_phon
 CREATE TYPE session_status_enum AS ENUM ('active', 'expired', 'revoked');
 
 CREATE TYPE shift_status_enum AS ENUM (
-    'draft', 'published', 'applications_open',
+    'draft', 'pending_approval', 'published', 'applications_open',
     'worker_selected', 'worker_confirmed', 'worker_arriving',
     'checked_in', 'active', 'completed',
     'payment_pending', 'paid', 'closed', 'cancelled'

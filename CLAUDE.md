@@ -23,6 +23,7 @@ note: you can get a lot clear idea from the database reference file. (docs/workf
 - Nodejs
 - Javascript (not TypeScript)
 - Express
+- Socket.IO (real-time notifications)
 - Docker
 - Nginx 
 - Postgresql
@@ -45,8 +46,8 @@ npm run dev      # run app
 - Feature-based modules
 - ensure proper all security mesures
 - role based access (a user may be worker, business and admin)
-- **Source of Truth:** The backend engine, state machines, and lifecycle rules are mapped out explicitly in `docs/BACKEND_MAP.md`.
-- **Rule:** Before writing any API endpoints, database migrations, hooks, or service layer logic, you MUST read the corresponding module section in `docs/BACKEND_MAP.md` and check the relevant screenshots in `docs/`.
+- **Source of Truth:** The backend engine, state machines, and lifecycle rules are mapped out explicitly in `docs/WORKER_BACKEND_MAP.md` and `docs/BUSINESS_BACKED_MAP.md`.
+- **Rule:** Before writing any API endpoints, database migrations, hooks, or service layer logic, you MUST read the corresponding module section in `docs/WORKER_BACKEND_MAP.md` & `doc/BUSINESS_BACKED_MAP.md` and check the relevant screenshots in `docs/`.
 
 
 ## Database

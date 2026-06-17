@@ -6,6 +6,8 @@ import {
   listVerificationsRules,
   getVerificationRules,
   decideVerificationRules,
+  listShiftPostsRules,
+  decideShiftPostRules,
 } from "./admin.validation.js";
 
 const router = Router();
@@ -16,5 +18,9 @@ router.use(authenticate, authorize("admin"));
 router.get("/verifications", listVerificationsRules, adminController.listVerifications);
 router.get("/verifications/:profileId", getVerificationRules, adminController.getVerification);
 router.patch("/verifications/:profileId", decideVerificationRules, adminController.decideVerification);
+
+// Shift-post moderation — approve before a shift becomes worker-visible
+router.get("/shifts", listShiftPostsRules, adminController.listShiftPosts);
+router.patch("/shifts/:shiftId", decideShiftPostRules, adminController.decideShiftPost);
 
 export default router;

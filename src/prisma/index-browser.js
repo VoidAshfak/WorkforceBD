@@ -660,6 +660,7 @@ exports.gender_enum = exports.$Enums.gender_enum = {
 
 exports.shift_status_enum = exports.$Enums.shift_status_enum = {
   draft: 'draft',
+  pending_approval: 'pending_approval',
   published: 'published',
   applications_open: 'applications_open',
   worker_selected: 'worker_selected',

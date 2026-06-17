@@ -75,5 +75,39 @@ export const updateVerification = (type, id, data) => {
   return models[type].update({ where: { id }, data });
 };
 
-/** @param {object} data */
-export const createNotification = (data) => prisma.notifications.create({ data });
+/* ============================================================
+ * Shift-post moderation
+ * ========================================================== */
+
+const shiftReviewInclude = {
+  business_profiles: { select: { id: true, user_id: true, business_name: true, verification_status: true } },
+  categories: { select: { id: true, name: true } },
+  zones: { select: { id: true, name: true } },
+};
+
+/** @param {{ status: string, skip: number, take: number }} opts */
+export const findShiftsForReview = ({ status, skip, take }) => {
+  return prisma.shifts.findMany({
+    where: { status, deleted_at: null },
+    orderBy: { updated_at: "asc" }, // oldest waiting first
+    skip,
+    take,
+    include: shiftReviewInclude,
+  });
+};
+
+/** @param {{ status: string }} opts */
+export const countShiftsForReview = ({ status }) => {
+  return prisma.shifts.count({ where: { status, deleted_at: null } });
+};
+
+/** @param {string} id */
+export const findShiftById = (id) => {
+  return prisma.shifts.findFirst({ where: { id, deleted_at: null }, include: shiftReviewInclude });
+};
+
+/**
+ * @param {string} id
+ * @param {object} data
+ */
+export const updateShiftStatus = (id, data) => prisma.shifts.update({ where: { id }, data });
