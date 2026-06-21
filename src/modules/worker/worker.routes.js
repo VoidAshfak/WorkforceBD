@@ -14,6 +14,9 @@ const router = Router();
 // all worker routes require auth + worker role
 router.use(authenticate, authorize("worker"));
 
+router.get("/skills", workerController.getSkills);
+router.get("/zones", workerController.getZones);
+
 router.get("/profile", workerController.getProfile);
 router.patch("/profile/basic", basicInfoRules, workerController.updateBasicInfo);
 router.patch("/profile/skills", skillsRules, workerController.updateSkills);

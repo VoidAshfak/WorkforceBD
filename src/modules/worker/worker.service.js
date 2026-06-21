@@ -18,6 +18,15 @@ const getProfileOrThrow = async (userId) => {
  */
 export const getProfile = (userId) => getProfileOrThrow(userId);
 
+/** Returns active skills for onboarding selection. */
+export const getSkills = () => workerRepository.findActiveSkills();
+
+/**
+ * Returns active zones for onboarding selection, optionally filtered by city.
+ * @param {string} [cityId]
+ */
+export const getZones = (cityId) => workerRepository.findActiveZones(cityId);
+
 /**
  * Step 1 — saves basic info: name, gender, DOB, profile picture, preferred zones.
  * @param {string} userId

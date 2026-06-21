@@ -56,3 +56,29 @@ export const findZonesByIds = (zoneIds) => {
 export const findSkillsByIds = (skillIds) => {
   return prisma.skills.findMany({ where: { id: { in: skillIds }, is_active: true } });
 };
+
+/** Returns all active skills for selection dropdowns. */
+export const findActiveSkills = () => {
+  return prisma.skills.findMany({
+    where: { is_active: true },
+    select: { id: true, name: true, category_id: true },
+    orderBy: { name: "asc" },
+  });
+};
+
+/**
+ * Returns all active zones for selection dropdowns, optionally scoped to a city.
+ * @param {string} [cityId]
+ */
+export const findActiveZones = (cityId) => {
+  return prisma.zones.findMany({
+    where: { is_active: true, ...(cityId && { city_id: cityId }) },
+    select: {
+      id: true,
+      name: true,
+      city_id: true,
+      cities: { select: { id: true, name: true } },
+    },
+    orderBy: { name: "asc" },
+  });
+};

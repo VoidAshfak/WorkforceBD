@@ -8,6 +8,16 @@ export const getProfile = asyncHandler(async (req, res) => {
   return sendSuccess(res, 200, "Profile fetched", profile);
 });
 
+export const getSkills = asyncHandler(async (req, res) => {
+  const skills = await workerService.getSkills();
+  return sendSuccess(res, 200, "Skills fetched", skills);
+});
+
+export const getZones = asyncHandler(async (req, res) => {
+  const zones = await workerService.getZones(req.query.city_id);
+  return sendSuccess(res, 200, "Zones fetched", zones);
+});
+
 export const updateBasicInfo = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
