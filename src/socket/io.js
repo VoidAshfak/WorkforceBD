@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import { env } from "../config/env.js";
 import { logger } from "../config/logger.js";
-import { verifyAccessToken } from "../utils/token.js";
+import { verifySocketTicket } from "../utils/token.js";
 
 // Single io instance, set on initSocket. Kept module-private; access via helpers.
 let io;
@@ -12,8 +12,9 @@ const userRoom = (userId) => `user:${userId}`;
 
 /**
  * Attaches a Socket.IO server to the given HTTP server. Authenticates each
- * connection with the same JWT access token used by the REST API (sent in the
- * handshake `auth.token`) and joins the socket to its per-user room.
+ * connection with a short-lived socket ticket (minted via POST
+ * /realtime/ticket, sent in the handshake `auth.token`) and joins the socket to
+ * its per-user room. The REST access token is never sent to the browser.
  * @param {import("http").Server} httpServer
  * @returns {import("socket.io").Server}
  */
@@ -22,15 +23,15 @@ export const initSocket = (httpServer) => {
     cors: { origin: env.frontendUrl, credentials: true },
   });
 
-  // Handshake auth — reject unauthenticated sockets before they connect.
+  // Handshake auth — reject sockets without a valid ticket before they connect.
   io.use((socket, next) => {
-    const token = socket.handshake.auth?.token;
-    if (!token) return next(new Error("Authentication token required"));
+    const ticket = socket.handshake.auth?.token;
+    if (!ticket) return next(new Error("Authentication ticket required"));
     try {
-      socket.user = verifyAccessToken(token);
+      socket.user = verifySocketTicket(ticket);
       next();
     } catch {
-      next(new Error("Invalid or expired token"));
+      next(new Error("Invalid or expired ticket"));
     }
   });
 
