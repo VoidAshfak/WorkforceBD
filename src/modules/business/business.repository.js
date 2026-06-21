@@ -5,14 +5,34 @@ import { prisma } from "../../db/index.js";
  * ========================================================== */
 
 /**
- * Full business profile for the owning user, with its zone.
+ * Fetches lng/lat for a business profile. `coordinates` is a PostGIS geography
+ * column Prisma maps as Unsupported and can't select, so pull it via raw SQL
+ * (ST_Y = latitude, ST_X = longitude on the cast geometry).
+ * @param {string} profileId
+ * @returns {Promise<{ latitude: number, longitude: number } | null>}
+ */
+const findProfileCoordinates = async (profileId) => {
+  const rows = await prisma.$queryRaw`
+    SELECT ST_Y(coordinates::geometry) AS latitude,
+           ST_X(coordinates::geometry) AS longitude
+    FROM business_profiles
+    WHERE id = ${profileId}::uuid AND coordinates IS NOT NULL
+  `;
+  return rows[0] ?? null;
+};
+
+/**
+ * Full business profile for the owning user, with its zone and decoded
+ * `coordinates` ({ latitude, longitude } or null).
  * @param {string} userId
  */
-export const findProfileByUserId = (userId) => {
-  return prisma.business_profiles.findUnique({
+export const findProfileByUserId = async (userId) => {
+  const profile = await prisma.business_profiles.findUnique({
     where: { user_id: userId },
     include: { zones: { select: { id: true, name: true } } },
   });
+  if (!profile) return null;
+  return { ...profile, coordinates: await findProfileCoordinates(profile.id) };
 };
 
 /**
