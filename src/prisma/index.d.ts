@@ -285,7 +285,6 @@ export type session_status_enum = (typeof session_status_enum)[keyof typeof sess
 
 export const shift_status_enum: {
   draft: 'draft',
-  pending_approval: 'pending_approval',
   published: 'published',
   applications_open: 'applications_open',
   worker_selected: 'worker_selected',
@@ -297,7 +296,8 @@ export const shift_status_enum: {
   payment_pending: 'payment_pending',
   paid: 'paid',
   closed: 'closed',
-  cancelled: 'cancelled'
+  cancelled: 'cancelled',
+  pending_approval: 'pending_approval'
 };
 
 export type shift_status_enum = (typeof shift_status_enum)[keyof typeof shift_status_enum]
@@ -27625,6 +27625,7 @@ export namespace Prisma {
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
+    checkin_qr_token: string | null
   }
 
   export type ShiftsMaxAggregateOutputType = {
@@ -27655,6 +27656,7 @@ export namespace Prisma {
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
+    checkin_qr_token: string | null
   }
 
   export type ShiftsCountAggregateOutputType = {
@@ -27685,6 +27687,7 @@ export namespace Prisma {
     deleted_at: number
     created_by: number
     updated_by: number
+    checkin_qr_token: number
     _all: number
   }
 
@@ -27727,6 +27730,7 @@ export namespace Prisma {
     deleted_at?: true
     created_by?: true
     updated_by?: true
+    checkin_qr_token?: true
   }
 
   export type ShiftsMaxAggregateInputType = {
@@ -27757,6 +27761,7 @@ export namespace Prisma {
     deleted_at?: true
     created_by?: true
     updated_by?: true
+    checkin_qr_token?: true
   }
 
   export type ShiftsCountAggregateInputType = {
@@ -27787,6 +27792,7 @@ export namespace Prisma {
     deleted_at?: true
     created_by?: true
     updated_by?: true
+    checkin_qr_token?: true
     _all?: true
   }
 
@@ -27904,6 +27910,7 @@ export namespace Prisma {
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
+    checkin_qr_token: string
     _count: ShiftsCountAggregateOutputType | null
     _avg: ShiftsAvgAggregateOutputType | null
     _sum: ShiftsSumAggregateOutputType | null
@@ -27953,6 +27960,7 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    checkin_qr_token?: boolean
     applications?: boolean | shifts$applicationsArgs<ExtArgs>
     disputes?: boolean | shifts$disputesArgs<ExtArgs>
     ratings?: boolean | shifts$ratingsArgs<ExtArgs>
@@ -27994,6 +28002,7 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    checkin_qr_token?: boolean
     business_branches?: boolean | shifts$business_branchesArgs<ExtArgs>
     business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
     categories?: boolean | categoriesDefaultArgs<ExtArgs>
@@ -28028,6 +28037,7 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    checkin_qr_token?: boolean
     business_branches?: boolean | shifts$business_branchesArgs<ExtArgs>
     business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
     categories?: boolean | categoriesDefaultArgs<ExtArgs>
@@ -28062,9 +28072,10 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    checkin_qr_token?: boolean
   }
 
-  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["shifts"]>
+  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token", ExtArgs["result"]["shifts"]>
   export type shiftsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | shifts$applicationsArgs<ExtArgs>
     disputes?: boolean | shifts$disputesArgs<ExtArgs>
@@ -28133,6 +28144,7 @@ export namespace Prisma {
       deleted_at: Date | null
       created_by: string | null
       updated_by: string | null
+      checkin_qr_token: string
     }, ExtArgs["result"]["shifts"]>
     composites: {}
   }
@@ -28593,6 +28605,7 @@ export namespace Prisma {
     readonly deleted_at: FieldRef<"shifts", 'DateTime'>
     readonly created_by: FieldRef<"shifts", 'String'>
     readonly updated_by: FieldRef<"shifts", 'String'>
+    readonly checkin_qr_token: FieldRef<"shifts", 'String'>
   }
     
 
@@ -39200,7 +39213,8 @@ export namespace Prisma {
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
     created_by: 'created_by',
-    updated_by: 'updated_by'
+    updated_by: 'updated_by',
+    checkin_qr_token: 'checkin_qr_token'
   };
 
   export type ShiftsScalarFieldEnum = (typeof ShiftsScalarFieldEnum)[keyof typeof ShiftsScalarFieldEnum]
@@ -41609,6 +41623,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"shifts"> | Date | string | null
     created_by?: UuidNullableFilter<"shifts"> | string | null
     updated_by?: UuidNullableFilter<"shifts"> | string | null
+    checkin_qr_token?: UuidFilter<"shifts"> | string
     applications?: ApplicationsListRelationFilter
     disputes?: DisputesListRelationFilter
     ratings?: RatingsListRelationFilter
@@ -41649,6 +41664,7 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
+    checkin_qr_token?: SortOrder
     applications?: applicationsOrderByRelationAggregateInput
     disputes?: disputesOrderByRelationAggregateInput
     ratings?: ratingsOrderByRelationAggregateInput
@@ -41692,6 +41708,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"shifts"> | Date | string | null
     created_by?: UuidNullableFilter<"shifts"> | string | null
     updated_by?: UuidNullableFilter<"shifts"> | string | null
+    checkin_qr_token?: UuidFilter<"shifts"> | string
     applications?: ApplicationsListRelationFilter
     disputes?: DisputesListRelationFilter
     ratings?: RatingsListRelationFilter
@@ -41732,6 +41749,7 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
+    checkin_qr_token?: SortOrder
     _count?: shiftsCountOrderByAggregateInput
     _avg?: shiftsAvgOrderByAggregateInput
     _max?: shiftsMaxOrderByAggregateInput
@@ -41770,6 +41788,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"shifts"> | Date | string | null
     created_by?: UuidNullableWithAggregatesFilter<"shifts"> | string | null
     updated_by?: UuidNullableWithAggregatesFilter<"shifts"> | string | null
+    checkin_qr_token?: UuidWithAggregatesFilter<"shifts"> | string
   }
 
   export type transactionsWhereInput = {
@@ -44645,6 +44664,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -44685,6 +44705,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -44717,6 +44738,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -44757,6 +44779,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -44793,6 +44816,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
   }
 
   export type shiftsUpdateManyMutationInput = {
@@ -44819,6 +44843,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
   }
 
   export type shiftsUncheckedUpdateManyInput = {
@@ -44849,6 +44874,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
   }
 
   export type transactionsCreateInput = {
@@ -47437,6 +47463,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+    checkin_qr_token?: SortOrder
   }
 
   export type shiftsAvgOrderByAggregateInput = {
@@ -47472,6 +47499,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+    checkin_qr_token?: SortOrder
   }
 
   export type shiftsMinOrderByAggregateInput = {
@@ -47502,6 +47530,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+    checkin_qr_token?: SortOrder
   }
 
   export type shiftsSumOrderByAggregateInput = {
@@ -51680,6 +51709,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -51718,6 +51748,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -51835,6 +51866,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"shifts"> | Date | string | null
     created_by?: UuidNullableFilter<"shifts"> | string | null
     updated_by?: UuidNullableFilter<"shifts"> | string | null
+    checkin_qr_token?: UuidFilter<"shifts"> | string
   }
 
   export type skillsUpsertWithWhereUniqueWithoutCategoriesInput = {
@@ -54430,6 +54462,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -54468,6 +54501,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -54715,6 +54749,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -54754,6 +54789,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -54920,6 +54956,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -54959,6 +54996,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -55210,6 +55248,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -55248,6 +55287,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -55890,6 +55930,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -55928,6 +55969,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -56407,6 +56449,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -56446,6 +56489,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -56777,6 +56821,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -56816,6 +56861,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -57564,6 +57610,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -57603,6 +57650,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -57853,6 +57901,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -57892,6 +57941,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -58184,6 +58234,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -58223,6 +58274,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -58523,6 +58575,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -58562,6 +58615,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -59391,6 +59445,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -59430,6 +59485,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -59557,6 +59613,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -59596,6 +59653,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -60365,6 +60423,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -60404,6 +60463,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -60597,6 +60657,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -60636,6 +60697,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -61899,6 +61961,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
   }
 
   export type skillsCreateManyCategoriesInput = {
@@ -61940,6 +62003,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -61978,6 +62042,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -62013,6 +62078,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
   }
 
   export type skillsUpdateWithoutCategoriesInput = {
@@ -63432,6 +63498,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
   }
 
   export type worker_preferred_zonesCreateManyZonesInput = {
@@ -63599,6 +63666,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -63637,6 +63705,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -63672,6 +63741,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
   }
 
   export type worker_preferred_zonesUpdateWithoutZonesInput = {
@@ -63777,6 +63847,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
   }
 
   export type shiftsUpdateWithoutBusiness_branchesInput = {
@@ -63803,6 +63874,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -63841,6 +63913,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -63876,6 +63949,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
   }
 
   export type business_branchesCreateManyBusiness_profilesInput = {
@@ -63924,6 +63998,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    checkin_qr_token?: string
   }
 
   export type business_branchesUpdateWithoutBusiness_profilesInput = {
@@ -64009,6 +64084,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -64047,6 +64123,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -64082,6 +64159,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
   }
 
   export type disputesCreateManyReportsInput = {

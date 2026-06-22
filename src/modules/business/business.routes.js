@@ -39,6 +39,7 @@ router.patch("/shifts/:id", updateShiftRules, businessController.updateShift);
 router.patch("/shifts/:id/publish", shiftIdRules, businessController.publishShift);
 router.patch("/shifts/:id/cancel", cancelShiftRules, businessController.cancelShift);
 router.get("/shifts/:id/applicants", listApplicantsRules, businessController.listApplicants);
+router.get("/shifts/:id/roster", shiftIdRules, businessController.getRoster);
 
 // Applicant decisions
 router.patch("/applications/:id/shortlist", applicationIdRules, businessController.shortlistApplicant);

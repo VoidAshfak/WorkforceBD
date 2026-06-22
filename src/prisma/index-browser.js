@@ -434,7 +434,8 @@ exports.Prisma.ShiftsScalarFieldEnum = {
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
   created_by: 'created_by',
-  updated_by: 'updated_by'
+  updated_by: 'updated_by',
+  checkin_qr_token: 'checkin_qr_token'
 };
 
 exports.Prisma.TransactionsScalarFieldEnum = {
@@ -660,7 +661,6 @@ exports.gender_enum = exports.$Enums.gender_enum = {
 
 exports.shift_status_enum = exports.$Enums.shift_status_enum = {
   draft: 'draft',
-  pending_approval: 'pending_approval',
   published: 'published',
   applications_open: 'applications_open',
   worker_selected: 'worker_selected',
@@ -672,7 +672,8 @@ exports.shift_status_enum = exports.$Enums.shift_status_enum = {
   payment_pending: 'payment_pending',
   paid: 'paid',
   closed: 'closed',
-  cancelled: 'cancelled'
+  cancelled: 'cancelled',
+  pending_approval: 'pending_approval'
 };
 
 exports.transaction_type_enum = exports.$Enums.transaction_type_enum = {

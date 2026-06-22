@@ -98,3 +98,83 @@ export const findOwnedApplication = (id, workerProfileId) => {
     where: { id, worker_profile_id: workerProfileId, deleted_at: null },
   });
 };
+
+/**
+ * Loads the roster assignment plus the shift context needed to validate a
+ * worker check-in/out (time window, QR token, owning business for notifying).
+ * Coordinates are excluded here (Unsupported geography) — distance is checked
+ * separately via {@link isWithinShiftGeofence}.
+ * @param {string} applicationId
+ * @param {string} workerProfileId
+ */
+export const findAssignmentContext = (applicationId, workerProfileId) => {
+  return prisma.worker_assignments.findFirst({
+    where: { application_id: applicationId, worker_profile_id: workerProfileId, deleted_at: null },
+    select: {
+      id: true,
+      checked_in_at: true,
+      checked_out_at: true,
+      shift_id: true,
+      shifts: {
+        select: {
+          id: true, title: true, status: true,
+          shift_date: true, start_time: true, end_time: true,
+          workers_needed: true, checkin_qr_token: true,
+          business_profiles: { select: { user_id: true } },
+        },
+      },
+    },
+  });
+};
+
+/**
+ * Whether the given point lies within `radiusMeters` of the shift's coordinates.
+ * Returns false when the shift has no coordinates set.
+ * @param {string} shiftId
+ * @param {number} latitude
+ * @param {number} longitude
+ * @param {number} radiusMeters
+ * @returns {Promise<boolean>}
+ */
+export const isWithinShiftGeofence = async (shiftId, latitude, longitude, radiusMeters) => {
+  const rows = await prisma.$queryRaw`
+    SELECT ST_DWithin(
+             coordinates,
+             ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)::geography,
+             ${radiusMeters}
+           ) AS within
+    FROM shifts
+    WHERE id = ${shiftId}::uuid AND coordinates IS NOT NULL
+  `;
+  return rows[0]?.within === true;
+};
+
+/**
+ * Stamps a check-in on the assignment.
+ * @param {string} assignmentId
+ * @param {"manual"|"gps"|"qr"|"pin"} method
+ */
+export const setCheckIn = (assignmentId, method) => {
+  return prisma.worker_assignments.update({
+    where: { id: assignmentId },
+    data: { checked_in_at: new Date(), checkin_method: method },
+  });
+};
+
+/**
+ * Stamps a check-out on the assignment.
+ * @param {string} assignmentId
+ */
+export const setCheckOut = (assignmentId) => {
+  return prisma.worker_assignments.update({
+    where: { id: assignmentId },
+    data: { checked_out_at: new Date() },
+  });
+};
+
+/** Count of workers already checked in on a shift. @param {string} shiftId */
+export const countCheckedIn = (shiftId) => {
+  return prisma.worker_assignments.count({
+    where: { shift_id: shiftId, checked_in_at: { not: null }, deleted_at: null },
+  });
+};

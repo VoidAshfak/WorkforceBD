@@ -407,6 +407,10 @@ CREATE TABLE shifts (
     coordinates             GEOGRAPHY(POINT, 4326),
     zone_id                 UUID REFERENCES zones(id),
 
+    -- Live-attendance check-in: secret token the business displays on-site for
+    -- workers to scan (QR check-in). Stable per shift, set at creation.
+    checkin_qr_token        UUID NOT NULL DEFAULT uuid_generate_v4(),
+
     -- Status lifecycle
     status                  shift_status_enum NOT NULL DEFAULT 'draft',
 
