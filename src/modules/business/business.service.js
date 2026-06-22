@@ -1,5 +1,6 @@
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
+import { prisma } from "../../db/index.js";
 import * as businessRepository from "./business.repository.js";
 import { createNotification } from "../notification/notification.service.js";
 
@@ -377,6 +378,39 @@ export const listApplicants = async (userId, shiftId, query) => {
 };
 
 /**
+ * Live-attendance roster for an owned shift: every hired worker with their
+ * derived check-in state, plus the QR token the business displays on-site.
+ * @param {string} userId
+ * @param {string} shiftId
+ */
+export const getShiftRoster = async (userId, shiftId) => {
+  const profile = await getProfileSummaryOrThrow(userId);
+  const shift = await businessRepository.findOwnedShiftForRoster(shiftId, profile.id);
+  if (!shift) throw new AppError("Shift not found", 404);
+
+  const rows = await businessRepository.findShiftRoster(shiftId);
+  const roster = rows.map((a) => ({
+    assignment_id: a.id,
+    worker: a.worker_profiles,
+    status: a.checked_out_at ? "checked_out" : a.checked_in_at ? "checked_in" : "waiting",
+    checked_in_at: a.checked_in_at,
+    checked_out_at: a.checked_out_at,
+    checkin_method: a.checkin_method,
+  }));
+  const checkedIn = rows.filter((a) => a.checked_in_at).length;
+
+  return {
+    shift: {
+      id: shift.id, title: shift.title, status: shift.status,
+      shift_date: shift.shift_date, start_time: shift.start_time, end_time: shift.end_time,
+      workers_needed: shift.workers_needed, checkin_qr_token: shift.checkin_qr_token,
+    },
+    summary: { needed: shift.workers_needed, assigned: rows.length, checked_in: checkedIn },
+    roster,
+  };
+};
+
+/**
  * Resolves an owned, still-decidable application or throws.
  * @param {string} userId
  * @param {string} applicationId
@@ -420,10 +454,22 @@ export const acceptApplicant = async (userId, applicationId) => {
   const accepted = await businessRepository.countAcceptedForShift(shift.id);
   if (accepted >= shift.workers_needed) throw new AppError("This shift is already fully staffed", 409);
 
-  const updated = await businessRepository.updateApplication(applicationId, {
-    status: "accepted",
-    updated_by: userId,
+  // Hire + materialise the roster assignment atomically so the live-attendance
+  // roster always has a row to track (state starts at "waiting for check-in").
+  const updated = await prisma.$transaction(async (tx) => {
+    const app = await businessRepository.updateApplication(applicationId, {
+      status: "accepted",
+      updated_by: userId,
+    }, tx);
+    await businessRepository.upsertAssignment({
+      shift_id: shift.id,
+      application_id: applicationId,
+      worker_profile_id: application.worker_profiles.id,
+      created_by: userId,
+    }, tx);
+    return app;
   });
+
   await notifyApplicant(application.worker_profiles.user_id, "accepted", shift.title);
   logger.info(`Applicant hired | userId=${userId} app=${applicationId} shift=${shift.id}`);
   return updated;

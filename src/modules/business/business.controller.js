@@ -102,6 +102,12 @@ export const cancelShift = asyncHandler(async (req, res) => {
   return sendSuccess(res, 200, "Shift cancelled", shift);
 });
 
+export const getRoster = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const roster = await businessService.getShiftRoster(req.user.id, req.params.id);
+  return sendSuccess(res, 200, "Roster fetched", roster);
+});
+
 /* ---------------------------- Applicants ---------------------------- */
 
 export const listApplicants = asyncHandler(async (req, res) => {

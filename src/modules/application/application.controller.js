@@ -28,3 +28,20 @@ export const withdraw = asyncHandler(async (req, res) => {
   const application = await applicationService.withdrawApplication(req.user.id, req.params.id);
   return sendSuccess(res, 200, "Application withdrawn", application);
 });
+
+export const checkIn = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
+
+  const { method, coordinates, qr_token } = req.body;
+  const assignment = await applicationService.checkIn(req.user.id, req.params.id, { method, coordinates, qr_token });
+  return sendSuccess(res, 200, "Checked in", assignment);
+});
+
+export const checkOut = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
+
+  const assignment = await applicationService.checkOut(req.user.id, req.params.id);
+  return sendSuccess(res, 200, "Checked out", assignment);
+});

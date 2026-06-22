@@ -208,6 +208,43 @@ export const findShiftApplicants = ({ shiftId, status, skip, take }) => {
   });
 };
 
+/**
+ * Owned shift with the fields the live-attendance roster needs (incl. the
+ * QR token the business displays for workers to scan).
+ * @param {string} shiftId
+ * @param {string} businessProfileId
+ */
+export const findOwnedShiftForRoster = (shiftId, businessProfileId) => {
+  return prisma.shifts.findFirst({
+    where: { id: shiftId, business_profile_id: businessProfileId, deleted_at: null },
+    select: {
+      id: true, title: true, status: true, workers_needed: true,
+      shift_date: true, start_time: true, end_time: true, checkin_qr_token: true,
+    },
+  });
+};
+
+/**
+ * Roster assignments for a shift with worker identity + check-in stamps,
+ * ordered by check-in time (checked-in first), then name.
+ * @param {string} shiftId
+ */
+export const findShiftRoster = (shiftId) => {
+  return prisma.worker_assignments.findMany({
+    where: { shift_id: shiftId, deleted_at: null },
+    orderBy: [{ checked_in_at: { sort: "asc", nulls: "last" } }],
+    select: {
+      id: true,
+      checked_in_at: true,
+      checked_out_at: true,
+      checkin_method: true,
+      worker_profiles: {
+        select: { id: true, full_name: true, profile_picture: true, reliability_score: true },
+      },
+    },
+  });
+};
+
 /** @param {{ shiftId: string, status?: string }} opts */
 export const countShiftApplicants = ({ shiftId, status }) => {
   const where = { shift_id: shiftId, deleted_at: null };
@@ -238,8 +275,37 @@ export const findOwnedApplication = (applicationId, businessProfileId) => {
 /**
  * @param {string} id
  * @param {object} data
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client] optional tx client
  */
-export const updateApplication = (id, data) => prisma.applications.update({ where: { id }, data });
+export const updateApplication = (id, data, client = prisma) =>
+  client.applications.update({ where: { id }, data });
+
+/**
+ * Creates (or revives) the worker assignment that backs the live-attendance
+ * roster. Upsert keyed on the unique (shift, worker) pair so re-hiring a worker
+ * who previously withdrew resets their check-in state instead of failing.
+ * @param {{ shift_id: string, application_id: string, worker_profile_id: string, created_by: string }} data
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client] optional tx client
+ */
+export const upsertAssignment = (data, client = prisma) => {
+  return client.worker_assignments.upsert({
+    where: {
+      shift_id_worker_profile_id: {
+        shift_id: data.shift_id,
+        worker_profile_id: data.worker_profile_id,
+      },
+    },
+    create: { ...data, payment_status: "pending" },
+    update: {
+      application_id: data.application_id,
+      checkin_method: null,
+      checked_in_at: null,
+      checked_out_at: null,
+      payment_status: "pending",
+      updated_by: data.created_by,
+    },
+  });
+};
 
 /* ============================================================
  * Dashboard aggregates
