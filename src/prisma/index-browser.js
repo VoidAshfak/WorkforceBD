@@ -546,6 +546,33 @@ exports.Prisma.Worker_skillsScalarFieldEnum = {
   skill_id: 'skill_id'
 };
 
+exports.Prisma.Chat_conversationsScalarFieldEnum = {
+  id: 'id',
+  shift_id: 'shift_id',
+  worker_profile_id: 'worker_profile_id',
+  business_profile_id: 'business_profile_id',
+  last_message_at: 'last_message_at',
+  last_message_text: 'last_message_text',
+  last_sender_role: 'last_sender_role',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.Chat_messagesScalarFieldEnum = {
+  id: 'id',
+  conversation_id: 'conversation_id',
+  sender_user_id: 'sender_user_id',
+  sender_role: 'sender_role',
+  body: 'body',
+  read_at: 'read_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -723,7 +750,9 @@ exports.Prisma.ModelName = {
   worker_categories: 'worker_categories',
   worker_preferred_zones: 'worker_preferred_zones',
   worker_profiles: 'worker_profiles',
-  worker_skills: 'worker_skills'
+  worker_skills: 'worker_skills',
+  chat_conversations: 'chat_conversations',
+  chat_messages: 'chat_messages'
 };
 
 /**

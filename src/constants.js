@@ -17,3 +17,11 @@ export const CHECKIN_QR_STEP_SECONDS = 30;
 export const WORKER_CHECKIN_METHODS = ["gps", "qr"];
 // All check-in verification methods (mirrors checkin_method_enum in the DB).
 export const CHECKIN_METHODS = ["manual", "gps", "qr", "pin"];
+
+// Chat tuning.
+// Max length of a single chat message body.
+export const CHAT_MESSAGE_MAX_LENGTH = 2000;
+// Length of the conversation preview snippet stored for the inbox.
+export const CHAT_PREVIEW_LENGTH = 140;
+// Conversation participant roles (also stored as sender_role on each message).
+export const CHAT_ROLES = ["worker", "business"];

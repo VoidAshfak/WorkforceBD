@@ -2,6 +2,7 @@ import { Server } from "socket.io";
 import { env } from "../config/env.js";
 import { logger } from "../config/logger.js";
 import { verifySocketTicket } from "../utils/token.js";
+import { registerChatSocket } from "../modules/chat/chat.socket.js";
 
 // Single io instance, set on initSocket. Kept module-private; access via helpers.
 let io;
@@ -38,6 +39,9 @@ export const initSocket = (httpServer) => {
   io.on("connection", (socket) => {
     socket.join(userRoom(socket.user.id));
     logger.info(`Socket connected | userId=${socket.user.id} sid=${socket.id}`);
+
+    // Feature event handlers (chat send/read, …) attach per connection.
+    registerChatSocket(socket);
 
     socket.on("disconnect", (reason) => {
       logger.debug(`Socket disconnected | sid=${socket.id} reason=${reason}`);
