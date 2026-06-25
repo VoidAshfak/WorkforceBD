@@ -1,7 +1,12 @@
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import { createNotification } from "../notification/notification.service.js";
-import { CHECKIN_RADIUS_METERS, CHECKIN_GRACE_MINUTES } from "../../constants.js";
+import {
+  CHECKIN_RADIUS_METERS,
+  CHECKIN_GRACE_MINUTES,
+  CHECKIN_MAX_ACCURACY_METERS,
+} from "../../constants.js";
+import { verifyCheckinCode } from "../../utils/qrToken.js";
 import * as applicationRepository from "./application.repository.js";
 
 // Shift states that accept new applications
@@ -50,15 +55,9 @@ export const applyToShift = async (userId, { shift_id, note }) => {
 
   const existing = await applicationRepository.findApplication(shift_id, worker.id);
   if (existing) {
+    // Withdrawal is terminal — a withdrawn worker cannot re-apply to the same shift.
     if (existing.status === "withdrawn") {
-      // allow re-applying after a prior withdrawal
-      const reactivated = await applicationRepository.updateApplication(existing.id, {
-        status: "pending",
-        note,
-        applied_at: new Date(),
-      });
-      logger.info(`Application re-activated | userId=${userId} shift=${shift_id}`);
-      return reactivated;
+      throw new AppError("You have withdrawn from this shift and cannot apply again", 409);
     }
     throw new AppError("You have already applied to this shift", 409);
   }
@@ -163,11 +162,34 @@ const getCheckinContext = async (userId, applicationId) => {
 };
 
 /**
- * Worker checks in to an accepted shift. Verifies presence by GPS geofence or a
- * shift QR token (manual = trusted timestamp, no presence proof).
+ * Confirms the worker is physically inside the shift geofence. Required for both
+ * GPS and QR check-ins so a relayed/shared QR code cannot be used off-site.
+ * @param {{ id: string }} shift
+ * @param {{ latitude: number, longitude: number, accuracy?: number }} coordinates
+ */
+const assertWithinGeofence = async (shift, coordinates) => {
+  if (!coordinates) throw new AppError("coordinates are required to check in", 422);
+  if (coordinates.accuracy != null && coordinates.accuracy > CHECKIN_MAX_ACCURACY_METERS) {
+    throw new AppError(
+      `Location accuracy is too low (±${Math.round(coordinates.accuracy)}m). Move to open sky and retry`,
+      422,
+    );
+  }
+  const within = await applicationRepository.isWithinShiftGeofence(
+    shift.id, coordinates.latitude, coordinates.longitude, CHECKIN_RADIUS_METERS,
+  );
+  if (!within) {
+    throw new AppError(`You must be within ${CHECKIN_RADIUS_METERS}m of the shift location`, 422);
+  }
+};
+
+/**
+ * Worker checks in to an accepted shift. Presence is always proven by the GPS
+ * geofence; QR additionally requires the live rotating on-site code. `manual` is
+ * not worker-selectable (business/admin override only).
  * @param {string} userId
  * @param {string} applicationId
- * @param {{ method: "gps"|"qr"|"manual", coordinates?: { latitude: number, longitude: number }, qr_token?: string }} data
+ * @param {{ method: "gps"|"qr", coordinates?: { latitude: number, longitude: number, accuracy?: number }, qr_token?: string }} data
  */
 export const checkIn = async (userId, applicationId, { method, coordinates, qr_token }) => {
   const assignment = await getCheckinContext(userId, applicationId);
@@ -180,20 +202,19 @@ export const checkIn = async (userId, applicationId, { method, coordinates, qr_t
     throw new AppError("Check-in is only allowed within the shift's time window", 422);
   }
 
-  if (method === "gps") {
-    if (!coordinates) throw new AppError("coordinates are required for GPS check-in", 422);
-    const within = await applicationRepository.isWithinShiftGeofence(
-      shift.id, coordinates.latitude, coordinates.longitude, CHECKIN_RADIUS_METERS,
-    );
-    if (!within) {
-      throw new AppError(`You must be within ${CHECKIN_RADIUS_METERS}m of the shift location`, 422);
-    }
-  } else if (method === "qr") {
+  // Geofence applies to every method; QR layers the live code on top.
+  await assertWithinGeofence(shift, coordinates);
+  if (method === "qr") {
     if (!qr_token) throw new AppError("qr_token is required for QR check-in", 422);
-    if (qr_token !== shift.checkin_qr_token) throw new AppError("Invalid check-in QR code", 422);
+    if (!verifyCheckinCode(shift.checkin_qr_token, shift.id, qr_token)) {
+      throw new AppError("Invalid or expired check-in QR code", 422);
+    }
   }
 
-  const updated = await applicationRepository.setCheckIn(assignment.id, method);
+  // Atomic stamp — a concurrent request that loses the race gets count 0.
+  const stamped = await applicationRepository.setCheckIn(assignment.id, method, now);
+  if (stamped === 0) throw new AppError("You have already checked in", 409);
+  const updated = { id: assignment.id, checked_in_at: now, checkin_method: method };
 
   // Notify the owning business with a live "X/Y checked in" progress count.
   const checkedIn = await applicationRepository.countCheckedIn(shift.id);

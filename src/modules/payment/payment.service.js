@@ -190,15 +190,21 @@ export const settleShift = async (userId, shiftId) => {
   const accepted = await paymentRepository.findAcceptedApplications(shiftId);
   if (accepted.length === 0) throw new AppError("No hired workers to pay for this shift", 400);
 
+  // Pay only workers who actually checked in; the rest are marked no_show.
+  const attended = accepted.filter((app) => app.worker_assignments[0]?.checked_in_at);
+  const noShow = accepted.filter((app) => !app.worker_assignments[0]?.checked_in_at);
+
   const payEach = new Prisma.Decimal(shift.pay_amount);
 
-  // Credit every hired worker and close the shift in a single transaction.
+  // Credit attended workers, flag absentees, and close the shift in one transaction.
   await prisma.$transaction(async (tx) => {
     // Claim the shift first — a concurrent settle that loses this race gets 0 and aborts.
     const claimed = await paymentRepository.claimShiftForSettlement(shiftId, userId, tx);
     if (claimed === 0) throw new AppError("This shift is already settled", 409);
 
-    for (const app of accepted) {
+    await paymentRepository.markNoShow(noShow.map((app) => app.id), tx);
+
+    for (const app of attended) {
       const workerUserId = app.worker_profiles.user_id;
       const wallet = await paymentRepository.ensureWallet(workerUserId, tx);
       const newBalance = new Prisma.Decimal(wallet.balance).plus(payEach);
@@ -221,9 +227,9 @@ export const settleShift = async (userId, shiftId) => {
     }
   });
 
-  // Notify workers after commit so a delivery failure can't roll back payment.
+  // Notify paid workers after commit so a delivery failure can't roll back payment.
   await Promise.all(
-    accepted.map((app) =>
+    attended.map((app) =>
       createNotification({
         user_id: app.worker_profiles.user_id,
         type: "in_app",
@@ -235,12 +241,15 @@ export const settleShift = async (userId, shiftId) => {
     )
   );
 
-  logger.info(`Shift settled | userId=${userId} shiftId=${shiftId} workers=${accepted.length} each=${payEach}`);
+  logger.info(
+    `Shift settled | userId=${userId} shiftId=${shiftId} paid=${attended.length} no_show=${noShow.length} each=${payEach}`,
+  );
   return {
     shift_id: shiftId,
-    workers_paid: accepted.length,
+    workers_paid: attended.length,
+    no_show: noShow.length,
     amount_each: payEach,
-    total_paid: payEach.times(accepted.length),
+    total_paid: payEach.times(attended.length),
   };
 };
 

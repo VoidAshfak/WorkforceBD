@@ -29,10 +29,13 @@ const urgentBefore = () => {
 };
 
 /**
- * Maps a raw shift row to the discovery DTO with filled/capacity counters.
+ * Maps a raw shift row to the discovery DTO with filled/capacity counters and
+ * the requesting worker's own application state (so the client can show
+ * "Applied" and block re-apply).
  * @param {object} shift
+ * @param {{ id: string, status: string }} [myApp] - this worker's application on the shift
  */
-const toShiftDto = (shift) => {
+const toShiftDto = (shift, myApp) => {
   const { applications, ...rest } = shift;
   const filled = applications?.length ?? 0;
   return {
@@ -40,6 +43,9 @@ const toShiftDto = (shift) => {
     filled,
     capacity: shift.workers_needed,
     is_full: filled >= shift.workers_needed,
+    // Any existing application (incl. withdrawn) blocks re-apply.
+    has_applied: !!myApp,
+    my_application: myApp ? { id: myApp.id, status: myApp.status } : null,
   };
 };
 
@@ -104,20 +110,33 @@ export const listShifts = async (userId, query) => {
     shiftRepository.countShifts(where),
   ]);
 
+  // Flag shifts this worker has already applied to.
+  const workerProfileId = await shiftRepository.findWorkerProfileId(userId);
+  const myApps = workerProfileId
+    ? await shiftRepository.findMyApplications(workerProfileId, rows.map((r) => r.id))
+    : [];
+  const byShift = new Map(myApps.map((a) => [a.shift_id, a]));
+
   return {
-    items: rows.map(toShiftDto),
+    items: rows.map((r) => toShiftDto(r, byShift.get(r.id))),
     pagination: { page, limit, total, total_pages: Math.ceil(total / limit) },
   };
 };
 
 /**
  * Single shift detail. Throws 404 if missing/deleted.
+ * @param {string} userId
  * @param {string} id
  */
-export const getShiftDetail = async (id) => {
+export const getShiftDetail = async (userId, id) => {
   const shift = await shiftRepository.findShiftById(id);
   if (!shift) throw new AppError("Shift not found", 404);
-  return toShiftDto(shift);
+
+  const workerProfileId = await shiftRepository.findWorkerProfileId(userId);
+  const myApp = workerProfileId
+    ? (await shiftRepository.findMyApplications(workerProfileId, [id]))[0]
+    : null;
+  return toShiftDto(shift, myApp);
 };
 
 /**

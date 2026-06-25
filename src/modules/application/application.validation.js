@@ -1,4 +1,5 @@
 import { body, query, param } from "express-validator";
+import { WORKER_CHECKIN_METHODS } from "../../constants.js";
 
 export const applyRules = [
   body("shift_id").notEmpty().isUUID().withMessage("shift_id is required and must be a UUID"),
@@ -18,19 +19,29 @@ export const applicationIdRules = [
   param("id").isUUID().withMessage("Invalid application id"),
 ];
 
+// Both check-in methods require coordinates: GPS proves presence directly, and
+// QR additionally enforces the geofence so a relayed code can't be used off-site.
+const requiresCoordinates = body("method").isIn(["gps", "qr"]);
+
 export const checkInRules = [
   param("id").isUUID().withMessage("Invalid application id"),
-  body("method").isIn(["gps", "qr", "manual"]).withMessage("method must be one of: gps, qr, manual"),
+  body("method")
+    .isIn(WORKER_CHECKIN_METHODS)
+    .withMessage(`method must be one of: ${WORKER_CHECKIN_METHODS.join(", ")}`),
   body("coordinates")
-    .if(body("method").equals("gps"))
-    .notEmpty().withMessage("coordinates are required for GPS check-in"),
+    .if(requiresCoordinates)
+    .notEmpty().withMessage("coordinates are required to check in"),
   body("coordinates.latitude")
-    .if(body("method").equals("gps"))
+    .if(requiresCoordinates)
     .isFloat({ min: -90, max: 90 }).withMessage("latitude must be between -90 and 90"),
   body("coordinates.longitude")
-    .if(body("method").equals("gps"))
+    .if(requiresCoordinates)
     .isFloat({ min: -180, max: 180 }).withMessage("longitude must be between -180 and 180"),
+  body("coordinates.accuracy")
+    .optional()
+    .isFloat({ min: 0 }).withMessage("accuracy must be a positive number of metres"),
   body("qr_token")
     .if(body("method").equals("qr"))
-    .isUUID().withMessage("qr_token must be a valid QR token"),
+    .notEmpty().withMessage("qr_token is required for QR check-in").bail()
+    .isString().isLength({ min: 8, max: 64 }).withMessage("qr_token must be a valid check-in code"),
 ];
