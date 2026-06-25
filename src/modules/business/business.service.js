@@ -3,6 +3,7 @@ import { logger } from "../../config/logger.js";
 import { prisma } from "../../db/index.js";
 import * as businessRepository from "./business.repository.js";
 import { createNotification } from "../notification/notification.service.js";
+import { currentCheckinCode } from "../../utils/qrToken.js";
 
 const { ACTIVE_SHIFT_STATUSES } = businessRepository;
 
@@ -399,12 +400,18 @@ export const getShiftRoster = async (userId, shiftId) => {
   }));
   const checkedIn = rows.filter((a) => a.checked_in_at).length;
 
+  // Rotating on-site code derived from the per-shift secret; the secret itself is
+  // never returned. The client re-fetches before `expires_in` to refresh the QR.
+  const { code, expires_in } = currentCheckinCode(shift.checkin_qr_token, shift.id);
+
   return {
     shift: {
       id: shift.id, title: shift.title, status: shift.status,
       shift_date: shift.shift_date, start_time: shift.start_time, end_time: shift.end_time,
-      workers_needed: shift.workers_needed, checkin_qr_token: shift.checkin_qr_token,
+      workers_needed: shift.workers_needed,
     },
+    checkin_code: code,
+    checkin_code_expires_in: expires_in,
     summary: { needed: shift.workers_needed, assigned: rows.length, checked_in: checkedIn },
     roster,
   };

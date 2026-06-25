@@ -110,6 +110,34 @@ export const findShiftById = async (id) => {
 };
 
 /**
+ * Worker profile id for a user (applications are keyed by it).
+ * @param {string} userId
+ * @returns {Promise<string|null>}
+ */
+export const findWorkerProfileId = async (userId) => {
+  const profile = await prisma.worker_profiles.findUnique({
+    where: { user_id: userId },
+    select: { id: true },
+  });
+  return profile?.id ?? null;
+};
+
+/**
+ * The worker's own applications across the given shifts — used to flag
+ * already-applied shifts in discovery. One row per shift (unique constraint).
+ * @param {string} workerProfileId
+ * @param {string[]} shiftIds
+ * @returns {Promise<{ id: string, shift_id: string, status: string }[]>}
+ */
+export const findMyApplications = (workerProfileId, shiftIds) => {
+  if (!shiftIds.length) return Promise.resolve([]);
+  return prisma.applications.findMany({
+    where: { worker_profile_id: workerProfileId, shift_id: { in: shiftIds }, deleted_at: null },
+    select: { id: true, shift_id: true, status: true },
+  });
+};
+
+/**
  * Preferred zone IDs for a worker, used by the "nearby" filter.
  * @param {string} userId
  * @returns {Promise<string[]>}

@@ -122,7 +122,8 @@ out/
 
 .svelte-kit
 
-docs/
+docs/*
+!docs/api-guidelines.md
 /prisma/src/prisma
 
 /prisma/src/prisma

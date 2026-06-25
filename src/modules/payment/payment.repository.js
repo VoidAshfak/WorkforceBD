@@ -75,6 +75,8 @@ export const sumPendingSettlement = async (workerProfileId) => {
       status: "accepted",
       deleted_at: null,
       shifts: { status: "completed", deleted_at: null },
+      // Only attended shifts will actually be paid at settlement.
+      worker_assignments: { some: { checked_in_at: { not: null }, deleted_at: null } },
     },
     select: { shifts: { select: { pay_amount: true } } },
   });
@@ -222,13 +224,35 @@ export const findOwnedShiftForSettle = (shiftId, userId) => {
 };
 
 /**
- * Accepted (hired) applications for a shift, with the worker's user id.
+ * Accepted (hired) applications for a shift, with the worker's user id and the
+ * roster assignment's attendance stamps — settlement pays only attended workers.
  * @param {string} shiftId
  */
 export const findAcceptedApplications = (shiftId) => {
   return prisma.applications.findMany({
     where: { shift_id: shiftId, status: "accepted", deleted_at: null },
-    select: { id: true, worker_profiles: { select: { user_id: true } } },
+    select: {
+      id: true,
+      worker_profiles: { select: { user_id: true } },
+      worker_assignments: {
+        where: { deleted_at: null },
+        select: { checked_in_at: true, checked_out_at: true },
+        take: 1,
+      },
+    },
+  });
+};
+
+/**
+ * Flags accepted-but-absent applications as no_show (attendance failure).
+ * @param {string[]} applicationIds
+ * @param {import("@prisma/client").Prisma.TransactionClient} [client]
+ */
+export const markNoShow = (applicationIds, client = prisma) => {
+  if (applicationIds.length === 0) return { count: 0 };
+  return client.applications.updateMany({
+    where: { id: { in: applicationIds } },
+    data: { status: "no_show" },
   });
 };
 

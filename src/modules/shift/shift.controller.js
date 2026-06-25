@@ -21,6 +21,6 @@ export const getShift = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
 
-  const shift = await shiftService.getShiftDetail(req.params.id);
+  const shift = await shiftService.getShiftDetail(req.user.id, req.params.id);
   return sendSuccess(res, 200, "Shift fetched", shift);
 });

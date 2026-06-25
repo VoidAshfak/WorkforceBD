@@ -150,15 +150,20 @@ export const isWithinShiftGeofence = async (shiftId, latitude, longitude, radius
 };
 
 /**
- * Stamps a check-in on the assignment.
+ * Atomically stamps a check-in only if the assignment is not already checked in.
+ * Returns the number of rows updated — 0 means a concurrent request won the race
+ * (already checked in), guarding against double check-in / double notification.
  * @param {string} assignmentId
  * @param {"manual"|"gps"|"qr"|"pin"} method
+ * @param {Date} at  check-in timestamp (shared with the window check)
+ * @returns {Promise<number>}
  */
-export const setCheckIn = (assignmentId, method) => {
-  return prisma.worker_assignments.update({
-    where: { id: assignmentId },
-    data: { checked_in_at: new Date(), checkin_method: method },
+export const setCheckIn = async (assignmentId, method, at) => {
+  const { count } = await prisma.worker_assignments.updateMany({
+    where: { id: assignmentId, checked_in_at: null },
+    data: { checked_in_at: at, checkin_method: method },
   });
+  return count;
 };
 
 /**
