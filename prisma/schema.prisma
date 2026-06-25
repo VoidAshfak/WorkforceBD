@@ -147,6 +147,7 @@ model users {
   created_by                                          String?            @db.Uuid
   updated_by                                          String?            @db.Uuid
   business_profiles                                   business_profiles?
+  chat_messages                                       chat_messages[]
   devices                                             devices[]
   disputes_disputes_against_userTousers               disputes[]         @relation("disputes_against_userTousers")
   disputes_disputes_raised_byTousers                  disputes[]         @relation("disputes_raised_byTousers")
@@ -278,6 +279,7 @@ model business_profiles {
   business_favorite_workers business_favorite_workers[]
   users                     users                       @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   zones                     zones?                      @relation(fields: [zone_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  chat_conversations        chat_conversations[]
   shifts                    shifts[]
 
   @@index([coordinates], map: "idx_business_coordinates", type: Gist)
@@ -443,6 +445,7 @@ model shifts {
   updated_by          String?                   @db.Uuid
   checkin_qr_token    String                    @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   applications        applications[]
+  chat_conversations  chat_conversations[]
   disputes            disputes[]
   ratings             ratings[]
   reports             reports[]
@@ -598,6 +601,7 @@ model worker_profiles {
   profile_picture           String?
   applications              applications[]
   business_favorite_workers business_favorite_workers[]
+  chat_conversations        chat_conversations[]
   worker_assignments        worker_assignments[]
   worker_categories         worker_categories[]
   worker_preferred_zones    worker_preferred_zones[]
@@ -617,6 +621,48 @@ model worker_skills {
   worker_profiles   worker_profiles @relation(fields: [worker_profile_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@id([worker_profile_id, skill_id])
+}
+
+model chat_conversations {
+  id                  String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  shift_id            String            @db.Uuid
+  worker_profile_id   String            @db.Uuid
+  business_profile_id String            @db.Uuid
+  last_message_at     DateTime?         @db.Timestamptz(6)
+  last_message_text   String?
+  last_sender_role    String?           @db.VarChar(10)
+  created_at          DateTime          @default(now()) @db.Timestamptz(6)
+  updated_at          DateTime          @default(now()) @db.Timestamptz(6)
+  deleted_at          DateTime?         @db.Timestamptz(6)
+  created_by          String?           @db.Uuid
+  updated_by          String?           @db.Uuid
+  business_profiles   business_profiles @relation(fields: [business_profile_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  shifts              shifts            @relation(fields: [shift_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  worker_profiles     worker_profiles   @relation(fields: [worker_profile_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  chat_messages       chat_messages[]
+
+  @@unique([shift_id, worker_profile_id])
+  @@index([business_profile_id], map: "idx_chat_conversations_business")
+  @@index([last_message_at(sort: Desc)], map: "idx_chat_conversations_last_msg")
+  @@index([shift_id], map: "idx_chat_conversations_shift")
+  @@index([worker_profile_id], map: "idx_chat_conversations_worker")
+}
+
+model chat_messages {
+  id                 String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  conversation_id    String             @db.Uuid
+  sender_user_id     String             @db.Uuid
+  sender_role        String             @db.VarChar(10)
+  body               String
+  read_at            DateTime?          @db.Timestamptz(6)
+  created_at         DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime           @default(now()) @db.Timestamptz(6)
+  deleted_at         DateTime?          @db.Timestamptz(6)
+  chat_conversations chat_conversations @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users              users              @relation(fields: [sender_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([conversation_id, created_at(sort: Desc)], map: "idx_chat_messages_conversation")
+  @@index([conversation_id, sender_role, read_at], map: "idx_chat_messages_unread")
 }
 
 enum application_status_enum {

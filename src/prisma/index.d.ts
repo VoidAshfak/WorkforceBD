@@ -153,6 +153,16 @@ export type worker_profiles = $Result.DefaultSelection<Prisma.$worker_profilesPa
  * 
  */
 export type worker_skills = $Result.DefaultSelection<Prisma.$worker_skillsPayload>
+/**
+ * Model chat_conversations
+ * 
+ */
+export type chat_conversations = $Result.DefaultSelection<Prisma.$chat_conversationsPayload>
+/**
+ * Model chat_messages
+ * 
+ */
+export type chat_messages = $Result.DefaultSelection<Prisma.$chat_messagesPayload>
 
 /**
  * Enums
@@ -795,6 +805,26 @@ export class PrismaClient<
     * ```
     */
   get worker_skills(): Prisma.worker_skillsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.chat_conversations`: Exposes CRUD operations for the **chat_conversations** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Chat_conversations
+    * const chat_conversations = await prisma.chat_conversations.findMany()
+    * ```
+    */
+  get chat_conversations(): Prisma.chat_conversationsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.chat_messages`: Exposes CRUD operations for the **chat_messages** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Chat_messages
+    * const chat_messages = await prisma.chat_messages.findMany()
+    * ```
+    */
+  get chat_messages(): Prisma.chat_messagesDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1256,7 +1286,9 @@ export namespace Prisma {
     worker_categories: 'worker_categories',
     worker_preferred_zones: 'worker_preferred_zones',
     worker_profiles: 'worker_profiles',
-    worker_skills: 'worker_skills'
+    worker_skills: 'worker_skills',
+    chat_conversations: 'chat_conversations',
+    chat_messages: 'chat_messages'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1272,7 +1304,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "categories" | "cities" | "devices" | "otp_requests" | "refresh_tokens" | "sessions" | "skills" | "spatial_ref_sys" | "users" | "zones" | "applications" | "business_branches" | "business_favorite_workers" | "business_profiles" | "disputes" | "notifications" | "payout_requests" | "ratings" | "reports" | "shifts" | "transactions" | "user_sanctions" | "wallets" | "worker_assignments" | "worker_categories" | "worker_preferred_zones" | "worker_profiles" | "worker_skills"
+      modelProps: "categories" | "cities" | "devices" | "otp_requests" | "refresh_tokens" | "sessions" | "skills" | "spatial_ref_sys" | "users" | "zones" | "applications" | "business_branches" | "business_favorite_workers" | "business_profiles" | "disputes" | "notifications" | "payout_requests" | "ratings" | "reports" | "shifts" | "transactions" | "user_sanctions" | "wallets" | "worker_assignments" | "worker_categories" | "worker_preferred_zones" | "worker_profiles" | "worker_skills" | "chat_conversations" | "chat_messages"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3348,6 +3380,154 @@ export namespace Prisma {
           }
         }
       }
+      chat_conversations: {
+        payload: Prisma.$chat_conversationsPayload<ExtArgs>
+        fields: Prisma.chat_conversationsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.chat_conversationsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.chat_conversationsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload>
+          }
+          findFirst: {
+            args: Prisma.chat_conversationsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.chat_conversationsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload>
+          }
+          findMany: {
+            args: Prisma.chat_conversationsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload>[]
+          }
+          create: {
+            args: Prisma.chat_conversationsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload>
+          }
+          createMany: {
+            args: Prisma.chat_conversationsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.chat_conversationsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload>[]
+          }
+          delete: {
+            args: Prisma.chat_conversationsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload>
+          }
+          update: {
+            args: Prisma.chat_conversationsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload>
+          }
+          deleteMany: {
+            args: Prisma.chat_conversationsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.chat_conversationsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.chat_conversationsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload>[]
+          }
+          upsert: {
+            args: Prisma.chat_conversationsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_conversationsPayload>
+          }
+          aggregate: {
+            args: Prisma.Chat_conversationsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChat_conversations>
+          }
+          groupBy: {
+            args: Prisma.chat_conversationsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Chat_conversationsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.chat_conversationsCountArgs<ExtArgs>
+            result: $Utils.Optional<Chat_conversationsCountAggregateOutputType> | number
+          }
+        }
+      }
+      chat_messages: {
+        payload: Prisma.$chat_messagesPayload<ExtArgs>
+        fields: Prisma.chat_messagesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.chat_messagesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.chat_messagesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload>
+          }
+          findFirst: {
+            args: Prisma.chat_messagesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.chat_messagesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload>
+          }
+          findMany: {
+            args: Prisma.chat_messagesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload>[]
+          }
+          create: {
+            args: Prisma.chat_messagesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload>
+          }
+          createMany: {
+            args: Prisma.chat_messagesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.chat_messagesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload>[]
+          }
+          delete: {
+            args: Prisma.chat_messagesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload>
+          }
+          update: {
+            args: Prisma.chat_messagesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload>
+          }
+          deleteMany: {
+            args: Prisma.chat_messagesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.chat_messagesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.chat_messagesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload>[]
+          }
+          upsert: {
+            args: Prisma.chat_messagesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chat_messagesPayload>
+          }
+          aggregate: {
+            args: Prisma.Chat_messagesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChat_messages>
+          }
+          groupBy: {
+            args: Prisma.chat_messagesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Chat_messagesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.chat_messagesCountArgs<ExtArgs>
+            result: $Utils.Optional<Chat_messagesCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3484,6 +3664,8 @@ export namespace Prisma {
     worker_preferred_zones?: worker_preferred_zonesOmit
     worker_profiles?: worker_profilesOmit
     worker_skills?: worker_skillsOmit
+    chat_conversations?: chat_conversationsOmit
+    chat_messages?: chat_messagesOmit
   }
 
   /* Types for Logging */
@@ -3715,6 +3897,7 @@ export namespace Prisma {
    */
 
   export type UsersCountOutputType = {
+    chat_messages: number
     devices: number
     disputes_disputes_against_userTousers: number
     disputes_disputes_raised_byTousers: number
@@ -3734,6 +3917,7 @@ export namespace Prisma {
   }
 
   export type UsersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chat_messages?: boolean | UsersCountOutputTypeCountChat_messagesArgs
     devices?: boolean | UsersCountOutputTypeCountDevicesArgs
     disputes_disputes_against_userTousers?: boolean | UsersCountOutputTypeCountDisputes_disputes_against_userTousersArgs
     disputes_disputes_raised_byTousers?: boolean | UsersCountOutputTypeCountDisputes_disputes_raised_byTousersArgs
@@ -3761,6 +3945,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the UsersCountOutputType
      */
     select?: UsersCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountChat_messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: chat_messagesWhereInput
   }
 
   /**
@@ -4003,12 +4194,14 @@ export namespace Prisma {
   export type Business_profilesCountOutputType = {
     business_branches: number
     business_favorite_workers: number
+    chat_conversations: number
     shifts: number
   }
 
   export type Business_profilesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     business_branches?: boolean | Business_profilesCountOutputTypeCountBusiness_branchesArgs
     business_favorite_workers?: boolean | Business_profilesCountOutputTypeCountBusiness_favorite_workersArgs
+    chat_conversations?: boolean | Business_profilesCountOutputTypeCountChat_conversationsArgs
     shifts?: boolean | Business_profilesCountOutputTypeCountShiftsArgs
   }
 
@@ -4035,6 +4228,13 @@ export namespace Prisma {
    */
   export type Business_profilesCountOutputTypeCountBusiness_favorite_workersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: business_favorite_workersWhereInput
+  }
+
+  /**
+   * Business_profilesCountOutputType without action
+   */
+  export type Business_profilesCountOutputTypeCountChat_conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: chat_conversationsWhereInput
   }
 
   /**
@@ -4082,6 +4282,7 @@ export namespace Prisma {
 
   export type ShiftsCountOutputType = {
     applications: number
+    chat_conversations: number
     disputes: number
     ratings: number
     reports: number
@@ -4091,6 +4292,7 @@ export namespace Prisma {
 
   export type ShiftsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | ShiftsCountOutputTypeCountApplicationsArgs
+    chat_conversations?: boolean | ShiftsCountOutputTypeCountChat_conversationsArgs
     disputes?: boolean | ShiftsCountOutputTypeCountDisputesArgs
     ratings?: boolean | ShiftsCountOutputTypeCountRatingsArgs
     reports?: boolean | ShiftsCountOutputTypeCountReportsArgs
@@ -4114,6 +4316,13 @@ export namespace Prisma {
    */
   export type ShiftsCountOutputTypeCountApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: applicationsWhereInput
+  }
+
+  /**
+   * ShiftsCountOutputType without action
+   */
+  export type ShiftsCountOutputTypeCountChat_conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: chat_conversationsWhereInput
   }
 
   /**
@@ -4239,6 +4448,7 @@ export namespace Prisma {
   export type Worker_profilesCountOutputType = {
     applications: number
     business_favorite_workers: number
+    chat_conversations: number
     worker_assignments: number
     worker_categories: number
     worker_preferred_zones: number
@@ -4248,6 +4458,7 @@ export namespace Prisma {
   export type Worker_profilesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | Worker_profilesCountOutputTypeCountApplicationsArgs
     business_favorite_workers?: boolean | Worker_profilesCountOutputTypeCountBusiness_favorite_workersArgs
+    chat_conversations?: boolean | Worker_profilesCountOutputTypeCountChat_conversationsArgs
     worker_assignments?: boolean | Worker_profilesCountOutputTypeCountWorker_assignmentsArgs
     worker_categories?: boolean | Worker_profilesCountOutputTypeCountWorker_categoriesArgs
     worker_preferred_zones?: boolean | Worker_profilesCountOutputTypeCountWorker_preferred_zonesArgs
@@ -4282,6 +4493,13 @@ export namespace Prisma {
   /**
    * Worker_profilesCountOutputType without action
    */
+  export type Worker_profilesCountOutputTypeCountChat_conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: chat_conversationsWhereInput
+  }
+
+  /**
+   * Worker_profilesCountOutputType without action
+   */
   export type Worker_profilesCountOutputTypeCountWorker_assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: worker_assignmentsWhereInput
   }
@@ -4305,6 +4523,37 @@ export namespace Prisma {
    */
   export type Worker_profilesCountOutputTypeCountWorker_skillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: worker_skillsWhereInput
+  }
+
+
+  /**
+   * Count Type Chat_conversationsCountOutputType
+   */
+
+  export type Chat_conversationsCountOutputType = {
+    chat_messages: number
+  }
+
+  export type Chat_conversationsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chat_messages?: boolean | Chat_conversationsCountOutputTypeCountChat_messagesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * Chat_conversationsCountOutputType without action
+   */
+  export type Chat_conversationsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Chat_conversationsCountOutputType
+     */
+    select?: Chat_conversationsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * Chat_conversationsCountOutputType without action
+   */
+  export type Chat_conversationsCountOutputTypeCountChat_messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: chat_messagesWhereInput
   }
 
 
@@ -13629,6 +13878,7 @@ export namespace Prisma {
     created_by?: boolean
     updated_by?: boolean
     business_profiles?: boolean | users$business_profilesArgs<ExtArgs>
+    chat_messages?: boolean | users$chat_messagesArgs<ExtArgs>
     devices?: boolean | users$devicesArgs<ExtArgs>
     disputes_disputes_against_userTousers?: boolean | users$disputes_disputes_against_userTousersArgs<ExtArgs>
     disputes_disputes_raised_byTousers?: boolean | users$disputes_disputes_raised_byTousersArgs<ExtArgs>
@@ -13701,6 +13951,7 @@ export namespace Prisma {
   export type usersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "phone" | "email" | "full_name" | "profile_picture" | "roles" | "is_active" | "is_phone_verified" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["users"]>
   export type usersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     business_profiles?: boolean | users$business_profilesArgs<ExtArgs>
+    chat_messages?: boolean | users$chat_messagesArgs<ExtArgs>
     devices?: boolean | users$devicesArgs<ExtArgs>
     disputes_disputes_against_userTousers?: boolean | users$disputes_disputes_against_userTousersArgs<ExtArgs>
     disputes_disputes_raised_byTousers?: boolean | users$disputes_disputes_raised_byTousersArgs<ExtArgs>
@@ -13728,6 +13979,7 @@ export namespace Prisma {
     name: "users"
     objects: {
       business_profiles: Prisma.$business_profilesPayload<ExtArgs> | null
+      chat_messages: Prisma.$chat_messagesPayload<ExtArgs>[]
       devices: Prisma.$devicesPayload<ExtArgs>[]
       disputes_disputes_against_userTousers: Prisma.$disputesPayload<ExtArgs>[]
       disputes_disputes_raised_byTousers: Prisma.$disputesPayload<ExtArgs>[]
@@ -14156,6 +14408,7 @@ export namespace Prisma {
   export interface Prisma__usersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     business_profiles<T extends users$business_profilesArgs<ExtArgs> = {}>(args?: Subset<T, users$business_profilesArgs<ExtArgs>>): Prisma__business_profilesClient<$Result.GetResult<Prisma.$business_profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    chat_messages<T extends users$chat_messagesArgs<ExtArgs> = {}>(args?: Subset<T, users$chat_messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     devices<T extends users$devicesArgs<ExtArgs> = {}>(args?: Subset<T, users$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$devicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     disputes_disputes_against_userTousers<T extends users$disputes_disputes_against_userTousersArgs<ExtArgs> = {}>(args?: Subset<T, users$disputes_disputes_against_userTousersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     disputes_disputes_raised_byTousers<T extends users$disputes_disputes_raised_byTousersArgs<ExtArgs> = {}>(args?: Subset<T, users$disputes_disputes_raised_byTousersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -14625,6 +14878,30 @@ export namespace Prisma {
      */
     include?: business_profilesInclude<ExtArgs> | null
     where?: business_profilesWhereInput
+  }
+
+  /**
+   * users.chat_messages
+   */
+  export type users$chat_messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    where?: chat_messagesWhereInput
+    orderBy?: chat_messagesOrderByWithRelationInput | chat_messagesOrderByWithRelationInput[]
+    cursor?: chat_messagesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Chat_messagesScalarFieldEnum | Chat_messagesScalarFieldEnum[]
   }
 
   /**
@@ -20122,6 +20399,7 @@ export namespace Prisma {
     business_favorite_workers?: boolean | business_profiles$business_favorite_workersArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     zones?: boolean | business_profiles$zonesArgs<ExtArgs>
+    chat_conversations?: boolean | business_profiles$chat_conversationsArgs<ExtArgs>
     shifts?: boolean | business_profiles$shiftsArgs<ExtArgs>
     _count?: boolean | Business_profilesCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["business_profiles"]>
@@ -20226,6 +20504,7 @@ export namespace Prisma {
     business_favorite_workers?: boolean | business_profiles$business_favorite_workersArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     zones?: boolean | business_profiles$zonesArgs<ExtArgs>
+    chat_conversations?: boolean | business_profiles$chat_conversationsArgs<ExtArgs>
     shifts?: boolean | business_profiles$shiftsArgs<ExtArgs>
     _count?: boolean | Business_profilesCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -20245,6 +20524,7 @@ export namespace Prisma {
       business_favorite_workers: Prisma.$business_favorite_workersPayload<ExtArgs>[]
       users: Prisma.$usersPayload<ExtArgs>
       zones: Prisma.$zonesPayload<ExtArgs> | null
+      chat_conversations: Prisma.$chat_conversationsPayload<ExtArgs>[]
       shifts: Prisma.$shiftsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -20673,6 +20953,7 @@ export namespace Prisma {
     business_favorite_workers<T extends business_profiles$business_favorite_workersArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$business_favorite_workersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_favorite_workersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     zones<T extends business_profiles$zonesArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$zonesArgs<ExtArgs>>): Prisma__zonesClient<$Result.GetResult<Prisma.$zonesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    chat_conversations<T extends business_profiles$chat_conversationsArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$chat_conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shifts<T extends business_profiles$shiftsArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$shiftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$shiftsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -21195,6 +21476,30 @@ export namespace Prisma {
      */
     include?: zonesInclude<ExtArgs> | null
     where?: zonesWhereInput
+  }
+
+  /**
+   * business_profiles.chat_conversations
+   */
+  export type business_profiles$chat_conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    where?: chat_conversationsWhereInput
+    orderBy?: chat_conversationsOrderByWithRelationInput | chat_conversationsOrderByWithRelationInput[]
+    cursor?: chat_conversationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Chat_conversationsScalarFieldEnum | Chat_conversationsScalarFieldEnum[]
   }
 
   /**
@@ -27962,6 +28267,7 @@ export namespace Prisma {
     updated_by?: boolean
     checkin_qr_token?: boolean
     applications?: boolean | shifts$applicationsArgs<ExtArgs>
+    chat_conversations?: boolean | shifts$chat_conversationsArgs<ExtArgs>
     disputes?: boolean | shifts$disputesArgs<ExtArgs>
     ratings?: boolean | shifts$ratingsArgs<ExtArgs>
     reports?: boolean | shifts$reportsArgs<ExtArgs>
@@ -28078,6 +28384,7 @@ export namespace Prisma {
   export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token", ExtArgs["result"]["shifts"]>
   export type shiftsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | shifts$applicationsArgs<ExtArgs>
+    chat_conversations?: boolean | shifts$chat_conversationsArgs<ExtArgs>
     disputes?: boolean | shifts$disputesArgs<ExtArgs>
     ratings?: boolean | shifts$ratingsArgs<ExtArgs>
     reports?: boolean | shifts$reportsArgs<ExtArgs>
@@ -28106,6 +28413,7 @@ export namespace Prisma {
     name: "shifts"
     objects: {
       applications: Prisma.$applicationsPayload<ExtArgs>[]
+      chat_conversations: Prisma.$chat_conversationsPayload<ExtArgs>[]
       disputes: Prisma.$disputesPayload<ExtArgs>[]
       ratings: Prisma.$ratingsPayload<ExtArgs>[]
       reports: Prisma.$reportsPayload<ExtArgs>[]
@@ -28540,6 +28848,7 @@ export namespace Prisma {
   export interface Prisma__shiftsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     applications<T extends shifts$applicationsArgs<ExtArgs> = {}>(args?: Subset<T, shifts$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$applicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chat_conversations<T extends shifts$chat_conversationsArgs<ExtArgs> = {}>(args?: Subset<T, shifts$chat_conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     disputes<T extends shifts$disputesArgs<ExtArgs> = {}>(args?: Subset<T, shifts$disputesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ratings<T extends shifts$ratingsArgs<ExtArgs> = {}>(args?: Subset<T, shifts$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ratingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reports<T extends shifts$reportsArgs<ExtArgs> = {}>(args?: Subset<T, shifts$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$reportsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -29028,6 +29337,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ApplicationsScalarFieldEnum | ApplicationsScalarFieldEnum[]
+  }
+
+  /**
+   * shifts.chat_conversations
+   */
+  export type shifts$chat_conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    where?: chat_conversationsWhereInput
+    orderBy?: chat_conversationsOrderByWithRelationInput | chat_conversationsOrderByWithRelationInput[]
+    cursor?: chat_conversationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Chat_conversationsScalarFieldEnum | Chat_conversationsScalarFieldEnum[]
   }
 
   /**
@@ -36592,6 +36925,7 @@ export namespace Prisma {
     profile_picture?: boolean
     applications?: boolean | worker_profiles$applicationsArgs<ExtArgs>
     business_favorite_workers?: boolean | worker_profiles$business_favorite_workersArgs<ExtArgs>
+    chat_conversations?: boolean | worker_profiles$chat_conversationsArgs<ExtArgs>
     worker_assignments?: boolean | worker_profiles$worker_assignmentsArgs<ExtArgs>
     worker_categories?: boolean | worker_profiles$worker_categoriesArgs<ExtArgs>
     worker_preferred_zones?: boolean | worker_profiles$worker_preferred_zonesArgs<ExtArgs>
@@ -36699,6 +37033,7 @@ export namespace Prisma {
   export type worker_profilesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | worker_profiles$applicationsArgs<ExtArgs>
     business_favorite_workers?: boolean | worker_profiles$business_favorite_workersArgs<ExtArgs>
+    chat_conversations?: boolean | worker_profiles$chat_conversationsArgs<ExtArgs>
     worker_assignments?: boolean | worker_profiles$worker_assignmentsArgs<ExtArgs>
     worker_categories?: boolean | worker_profiles$worker_categoriesArgs<ExtArgs>
     worker_preferred_zones?: boolean | worker_profiles$worker_preferred_zonesArgs<ExtArgs>
@@ -36721,6 +37056,7 @@ export namespace Prisma {
     objects: {
       applications: Prisma.$applicationsPayload<ExtArgs>[]
       business_favorite_workers: Prisma.$business_favorite_workersPayload<ExtArgs>[]
+      chat_conversations: Prisma.$chat_conversationsPayload<ExtArgs>[]
       worker_assignments: Prisma.$worker_assignmentsPayload<ExtArgs>[]
       worker_categories: Prisma.$worker_categoriesPayload<ExtArgs>[]
       worker_preferred_zones: Prisma.$worker_preferred_zonesPayload<ExtArgs>[]
@@ -37152,6 +37488,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     applications<T extends worker_profiles$applicationsArgs<ExtArgs> = {}>(args?: Subset<T, worker_profiles$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$applicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     business_favorite_workers<T extends worker_profiles$business_favorite_workersArgs<ExtArgs> = {}>(args?: Subset<T, worker_profiles$business_favorite_workersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_favorite_workersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chat_conversations<T extends worker_profiles$chat_conversationsArgs<ExtArgs> = {}>(args?: Subset<T, worker_profiles$chat_conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     worker_assignments<T extends worker_profiles$worker_assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, worker_profiles$worker_assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$worker_assignmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     worker_categories<T extends worker_profiles$worker_categoriesArgs<ExtArgs> = {}>(args?: Subset<T, worker_profiles$worker_categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$worker_categoriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     worker_preferred_zones<T extends worker_profiles$worker_preferred_zonesArgs<ExtArgs> = {}>(args?: Subset<T, worker_profiles$worker_preferred_zonesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$worker_preferred_zonesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -37660,6 +37997,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Business_favorite_workersScalarFieldEnum | Business_favorite_workersScalarFieldEnum[]
+  }
+
+  /**
+   * worker_profiles.chat_conversations
+   */
+  export type worker_profiles$chat_conversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    where?: chat_conversationsWhereInput
+    orderBy?: chat_conversationsOrderByWithRelationInput | chat_conversationsOrderByWithRelationInput[]
+    cursor?: chat_conversationsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Chat_conversationsScalarFieldEnum | Chat_conversationsScalarFieldEnum[]
   }
 
   /**
@@ -38829,6 +39190,2329 @@ export namespace Prisma {
 
 
   /**
+   * Model chat_conversations
+   */
+
+  export type AggregateChat_conversations = {
+    _count: Chat_conversationsCountAggregateOutputType | null
+    _min: Chat_conversationsMinAggregateOutputType | null
+    _max: Chat_conversationsMaxAggregateOutputType | null
+  }
+
+  export type Chat_conversationsMinAggregateOutputType = {
+    id: string | null
+    shift_id: string | null
+    worker_profile_id: string | null
+    business_profile_id: string | null
+    last_message_at: Date | null
+    last_message_text: string | null
+    last_sender_role: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    deleted_at: Date | null
+    created_by: string | null
+    updated_by: string | null
+  }
+
+  export type Chat_conversationsMaxAggregateOutputType = {
+    id: string | null
+    shift_id: string | null
+    worker_profile_id: string | null
+    business_profile_id: string | null
+    last_message_at: Date | null
+    last_message_text: string | null
+    last_sender_role: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    deleted_at: Date | null
+    created_by: string | null
+    updated_by: string | null
+  }
+
+  export type Chat_conversationsCountAggregateOutputType = {
+    id: number
+    shift_id: number
+    worker_profile_id: number
+    business_profile_id: number
+    last_message_at: number
+    last_message_text: number
+    last_sender_role: number
+    created_at: number
+    updated_at: number
+    deleted_at: number
+    created_by: number
+    updated_by: number
+    _all: number
+  }
+
+
+  export type Chat_conversationsMinAggregateInputType = {
+    id?: true
+    shift_id?: true
+    worker_profile_id?: true
+    business_profile_id?: true
+    last_message_at?: true
+    last_message_text?: true
+    last_sender_role?: true
+    created_at?: true
+    updated_at?: true
+    deleted_at?: true
+    created_by?: true
+    updated_by?: true
+  }
+
+  export type Chat_conversationsMaxAggregateInputType = {
+    id?: true
+    shift_id?: true
+    worker_profile_id?: true
+    business_profile_id?: true
+    last_message_at?: true
+    last_message_text?: true
+    last_sender_role?: true
+    created_at?: true
+    updated_at?: true
+    deleted_at?: true
+    created_by?: true
+    updated_by?: true
+  }
+
+  export type Chat_conversationsCountAggregateInputType = {
+    id?: true
+    shift_id?: true
+    worker_profile_id?: true
+    business_profile_id?: true
+    last_message_at?: true
+    last_message_text?: true
+    last_sender_role?: true
+    created_at?: true
+    updated_at?: true
+    deleted_at?: true
+    created_by?: true
+    updated_by?: true
+    _all?: true
+  }
+
+  export type Chat_conversationsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which chat_conversations to aggregate.
+     */
+    where?: chat_conversationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of chat_conversations to fetch.
+     */
+    orderBy?: chat_conversationsOrderByWithRelationInput | chat_conversationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: chat_conversationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` chat_conversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` chat_conversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned chat_conversations
+    **/
+    _count?: true | Chat_conversationsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Chat_conversationsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Chat_conversationsMaxAggregateInputType
+  }
+
+  export type GetChat_conversationsAggregateType<T extends Chat_conversationsAggregateArgs> = {
+        [P in keyof T & keyof AggregateChat_conversations]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChat_conversations[P]>
+      : GetScalarType<T[P], AggregateChat_conversations[P]>
+  }
+
+
+
+
+  export type chat_conversationsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: chat_conversationsWhereInput
+    orderBy?: chat_conversationsOrderByWithAggregationInput | chat_conversationsOrderByWithAggregationInput[]
+    by: Chat_conversationsScalarFieldEnum[] | Chat_conversationsScalarFieldEnum
+    having?: chat_conversationsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Chat_conversationsCountAggregateInputType | true
+    _min?: Chat_conversationsMinAggregateInputType
+    _max?: Chat_conversationsMaxAggregateInputType
+  }
+
+  export type Chat_conversationsGroupByOutputType = {
+    id: string
+    shift_id: string
+    worker_profile_id: string
+    business_profile_id: string
+    last_message_at: Date | null
+    last_message_text: string | null
+    last_sender_role: string | null
+    created_at: Date
+    updated_at: Date
+    deleted_at: Date | null
+    created_by: string | null
+    updated_by: string | null
+    _count: Chat_conversationsCountAggregateOutputType | null
+    _min: Chat_conversationsMinAggregateOutputType | null
+    _max: Chat_conversationsMaxAggregateOutputType | null
+  }
+
+  type GetChat_conversationsGroupByPayload<T extends chat_conversationsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Chat_conversationsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Chat_conversationsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Chat_conversationsGroupByOutputType[P]>
+            : GetScalarType<T[P], Chat_conversationsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type chat_conversationsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shift_id?: boolean
+    worker_profile_id?: boolean
+    business_profile_id?: boolean
+    last_message_at?: boolean
+    last_message_text?: boolean
+    last_sender_role?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    created_by?: boolean
+    updated_by?: boolean
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+    shifts?: boolean | shiftsDefaultArgs<ExtArgs>
+    worker_profiles?: boolean | worker_profilesDefaultArgs<ExtArgs>
+    chat_messages?: boolean | chat_conversations$chat_messagesArgs<ExtArgs>
+    _count?: boolean | Chat_conversationsCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chat_conversations"]>
+
+  export type chat_conversationsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shift_id?: boolean
+    worker_profile_id?: boolean
+    business_profile_id?: boolean
+    last_message_at?: boolean
+    last_message_text?: boolean
+    last_sender_role?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    created_by?: boolean
+    updated_by?: boolean
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+    shifts?: boolean | shiftsDefaultArgs<ExtArgs>
+    worker_profiles?: boolean | worker_profilesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chat_conversations"]>
+
+  export type chat_conversationsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shift_id?: boolean
+    worker_profile_id?: boolean
+    business_profile_id?: boolean
+    last_message_at?: boolean
+    last_message_text?: boolean
+    last_sender_role?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    created_by?: boolean
+    updated_by?: boolean
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+    shifts?: boolean | shiftsDefaultArgs<ExtArgs>
+    worker_profiles?: boolean | worker_profilesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chat_conversations"]>
+
+  export type chat_conversationsSelectScalar = {
+    id?: boolean
+    shift_id?: boolean
+    worker_profile_id?: boolean
+    business_profile_id?: boolean
+    last_message_at?: boolean
+    last_message_text?: boolean
+    last_sender_role?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    created_by?: boolean
+    updated_by?: boolean
+  }
+
+  export type chat_conversationsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shift_id" | "worker_profile_id" | "business_profile_id" | "last_message_at" | "last_message_text" | "last_sender_role" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["chat_conversations"]>
+  export type chat_conversationsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+    shifts?: boolean | shiftsDefaultArgs<ExtArgs>
+    worker_profiles?: boolean | worker_profilesDefaultArgs<ExtArgs>
+    chat_messages?: boolean | chat_conversations$chat_messagesArgs<ExtArgs>
+    _count?: boolean | Chat_conversationsCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type chat_conversationsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+    shifts?: boolean | shiftsDefaultArgs<ExtArgs>
+    worker_profiles?: boolean | worker_profilesDefaultArgs<ExtArgs>
+  }
+  export type chat_conversationsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+    shifts?: boolean | shiftsDefaultArgs<ExtArgs>
+    worker_profiles?: boolean | worker_profilesDefaultArgs<ExtArgs>
+  }
+
+  export type $chat_conversationsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "chat_conversations"
+    objects: {
+      business_profiles: Prisma.$business_profilesPayload<ExtArgs>
+      shifts: Prisma.$shiftsPayload<ExtArgs>
+      worker_profiles: Prisma.$worker_profilesPayload<ExtArgs>
+      chat_messages: Prisma.$chat_messagesPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      shift_id: string
+      worker_profile_id: string
+      business_profile_id: string
+      last_message_at: Date | null
+      last_message_text: string | null
+      last_sender_role: string | null
+      created_at: Date
+      updated_at: Date
+      deleted_at: Date | null
+      created_by: string | null
+      updated_by: string | null
+    }, ExtArgs["result"]["chat_conversations"]>
+    composites: {}
+  }
+
+  type chat_conversationsGetPayload<S extends boolean | null | undefined | chat_conversationsDefaultArgs> = $Result.GetResult<Prisma.$chat_conversationsPayload, S>
+
+  type chat_conversationsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<chat_conversationsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Chat_conversationsCountAggregateInputType | true
+    }
+
+  export interface chat_conversationsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['chat_conversations'], meta: { name: 'chat_conversations' } }
+    /**
+     * Find zero or one Chat_conversations that matches the filter.
+     * @param {chat_conversationsFindUniqueArgs} args - Arguments to find a Chat_conversations
+     * @example
+     * // Get one Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends chat_conversationsFindUniqueArgs>(args: SelectSubset<T, chat_conversationsFindUniqueArgs<ExtArgs>>): Prisma__chat_conversationsClient<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Chat_conversations that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {chat_conversationsFindUniqueOrThrowArgs} args - Arguments to find a Chat_conversations
+     * @example
+     * // Get one Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends chat_conversationsFindUniqueOrThrowArgs>(args: SelectSubset<T, chat_conversationsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__chat_conversationsClient<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Chat_conversations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_conversationsFindFirstArgs} args - Arguments to find a Chat_conversations
+     * @example
+     * // Get one Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends chat_conversationsFindFirstArgs>(args?: SelectSubset<T, chat_conversationsFindFirstArgs<ExtArgs>>): Prisma__chat_conversationsClient<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Chat_conversations that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_conversationsFindFirstOrThrowArgs} args - Arguments to find a Chat_conversations
+     * @example
+     * // Get one Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends chat_conversationsFindFirstOrThrowArgs>(args?: SelectSubset<T, chat_conversationsFindFirstOrThrowArgs<ExtArgs>>): Prisma__chat_conversationsClient<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Chat_conversations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_conversationsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.findMany()
+     * 
+     * // Get first 10 Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const chat_conversationsWithIdOnly = await prisma.chat_conversations.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends chat_conversationsFindManyArgs>(args?: SelectSubset<T, chat_conversationsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Chat_conversations.
+     * @param {chat_conversationsCreateArgs} args - Arguments to create a Chat_conversations.
+     * @example
+     * // Create one Chat_conversations
+     * const Chat_conversations = await prisma.chat_conversations.create({
+     *   data: {
+     *     // ... data to create a Chat_conversations
+     *   }
+     * })
+     * 
+     */
+    create<T extends chat_conversationsCreateArgs>(args: SelectSubset<T, chat_conversationsCreateArgs<ExtArgs>>): Prisma__chat_conversationsClient<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Chat_conversations.
+     * @param {chat_conversationsCreateManyArgs} args - Arguments to create many Chat_conversations.
+     * @example
+     * // Create many Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends chat_conversationsCreateManyArgs>(args?: SelectSubset<T, chat_conversationsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Chat_conversations and returns the data saved in the database.
+     * @param {chat_conversationsCreateManyAndReturnArgs} args - Arguments to create many Chat_conversations.
+     * @example
+     * // Create many Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Chat_conversations and only return the `id`
+     * const chat_conversationsWithIdOnly = await prisma.chat_conversations.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends chat_conversationsCreateManyAndReturnArgs>(args?: SelectSubset<T, chat_conversationsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Chat_conversations.
+     * @param {chat_conversationsDeleteArgs} args - Arguments to delete one Chat_conversations.
+     * @example
+     * // Delete one Chat_conversations
+     * const Chat_conversations = await prisma.chat_conversations.delete({
+     *   where: {
+     *     // ... filter to delete one Chat_conversations
+     *   }
+     * })
+     * 
+     */
+    delete<T extends chat_conversationsDeleteArgs>(args: SelectSubset<T, chat_conversationsDeleteArgs<ExtArgs>>): Prisma__chat_conversationsClient<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Chat_conversations.
+     * @param {chat_conversationsUpdateArgs} args - Arguments to update one Chat_conversations.
+     * @example
+     * // Update one Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends chat_conversationsUpdateArgs>(args: SelectSubset<T, chat_conversationsUpdateArgs<ExtArgs>>): Prisma__chat_conversationsClient<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Chat_conversations.
+     * @param {chat_conversationsDeleteManyArgs} args - Arguments to filter Chat_conversations to delete.
+     * @example
+     * // Delete a few Chat_conversations
+     * const { count } = await prisma.chat_conversations.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends chat_conversationsDeleteManyArgs>(args?: SelectSubset<T, chat_conversationsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Chat_conversations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_conversationsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends chat_conversationsUpdateManyArgs>(args: SelectSubset<T, chat_conversationsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Chat_conversations and returns the data updated in the database.
+     * @param {chat_conversationsUpdateManyAndReturnArgs} args - Arguments to update many Chat_conversations.
+     * @example
+     * // Update many Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Chat_conversations and only return the `id`
+     * const chat_conversationsWithIdOnly = await prisma.chat_conversations.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends chat_conversationsUpdateManyAndReturnArgs>(args: SelectSubset<T, chat_conversationsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Chat_conversations.
+     * @param {chat_conversationsUpsertArgs} args - Arguments to update or create a Chat_conversations.
+     * @example
+     * // Update or create a Chat_conversations
+     * const chat_conversations = await prisma.chat_conversations.upsert({
+     *   create: {
+     *     // ... data to create a Chat_conversations
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Chat_conversations we want to update
+     *   }
+     * })
+     */
+    upsert<T extends chat_conversationsUpsertArgs>(args: SelectSubset<T, chat_conversationsUpsertArgs<ExtArgs>>): Prisma__chat_conversationsClient<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Chat_conversations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_conversationsCountArgs} args - Arguments to filter Chat_conversations to count.
+     * @example
+     * // Count the number of Chat_conversations
+     * const count = await prisma.chat_conversations.count({
+     *   where: {
+     *     // ... the filter for the Chat_conversations we want to count
+     *   }
+     * })
+    **/
+    count<T extends chat_conversationsCountArgs>(
+      args?: Subset<T, chat_conversationsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Chat_conversationsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Chat_conversations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Chat_conversationsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Chat_conversationsAggregateArgs>(args: Subset<T, Chat_conversationsAggregateArgs>): Prisma.PrismaPromise<GetChat_conversationsAggregateType<T>>
+
+    /**
+     * Group by Chat_conversations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_conversationsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends chat_conversationsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: chat_conversationsGroupByArgs['orderBy'] }
+        : { orderBy?: chat_conversationsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, chat_conversationsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChat_conversationsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the chat_conversations model
+   */
+  readonly fields: chat_conversationsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for chat_conversations.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__chat_conversationsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    business_profiles<T extends business_profilesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, business_profilesDefaultArgs<ExtArgs>>): Prisma__business_profilesClient<$Result.GetResult<Prisma.$business_profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shifts<T extends shiftsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, shiftsDefaultArgs<ExtArgs>>): Prisma__shiftsClient<$Result.GetResult<Prisma.$shiftsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    worker_profiles<T extends worker_profilesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, worker_profilesDefaultArgs<ExtArgs>>): Prisma__worker_profilesClient<$Result.GetResult<Prisma.$worker_profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    chat_messages<T extends chat_conversations$chat_messagesArgs<ExtArgs> = {}>(args?: Subset<T, chat_conversations$chat_messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the chat_conversations model
+   */
+  interface chat_conversationsFieldRefs {
+    readonly id: FieldRef<"chat_conversations", 'String'>
+    readonly shift_id: FieldRef<"chat_conversations", 'String'>
+    readonly worker_profile_id: FieldRef<"chat_conversations", 'String'>
+    readonly business_profile_id: FieldRef<"chat_conversations", 'String'>
+    readonly last_message_at: FieldRef<"chat_conversations", 'DateTime'>
+    readonly last_message_text: FieldRef<"chat_conversations", 'String'>
+    readonly last_sender_role: FieldRef<"chat_conversations", 'String'>
+    readonly created_at: FieldRef<"chat_conversations", 'DateTime'>
+    readonly updated_at: FieldRef<"chat_conversations", 'DateTime'>
+    readonly deleted_at: FieldRef<"chat_conversations", 'DateTime'>
+    readonly created_by: FieldRef<"chat_conversations", 'String'>
+    readonly updated_by: FieldRef<"chat_conversations", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * chat_conversations findUnique
+   */
+  export type chat_conversationsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_conversations to fetch.
+     */
+    where: chat_conversationsWhereUniqueInput
+  }
+
+  /**
+   * chat_conversations findUniqueOrThrow
+   */
+  export type chat_conversationsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_conversations to fetch.
+     */
+    where: chat_conversationsWhereUniqueInput
+  }
+
+  /**
+   * chat_conversations findFirst
+   */
+  export type chat_conversationsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_conversations to fetch.
+     */
+    where?: chat_conversationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of chat_conversations to fetch.
+     */
+    orderBy?: chat_conversationsOrderByWithRelationInput | chat_conversationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for chat_conversations.
+     */
+    cursor?: chat_conversationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` chat_conversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` chat_conversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of chat_conversations.
+     */
+    distinct?: Chat_conversationsScalarFieldEnum | Chat_conversationsScalarFieldEnum[]
+  }
+
+  /**
+   * chat_conversations findFirstOrThrow
+   */
+  export type chat_conversationsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_conversations to fetch.
+     */
+    where?: chat_conversationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of chat_conversations to fetch.
+     */
+    orderBy?: chat_conversationsOrderByWithRelationInput | chat_conversationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for chat_conversations.
+     */
+    cursor?: chat_conversationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` chat_conversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` chat_conversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of chat_conversations.
+     */
+    distinct?: Chat_conversationsScalarFieldEnum | Chat_conversationsScalarFieldEnum[]
+  }
+
+  /**
+   * chat_conversations findMany
+   */
+  export type chat_conversationsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_conversations to fetch.
+     */
+    where?: chat_conversationsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of chat_conversations to fetch.
+     */
+    orderBy?: chat_conversationsOrderByWithRelationInput | chat_conversationsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing chat_conversations.
+     */
+    cursor?: chat_conversationsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` chat_conversations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` chat_conversations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of chat_conversations.
+     */
+    distinct?: Chat_conversationsScalarFieldEnum | Chat_conversationsScalarFieldEnum[]
+  }
+
+  /**
+   * chat_conversations create
+   */
+  export type chat_conversationsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a chat_conversations.
+     */
+    data: XOR<chat_conversationsCreateInput, chat_conversationsUncheckedCreateInput>
+  }
+
+  /**
+   * chat_conversations createMany
+   */
+  export type chat_conversationsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many chat_conversations.
+     */
+    data: chat_conversationsCreateManyInput | chat_conversationsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * chat_conversations createManyAndReturn
+   */
+  export type chat_conversationsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * The data used to create many chat_conversations.
+     */
+    data: chat_conversationsCreateManyInput | chat_conversationsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * chat_conversations update
+   */
+  export type chat_conversationsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a chat_conversations.
+     */
+    data: XOR<chat_conversationsUpdateInput, chat_conversationsUncheckedUpdateInput>
+    /**
+     * Choose, which chat_conversations to update.
+     */
+    where: chat_conversationsWhereUniqueInput
+  }
+
+  /**
+   * chat_conversations updateMany
+   */
+  export type chat_conversationsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update chat_conversations.
+     */
+    data: XOR<chat_conversationsUpdateManyMutationInput, chat_conversationsUncheckedUpdateManyInput>
+    /**
+     * Filter which chat_conversations to update
+     */
+    where?: chat_conversationsWhereInput
+    /**
+     * Limit how many chat_conversations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * chat_conversations updateManyAndReturn
+   */
+  export type chat_conversationsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * The data used to update chat_conversations.
+     */
+    data: XOR<chat_conversationsUpdateManyMutationInput, chat_conversationsUncheckedUpdateManyInput>
+    /**
+     * Filter which chat_conversations to update
+     */
+    where?: chat_conversationsWhereInput
+    /**
+     * Limit how many chat_conversations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * chat_conversations upsert
+   */
+  export type chat_conversationsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the chat_conversations to update in case it exists.
+     */
+    where: chat_conversationsWhereUniqueInput
+    /**
+     * In case the chat_conversations found by the `where` argument doesn't exist, create a new chat_conversations with this data.
+     */
+    create: XOR<chat_conversationsCreateInput, chat_conversationsUncheckedCreateInput>
+    /**
+     * In case the chat_conversations was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<chat_conversationsUpdateInput, chat_conversationsUncheckedUpdateInput>
+  }
+
+  /**
+   * chat_conversations delete
+   */
+  export type chat_conversationsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+    /**
+     * Filter which chat_conversations to delete.
+     */
+    where: chat_conversationsWhereUniqueInput
+  }
+
+  /**
+   * chat_conversations deleteMany
+   */
+  export type chat_conversationsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which chat_conversations to delete
+     */
+    where?: chat_conversationsWhereInput
+    /**
+     * Limit how many chat_conversations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * chat_conversations.chat_messages
+   */
+  export type chat_conversations$chat_messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    where?: chat_messagesWhereInput
+    orderBy?: chat_messagesOrderByWithRelationInput | chat_messagesOrderByWithRelationInput[]
+    cursor?: chat_messagesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Chat_messagesScalarFieldEnum | Chat_messagesScalarFieldEnum[]
+  }
+
+  /**
+   * chat_conversations without action
+   */
+  export type chat_conversationsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_conversations
+     */
+    select?: chat_conversationsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_conversations
+     */
+    omit?: chat_conversationsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_conversationsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model chat_messages
+   */
+
+  export type AggregateChat_messages = {
+    _count: Chat_messagesCountAggregateOutputType | null
+    _min: Chat_messagesMinAggregateOutputType | null
+    _max: Chat_messagesMaxAggregateOutputType | null
+  }
+
+  export type Chat_messagesMinAggregateOutputType = {
+    id: string | null
+    conversation_id: string | null
+    sender_user_id: string | null
+    sender_role: string | null
+    body: string | null
+    read_at: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+    deleted_at: Date | null
+  }
+
+  export type Chat_messagesMaxAggregateOutputType = {
+    id: string | null
+    conversation_id: string | null
+    sender_user_id: string | null
+    sender_role: string | null
+    body: string | null
+    read_at: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+    deleted_at: Date | null
+  }
+
+  export type Chat_messagesCountAggregateOutputType = {
+    id: number
+    conversation_id: number
+    sender_user_id: number
+    sender_role: number
+    body: number
+    read_at: number
+    created_at: number
+    updated_at: number
+    deleted_at: number
+    _all: number
+  }
+
+
+  export type Chat_messagesMinAggregateInputType = {
+    id?: true
+    conversation_id?: true
+    sender_user_id?: true
+    sender_role?: true
+    body?: true
+    read_at?: true
+    created_at?: true
+    updated_at?: true
+    deleted_at?: true
+  }
+
+  export type Chat_messagesMaxAggregateInputType = {
+    id?: true
+    conversation_id?: true
+    sender_user_id?: true
+    sender_role?: true
+    body?: true
+    read_at?: true
+    created_at?: true
+    updated_at?: true
+    deleted_at?: true
+  }
+
+  export type Chat_messagesCountAggregateInputType = {
+    id?: true
+    conversation_id?: true
+    sender_user_id?: true
+    sender_role?: true
+    body?: true
+    read_at?: true
+    created_at?: true
+    updated_at?: true
+    deleted_at?: true
+    _all?: true
+  }
+
+  export type Chat_messagesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which chat_messages to aggregate.
+     */
+    where?: chat_messagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of chat_messages to fetch.
+     */
+    orderBy?: chat_messagesOrderByWithRelationInput | chat_messagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: chat_messagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` chat_messages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` chat_messages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned chat_messages
+    **/
+    _count?: true | Chat_messagesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Chat_messagesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Chat_messagesMaxAggregateInputType
+  }
+
+  export type GetChat_messagesAggregateType<T extends Chat_messagesAggregateArgs> = {
+        [P in keyof T & keyof AggregateChat_messages]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChat_messages[P]>
+      : GetScalarType<T[P], AggregateChat_messages[P]>
+  }
+
+
+
+
+  export type chat_messagesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: chat_messagesWhereInput
+    orderBy?: chat_messagesOrderByWithAggregationInput | chat_messagesOrderByWithAggregationInput[]
+    by: Chat_messagesScalarFieldEnum[] | Chat_messagesScalarFieldEnum
+    having?: chat_messagesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Chat_messagesCountAggregateInputType | true
+    _min?: Chat_messagesMinAggregateInputType
+    _max?: Chat_messagesMaxAggregateInputType
+  }
+
+  export type Chat_messagesGroupByOutputType = {
+    id: string
+    conversation_id: string
+    sender_user_id: string
+    sender_role: string
+    body: string
+    read_at: Date | null
+    created_at: Date
+    updated_at: Date
+    deleted_at: Date | null
+    _count: Chat_messagesCountAggregateOutputType | null
+    _min: Chat_messagesMinAggregateOutputType | null
+    _max: Chat_messagesMaxAggregateOutputType | null
+  }
+
+  type GetChat_messagesGroupByPayload<T extends chat_messagesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Chat_messagesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Chat_messagesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Chat_messagesGroupByOutputType[P]>
+            : GetScalarType<T[P], Chat_messagesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type chat_messagesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    conversation_id?: boolean
+    sender_user_id?: boolean
+    sender_role?: boolean
+    body?: boolean
+    read_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    chat_conversations?: boolean | chat_conversationsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chat_messages"]>
+
+  export type chat_messagesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    conversation_id?: boolean
+    sender_user_id?: boolean
+    sender_role?: boolean
+    body?: boolean
+    read_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    chat_conversations?: boolean | chat_conversationsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chat_messages"]>
+
+  export type chat_messagesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    conversation_id?: boolean
+    sender_user_id?: boolean
+    sender_role?: boolean
+    body?: boolean
+    read_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    chat_conversations?: boolean | chat_conversationsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chat_messages"]>
+
+  export type chat_messagesSelectScalar = {
+    id?: boolean
+    conversation_id?: boolean
+    sender_user_id?: boolean
+    sender_role?: boolean
+    body?: boolean
+    read_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+  }
+
+  export type chat_messagesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "conversation_id" | "sender_user_id" | "sender_role" | "body" | "read_at" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["chat_messages"]>
+  export type chat_messagesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chat_conversations?: boolean | chat_conversationsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+  export type chat_messagesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chat_conversations?: boolean | chat_conversationsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+  export type chat_messagesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    chat_conversations?: boolean | chat_conversationsDefaultArgs<ExtArgs>
+    users?: boolean | usersDefaultArgs<ExtArgs>
+  }
+
+  export type $chat_messagesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "chat_messages"
+    objects: {
+      chat_conversations: Prisma.$chat_conversationsPayload<ExtArgs>
+      users: Prisma.$usersPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      conversation_id: string
+      sender_user_id: string
+      sender_role: string
+      body: string
+      read_at: Date | null
+      created_at: Date
+      updated_at: Date
+      deleted_at: Date | null
+    }, ExtArgs["result"]["chat_messages"]>
+    composites: {}
+  }
+
+  type chat_messagesGetPayload<S extends boolean | null | undefined | chat_messagesDefaultArgs> = $Result.GetResult<Prisma.$chat_messagesPayload, S>
+
+  type chat_messagesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<chat_messagesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Chat_messagesCountAggregateInputType | true
+    }
+
+  export interface chat_messagesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['chat_messages'], meta: { name: 'chat_messages' } }
+    /**
+     * Find zero or one Chat_messages that matches the filter.
+     * @param {chat_messagesFindUniqueArgs} args - Arguments to find a Chat_messages
+     * @example
+     * // Get one Chat_messages
+     * const chat_messages = await prisma.chat_messages.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends chat_messagesFindUniqueArgs>(args: SelectSubset<T, chat_messagesFindUniqueArgs<ExtArgs>>): Prisma__chat_messagesClient<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Chat_messages that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {chat_messagesFindUniqueOrThrowArgs} args - Arguments to find a Chat_messages
+     * @example
+     * // Get one Chat_messages
+     * const chat_messages = await prisma.chat_messages.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends chat_messagesFindUniqueOrThrowArgs>(args: SelectSubset<T, chat_messagesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__chat_messagesClient<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Chat_messages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_messagesFindFirstArgs} args - Arguments to find a Chat_messages
+     * @example
+     * // Get one Chat_messages
+     * const chat_messages = await prisma.chat_messages.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends chat_messagesFindFirstArgs>(args?: SelectSubset<T, chat_messagesFindFirstArgs<ExtArgs>>): Prisma__chat_messagesClient<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Chat_messages that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_messagesFindFirstOrThrowArgs} args - Arguments to find a Chat_messages
+     * @example
+     * // Get one Chat_messages
+     * const chat_messages = await prisma.chat_messages.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends chat_messagesFindFirstOrThrowArgs>(args?: SelectSubset<T, chat_messagesFindFirstOrThrowArgs<ExtArgs>>): Prisma__chat_messagesClient<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Chat_messages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_messagesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Chat_messages
+     * const chat_messages = await prisma.chat_messages.findMany()
+     * 
+     * // Get first 10 Chat_messages
+     * const chat_messages = await prisma.chat_messages.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const chat_messagesWithIdOnly = await prisma.chat_messages.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends chat_messagesFindManyArgs>(args?: SelectSubset<T, chat_messagesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Chat_messages.
+     * @param {chat_messagesCreateArgs} args - Arguments to create a Chat_messages.
+     * @example
+     * // Create one Chat_messages
+     * const Chat_messages = await prisma.chat_messages.create({
+     *   data: {
+     *     // ... data to create a Chat_messages
+     *   }
+     * })
+     * 
+     */
+    create<T extends chat_messagesCreateArgs>(args: SelectSubset<T, chat_messagesCreateArgs<ExtArgs>>): Prisma__chat_messagesClient<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Chat_messages.
+     * @param {chat_messagesCreateManyArgs} args - Arguments to create many Chat_messages.
+     * @example
+     * // Create many Chat_messages
+     * const chat_messages = await prisma.chat_messages.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends chat_messagesCreateManyArgs>(args?: SelectSubset<T, chat_messagesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Chat_messages and returns the data saved in the database.
+     * @param {chat_messagesCreateManyAndReturnArgs} args - Arguments to create many Chat_messages.
+     * @example
+     * // Create many Chat_messages
+     * const chat_messages = await prisma.chat_messages.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Chat_messages and only return the `id`
+     * const chat_messagesWithIdOnly = await prisma.chat_messages.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends chat_messagesCreateManyAndReturnArgs>(args?: SelectSubset<T, chat_messagesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Chat_messages.
+     * @param {chat_messagesDeleteArgs} args - Arguments to delete one Chat_messages.
+     * @example
+     * // Delete one Chat_messages
+     * const Chat_messages = await prisma.chat_messages.delete({
+     *   where: {
+     *     // ... filter to delete one Chat_messages
+     *   }
+     * })
+     * 
+     */
+    delete<T extends chat_messagesDeleteArgs>(args: SelectSubset<T, chat_messagesDeleteArgs<ExtArgs>>): Prisma__chat_messagesClient<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Chat_messages.
+     * @param {chat_messagesUpdateArgs} args - Arguments to update one Chat_messages.
+     * @example
+     * // Update one Chat_messages
+     * const chat_messages = await prisma.chat_messages.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends chat_messagesUpdateArgs>(args: SelectSubset<T, chat_messagesUpdateArgs<ExtArgs>>): Prisma__chat_messagesClient<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Chat_messages.
+     * @param {chat_messagesDeleteManyArgs} args - Arguments to filter Chat_messages to delete.
+     * @example
+     * // Delete a few Chat_messages
+     * const { count } = await prisma.chat_messages.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends chat_messagesDeleteManyArgs>(args?: SelectSubset<T, chat_messagesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Chat_messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_messagesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Chat_messages
+     * const chat_messages = await prisma.chat_messages.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends chat_messagesUpdateManyArgs>(args: SelectSubset<T, chat_messagesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Chat_messages and returns the data updated in the database.
+     * @param {chat_messagesUpdateManyAndReturnArgs} args - Arguments to update many Chat_messages.
+     * @example
+     * // Update many Chat_messages
+     * const chat_messages = await prisma.chat_messages.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Chat_messages and only return the `id`
+     * const chat_messagesWithIdOnly = await prisma.chat_messages.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends chat_messagesUpdateManyAndReturnArgs>(args: SelectSubset<T, chat_messagesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Chat_messages.
+     * @param {chat_messagesUpsertArgs} args - Arguments to update or create a Chat_messages.
+     * @example
+     * // Update or create a Chat_messages
+     * const chat_messages = await prisma.chat_messages.upsert({
+     *   create: {
+     *     // ... data to create a Chat_messages
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Chat_messages we want to update
+     *   }
+     * })
+     */
+    upsert<T extends chat_messagesUpsertArgs>(args: SelectSubset<T, chat_messagesUpsertArgs<ExtArgs>>): Prisma__chat_messagesClient<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Chat_messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_messagesCountArgs} args - Arguments to filter Chat_messages to count.
+     * @example
+     * // Count the number of Chat_messages
+     * const count = await prisma.chat_messages.count({
+     *   where: {
+     *     // ... the filter for the Chat_messages we want to count
+     *   }
+     * })
+    **/
+    count<T extends chat_messagesCountArgs>(
+      args?: Subset<T, chat_messagesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Chat_messagesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Chat_messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Chat_messagesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Chat_messagesAggregateArgs>(args: Subset<T, Chat_messagesAggregateArgs>): Prisma.PrismaPromise<GetChat_messagesAggregateType<T>>
+
+    /**
+     * Group by Chat_messages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chat_messagesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends chat_messagesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: chat_messagesGroupByArgs['orderBy'] }
+        : { orderBy?: chat_messagesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, chat_messagesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChat_messagesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the chat_messages model
+   */
+  readonly fields: chat_messagesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for chat_messages.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__chat_messagesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    chat_conversations<T extends chat_conversationsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, chat_conversationsDefaultArgs<ExtArgs>>): Prisma__chat_conversationsClient<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the chat_messages model
+   */
+  interface chat_messagesFieldRefs {
+    readonly id: FieldRef<"chat_messages", 'String'>
+    readonly conversation_id: FieldRef<"chat_messages", 'String'>
+    readonly sender_user_id: FieldRef<"chat_messages", 'String'>
+    readonly sender_role: FieldRef<"chat_messages", 'String'>
+    readonly body: FieldRef<"chat_messages", 'String'>
+    readonly read_at: FieldRef<"chat_messages", 'DateTime'>
+    readonly created_at: FieldRef<"chat_messages", 'DateTime'>
+    readonly updated_at: FieldRef<"chat_messages", 'DateTime'>
+    readonly deleted_at: FieldRef<"chat_messages", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * chat_messages findUnique
+   */
+  export type chat_messagesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_messages to fetch.
+     */
+    where: chat_messagesWhereUniqueInput
+  }
+
+  /**
+   * chat_messages findUniqueOrThrow
+   */
+  export type chat_messagesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_messages to fetch.
+     */
+    where: chat_messagesWhereUniqueInput
+  }
+
+  /**
+   * chat_messages findFirst
+   */
+  export type chat_messagesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_messages to fetch.
+     */
+    where?: chat_messagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of chat_messages to fetch.
+     */
+    orderBy?: chat_messagesOrderByWithRelationInput | chat_messagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for chat_messages.
+     */
+    cursor?: chat_messagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` chat_messages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` chat_messages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of chat_messages.
+     */
+    distinct?: Chat_messagesScalarFieldEnum | Chat_messagesScalarFieldEnum[]
+  }
+
+  /**
+   * chat_messages findFirstOrThrow
+   */
+  export type chat_messagesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_messages to fetch.
+     */
+    where?: chat_messagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of chat_messages to fetch.
+     */
+    orderBy?: chat_messagesOrderByWithRelationInput | chat_messagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for chat_messages.
+     */
+    cursor?: chat_messagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` chat_messages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` chat_messages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of chat_messages.
+     */
+    distinct?: Chat_messagesScalarFieldEnum | Chat_messagesScalarFieldEnum[]
+  }
+
+  /**
+   * chat_messages findMany
+   */
+  export type chat_messagesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    /**
+     * Filter, which chat_messages to fetch.
+     */
+    where?: chat_messagesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of chat_messages to fetch.
+     */
+    orderBy?: chat_messagesOrderByWithRelationInput | chat_messagesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing chat_messages.
+     */
+    cursor?: chat_messagesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` chat_messages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` chat_messages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of chat_messages.
+     */
+    distinct?: Chat_messagesScalarFieldEnum | Chat_messagesScalarFieldEnum[]
+  }
+
+  /**
+   * chat_messages create
+   */
+  export type chat_messagesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a chat_messages.
+     */
+    data: XOR<chat_messagesCreateInput, chat_messagesUncheckedCreateInput>
+  }
+
+  /**
+   * chat_messages createMany
+   */
+  export type chat_messagesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many chat_messages.
+     */
+    data: chat_messagesCreateManyInput | chat_messagesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * chat_messages createManyAndReturn
+   */
+  export type chat_messagesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * The data used to create many chat_messages.
+     */
+    data: chat_messagesCreateManyInput | chat_messagesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * chat_messages update
+   */
+  export type chat_messagesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a chat_messages.
+     */
+    data: XOR<chat_messagesUpdateInput, chat_messagesUncheckedUpdateInput>
+    /**
+     * Choose, which chat_messages to update.
+     */
+    where: chat_messagesWhereUniqueInput
+  }
+
+  /**
+   * chat_messages updateMany
+   */
+  export type chat_messagesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update chat_messages.
+     */
+    data: XOR<chat_messagesUpdateManyMutationInput, chat_messagesUncheckedUpdateManyInput>
+    /**
+     * Filter which chat_messages to update
+     */
+    where?: chat_messagesWhereInput
+    /**
+     * Limit how many chat_messages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * chat_messages updateManyAndReturn
+   */
+  export type chat_messagesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * The data used to update chat_messages.
+     */
+    data: XOR<chat_messagesUpdateManyMutationInput, chat_messagesUncheckedUpdateManyInput>
+    /**
+     * Filter which chat_messages to update
+     */
+    where?: chat_messagesWhereInput
+    /**
+     * Limit how many chat_messages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * chat_messages upsert
+   */
+  export type chat_messagesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the chat_messages to update in case it exists.
+     */
+    where: chat_messagesWhereUniqueInput
+    /**
+     * In case the chat_messages found by the `where` argument doesn't exist, create a new chat_messages with this data.
+     */
+    create: XOR<chat_messagesCreateInput, chat_messagesUncheckedCreateInput>
+    /**
+     * In case the chat_messages was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<chat_messagesUpdateInput, chat_messagesUncheckedUpdateInput>
+  }
+
+  /**
+   * chat_messages delete
+   */
+  export type chat_messagesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+    /**
+     * Filter which chat_messages to delete.
+     */
+    where: chat_messagesWhereUniqueInput
+  }
+
+  /**
+   * chat_messages deleteMany
+   */
+  export type chat_messagesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which chat_messages to delete
+     */
+    where?: chat_messagesWhereInput
+    /**
+     * Limit how many chat_messages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * chat_messages without action
+   */
+  export type chat_messagesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the chat_messages
+     */
+    select?: chat_messagesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the chat_messages
+     */
+    omit?: chat_messagesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: chat_messagesInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -39350,6 +42034,39 @@ export namespace Prisma {
   };
 
   export type Worker_skillsScalarFieldEnum = (typeof Worker_skillsScalarFieldEnum)[keyof typeof Worker_skillsScalarFieldEnum]
+
+
+  export const Chat_conversationsScalarFieldEnum: {
+    id: 'id',
+    shift_id: 'shift_id',
+    worker_profile_id: 'worker_profile_id',
+    business_profile_id: 'business_profile_id',
+    last_message_at: 'last_message_at',
+    last_message_text: 'last_message_text',
+    last_sender_role: 'last_sender_role',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    deleted_at: 'deleted_at',
+    created_by: 'created_by',
+    updated_by: 'updated_by'
+  };
+
+  export type Chat_conversationsScalarFieldEnum = (typeof Chat_conversationsScalarFieldEnum)[keyof typeof Chat_conversationsScalarFieldEnum]
+
+
+  export const Chat_messagesScalarFieldEnum: {
+    id: 'id',
+    conversation_id: 'conversation_id',
+    sender_user_id: 'sender_user_id',
+    sender_role: 'sender_role',
+    body: 'body',
+    read_at: 'read_at',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    deleted_at: 'deleted_at'
+  };
+
+  export type Chat_messagesScalarFieldEnum = (typeof Chat_messagesScalarFieldEnum)[keyof typeof Chat_messagesScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -40373,6 +43090,7 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"users"> | string | null
     updated_by?: UuidNullableFilter<"users"> | string | null
     business_profiles?: XOR<Business_profilesNullableScalarRelationFilter, business_profilesWhereInput> | null
+    chat_messages?: Chat_messagesListRelationFilter
     devices?: DevicesListRelationFilter
     disputes_disputes_against_userTousers?: DisputesListRelationFilter
     disputes_disputes_raised_byTousers?: DisputesListRelationFilter
@@ -40408,6 +43126,7 @@ export namespace Prisma {
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
     business_profiles?: business_profilesOrderByWithRelationInput
+    chat_messages?: chat_messagesOrderByRelationAggregateInput
     devices?: devicesOrderByRelationAggregateInput
     disputes_disputes_against_userTousers?: disputesOrderByRelationAggregateInput
     disputes_disputes_raised_byTousers?: disputesOrderByRelationAggregateInput
@@ -40446,6 +43165,7 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"users"> | string | null
     updated_by?: UuidNullableFilter<"users"> | string | null
     business_profiles?: XOR<Business_profilesNullableScalarRelationFilter, business_profilesWhereInput> | null
+    chat_messages?: Chat_messagesListRelationFilter
     devices?: DevicesListRelationFilter
     disputes_disputes_against_userTousers?: DisputesListRelationFilter
     disputes_disputes_raised_byTousers?: DisputesListRelationFilter
@@ -40864,6 +43584,7 @@ export namespace Prisma {
     business_favorite_workers?: Business_favorite_workersListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     zones?: XOR<ZonesNullableScalarRelationFilter, zonesWhereInput> | null
+    chat_conversations?: Chat_conversationsListRelationFilter
     shifts?: ShiftsListRelationFilter
   }
 
@@ -40899,6 +43620,7 @@ export namespace Prisma {
     business_favorite_workers?: business_favorite_workersOrderByRelationAggregateInput
     users?: usersOrderByWithRelationInput
     zones?: zonesOrderByWithRelationInput
+    chat_conversations?: chat_conversationsOrderByRelationAggregateInput
     shifts?: shiftsOrderByRelationAggregateInput
   }
 
@@ -40937,6 +43659,7 @@ export namespace Prisma {
     business_favorite_workers?: Business_favorite_workersListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     zones?: XOR<ZonesNullableScalarRelationFilter, zonesWhereInput> | null
+    chat_conversations?: Chat_conversationsListRelationFilter
     shifts?: ShiftsListRelationFilter
   }, "id" | "user_id">
 
@@ -41625,6 +44348,7 @@ export namespace Prisma {
     updated_by?: UuidNullableFilter<"shifts"> | string | null
     checkin_qr_token?: UuidFilter<"shifts"> | string
     applications?: ApplicationsListRelationFilter
+    chat_conversations?: Chat_conversationsListRelationFilter
     disputes?: DisputesListRelationFilter
     ratings?: RatingsListRelationFilter
     reports?: ReportsListRelationFilter
@@ -41666,6 +44390,7 @@ export namespace Prisma {
     updated_by?: SortOrderInput | SortOrder
     checkin_qr_token?: SortOrder
     applications?: applicationsOrderByRelationAggregateInput
+    chat_conversations?: chat_conversationsOrderByRelationAggregateInput
     disputes?: disputesOrderByRelationAggregateInput
     ratings?: ratingsOrderByRelationAggregateInput
     reports?: reportsOrderByRelationAggregateInput
@@ -41710,6 +44435,7 @@ export namespace Prisma {
     updated_by?: UuidNullableFilter<"shifts"> | string | null
     checkin_qr_token?: UuidFilter<"shifts"> | string
     applications?: ApplicationsListRelationFilter
+    chat_conversations?: Chat_conversationsListRelationFilter
     disputes?: DisputesListRelationFilter
     ratings?: RatingsListRelationFilter
     reports?: ReportsListRelationFilter
@@ -42319,6 +45045,7 @@ export namespace Prisma {
     profile_picture?: StringNullableFilter<"worker_profiles"> | string | null
     applications?: ApplicationsListRelationFilter
     business_favorite_workers?: Business_favorite_workersListRelationFilter
+    chat_conversations?: Chat_conversationsListRelationFilter
     worker_assignments?: Worker_assignmentsListRelationFilter
     worker_categories?: Worker_categoriesListRelationFilter
     worker_preferred_zones?: Worker_preferred_zonesListRelationFilter
@@ -42357,6 +45084,7 @@ export namespace Prisma {
     profile_picture?: SortOrderInput | SortOrder
     applications?: applicationsOrderByRelationAggregateInput
     business_favorite_workers?: business_favorite_workersOrderByRelationAggregateInput
+    chat_conversations?: chat_conversationsOrderByRelationAggregateInput
     worker_assignments?: worker_assignmentsOrderByRelationAggregateInput
     worker_categories?: worker_categoriesOrderByRelationAggregateInput
     worker_preferred_zones?: worker_preferred_zonesOrderByRelationAggregateInput
@@ -42398,6 +45126,7 @@ export namespace Prisma {
     profile_picture?: StringNullableFilter<"worker_profiles"> | string | null
     applications?: ApplicationsListRelationFilter
     business_favorite_workers?: Business_favorite_workersListRelationFilter
+    chat_conversations?: Chat_conversationsListRelationFilter
     worker_assignments?: Worker_assignmentsListRelationFilter
     worker_categories?: Worker_categoriesListRelationFilter
     worker_preferred_zones?: Worker_preferred_zonesListRelationFilter
@@ -42516,6 +45245,184 @@ export namespace Prisma {
     NOT?: worker_skillsScalarWhereWithAggregatesInput | worker_skillsScalarWhereWithAggregatesInput[]
     worker_profile_id?: UuidWithAggregatesFilter<"worker_skills"> | string
     skill_id?: UuidWithAggregatesFilter<"worker_skills"> | string
+  }
+
+  export type chat_conversationsWhereInput = {
+    AND?: chat_conversationsWhereInput | chat_conversationsWhereInput[]
+    OR?: chat_conversationsWhereInput[]
+    NOT?: chat_conversationsWhereInput | chat_conversationsWhereInput[]
+    id?: UuidFilter<"chat_conversations"> | string
+    shift_id?: UuidFilter<"chat_conversations"> | string
+    worker_profile_id?: UuidFilter<"chat_conversations"> | string
+    business_profile_id?: UuidFilter<"chat_conversations"> | string
+    last_message_at?: DateTimeNullableFilter<"chat_conversations"> | Date | string | null
+    last_message_text?: StringNullableFilter<"chat_conversations"> | string | null
+    last_sender_role?: StringNullableFilter<"chat_conversations"> | string | null
+    created_at?: DateTimeFilter<"chat_conversations"> | Date | string
+    updated_at?: DateTimeFilter<"chat_conversations"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"chat_conversations"> | Date | string | null
+    created_by?: UuidNullableFilter<"chat_conversations"> | string | null
+    updated_by?: UuidNullableFilter<"chat_conversations"> | string | null
+    business_profiles?: XOR<Business_profilesScalarRelationFilter, business_profilesWhereInput>
+    shifts?: XOR<ShiftsScalarRelationFilter, shiftsWhereInput>
+    worker_profiles?: XOR<Worker_profilesScalarRelationFilter, worker_profilesWhereInput>
+    chat_messages?: Chat_messagesListRelationFilter
+  }
+
+  export type chat_conversationsOrderByWithRelationInput = {
+    id?: SortOrder
+    shift_id?: SortOrder
+    worker_profile_id?: SortOrder
+    business_profile_id?: SortOrder
+    last_message_at?: SortOrderInput | SortOrder
+    last_message_text?: SortOrderInput | SortOrder
+    last_sender_role?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
+    created_by?: SortOrderInput | SortOrder
+    updated_by?: SortOrderInput | SortOrder
+    business_profiles?: business_profilesOrderByWithRelationInput
+    shifts?: shiftsOrderByWithRelationInput
+    worker_profiles?: worker_profilesOrderByWithRelationInput
+    chat_messages?: chat_messagesOrderByRelationAggregateInput
+  }
+
+  export type chat_conversationsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    shift_id_worker_profile_id?: chat_conversationsShift_idWorker_profile_idCompoundUniqueInput
+    AND?: chat_conversationsWhereInput | chat_conversationsWhereInput[]
+    OR?: chat_conversationsWhereInput[]
+    NOT?: chat_conversationsWhereInput | chat_conversationsWhereInput[]
+    shift_id?: UuidFilter<"chat_conversations"> | string
+    worker_profile_id?: UuidFilter<"chat_conversations"> | string
+    business_profile_id?: UuidFilter<"chat_conversations"> | string
+    last_message_at?: DateTimeNullableFilter<"chat_conversations"> | Date | string | null
+    last_message_text?: StringNullableFilter<"chat_conversations"> | string | null
+    last_sender_role?: StringNullableFilter<"chat_conversations"> | string | null
+    created_at?: DateTimeFilter<"chat_conversations"> | Date | string
+    updated_at?: DateTimeFilter<"chat_conversations"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"chat_conversations"> | Date | string | null
+    created_by?: UuidNullableFilter<"chat_conversations"> | string | null
+    updated_by?: UuidNullableFilter<"chat_conversations"> | string | null
+    business_profiles?: XOR<Business_profilesScalarRelationFilter, business_profilesWhereInput>
+    shifts?: XOR<ShiftsScalarRelationFilter, shiftsWhereInput>
+    worker_profiles?: XOR<Worker_profilesScalarRelationFilter, worker_profilesWhereInput>
+    chat_messages?: Chat_messagesListRelationFilter
+  }, "id" | "shift_id_worker_profile_id">
+
+  export type chat_conversationsOrderByWithAggregationInput = {
+    id?: SortOrder
+    shift_id?: SortOrder
+    worker_profile_id?: SortOrder
+    business_profile_id?: SortOrder
+    last_message_at?: SortOrderInput | SortOrder
+    last_message_text?: SortOrderInput | SortOrder
+    last_sender_role?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
+    created_by?: SortOrderInput | SortOrder
+    updated_by?: SortOrderInput | SortOrder
+    _count?: chat_conversationsCountOrderByAggregateInput
+    _max?: chat_conversationsMaxOrderByAggregateInput
+    _min?: chat_conversationsMinOrderByAggregateInput
+  }
+
+  export type chat_conversationsScalarWhereWithAggregatesInput = {
+    AND?: chat_conversationsScalarWhereWithAggregatesInput | chat_conversationsScalarWhereWithAggregatesInput[]
+    OR?: chat_conversationsScalarWhereWithAggregatesInput[]
+    NOT?: chat_conversationsScalarWhereWithAggregatesInput | chat_conversationsScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"chat_conversations"> | string
+    shift_id?: UuidWithAggregatesFilter<"chat_conversations"> | string
+    worker_profile_id?: UuidWithAggregatesFilter<"chat_conversations"> | string
+    business_profile_id?: UuidWithAggregatesFilter<"chat_conversations"> | string
+    last_message_at?: DateTimeNullableWithAggregatesFilter<"chat_conversations"> | Date | string | null
+    last_message_text?: StringNullableWithAggregatesFilter<"chat_conversations"> | string | null
+    last_sender_role?: StringNullableWithAggregatesFilter<"chat_conversations"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"chat_conversations"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"chat_conversations"> | Date | string
+    deleted_at?: DateTimeNullableWithAggregatesFilter<"chat_conversations"> | Date | string | null
+    created_by?: UuidNullableWithAggregatesFilter<"chat_conversations"> | string | null
+    updated_by?: UuidNullableWithAggregatesFilter<"chat_conversations"> | string | null
+  }
+
+  export type chat_messagesWhereInput = {
+    AND?: chat_messagesWhereInput | chat_messagesWhereInput[]
+    OR?: chat_messagesWhereInput[]
+    NOT?: chat_messagesWhereInput | chat_messagesWhereInput[]
+    id?: UuidFilter<"chat_messages"> | string
+    conversation_id?: UuidFilter<"chat_messages"> | string
+    sender_user_id?: UuidFilter<"chat_messages"> | string
+    sender_role?: StringFilter<"chat_messages"> | string
+    body?: StringFilter<"chat_messages"> | string
+    read_at?: DateTimeNullableFilter<"chat_messages"> | Date | string | null
+    created_at?: DateTimeFilter<"chat_messages"> | Date | string
+    updated_at?: DateTimeFilter<"chat_messages"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"chat_messages"> | Date | string | null
+    chat_conversations?: XOR<Chat_conversationsScalarRelationFilter, chat_conversationsWhereInput>
+    users?: XOR<UsersScalarRelationFilter, usersWhereInput>
+  }
+
+  export type chat_messagesOrderByWithRelationInput = {
+    id?: SortOrder
+    conversation_id?: SortOrder
+    sender_user_id?: SortOrder
+    sender_role?: SortOrder
+    body?: SortOrder
+    read_at?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
+    chat_conversations?: chat_conversationsOrderByWithRelationInput
+    users?: usersOrderByWithRelationInput
+  }
+
+  export type chat_messagesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: chat_messagesWhereInput | chat_messagesWhereInput[]
+    OR?: chat_messagesWhereInput[]
+    NOT?: chat_messagesWhereInput | chat_messagesWhereInput[]
+    conversation_id?: UuidFilter<"chat_messages"> | string
+    sender_user_id?: UuidFilter<"chat_messages"> | string
+    sender_role?: StringFilter<"chat_messages"> | string
+    body?: StringFilter<"chat_messages"> | string
+    read_at?: DateTimeNullableFilter<"chat_messages"> | Date | string | null
+    created_at?: DateTimeFilter<"chat_messages"> | Date | string
+    updated_at?: DateTimeFilter<"chat_messages"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"chat_messages"> | Date | string | null
+    chat_conversations?: XOR<Chat_conversationsScalarRelationFilter, chat_conversationsWhereInput>
+    users?: XOR<UsersScalarRelationFilter, usersWhereInput>
+  }, "id">
+
+  export type chat_messagesOrderByWithAggregationInput = {
+    id?: SortOrder
+    conversation_id?: SortOrder
+    sender_user_id?: SortOrder
+    sender_role?: SortOrder
+    body?: SortOrder
+    read_at?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
+    _count?: chat_messagesCountOrderByAggregateInput
+    _max?: chat_messagesMaxOrderByAggregateInput
+    _min?: chat_messagesMinOrderByAggregateInput
+  }
+
+  export type chat_messagesScalarWhereWithAggregatesInput = {
+    AND?: chat_messagesScalarWhereWithAggregatesInput | chat_messagesScalarWhereWithAggregatesInput[]
+    OR?: chat_messagesScalarWhereWithAggregatesInput[]
+    NOT?: chat_messagesScalarWhereWithAggregatesInput | chat_messagesScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"chat_messages"> | string
+    conversation_id?: UuidWithAggregatesFilter<"chat_messages"> | string
+    sender_user_id?: UuidWithAggregatesFilter<"chat_messages"> | string
+    sender_role?: StringWithAggregatesFilter<"chat_messages"> | string
+    body?: StringWithAggregatesFilter<"chat_messages"> | string
+    read_at?: DateTimeNullableWithAggregatesFilter<"chat_messages"> | Date | string | null
+    created_at?: DateTimeWithAggregatesFilter<"chat_messages"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"chat_messages"> | Date | string
+    deleted_at?: DateTimeNullableWithAggregatesFilter<"chat_messages"> | Date | string | null
   }
 
   export type categoriesCreateInput = {
@@ -43263,6 +46170,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -43298,6 +46206,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -43333,6 +46242,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -43368,6 +46278,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -43812,6 +46723,7 @@ export namespace Prisma {
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -43845,6 +46757,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -43878,6 +46791,7 @@ export namespace Prisma {
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -43911,6 +46825,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -44666,6 +47581,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -44707,6 +47623,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -44740,6 +47657,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -44781,6 +47699,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -45421,6 +48340,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesCreateNestedManyWithoutWorker_profilesInput
@@ -45459,6 +48379,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -45493,6 +48414,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUpdateManyWithoutWorker_profilesNestedInput
@@ -45531,6 +48453,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -45657,6 +48580,194 @@ export namespace Prisma {
   export type worker_skillsUncheckedUpdateManyInput = {
     worker_profile_id?: StringFieldUpdateOperationsInput | string
     skill_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type chat_conversationsCreateInput = {
+    id?: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles: business_profilesCreateNestedOneWithoutChat_conversationsInput
+    shifts: shiftsCreateNestedOneWithoutChat_conversationsInput
+    worker_profiles: worker_profilesCreateNestedOneWithoutChat_conversationsInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutChat_conversationsInput
+  }
+
+  export type chat_conversationsUncheckedCreateInput = {
+    id?: string
+    shift_id: string
+    worker_profile_id: string
+    business_profile_id: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutChat_conversationsInput
+  }
+
+  export type chat_conversationsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput
+    shifts?: shiftsUpdateOneRequiredWithoutChat_conversationsNestedInput
+    worker_profiles?: worker_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutChat_conversationsNestedInput
+  }
+
+  export type chat_conversationsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shift_id?: StringFieldUpdateOperationsInput | string
+    worker_profile_id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutChat_conversationsNestedInput
+  }
+
+  export type chat_conversationsCreateManyInput = {
+    id?: string
+    shift_id: string
+    worker_profile_id: string
+    business_profile_id: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type chat_conversationsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type chat_conversationsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shift_id?: StringFieldUpdateOperationsInput | string
+    worker_profile_id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type chat_messagesCreateInput = {
+    id?: string
+    sender_role: string
+    body: string
+    read_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    chat_conversations: chat_conversationsCreateNestedOneWithoutChat_messagesInput
+    users: usersCreateNestedOneWithoutChat_messagesInput
+  }
+
+  export type chat_messagesUncheckedCreateInput = {
+    id?: string
+    conversation_id: string
+    sender_user_id: string
+    sender_role: string
+    body: string
+    read_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type chat_messagesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    chat_conversations?: chat_conversationsUpdateOneRequiredWithoutChat_messagesNestedInput
+    users?: usersUpdateOneRequiredWithoutChat_messagesNestedInput
+  }
+
+  export type chat_messagesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversation_id?: StringFieldUpdateOperationsInput | string
+    sender_user_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type chat_messagesCreateManyInput = {
+    id?: string
+    conversation_id: string
+    sender_user_id: string
+    sender_role: string
+    body: string
+    read_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type chat_messagesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type chat_messagesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversation_id?: StringFieldUpdateOperationsInput | string
+    sender_user_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UuidFilter<$PrismaModel = never> = {
@@ -46346,6 +49457,12 @@ export namespace Prisma {
     isNot?: business_profilesWhereInput | null
   }
 
+  export type Chat_messagesListRelationFilter = {
+    every?: chat_messagesWhereInput
+    some?: chat_messagesWhereInput
+    none?: chat_messagesWhereInput
+  }
+
   export type DevicesListRelationFilter = {
     every?: devicesWhereInput
     some?: devicesWhereInput
@@ -46402,6 +49519,10 @@ export namespace Prisma {
   export type Worker_profilesNullableScalarRelationFilter = {
     is?: worker_profilesWhereInput | null
     isNot?: worker_profilesWhereInput | null
+  }
+
+  export type chat_messagesOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type devicesOrderByRelationAggregateInput = {
@@ -46744,7 +49865,17 @@ export namespace Prisma {
     none?: business_favorite_workersWhereInput
   }
 
+  export type Chat_conversationsListRelationFilter = {
+    every?: chat_conversationsWhereInput
+    some?: chat_conversationsWhereInput
+    none?: chat_conversationsWhereInput
+  }
+
   export type business_favorite_workersOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type chat_conversationsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -48021,6 +51152,97 @@ export namespace Prisma {
     skill_id?: SortOrder
   }
 
+  export type chat_conversationsShift_idWorker_profile_idCompoundUniqueInput = {
+    shift_id: string
+    worker_profile_id: string
+  }
+
+  export type chat_conversationsCountOrderByAggregateInput = {
+    id?: SortOrder
+    shift_id?: SortOrder
+    worker_profile_id?: SortOrder
+    business_profile_id?: SortOrder
+    last_message_at?: SortOrder
+    last_message_text?: SortOrder
+    last_sender_role?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrder
+    created_by?: SortOrder
+    updated_by?: SortOrder
+  }
+
+  export type chat_conversationsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shift_id?: SortOrder
+    worker_profile_id?: SortOrder
+    business_profile_id?: SortOrder
+    last_message_at?: SortOrder
+    last_message_text?: SortOrder
+    last_sender_role?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrder
+    created_by?: SortOrder
+    updated_by?: SortOrder
+  }
+
+  export type chat_conversationsMinOrderByAggregateInput = {
+    id?: SortOrder
+    shift_id?: SortOrder
+    worker_profile_id?: SortOrder
+    business_profile_id?: SortOrder
+    last_message_at?: SortOrder
+    last_message_text?: SortOrder
+    last_sender_role?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrder
+    created_by?: SortOrder
+    updated_by?: SortOrder
+  }
+
+  export type Chat_conversationsScalarRelationFilter = {
+    is?: chat_conversationsWhereInput
+    isNot?: chat_conversationsWhereInput
+  }
+
+  export type chat_messagesCountOrderByAggregateInput = {
+    id?: SortOrder
+    conversation_id?: SortOrder
+    sender_user_id?: SortOrder
+    sender_role?: SortOrder
+    body?: SortOrder
+    read_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrder
+  }
+
+  export type chat_messagesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    conversation_id?: SortOrder
+    sender_user_id?: SortOrder
+    sender_role?: SortOrder
+    body?: SortOrder
+    read_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrder
+  }
+
+  export type chat_messagesMinOrderByAggregateInput = {
+    id?: SortOrder
+    conversation_id?: SortOrder
+    sender_user_id?: SortOrder
+    sender_role?: SortOrder
+    body?: SortOrder
+    read_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrder
+  }
+
   export type shiftsCreateNestedManyWithoutCategoriesInput = {
     create?: XOR<shiftsCreateWithoutCategoriesInput, shiftsUncheckedCreateWithoutCategoriesInput> | shiftsCreateWithoutCategoriesInput[] | shiftsUncheckedCreateWithoutCategoriesInput[]
     connectOrCreate?: shiftsCreateOrConnectWithoutCategoriesInput | shiftsCreateOrConnectWithoutCategoriesInput[]
@@ -48441,6 +51663,13 @@ export namespace Prisma {
     connect?: business_profilesWhereUniqueInput
   }
 
+  export type chat_messagesCreateNestedManyWithoutUsersInput = {
+    create?: XOR<chat_messagesCreateWithoutUsersInput, chat_messagesUncheckedCreateWithoutUsersInput> | chat_messagesCreateWithoutUsersInput[] | chat_messagesUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: chat_messagesCreateOrConnectWithoutUsersInput | chat_messagesCreateOrConnectWithoutUsersInput[]
+    createMany?: chat_messagesCreateManyUsersInputEnvelope
+    connect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+  }
+
   export type devicesCreateNestedManyWithoutUsersInput = {
     create?: XOR<devicesCreateWithoutUsersInput, devicesUncheckedCreateWithoutUsersInput> | devicesCreateWithoutUsersInput[] | devicesUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: devicesCreateOrConnectWithoutUsersInput | devicesCreateOrConnectWithoutUsersInput[]
@@ -48569,6 +51798,13 @@ export namespace Prisma {
     create?: XOR<business_profilesCreateWithoutUsersInput, business_profilesUncheckedCreateWithoutUsersInput>
     connectOrCreate?: business_profilesCreateOrConnectWithoutUsersInput
     connect?: business_profilesWhereUniqueInput
+  }
+
+  export type chat_messagesUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<chat_messagesCreateWithoutUsersInput, chat_messagesUncheckedCreateWithoutUsersInput> | chat_messagesCreateWithoutUsersInput[] | chat_messagesUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: chat_messagesCreateOrConnectWithoutUsersInput | chat_messagesCreateOrConnectWithoutUsersInput[]
+    createMany?: chat_messagesCreateManyUsersInputEnvelope
+    connect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
   }
 
   export type devicesUncheckedCreateNestedManyWithoutUsersInput = {
@@ -48708,6 +51944,20 @@ export namespace Prisma {
     delete?: business_profilesWhereInput | boolean
     connect?: business_profilesWhereUniqueInput
     update?: XOR<XOR<business_profilesUpdateToOneWithWhereWithoutUsersInput, business_profilesUpdateWithoutUsersInput>, business_profilesUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type chat_messagesUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<chat_messagesCreateWithoutUsersInput, chat_messagesUncheckedCreateWithoutUsersInput> | chat_messagesCreateWithoutUsersInput[] | chat_messagesUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: chat_messagesCreateOrConnectWithoutUsersInput | chat_messagesCreateOrConnectWithoutUsersInput[]
+    upsert?: chat_messagesUpsertWithWhereUniqueWithoutUsersInput | chat_messagesUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: chat_messagesCreateManyUsersInputEnvelope
+    set?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    disconnect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    delete?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    connect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    update?: chat_messagesUpdateWithWhereUniqueWithoutUsersInput | chat_messagesUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: chat_messagesUpdateManyWithWhereWithoutUsersInput | chat_messagesUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: chat_messagesScalarWhereInput | chat_messagesScalarWhereInput[]
   }
 
   export type devicesUpdateManyWithoutUsersNestedInput = {
@@ -48962,6 +52212,20 @@ export namespace Prisma {
     delete?: business_profilesWhereInput | boolean
     connect?: business_profilesWhereUniqueInput
     update?: XOR<XOR<business_profilesUpdateToOneWithWhereWithoutUsersInput, business_profilesUpdateWithoutUsersInput>, business_profilesUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type chat_messagesUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<chat_messagesCreateWithoutUsersInput, chat_messagesUncheckedCreateWithoutUsersInput> | chat_messagesCreateWithoutUsersInput[] | chat_messagesUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: chat_messagesCreateOrConnectWithoutUsersInput | chat_messagesCreateOrConnectWithoutUsersInput[]
+    upsert?: chat_messagesUpsertWithWhereUniqueWithoutUsersInput | chat_messagesUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: chat_messagesCreateManyUsersInputEnvelope
+    set?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    disconnect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    delete?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    connect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    update?: chat_messagesUpdateWithWhereUniqueWithoutUsersInput | chat_messagesUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: chat_messagesUpdateManyWithWhereWithoutUsersInput | chat_messagesUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: chat_messagesScalarWhereInput | chat_messagesScalarWhereInput[]
   }
 
   export type devicesUncheckedUpdateManyWithoutUsersNestedInput = {
@@ -49590,6 +52854,13 @@ export namespace Prisma {
     connect?: zonesWhereUniqueInput
   }
 
+  export type chat_conversationsCreateNestedManyWithoutBusiness_profilesInput = {
+    create?: XOR<chat_conversationsCreateWithoutBusiness_profilesInput, chat_conversationsUncheckedCreateWithoutBusiness_profilesInput> | chat_conversationsCreateWithoutBusiness_profilesInput[] | chat_conversationsUncheckedCreateWithoutBusiness_profilesInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutBusiness_profilesInput | chat_conversationsCreateOrConnectWithoutBusiness_profilesInput[]
+    createMany?: chat_conversationsCreateManyBusiness_profilesInputEnvelope
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+  }
+
   export type shiftsCreateNestedManyWithoutBusiness_profilesInput = {
     create?: XOR<shiftsCreateWithoutBusiness_profilesInput, shiftsUncheckedCreateWithoutBusiness_profilesInput> | shiftsCreateWithoutBusiness_profilesInput[] | shiftsUncheckedCreateWithoutBusiness_profilesInput[]
     connectOrCreate?: shiftsCreateOrConnectWithoutBusiness_profilesInput | shiftsCreateOrConnectWithoutBusiness_profilesInput[]
@@ -49609,6 +52880,13 @@ export namespace Prisma {
     connectOrCreate?: business_favorite_workersCreateOrConnectWithoutBusiness_profilesInput | business_favorite_workersCreateOrConnectWithoutBusiness_profilesInput[]
     createMany?: business_favorite_workersCreateManyBusiness_profilesInputEnvelope
     connect?: business_favorite_workersWhereUniqueInput | business_favorite_workersWhereUniqueInput[]
+  }
+
+  export type chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput = {
+    create?: XOR<chat_conversationsCreateWithoutBusiness_profilesInput, chat_conversationsUncheckedCreateWithoutBusiness_profilesInput> | chat_conversationsCreateWithoutBusiness_profilesInput[] | chat_conversationsUncheckedCreateWithoutBusiness_profilesInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutBusiness_profilesInput | chat_conversationsCreateOrConnectWithoutBusiness_profilesInput[]
+    createMany?: chat_conversationsCreateManyBusiness_profilesInputEnvelope
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
   }
 
   export type shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput = {
@@ -49676,6 +52954,20 @@ export namespace Prisma {
     update?: XOR<XOR<zonesUpdateToOneWithWhereWithoutBusiness_profilesInput, zonesUpdateWithoutBusiness_profilesInput>, zonesUncheckedUpdateWithoutBusiness_profilesInput>
   }
 
+  export type chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput = {
+    create?: XOR<chat_conversationsCreateWithoutBusiness_profilesInput, chat_conversationsUncheckedCreateWithoutBusiness_profilesInput> | chat_conversationsCreateWithoutBusiness_profilesInput[] | chat_conversationsUncheckedCreateWithoutBusiness_profilesInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutBusiness_profilesInput | chat_conversationsCreateOrConnectWithoutBusiness_profilesInput[]
+    upsert?: chat_conversationsUpsertWithWhereUniqueWithoutBusiness_profilesInput | chat_conversationsUpsertWithWhereUniqueWithoutBusiness_profilesInput[]
+    createMany?: chat_conversationsCreateManyBusiness_profilesInputEnvelope
+    set?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    disconnect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    delete?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    update?: chat_conversationsUpdateWithWhereUniqueWithoutBusiness_profilesInput | chat_conversationsUpdateWithWhereUniqueWithoutBusiness_profilesInput[]
+    updateMany?: chat_conversationsUpdateManyWithWhereWithoutBusiness_profilesInput | chat_conversationsUpdateManyWithWhereWithoutBusiness_profilesInput[]
+    deleteMany?: chat_conversationsScalarWhereInput | chat_conversationsScalarWhereInput[]
+  }
+
   export type shiftsUpdateManyWithoutBusiness_profilesNestedInput = {
     create?: XOR<shiftsCreateWithoutBusiness_profilesInput, shiftsUncheckedCreateWithoutBusiness_profilesInput> | shiftsCreateWithoutBusiness_profilesInput[] | shiftsUncheckedCreateWithoutBusiness_profilesInput[]
     connectOrCreate?: shiftsCreateOrConnectWithoutBusiness_profilesInput | shiftsCreateOrConnectWithoutBusiness_profilesInput[]
@@ -49716,6 +53008,20 @@ export namespace Prisma {
     update?: business_favorite_workersUpdateWithWhereUniqueWithoutBusiness_profilesInput | business_favorite_workersUpdateWithWhereUniqueWithoutBusiness_profilesInput[]
     updateMany?: business_favorite_workersUpdateManyWithWhereWithoutBusiness_profilesInput | business_favorite_workersUpdateManyWithWhereWithoutBusiness_profilesInput[]
     deleteMany?: business_favorite_workersScalarWhereInput | business_favorite_workersScalarWhereInput[]
+  }
+
+  export type chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput = {
+    create?: XOR<chat_conversationsCreateWithoutBusiness_profilesInput, chat_conversationsUncheckedCreateWithoutBusiness_profilesInput> | chat_conversationsCreateWithoutBusiness_profilesInput[] | chat_conversationsUncheckedCreateWithoutBusiness_profilesInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutBusiness_profilesInput | chat_conversationsCreateOrConnectWithoutBusiness_profilesInput[]
+    upsert?: chat_conversationsUpsertWithWhereUniqueWithoutBusiness_profilesInput | chat_conversationsUpsertWithWhereUniqueWithoutBusiness_profilesInput[]
+    createMany?: chat_conversationsCreateManyBusiness_profilesInputEnvelope
+    set?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    disconnect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    delete?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    update?: chat_conversationsUpdateWithWhereUniqueWithoutBusiness_profilesInput | chat_conversationsUpdateWithWhereUniqueWithoutBusiness_profilesInput[]
+    updateMany?: chat_conversationsUpdateManyWithWhereWithoutBusiness_profilesInput | chat_conversationsUpdateManyWithWhereWithoutBusiness_profilesInput[]
+    deleteMany?: chat_conversationsScalarWhereInput | chat_conversationsScalarWhereInput[]
   }
 
   export type shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput = {
@@ -50074,6 +53380,13 @@ export namespace Prisma {
     connect?: applicationsWhereUniqueInput | applicationsWhereUniqueInput[]
   }
 
+  export type chat_conversationsCreateNestedManyWithoutShiftsInput = {
+    create?: XOR<chat_conversationsCreateWithoutShiftsInput, chat_conversationsUncheckedCreateWithoutShiftsInput> | chat_conversationsCreateWithoutShiftsInput[] | chat_conversationsUncheckedCreateWithoutShiftsInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutShiftsInput | chat_conversationsCreateOrConnectWithoutShiftsInput[]
+    createMany?: chat_conversationsCreateManyShiftsInputEnvelope
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+  }
+
   export type disputesCreateNestedManyWithoutShiftsInput = {
     create?: XOR<disputesCreateWithoutShiftsInput, disputesUncheckedCreateWithoutShiftsInput> | disputesCreateWithoutShiftsInput[] | disputesUncheckedCreateWithoutShiftsInput[]
     connectOrCreate?: disputesCreateOrConnectWithoutShiftsInput | disputesCreateOrConnectWithoutShiftsInput[]
@@ -50140,6 +53453,13 @@ export namespace Prisma {
     connect?: applicationsWhereUniqueInput | applicationsWhereUniqueInput[]
   }
 
+  export type chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput = {
+    create?: XOR<chat_conversationsCreateWithoutShiftsInput, chat_conversationsUncheckedCreateWithoutShiftsInput> | chat_conversationsCreateWithoutShiftsInput[] | chat_conversationsUncheckedCreateWithoutShiftsInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutShiftsInput | chat_conversationsCreateOrConnectWithoutShiftsInput[]
+    createMany?: chat_conversationsCreateManyShiftsInputEnvelope
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+  }
+
   export type disputesUncheckedCreateNestedManyWithoutShiftsInput = {
     create?: XOR<disputesCreateWithoutShiftsInput, disputesUncheckedCreateWithoutShiftsInput> | disputesCreateWithoutShiftsInput[] | disputesUncheckedCreateWithoutShiftsInput[]
     connectOrCreate?: disputesCreateOrConnectWithoutShiftsInput | disputesCreateOrConnectWithoutShiftsInput[]
@@ -50199,6 +53519,20 @@ export namespace Prisma {
     update?: applicationsUpdateWithWhereUniqueWithoutShiftsInput | applicationsUpdateWithWhereUniqueWithoutShiftsInput[]
     updateMany?: applicationsUpdateManyWithWhereWithoutShiftsInput | applicationsUpdateManyWithWhereWithoutShiftsInput[]
     deleteMany?: applicationsScalarWhereInput | applicationsScalarWhereInput[]
+  }
+
+  export type chat_conversationsUpdateManyWithoutShiftsNestedInput = {
+    create?: XOR<chat_conversationsCreateWithoutShiftsInput, chat_conversationsUncheckedCreateWithoutShiftsInput> | chat_conversationsCreateWithoutShiftsInput[] | chat_conversationsUncheckedCreateWithoutShiftsInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutShiftsInput | chat_conversationsCreateOrConnectWithoutShiftsInput[]
+    upsert?: chat_conversationsUpsertWithWhereUniqueWithoutShiftsInput | chat_conversationsUpsertWithWhereUniqueWithoutShiftsInput[]
+    createMany?: chat_conversationsCreateManyShiftsInputEnvelope
+    set?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    disconnect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    delete?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    update?: chat_conversationsUpdateWithWhereUniqueWithoutShiftsInput | chat_conversationsUpdateWithWhereUniqueWithoutShiftsInput[]
+    updateMany?: chat_conversationsUpdateManyWithWhereWithoutShiftsInput | chat_conversationsUpdateManyWithWhereWithoutShiftsInput[]
+    deleteMany?: chat_conversationsScalarWhereInput | chat_conversationsScalarWhereInput[]
   }
 
   export type disputesUpdateManyWithoutShiftsNestedInput = {
@@ -50319,6 +53653,20 @@ export namespace Prisma {
     update?: applicationsUpdateWithWhereUniqueWithoutShiftsInput | applicationsUpdateWithWhereUniqueWithoutShiftsInput[]
     updateMany?: applicationsUpdateManyWithWhereWithoutShiftsInput | applicationsUpdateManyWithWhereWithoutShiftsInput[]
     deleteMany?: applicationsScalarWhereInput | applicationsScalarWhereInput[]
+  }
+
+  export type chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput = {
+    create?: XOR<chat_conversationsCreateWithoutShiftsInput, chat_conversationsUncheckedCreateWithoutShiftsInput> | chat_conversationsCreateWithoutShiftsInput[] | chat_conversationsUncheckedCreateWithoutShiftsInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutShiftsInput | chat_conversationsCreateOrConnectWithoutShiftsInput[]
+    upsert?: chat_conversationsUpsertWithWhereUniqueWithoutShiftsInput | chat_conversationsUpsertWithWhereUniqueWithoutShiftsInput[]
+    createMany?: chat_conversationsCreateManyShiftsInputEnvelope
+    set?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    disconnect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    delete?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    update?: chat_conversationsUpdateWithWhereUniqueWithoutShiftsInput | chat_conversationsUpdateWithWhereUniqueWithoutShiftsInput[]
+    updateMany?: chat_conversationsUpdateManyWithWhereWithoutShiftsInput | chat_conversationsUpdateManyWithWhereWithoutShiftsInput[]
+    deleteMany?: chat_conversationsScalarWhereInput | chat_conversationsScalarWhereInput[]
   }
 
   export type disputesUncheckedUpdateManyWithoutShiftsNestedInput = {
@@ -50779,6 +54127,13 @@ export namespace Prisma {
     connect?: business_favorite_workersWhereUniqueInput | business_favorite_workersWhereUniqueInput[]
   }
 
+  export type chat_conversationsCreateNestedManyWithoutWorker_profilesInput = {
+    create?: XOR<chat_conversationsCreateWithoutWorker_profilesInput, chat_conversationsUncheckedCreateWithoutWorker_profilesInput> | chat_conversationsCreateWithoutWorker_profilesInput[] | chat_conversationsUncheckedCreateWithoutWorker_profilesInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutWorker_profilesInput | chat_conversationsCreateOrConnectWithoutWorker_profilesInput[]
+    createMany?: chat_conversationsCreateManyWorker_profilesInputEnvelope
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+  }
+
   export type worker_assignmentsCreateNestedManyWithoutWorker_profilesInput = {
     create?: XOR<worker_assignmentsCreateWithoutWorker_profilesInput, worker_assignmentsUncheckedCreateWithoutWorker_profilesInput> | worker_assignmentsCreateWithoutWorker_profilesInput[] | worker_assignmentsUncheckedCreateWithoutWorker_profilesInput[]
     connectOrCreate?: worker_assignmentsCreateOrConnectWithoutWorker_profilesInput | worker_assignmentsCreateOrConnectWithoutWorker_profilesInput[]
@@ -50831,6 +54186,13 @@ export namespace Prisma {
     connectOrCreate?: business_favorite_workersCreateOrConnectWithoutWorker_profilesInput | business_favorite_workersCreateOrConnectWithoutWorker_profilesInput[]
     createMany?: business_favorite_workersCreateManyWorker_profilesInputEnvelope
     connect?: business_favorite_workersWhereUniqueInput | business_favorite_workersWhereUniqueInput[]
+  }
+
+  export type chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput = {
+    create?: XOR<chat_conversationsCreateWithoutWorker_profilesInput, chat_conversationsUncheckedCreateWithoutWorker_profilesInput> | chat_conversationsCreateWithoutWorker_profilesInput[] | chat_conversationsUncheckedCreateWithoutWorker_profilesInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutWorker_profilesInput | chat_conversationsCreateOrConnectWithoutWorker_profilesInput[]
+    createMany?: chat_conversationsCreateManyWorker_profilesInputEnvelope
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
   }
 
   export type worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput = {
@@ -50897,6 +54259,20 @@ export namespace Prisma {
     update?: business_favorite_workersUpdateWithWhereUniqueWithoutWorker_profilesInput | business_favorite_workersUpdateWithWhereUniqueWithoutWorker_profilesInput[]
     updateMany?: business_favorite_workersUpdateManyWithWhereWithoutWorker_profilesInput | business_favorite_workersUpdateManyWithWhereWithoutWorker_profilesInput[]
     deleteMany?: business_favorite_workersScalarWhereInput | business_favorite_workersScalarWhereInput[]
+  }
+
+  export type chat_conversationsUpdateManyWithoutWorker_profilesNestedInput = {
+    create?: XOR<chat_conversationsCreateWithoutWorker_profilesInput, chat_conversationsUncheckedCreateWithoutWorker_profilesInput> | chat_conversationsCreateWithoutWorker_profilesInput[] | chat_conversationsUncheckedCreateWithoutWorker_profilesInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutWorker_profilesInput | chat_conversationsCreateOrConnectWithoutWorker_profilesInput[]
+    upsert?: chat_conversationsUpsertWithWhereUniqueWithoutWorker_profilesInput | chat_conversationsUpsertWithWhereUniqueWithoutWorker_profilesInput[]
+    createMany?: chat_conversationsCreateManyWorker_profilesInputEnvelope
+    set?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    disconnect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    delete?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    update?: chat_conversationsUpdateWithWhereUniqueWithoutWorker_profilesInput | chat_conversationsUpdateWithWhereUniqueWithoutWorker_profilesInput[]
+    updateMany?: chat_conversationsUpdateManyWithWhereWithoutWorker_profilesInput | chat_conversationsUpdateManyWithWhereWithoutWorker_profilesInput[]
+    deleteMany?: chat_conversationsScalarWhereInput | chat_conversationsScalarWhereInput[]
   }
 
   export type worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput = {
@@ -51001,6 +54377,20 @@ export namespace Prisma {
     deleteMany?: business_favorite_workersScalarWhereInput | business_favorite_workersScalarWhereInput[]
   }
 
+  export type chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput = {
+    create?: XOR<chat_conversationsCreateWithoutWorker_profilesInput, chat_conversationsUncheckedCreateWithoutWorker_profilesInput> | chat_conversationsCreateWithoutWorker_profilesInput[] | chat_conversationsUncheckedCreateWithoutWorker_profilesInput[]
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutWorker_profilesInput | chat_conversationsCreateOrConnectWithoutWorker_profilesInput[]
+    upsert?: chat_conversationsUpsertWithWhereUniqueWithoutWorker_profilesInput | chat_conversationsUpsertWithWhereUniqueWithoutWorker_profilesInput[]
+    createMany?: chat_conversationsCreateManyWorker_profilesInputEnvelope
+    set?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    disconnect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    delete?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    connect?: chat_conversationsWhereUniqueInput | chat_conversationsWhereUniqueInput[]
+    update?: chat_conversationsUpdateWithWhereUniqueWithoutWorker_profilesInput | chat_conversationsUpdateWithWhereUniqueWithoutWorker_profilesInput[]
+    updateMany?: chat_conversationsUpdateManyWithWhereWithoutWorker_profilesInput | chat_conversationsUpdateManyWithWhereWithoutWorker_profilesInput[]
+    deleteMany?: chat_conversationsScalarWhereInput | chat_conversationsScalarWhereInput[]
+  }
+
   export type worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput = {
     create?: XOR<worker_assignmentsCreateWithoutWorker_profilesInput, worker_assignmentsUncheckedCreateWithoutWorker_profilesInput> | worker_assignmentsCreateWithoutWorker_profilesInput[] | worker_assignmentsUncheckedCreateWithoutWorker_profilesInput[]
     connectOrCreate?: worker_assignmentsCreateOrConnectWithoutWorker_profilesInput | worker_assignmentsCreateOrConnectWithoutWorker_profilesInput[]
@@ -51083,6 +54473,118 @@ export namespace Prisma {
     upsert?: worker_profilesUpsertWithoutWorker_skillsInput
     connect?: worker_profilesWhereUniqueInput
     update?: XOR<XOR<worker_profilesUpdateToOneWithWhereWithoutWorker_skillsInput, worker_profilesUpdateWithoutWorker_skillsInput>, worker_profilesUncheckedUpdateWithoutWorker_skillsInput>
+  }
+
+  export type business_profilesCreateNestedOneWithoutChat_conversationsInput = {
+    create?: XOR<business_profilesCreateWithoutChat_conversationsInput, business_profilesUncheckedCreateWithoutChat_conversationsInput>
+    connectOrCreate?: business_profilesCreateOrConnectWithoutChat_conversationsInput
+    connect?: business_profilesWhereUniqueInput
+  }
+
+  export type shiftsCreateNestedOneWithoutChat_conversationsInput = {
+    create?: XOR<shiftsCreateWithoutChat_conversationsInput, shiftsUncheckedCreateWithoutChat_conversationsInput>
+    connectOrCreate?: shiftsCreateOrConnectWithoutChat_conversationsInput
+    connect?: shiftsWhereUniqueInput
+  }
+
+  export type worker_profilesCreateNestedOneWithoutChat_conversationsInput = {
+    create?: XOR<worker_profilesCreateWithoutChat_conversationsInput, worker_profilesUncheckedCreateWithoutChat_conversationsInput>
+    connectOrCreate?: worker_profilesCreateOrConnectWithoutChat_conversationsInput
+    connect?: worker_profilesWhereUniqueInput
+  }
+
+  export type chat_messagesCreateNestedManyWithoutChat_conversationsInput = {
+    create?: XOR<chat_messagesCreateWithoutChat_conversationsInput, chat_messagesUncheckedCreateWithoutChat_conversationsInput> | chat_messagesCreateWithoutChat_conversationsInput[] | chat_messagesUncheckedCreateWithoutChat_conversationsInput[]
+    connectOrCreate?: chat_messagesCreateOrConnectWithoutChat_conversationsInput | chat_messagesCreateOrConnectWithoutChat_conversationsInput[]
+    createMany?: chat_messagesCreateManyChat_conversationsInputEnvelope
+    connect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+  }
+
+  export type chat_messagesUncheckedCreateNestedManyWithoutChat_conversationsInput = {
+    create?: XOR<chat_messagesCreateWithoutChat_conversationsInput, chat_messagesUncheckedCreateWithoutChat_conversationsInput> | chat_messagesCreateWithoutChat_conversationsInput[] | chat_messagesUncheckedCreateWithoutChat_conversationsInput[]
+    connectOrCreate?: chat_messagesCreateOrConnectWithoutChat_conversationsInput | chat_messagesCreateOrConnectWithoutChat_conversationsInput[]
+    createMany?: chat_messagesCreateManyChat_conversationsInputEnvelope
+    connect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+  }
+
+  export type business_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput = {
+    create?: XOR<business_profilesCreateWithoutChat_conversationsInput, business_profilesUncheckedCreateWithoutChat_conversationsInput>
+    connectOrCreate?: business_profilesCreateOrConnectWithoutChat_conversationsInput
+    upsert?: business_profilesUpsertWithoutChat_conversationsInput
+    connect?: business_profilesWhereUniqueInput
+    update?: XOR<XOR<business_profilesUpdateToOneWithWhereWithoutChat_conversationsInput, business_profilesUpdateWithoutChat_conversationsInput>, business_profilesUncheckedUpdateWithoutChat_conversationsInput>
+  }
+
+  export type shiftsUpdateOneRequiredWithoutChat_conversationsNestedInput = {
+    create?: XOR<shiftsCreateWithoutChat_conversationsInput, shiftsUncheckedCreateWithoutChat_conversationsInput>
+    connectOrCreate?: shiftsCreateOrConnectWithoutChat_conversationsInput
+    upsert?: shiftsUpsertWithoutChat_conversationsInput
+    connect?: shiftsWhereUniqueInput
+    update?: XOR<XOR<shiftsUpdateToOneWithWhereWithoutChat_conversationsInput, shiftsUpdateWithoutChat_conversationsInput>, shiftsUncheckedUpdateWithoutChat_conversationsInput>
+  }
+
+  export type worker_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput = {
+    create?: XOR<worker_profilesCreateWithoutChat_conversationsInput, worker_profilesUncheckedCreateWithoutChat_conversationsInput>
+    connectOrCreate?: worker_profilesCreateOrConnectWithoutChat_conversationsInput
+    upsert?: worker_profilesUpsertWithoutChat_conversationsInput
+    connect?: worker_profilesWhereUniqueInput
+    update?: XOR<XOR<worker_profilesUpdateToOneWithWhereWithoutChat_conversationsInput, worker_profilesUpdateWithoutChat_conversationsInput>, worker_profilesUncheckedUpdateWithoutChat_conversationsInput>
+  }
+
+  export type chat_messagesUpdateManyWithoutChat_conversationsNestedInput = {
+    create?: XOR<chat_messagesCreateWithoutChat_conversationsInput, chat_messagesUncheckedCreateWithoutChat_conversationsInput> | chat_messagesCreateWithoutChat_conversationsInput[] | chat_messagesUncheckedCreateWithoutChat_conversationsInput[]
+    connectOrCreate?: chat_messagesCreateOrConnectWithoutChat_conversationsInput | chat_messagesCreateOrConnectWithoutChat_conversationsInput[]
+    upsert?: chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput | chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput[]
+    createMany?: chat_messagesCreateManyChat_conversationsInputEnvelope
+    set?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    disconnect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    delete?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    connect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    update?: chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput | chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput[]
+    updateMany?: chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput | chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput[]
+    deleteMany?: chat_messagesScalarWhereInput | chat_messagesScalarWhereInput[]
+  }
+
+  export type chat_messagesUncheckedUpdateManyWithoutChat_conversationsNestedInput = {
+    create?: XOR<chat_messagesCreateWithoutChat_conversationsInput, chat_messagesUncheckedCreateWithoutChat_conversationsInput> | chat_messagesCreateWithoutChat_conversationsInput[] | chat_messagesUncheckedCreateWithoutChat_conversationsInput[]
+    connectOrCreate?: chat_messagesCreateOrConnectWithoutChat_conversationsInput | chat_messagesCreateOrConnectWithoutChat_conversationsInput[]
+    upsert?: chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput | chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput[]
+    createMany?: chat_messagesCreateManyChat_conversationsInputEnvelope
+    set?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    disconnect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    delete?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    connect?: chat_messagesWhereUniqueInput | chat_messagesWhereUniqueInput[]
+    update?: chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput | chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput[]
+    updateMany?: chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput | chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput[]
+    deleteMany?: chat_messagesScalarWhereInput | chat_messagesScalarWhereInput[]
+  }
+
+  export type chat_conversationsCreateNestedOneWithoutChat_messagesInput = {
+    create?: XOR<chat_conversationsCreateWithoutChat_messagesInput, chat_conversationsUncheckedCreateWithoutChat_messagesInput>
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutChat_messagesInput
+    connect?: chat_conversationsWhereUniqueInput
+  }
+
+  export type usersCreateNestedOneWithoutChat_messagesInput = {
+    create?: XOR<usersCreateWithoutChat_messagesInput, usersUncheckedCreateWithoutChat_messagesInput>
+    connectOrCreate?: usersCreateOrConnectWithoutChat_messagesInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type chat_conversationsUpdateOneRequiredWithoutChat_messagesNestedInput = {
+    create?: XOR<chat_conversationsCreateWithoutChat_messagesInput, chat_conversationsUncheckedCreateWithoutChat_messagesInput>
+    connectOrCreate?: chat_conversationsCreateOrConnectWithoutChat_messagesInput
+    upsert?: chat_conversationsUpsertWithoutChat_messagesInput
+    connect?: chat_conversationsWhereUniqueInput
+    update?: XOR<XOR<chat_conversationsUpdateToOneWithWhereWithoutChat_messagesInput, chat_conversationsUpdateWithoutChat_messagesInput>, chat_conversationsUncheckedUpdateWithoutChat_messagesInput>
+  }
+
+  export type usersUpdateOneRequiredWithoutChat_messagesNestedInput = {
+    create?: XOR<usersCreateWithoutChat_messagesInput, usersUncheckedCreateWithoutChat_messagesInput>
+    connectOrCreate?: usersCreateOrConnectWithoutChat_messagesInput
+    upsert?: usersUpsertWithoutChat_messagesInput
+    connect?: usersWhereUniqueInput
+    update?: XOR<XOR<usersUpdateToOneWithWhereWithoutChat_messagesInput, usersUpdateWithoutChat_messagesInput>, usersUncheckedUpdateWithoutChat_messagesInput>
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -51711,6 +55213,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -51750,6 +55253,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -51952,6 +55456,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesCreateNestedManyWithoutWorker_profilesInput
@@ -51988,6 +55493,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -52139,6 +55645,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -52173,6 +55680,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -52223,6 +55731,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -52257,6 +55766,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -52326,6 +55836,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -52360,6 +55871,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -52451,6 +55963,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -52485,6 +55998,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -52555,6 +56069,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -52589,6 +56104,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -52672,6 +56188,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -52706,6 +56223,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -52868,6 +56386,7 @@ export namespace Prisma {
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -52900,12 +56419,45 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
 
   export type business_profilesCreateOrConnectWithoutUsersInput = {
     where: business_profilesWhereUniqueInput
     create: XOR<business_profilesCreateWithoutUsersInput, business_profilesUncheckedCreateWithoutUsersInput>
+  }
+
+  export type chat_messagesCreateWithoutUsersInput = {
+    id?: string
+    sender_role: string
+    body: string
+    read_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    chat_conversations: chat_conversationsCreateNestedOneWithoutChat_messagesInput
+  }
+
+  export type chat_messagesUncheckedCreateWithoutUsersInput = {
+    id?: string
+    conversation_id: string
+    sender_role: string
+    body: string
+    read_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type chat_messagesCreateOrConnectWithoutUsersInput = {
+    where: chat_messagesWhereUniqueInput
+    create: XOR<chat_messagesCreateWithoutUsersInput, chat_messagesUncheckedCreateWithoutUsersInput>
+  }
+
+  export type chat_messagesCreateManyUsersInputEnvelope = {
+    data: chat_messagesCreateManyUsersInput | chat_messagesCreateManyUsersInput[]
+    skipDuplicates?: boolean
   }
 
   export type devicesCreateWithoutUsersInput = {
@@ -53661,6 +57213,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesCreateNestedManyWithoutWorker_profilesInput
@@ -53697,6 +57250,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -53748,6 +57302,7 @@ export namespace Prisma {
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -53780,7 +57335,39 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+  }
+
+  export type chat_messagesUpsertWithWhereUniqueWithoutUsersInput = {
+    where: chat_messagesWhereUniqueInput
+    update: XOR<chat_messagesUpdateWithoutUsersInput, chat_messagesUncheckedUpdateWithoutUsersInput>
+    create: XOR<chat_messagesCreateWithoutUsersInput, chat_messagesUncheckedCreateWithoutUsersInput>
+  }
+
+  export type chat_messagesUpdateWithWhereUniqueWithoutUsersInput = {
+    where: chat_messagesWhereUniqueInput
+    data: XOR<chat_messagesUpdateWithoutUsersInput, chat_messagesUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type chat_messagesUpdateManyWithWhereWithoutUsersInput = {
+    where: chat_messagesScalarWhereInput
+    data: XOR<chat_messagesUpdateManyMutationInput, chat_messagesUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type chat_messagesScalarWhereInput = {
+    AND?: chat_messagesScalarWhereInput | chat_messagesScalarWhereInput[]
+    OR?: chat_messagesScalarWhereInput[]
+    NOT?: chat_messagesScalarWhereInput | chat_messagesScalarWhereInput[]
+    id?: UuidFilter<"chat_messages"> | string
+    conversation_id?: UuidFilter<"chat_messages"> | string
+    sender_user_id?: UuidFilter<"chat_messages"> | string
+    sender_role?: StringFilter<"chat_messages"> | string
+    body?: StringFilter<"chat_messages"> | string
+    read_at?: DateTimeNullableFilter<"chat_messages"> | Date | string | null
+    created_at?: DateTimeFilter<"chat_messages"> | Date | string
+    updated_at?: DateTimeFilter<"chat_messages"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"chat_messages"> | Date | string | null
   }
 
   export type devicesUpsertWithWhereUniqueWithoutUsersInput = {
@@ -54282,6 +57869,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUpdateManyWithoutWorker_profilesNestedInput
@@ -54318,6 +57906,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -54393,6 +57982,7 @@ export namespace Prisma {
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -54425,6 +58015,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -54464,6 +58055,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -54503,6 +58095,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -54750,6 +58343,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -54790,6 +58384,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -54829,6 +58424,7 @@ export namespace Prisma {
     full_name?: string | null
     profile_picture?: string | null
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesCreateNestedManyWithoutWorker_profilesInput
@@ -54866,6 +58462,7 @@ export namespace Prisma {
     full_name?: string | null
     profile_picture?: string | null
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -54957,6 +58554,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -54997,6 +58595,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -55042,6 +58641,7 @@ export namespace Prisma {
     full_name?: NullableStringFieldUpdateOperationsInput | string | null
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUpdateManyWithoutWorker_profilesNestedInput
@@ -55079,6 +58679,7 @@ export namespace Prisma {
     full_name?: NullableStringFieldUpdateOperationsInput | string | null
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -55149,6 +58750,7 @@ export namespace Prisma {
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -55181,6 +58783,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -55250,6 +58853,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -55289,6 +58893,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -55346,6 +58951,7 @@ export namespace Prisma {
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -55378,6 +58984,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -55467,6 +59074,7 @@ export namespace Prisma {
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -55499,6 +59107,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -55534,6 +59143,7 @@ export namespace Prisma {
     full_name?: string | null
     profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesCreateNestedManyWithoutWorker_profilesInput
@@ -55571,6 +59181,7 @@ export namespace Prisma {
     full_name?: string | null
     profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -55622,6 +59233,7 @@ export namespace Prisma {
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -55654,6 +59266,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -55695,6 +59308,7 @@ export namespace Prisma {
     full_name?: NullableStringFieldUpdateOperationsInput | string | null
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUpdateManyWithoutWorker_profilesNestedInput
@@ -55732,6 +59346,7 @@ export namespace Prisma {
     full_name?: NullableStringFieldUpdateOperationsInput | string | null
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -55812,6 +59427,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -55846,6 +59462,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -55906,6 +59523,46 @@ export namespace Prisma {
     create: XOR<zonesCreateWithoutBusiness_profilesInput, zonesUncheckedCreateWithoutBusiness_profilesInput>
   }
 
+  export type chat_conversationsCreateWithoutBusiness_profilesInput = {
+    id?: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    shifts: shiftsCreateNestedOneWithoutChat_conversationsInput
+    worker_profiles: worker_profilesCreateNestedOneWithoutChat_conversationsInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutChat_conversationsInput
+  }
+
+  export type chat_conversationsUncheckedCreateWithoutBusiness_profilesInput = {
+    id?: string
+    shift_id: string
+    worker_profile_id: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutChat_conversationsInput
+  }
+
+  export type chat_conversationsCreateOrConnectWithoutBusiness_profilesInput = {
+    where: chat_conversationsWhereUniqueInput
+    create: XOR<chat_conversationsCreateWithoutBusiness_profilesInput, chat_conversationsUncheckedCreateWithoutBusiness_profilesInput>
+  }
+
+  export type chat_conversationsCreateManyBusiness_profilesInputEnvelope = {
+    data: chat_conversationsCreateManyBusiness_profilesInput | chat_conversationsCreateManyBusiness_profilesInput[]
+    skipDuplicates?: boolean
+  }
+
   export type shiftsCreateWithoutBusiness_profilesInput = {
     id?: string
     title: string
@@ -55932,6 +59589,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -55971,6 +59629,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -56054,6 +59713,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -56088,6 +59748,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -56149,6 +59810,40 @@ export namespace Prisma {
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutZonesNestedInput
   }
 
+  export type chat_conversationsUpsertWithWhereUniqueWithoutBusiness_profilesInput = {
+    where: chat_conversationsWhereUniqueInput
+    update: XOR<chat_conversationsUpdateWithoutBusiness_profilesInput, chat_conversationsUncheckedUpdateWithoutBusiness_profilesInput>
+    create: XOR<chat_conversationsCreateWithoutBusiness_profilesInput, chat_conversationsUncheckedCreateWithoutBusiness_profilesInput>
+  }
+
+  export type chat_conversationsUpdateWithWhereUniqueWithoutBusiness_profilesInput = {
+    where: chat_conversationsWhereUniqueInput
+    data: XOR<chat_conversationsUpdateWithoutBusiness_profilesInput, chat_conversationsUncheckedUpdateWithoutBusiness_profilesInput>
+  }
+
+  export type chat_conversationsUpdateManyWithWhereWithoutBusiness_profilesInput = {
+    where: chat_conversationsScalarWhereInput
+    data: XOR<chat_conversationsUpdateManyMutationInput, chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesInput>
+  }
+
+  export type chat_conversationsScalarWhereInput = {
+    AND?: chat_conversationsScalarWhereInput | chat_conversationsScalarWhereInput[]
+    OR?: chat_conversationsScalarWhereInput[]
+    NOT?: chat_conversationsScalarWhereInput | chat_conversationsScalarWhereInput[]
+    id?: UuidFilter<"chat_conversations"> | string
+    shift_id?: UuidFilter<"chat_conversations"> | string
+    worker_profile_id?: UuidFilter<"chat_conversations"> | string
+    business_profile_id?: UuidFilter<"chat_conversations"> | string
+    last_message_at?: DateTimeNullableFilter<"chat_conversations"> | Date | string | null
+    last_message_text?: StringNullableFilter<"chat_conversations"> | string | null
+    last_sender_role?: StringNullableFilter<"chat_conversations"> | string | null
+    created_at?: DateTimeFilter<"chat_conversations"> | Date | string
+    updated_at?: DateTimeFilter<"chat_conversations"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"chat_conversations"> | Date | string | null
+    created_by?: UuidNullableFilter<"chat_conversations"> | string | null
+    updated_by?: UuidNullableFilter<"chat_conversations"> | string | null
+  }
+
   export type shiftsUpsertWithWhereUniqueWithoutBusiness_profilesInput = {
     where: shiftsWhereUniqueInput
     update: XOR<shiftsUpdateWithoutBusiness_profilesInput, shiftsUncheckedUpdateWithoutBusiness_profilesInput>
@@ -56180,6 +59875,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -56214,6 +59910,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -56253,6 +59950,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -56287,6 +59985,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -56367,6 +60066,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -56401,6 +60101,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -56451,6 +60152,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
     business_branches?: business_branchesCreateNestedOneWithoutShiftsInput
@@ -56491,6 +60193,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
     transactions?: transactionsUncheckedCreateNestedManyWithoutShiftsInput
@@ -56528,6 +60231,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -56562,6 +60266,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -56607,6 +60312,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -56641,6 +60347,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -56733,6 +60440,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -56767,6 +60475,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -56823,6 +60532,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
     business_branches?: business_branchesUpdateOneWithoutShiftsNestedInput
@@ -56863,6 +60573,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
     transactions?: transactionsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -56884,6 +60595,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -56918,6 +60630,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -56968,6 +60681,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57002,6 +60716,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57036,6 +60751,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -57070,6 +60786,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -57109,6 +60826,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -57143,6 +60861,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -57228,6 +60947,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57262,6 +60982,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57307,6 +61028,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57341,6 +61063,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57455,6 +61178,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -57489,6 +61213,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -57528,6 +61253,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -57562,6 +61288,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -57612,6 +61339,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
     business_branches?: business_branchesCreateNestedOneWithoutShiftsInput
@@ -57652,6 +61380,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
     transactions?: transactionsUncheckedCreateNestedManyWithoutShiftsInput
@@ -57734,6 +61463,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57768,6 +61498,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57813,6 +61544,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57847,6 +61579,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -57903,6 +61636,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
     business_branches?: business_branchesUpdateOneWithoutShiftsNestedInput
@@ -57943,6 +61677,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
     transactions?: transactionsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -58006,6 +61741,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -58040,6 +61776,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -58079,6 +61816,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -58113,6 +61851,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -58152,6 +61891,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -58186,6 +61926,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -58236,6 +61977,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     business_branches?: business_branchesCreateNestedOneWithoutShiftsInput
@@ -58276,6 +62018,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     transactions?: transactionsUncheckedCreateNestedManyWithoutShiftsInput
@@ -58329,6 +62072,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -58363,6 +62107,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -58408,6 +62153,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -58442,6 +62188,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -58487,6 +62234,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -58521,6 +62269,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -58577,6 +62326,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     business_branches?: business_branchesUpdateOneWithoutShiftsNestedInput
@@ -58617,6 +62367,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     transactions?: transactionsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -58658,6 +62409,46 @@ export namespace Prisma {
 
   export type applicationsCreateManyShiftsInputEnvelope = {
     data: applicationsCreateManyShiftsInput | applicationsCreateManyShiftsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type chat_conversationsCreateWithoutShiftsInput = {
+    id?: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles: business_profilesCreateNestedOneWithoutChat_conversationsInput
+    worker_profiles: worker_profilesCreateNestedOneWithoutChat_conversationsInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutChat_conversationsInput
+  }
+
+  export type chat_conversationsUncheckedCreateWithoutShiftsInput = {
+    id?: string
+    worker_profile_id: string
+    business_profile_id: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutChat_conversationsInput
+  }
+
+  export type chat_conversationsCreateOrConnectWithoutShiftsInput = {
+    where: chat_conversationsWhereUniqueInput
+    create: XOR<chat_conversationsCreateWithoutShiftsInput, chat_conversationsUncheckedCreateWithoutShiftsInput>
+  }
+
+  export type chat_conversationsCreateManyShiftsInputEnvelope = {
+    data: chat_conversationsCreateManyShiftsInput | chat_conversationsCreateManyShiftsInput[]
     skipDuplicates?: boolean
   }
 
@@ -58860,6 +62651,7 @@ export namespace Prisma {
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
   }
 
   export type business_profilesUncheckedCreateWithoutShiftsInput = {
@@ -58892,6 +62684,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
 
   export type business_profilesCreateOrConnectWithoutShiftsInput = {
@@ -59086,6 +62879,22 @@ export namespace Prisma {
     updated_by?: UuidNullableFilter<"applications"> | string | null
   }
 
+  export type chat_conversationsUpsertWithWhereUniqueWithoutShiftsInput = {
+    where: chat_conversationsWhereUniqueInput
+    update: XOR<chat_conversationsUpdateWithoutShiftsInput, chat_conversationsUncheckedUpdateWithoutShiftsInput>
+    create: XOR<chat_conversationsCreateWithoutShiftsInput, chat_conversationsUncheckedCreateWithoutShiftsInput>
+  }
+
+  export type chat_conversationsUpdateWithWhereUniqueWithoutShiftsInput = {
+    where: chat_conversationsWhereUniqueInput
+    data: XOR<chat_conversationsUpdateWithoutShiftsInput, chat_conversationsUncheckedUpdateWithoutShiftsInput>
+  }
+
+  export type chat_conversationsUpdateManyWithWhereWithoutShiftsInput = {
+    where: chat_conversationsScalarWhereInput
+    data: XOR<chat_conversationsUpdateManyMutationInput, chat_conversationsUncheckedUpdateManyWithoutShiftsInput>
+  }
+
   export type disputesUpsertWithWhereUniqueWithoutShiftsInput = {
     where: disputesWhereUniqueInput
     update: XOR<disputesUpdateWithoutShiftsInput, disputesUncheckedUpdateWithoutShiftsInput>
@@ -59216,6 +63025,7 @@ export namespace Prisma {
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
   }
 
   export type business_profilesUncheckedUpdateWithoutShiftsInput = {
@@ -59248,6 +63058,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
 
   export type categoriesUpsertWithoutShiftsInput = {
@@ -59447,6 +63258,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -59487,6 +63299,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -59615,6 +63428,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -59655,6 +63469,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -59717,6 +63532,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -59751,6 +63567,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -59790,6 +63607,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -59824,6 +63642,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -59874,6 +63693,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -59908,6 +63728,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -59953,6 +63774,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -59987,6 +63809,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -60109,6 +63932,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -60143,6 +63967,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -60225,6 +64050,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -60259,6 +64085,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -60425,6 +64252,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
     reports?: reportsCreateNestedManyWithoutShiftsInput
@@ -60465,6 +64293,7 @@ export namespace Prisma {
     updated_by?: string | null
     checkin_qr_token?: string
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
     reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
@@ -60504,6 +64333,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesCreateNestedManyWithoutWorker_profilesInput
     cities?: citiesCreateNestedOneWithoutWorker_profilesInput
@@ -60541,6 +64371,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_skills?: worker_skillsUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -60659,6 +64490,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -60699,6 +64531,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -60744,6 +64577,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUpdateManyWithoutWorker_profilesNestedInput
     cities?: citiesUpdateOneWithoutWorker_profilesNestedInput
@@ -60781,6 +64615,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_skills?: worker_skillsUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -60847,6 +64682,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesCreateNestedManyWithoutWorker_profilesInput
     cities?: citiesCreateNestedOneWithoutWorker_profilesInput
@@ -60884,6 +64720,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_skills?: worker_skillsUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -60972,6 +64809,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUpdateManyWithoutWorker_profilesNestedInput
     cities?: citiesUpdateOneWithoutWorker_profilesNestedInput
@@ -61009,6 +64847,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_skills?: worker_skillsUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -61042,6 +64881,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
     cities?: citiesCreateNestedOneWithoutWorker_profilesInput
@@ -61079,6 +64919,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_skills?: worker_skillsUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -61163,6 +65004,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
     cities?: citiesUpdateOneWithoutWorker_profilesNestedInput
@@ -61200,6 +65042,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_skills?: worker_skillsUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -61301,6 +65144,46 @@ export namespace Prisma {
 
   export type business_favorite_workersCreateManyWorker_profilesInputEnvelope = {
     data: business_favorite_workersCreateManyWorker_profilesInput | business_favorite_workersCreateManyWorker_profilesInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type chat_conversationsCreateWithoutWorker_profilesInput = {
+    id?: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles: business_profilesCreateNestedOneWithoutChat_conversationsInput
+    shifts: shiftsCreateNestedOneWithoutChat_conversationsInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutChat_conversationsInput
+  }
+
+  export type chat_conversationsUncheckedCreateWithoutWorker_profilesInput = {
+    id?: string
+    shift_id: string
+    business_profile_id: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutChat_conversationsInput
+  }
+
+  export type chat_conversationsCreateOrConnectWithoutWorker_profilesInput = {
+    where: chat_conversationsWhereUniqueInput
+    create: XOR<chat_conversationsCreateWithoutWorker_profilesInput, chat_conversationsUncheckedCreateWithoutWorker_profilesInput>
+  }
+
+  export type chat_conversationsCreateManyWorker_profilesInputEnvelope = {
+    data: chat_conversationsCreateManyWorker_profilesInput | chat_conversationsCreateManyWorker_profilesInput[]
     skipDuplicates?: boolean
   }
 
@@ -61428,6 +65311,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -61462,6 +65346,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
@@ -61534,6 +65419,22 @@ export namespace Prisma {
   export type business_favorite_workersUpdateManyWithWhereWithoutWorker_profilesInput = {
     where: business_favorite_workersScalarWhereInput
     data: XOR<business_favorite_workersUpdateManyMutationInput, business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesInput>
+  }
+
+  export type chat_conversationsUpsertWithWhereUniqueWithoutWorker_profilesInput = {
+    where: chat_conversationsWhereUniqueInput
+    update: XOR<chat_conversationsUpdateWithoutWorker_profilesInput, chat_conversationsUncheckedUpdateWithoutWorker_profilesInput>
+    create: XOR<chat_conversationsCreateWithoutWorker_profilesInput, chat_conversationsUncheckedCreateWithoutWorker_profilesInput>
+  }
+
+  export type chat_conversationsUpdateWithWhereUniqueWithoutWorker_profilesInput = {
+    where: chat_conversationsWhereUniqueInput
+    data: XOR<chat_conversationsUpdateWithoutWorker_profilesInput, chat_conversationsUncheckedUpdateWithoutWorker_profilesInput>
+  }
+
+  export type chat_conversationsUpdateManyWithWhereWithoutWorker_profilesInput = {
+    where: chat_conversationsScalarWhereInput
+    data: XOR<chat_conversationsUpdateManyMutationInput, chat_conversationsUncheckedUpdateManyWithoutWorker_profilesInput>
   }
 
   export type worker_assignmentsUpsertWithWhereUniqueWithoutWorker_profilesInput = {
@@ -61645,6 +65546,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -61679,6 +65581,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
@@ -61771,6 +65674,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesCreateNestedManyWithoutWorker_profilesInput
@@ -61808,6 +65712,7 @@ export namespace Prisma {
     profile_picture?: string | null
     applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedCreateNestedManyWithoutWorker_profilesInput
@@ -61892,6 +65797,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUpdateManyWithoutWorker_profilesNestedInput
@@ -61929,9 +65835,762 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutWorker_profilesNestedInput
+  }
+
+  export type business_profilesCreateWithoutChat_conversationsInput = {
+    id?: string
+    business_name: string
+    business_type?: string | null
+    logo_url?: string | null
+    manager_name?: string | null
+    manager_phone?: string | null
+    address?: string | null
+    landmark?: string | null
+    trade_license_url?: string | null
+    business_doc_url?: string | null
+    verification_status?: $Enums.verification_status_enum
+    verification_note?: string | null
+    meal_included?: boolean
+    transport_support?: boolean
+    female_friendly?: boolean
+    uniform_required?: boolean
+    reliability_score?: Decimal | DecimalJsLike | number | string | null
+    cancellation_rate?: Decimal | DecimalJsLike | number | string | null
+    payment_reliability?: Decimal | DecimalJsLike | number | string | null
+    dispute_count?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
+    business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
+    users: usersCreateNestedOneWithoutBusiness_profilesInput
+    zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
+  }
+
+  export type business_profilesUncheckedCreateWithoutChat_conversationsInput = {
+    id?: string
+    user_id: string
+    business_name: string
+    business_type?: string | null
+    logo_url?: string | null
+    manager_name?: string | null
+    manager_phone?: string | null
+    address?: string | null
+    landmark?: string | null
+    zone_id?: string | null
+    trade_license_url?: string | null
+    business_doc_url?: string | null
+    verification_status?: $Enums.verification_status_enum
+    verification_note?: string | null
+    meal_included?: boolean
+    transport_support?: boolean
+    female_friendly?: boolean
+    uniform_required?: boolean
+    reliability_score?: Decimal | DecimalJsLike | number | string | null
+    cancellation_rate?: Decimal | DecimalJsLike | number | string | null
+    payment_reliability?: Decimal | DecimalJsLike | number | string | null
+    dispute_count?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
+  }
+
+  export type business_profilesCreateOrConnectWithoutChat_conversationsInput = {
+    where: business_profilesWhereUniqueInput
+    create: XOR<business_profilesCreateWithoutChat_conversationsInput, business_profilesUncheckedCreateWithoutChat_conversationsInput>
+  }
+
+  export type shiftsCreateWithoutChat_conversationsInput = {
+    id?: string
+    title: string
+    description?: string | null
+    role_type?: string | null
+    shift_type?: $Enums.shift_type_enum
+    shift_date: Date | string
+    start_time: Date | string
+    end_time: Date | string
+    pay_amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    workers_needed?: number
+    gender_preference?: $Enums.gender_enum | null
+    meal_included?: boolean
+    transport_support?: boolean
+    address?: string | null
+    landmark?: string | null
+    status?: $Enums.shift_status_enum
+    cancellation_reason?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    checkin_qr_token?: string
+    applications?: applicationsCreateNestedManyWithoutShiftsInput
+    disputes?: disputesCreateNestedManyWithoutShiftsInput
+    ratings?: ratingsCreateNestedManyWithoutShiftsInput
+    reports?: reportsCreateNestedManyWithoutShiftsInput
+    business_branches?: business_branchesCreateNestedOneWithoutShiftsInput
+    business_profiles: business_profilesCreateNestedOneWithoutShiftsInput
+    categories: categoriesCreateNestedOneWithoutShiftsInput
+    zones?: zonesCreateNestedOneWithoutShiftsInput
+    transactions?: transactionsCreateNestedManyWithoutShiftsInput
+    worker_assignments?: worker_assignmentsCreateNestedManyWithoutShiftsInput
+  }
+
+  export type shiftsUncheckedCreateWithoutChat_conversationsInput = {
+    id?: string
+    business_profile_id: string
+    branch_id?: string | null
+    title: string
+    description?: string | null
+    category_id: string
+    role_type?: string | null
+    shift_type?: $Enums.shift_type_enum
+    shift_date: Date | string
+    start_time: Date | string
+    end_time: Date | string
+    pay_amount: Decimal | DecimalJsLike | number | string
+    currency?: string
+    workers_needed?: number
+    gender_preference?: $Enums.gender_enum | null
+    meal_included?: boolean
+    transport_support?: boolean
+    address?: string | null
+    landmark?: string | null
+    zone_id?: string | null
+    status?: $Enums.shift_status_enum
+    cancellation_reason?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    checkin_qr_token?: string
+    applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
+    disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
+    ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
+    reports?: reportsUncheckedCreateNestedManyWithoutShiftsInput
+    transactions?: transactionsUncheckedCreateNestedManyWithoutShiftsInput
+    worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutShiftsInput
+  }
+
+  export type shiftsCreateOrConnectWithoutChat_conversationsInput = {
+    where: shiftsWhereUniqueInput
+    create: XOR<shiftsCreateWithoutChat_conversationsInput, shiftsUncheckedCreateWithoutChat_conversationsInput>
+  }
+
+  export type worker_profilesCreateWithoutChat_conversationsInput = {
+    id?: string
+    gender?: $Enums.gender_enum | null
+    date_of_birth?: Date | string | null
+    travel_radius_km?: number | null
+    availability_days?: worker_profilesCreateavailability_daysInput | string[]
+    availability_slots?: worker_profilesCreateavailability_slotsInput | string[]
+    nid_front_url?: string | null
+    nid_back_url?: string | null
+    selfie_url?: string | null
+    student_id_url?: string | null
+    verification_status?: $Enums.verification_status_enum
+    verification_note?: string | null
+    reliability_score?: Decimal | DecimalJsLike | number | string | null
+    attendance_rate?: Decimal | DecimalJsLike | number | string | null
+    completion_rate?: Decimal | DecimalJsLike | number | string | null
+    response_rate?: Decimal | DecimalJsLike | number | string | null
+    no_show_count?: number
+    completed_shift_count?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
+    applications?: applicationsCreateNestedManyWithoutWorker_profilesInput
+    business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutWorker_profilesInput
+    worker_assignments?: worker_assignmentsCreateNestedManyWithoutWorker_profilesInput
+    worker_categories?: worker_categoriesCreateNestedManyWithoutWorker_profilesInput
+    worker_preferred_zones?: worker_preferred_zonesCreateNestedManyWithoutWorker_profilesInput
+    cities?: citiesCreateNestedOneWithoutWorker_profilesInput
+    users: usersCreateNestedOneWithoutWorker_profilesInput
+    worker_skills?: worker_skillsCreateNestedManyWithoutWorker_profilesInput
+  }
+
+  export type worker_profilesUncheckedCreateWithoutChat_conversationsInput = {
+    id?: string
+    user_id: string
+    gender?: $Enums.gender_enum | null
+    date_of_birth?: Date | string | null
+    city_id?: string | null
+    travel_radius_km?: number | null
+    availability_days?: worker_profilesCreateavailability_daysInput | string[]
+    availability_slots?: worker_profilesCreateavailability_slotsInput | string[]
+    nid_front_url?: string | null
+    nid_back_url?: string | null
+    selfie_url?: string | null
+    student_id_url?: string | null
+    verification_status?: $Enums.verification_status_enum
+    verification_note?: string | null
+    reliability_score?: Decimal | DecimalJsLike | number | string | null
+    attendance_rate?: Decimal | DecimalJsLike | number | string | null
+    completion_rate?: Decimal | DecimalJsLike | number | string | null
+    response_rate?: Decimal | DecimalJsLike | number | string | null
+    no_show_count?: number
+    completed_shift_count?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
+    applications?: applicationsUncheckedCreateNestedManyWithoutWorker_profilesInput
+    business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutWorker_profilesInput
+    worker_assignments?: worker_assignmentsUncheckedCreateNestedManyWithoutWorker_profilesInput
+    worker_categories?: worker_categoriesUncheckedCreateNestedManyWithoutWorker_profilesInput
+    worker_preferred_zones?: worker_preferred_zonesUncheckedCreateNestedManyWithoutWorker_profilesInput
+    worker_skills?: worker_skillsUncheckedCreateNestedManyWithoutWorker_profilesInput
+  }
+
+  export type worker_profilesCreateOrConnectWithoutChat_conversationsInput = {
+    where: worker_profilesWhereUniqueInput
+    create: XOR<worker_profilesCreateWithoutChat_conversationsInput, worker_profilesUncheckedCreateWithoutChat_conversationsInput>
+  }
+
+  export type chat_messagesCreateWithoutChat_conversationsInput = {
+    id?: string
+    sender_role: string
+    body: string
+    read_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    users: usersCreateNestedOneWithoutChat_messagesInput
+  }
+
+  export type chat_messagesUncheckedCreateWithoutChat_conversationsInput = {
+    id?: string
+    sender_user_id: string
+    sender_role: string
+    body: string
+    read_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type chat_messagesCreateOrConnectWithoutChat_conversationsInput = {
+    where: chat_messagesWhereUniqueInput
+    create: XOR<chat_messagesCreateWithoutChat_conversationsInput, chat_messagesUncheckedCreateWithoutChat_conversationsInput>
+  }
+
+  export type chat_messagesCreateManyChat_conversationsInputEnvelope = {
+    data: chat_messagesCreateManyChat_conversationsInput | chat_messagesCreateManyChat_conversationsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type business_profilesUpsertWithoutChat_conversationsInput = {
+    update: XOR<business_profilesUpdateWithoutChat_conversationsInput, business_profilesUncheckedUpdateWithoutChat_conversationsInput>
+    create: XOR<business_profilesCreateWithoutChat_conversationsInput, business_profilesUncheckedCreateWithoutChat_conversationsInput>
+    where?: business_profilesWhereInput
+  }
+
+  export type business_profilesUpdateToOneWithWhereWithoutChat_conversationsInput = {
+    where?: business_profilesWhereInput
+    data: XOR<business_profilesUpdateWithoutChat_conversationsInput, business_profilesUncheckedUpdateWithoutChat_conversationsInput>
+  }
+
+  export type business_profilesUpdateWithoutChat_conversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_name?: StringFieldUpdateOperationsInput | string
+    business_type?: NullableStringFieldUpdateOperationsInput | string | null
+    logo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_name?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    trade_license_url?: NullableStringFieldUpdateOperationsInput | string | null
+    business_doc_url?: NullableStringFieldUpdateOperationsInput | string | null
+    verification_status?: Enumverification_status_enumFieldUpdateOperationsInput | $Enums.verification_status_enum
+    verification_note?: NullableStringFieldUpdateOperationsInput | string | null
+    meal_included?: BoolFieldUpdateOperationsInput | boolean
+    transport_support?: BoolFieldUpdateOperationsInput | boolean
+    female_friendly?: BoolFieldUpdateOperationsInput | boolean
+    uniform_required?: BoolFieldUpdateOperationsInput | boolean
+    reliability_score?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    cancellation_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_reliability?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    dispute_count?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
+    business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
+    users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
+    zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
+  }
+
+  export type business_profilesUncheckedUpdateWithoutChat_conversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    business_name?: StringFieldUpdateOperationsInput | string
+    business_type?: NullableStringFieldUpdateOperationsInput | string | null
+    logo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_name?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    zone_id?: NullableStringFieldUpdateOperationsInput | string | null
+    trade_license_url?: NullableStringFieldUpdateOperationsInput | string | null
+    business_doc_url?: NullableStringFieldUpdateOperationsInput | string | null
+    verification_status?: Enumverification_status_enumFieldUpdateOperationsInput | $Enums.verification_status_enum
+    verification_note?: NullableStringFieldUpdateOperationsInput | string | null
+    meal_included?: BoolFieldUpdateOperationsInput | boolean
+    transport_support?: BoolFieldUpdateOperationsInput | boolean
+    female_friendly?: BoolFieldUpdateOperationsInput | boolean
+    uniform_required?: BoolFieldUpdateOperationsInput | boolean
+    reliability_score?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    cancellation_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_reliability?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    dispute_count?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+  }
+
+  export type shiftsUpsertWithoutChat_conversationsInput = {
+    update: XOR<shiftsUpdateWithoutChat_conversationsInput, shiftsUncheckedUpdateWithoutChat_conversationsInput>
+    create: XOR<shiftsCreateWithoutChat_conversationsInput, shiftsUncheckedCreateWithoutChat_conversationsInput>
+    where?: shiftsWhereInput
+  }
+
+  export type shiftsUpdateToOneWithWhereWithoutChat_conversationsInput = {
+    where?: shiftsWhereInput
+    data: XOR<shiftsUpdateWithoutChat_conversationsInput, shiftsUncheckedUpdateWithoutChat_conversationsInput>
+  }
+
+  export type shiftsUpdateWithoutChat_conversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    role_type?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_type?: Enumshift_type_enumFieldUpdateOperationsInput | $Enums.shift_type_enum
+    shift_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    workers_needed?: IntFieldUpdateOperationsInput | number
+    gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
+    meal_included?: BoolFieldUpdateOperationsInput | boolean
+    transport_support?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
+    cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    disputes?: disputesUpdateManyWithoutShiftsNestedInput
+    ratings?: ratingsUpdateManyWithoutShiftsNestedInput
+    reports?: reportsUpdateManyWithoutShiftsNestedInput
+    business_branches?: business_branchesUpdateOneWithoutShiftsNestedInput
+    business_profiles?: business_profilesUpdateOneRequiredWithoutShiftsNestedInput
+    categories?: categoriesUpdateOneRequiredWithoutShiftsNestedInput
+    zones?: zonesUpdateOneWithoutShiftsNestedInput
+    transactions?: transactionsUpdateManyWithoutShiftsNestedInput
+    worker_assignments?: worker_assignmentsUpdateManyWithoutShiftsNestedInput
+  }
+
+  export type shiftsUncheckedUpdateWithoutChat_conversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    branch_id?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    category_id?: StringFieldUpdateOperationsInput | string
+    role_type?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_type?: Enumshift_type_enumFieldUpdateOperationsInput | $Enums.shift_type_enum
+    shift_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    workers_needed?: IntFieldUpdateOperationsInput | number
+    gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
+    meal_included?: BoolFieldUpdateOperationsInput | boolean
+    transport_support?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    zone_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
+    cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
+    ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
+    reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
+    transactions?: transactionsUncheckedUpdateManyWithoutShiftsNestedInput
+    worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutShiftsNestedInput
+  }
+
+  export type worker_profilesUpsertWithoutChat_conversationsInput = {
+    update: XOR<worker_profilesUpdateWithoutChat_conversationsInput, worker_profilesUncheckedUpdateWithoutChat_conversationsInput>
+    create: XOR<worker_profilesCreateWithoutChat_conversationsInput, worker_profilesUncheckedCreateWithoutChat_conversationsInput>
+    where?: worker_profilesWhereInput
+  }
+
+  export type worker_profilesUpdateToOneWithWhereWithoutChat_conversationsInput = {
+    where?: worker_profilesWhereInput
+    data: XOR<worker_profilesUpdateWithoutChat_conversationsInput, worker_profilesUncheckedUpdateWithoutChat_conversationsInput>
+  }
+
+  export type worker_profilesUpdateWithoutChat_conversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gender?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
+    date_of_birth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    travel_radius_km?: NullableIntFieldUpdateOperationsInput | number | null
+    availability_days?: worker_profilesUpdateavailability_daysInput | string[]
+    availability_slots?: worker_profilesUpdateavailability_slotsInput | string[]
+    nid_front_url?: NullableStringFieldUpdateOperationsInput | string | null
+    nid_back_url?: NullableStringFieldUpdateOperationsInput | string | null
+    selfie_url?: NullableStringFieldUpdateOperationsInput | string | null
+    student_id_url?: NullableStringFieldUpdateOperationsInput | string | null
+    verification_status?: Enumverification_status_enumFieldUpdateOperationsInput | $Enums.verification_status_enum
+    verification_note?: NullableStringFieldUpdateOperationsInput | string | null
+    reliability_score?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    attendance_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    completion_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    response_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    no_show_count?: IntFieldUpdateOperationsInput | number
+    completed_shift_count?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
+    applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
+    business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
+    worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
+    worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
+    worker_preferred_zones?: worker_preferred_zonesUpdateManyWithoutWorker_profilesNestedInput
+    cities?: citiesUpdateOneWithoutWorker_profilesNestedInput
+    users?: usersUpdateOneRequiredWithoutWorker_profilesNestedInput
+    worker_skills?: worker_skillsUpdateManyWithoutWorker_profilesNestedInput
+  }
+
+  export type worker_profilesUncheckedUpdateWithoutChat_conversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    gender?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
+    date_of_birth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    city_id?: NullableStringFieldUpdateOperationsInput | string | null
+    travel_radius_km?: NullableIntFieldUpdateOperationsInput | number | null
+    availability_days?: worker_profilesUpdateavailability_daysInput | string[]
+    availability_slots?: worker_profilesUpdateavailability_slotsInput | string[]
+    nid_front_url?: NullableStringFieldUpdateOperationsInput | string | null
+    nid_back_url?: NullableStringFieldUpdateOperationsInput | string | null
+    selfie_url?: NullableStringFieldUpdateOperationsInput | string | null
+    student_id_url?: NullableStringFieldUpdateOperationsInput | string | null
+    verification_status?: Enumverification_status_enumFieldUpdateOperationsInput | $Enums.verification_status_enum
+    verification_note?: NullableStringFieldUpdateOperationsInput | string | null
+    reliability_score?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    attendance_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    completion_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    response_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    no_show_count?: IntFieldUpdateOperationsInput | number
+    completed_shift_count?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
+    applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    worker_skills?: worker_skillsUncheckedUpdateManyWithoutWorker_profilesNestedInput
+  }
+
+  export type chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput = {
+    where: chat_messagesWhereUniqueInput
+    update: XOR<chat_messagesUpdateWithoutChat_conversationsInput, chat_messagesUncheckedUpdateWithoutChat_conversationsInput>
+    create: XOR<chat_messagesCreateWithoutChat_conversationsInput, chat_messagesUncheckedCreateWithoutChat_conversationsInput>
+  }
+
+  export type chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput = {
+    where: chat_messagesWhereUniqueInput
+    data: XOR<chat_messagesUpdateWithoutChat_conversationsInput, chat_messagesUncheckedUpdateWithoutChat_conversationsInput>
+  }
+
+  export type chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput = {
+    where: chat_messagesScalarWhereInput
+    data: XOR<chat_messagesUpdateManyMutationInput, chat_messagesUncheckedUpdateManyWithoutChat_conversationsInput>
+  }
+
+  export type chat_conversationsCreateWithoutChat_messagesInput = {
+    id?: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles: business_profilesCreateNestedOneWithoutChat_conversationsInput
+    shifts: shiftsCreateNestedOneWithoutChat_conversationsInput
+    worker_profiles: worker_profilesCreateNestedOneWithoutChat_conversationsInput
+  }
+
+  export type chat_conversationsUncheckedCreateWithoutChat_messagesInput = {
+    id?: string
+    shift_id: string
+    worker_profile_id: string
+    business_profile_id: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type chat_conversationsCreateOrConnectWithoutChat_messagesInput = {
+    where: chat_conversationsWhereUniqueInput
+    create: XOR<chat_conversationsCreateWithoutChat_messagesInput, chat_conversationsUncheckedCreateWithoutChat_messagesInput>
+  }
+
+  export type usersCreateWithoutChat_messagesInput = {
+    id?: string
+    phone: string
+    email?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
+    roles?: usersCreaterolesInput | string[]
+    is_active?: boolean
+    is_phone_verified?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    devices?: devicesCreateNestedManyWithoutUsersInput
+    disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
+    disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
+    disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
+    notifications?: notificationsCreateNestedManyWithoutUsersInput
+    payout_requests_payout_requests_processed_byTousers?: payout_requestsCreateNestedManyWithoutUsers_payout_requests_processed_byTousersInput
+    payout_requests_payout_requests_user_idTousers?: payout_requestsCreateNestedManyWithoutUsers_payout_requests_user_idTousersInput
+    ratings_ratings_rated_user_idTousers?: ratingsCreateNestedManyWithoutUsers_ratings_rated_user_idTousersInput
+    ratings_ratings_rater_user_idTousers?: ratingsCreateNestedManyWithoutUsers_ratings_rater_user_idTousersInput
+    refresh_tokens?: refresh_tokensCreateNestedManyWithoutUsersInput
+    reports_reports_reported_idTousers?: reportsCreateNestedManyWithoutUsers_reports_reported_idTousersInput
+    reports_reports_reporter_idTousers?: reportsCreateNestedManyWithoutUsers_reports_reporter_idTousersInput
+    reports_reports_resolved_byTousers?: reportsCreateNestedManyWithoutUsers_reports_resolved_byTousersInput
+    sessions?: sessionsCreateNestedManyWithoutUsersInput
+    user_sanctions_user_sanctions_issued_byTousers?: user_sanctionsCreateNestedManyWithoutUsers_user_sanctions_issued_byTousersInput
+    user_sanctions_user_sanctions_user_idTousers?: user_sanctionsCreateNestedManyWithoutUsers_user_sanctions_user_idTousersInput
+    wallets?: walletsCreateNestedOneWithoutUsersInput
+    worker_profiles?: worker_profilesCreateNestedOneWithoutUsersInput
+  }
+
+  export type usersUncheckedCreateWithoutChat_messagesInput = {
+    id?: string
+    phone: string
+    email?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
+    roles?: usersCreaterolesInput | string[]
+    is_active?: boolean
+    is_phone_verified?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
+    disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
+    disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
+    notifications?: notificationsUncheckedCreateNestedManyWithoutUsersInput
+    payout_requests_payout_requests_processed_byTousers?: payout_requestsUncheckedCreateNestedManyWithoutUsers_payout_requests_processed_byTousersInput
+    payout_requests_payout_requests_user_idTousers?: payout_requestsUncheckedCreateNestedManyWithoutUsers_payout_requests_user_idTousersInput
+    ratings_ratings_rated_user_idTousers?: ratingsUncheckedCreateNestedManyWithoutUsers_ratings_rated_user_idTousersInput
+    ratings_ratings_rater_user_idTousers?: ratingsUncheckedCreateNestedManyWithoutUsers_ratings_rater_user_idTousersInput
+    refresh_tokens?: refresh_tokensUncheckedCreateNestedManyWithoutUsersInput
+    reports_reports_reported_idTousers?: reportsUncheckedCreateNestedManyWithoutUsers_reports_reported_idTousersInput
+    reports_reports_reporter_idTousers?: reportsUncheckedCreateNestedManyWithoutUsers_reports_reporter_idTousersInput
+    reports_reports_resolved_byTousers?: reportsUncheckedCreateNestedManyWithoutUsers_reports_resolved_byTousersInput
+    sessions?: sessionsUncheckedCreateNestedManyWithoutUsersInput
+    user_sanctions_user_sanctions_issued_byTousers?: user_sanctionsUncheckedCreateNestedManyWithoutUsers_user_sanctions_issued_byTousersInput
+    user_sanctions_user_sanctions_user_idTousers?: user_sanctionsUncheckedCreateNestedManyWithoutUsers_user_sanctions_user_idTousersInput
+    wallets?: walletsUncheckedCreateNestedOneWithoutUsersInput
+    worker_profiles?: worker_profilesUncheckedCreateNestedOneWithoutUsersInput
+  }
+
+  export type usersCreateOrConnectWithoutChat_messagesInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutChat_messagesInput, usersUncheckedCreateWithoutChat_messagesInput>
+  }
+
+  export type chat_conversationsUpsertWithoutChat_messagesInput = {
+    update: XOR<chat_conversationsUpdateWithoutChat_messagesInput, chat_conversationsUncheckedUpdateWithoutChat_messagesInput>
+    create: XOR<chat_conversationsCreateWithoutChat_messagesInput, chat_conversationsUncheckedCreateWithoutChat_messagesInput>
+    where?: chat_conversationsWhereInput
+  }
+
+  export type chat_conversationsUpdateToOneWithWhereWithoutChat_messagesInput = {
+    where?: chat_conversationsWhereInput
+    data: XOR<chat_conversationsUpdateWithoutChat_messagesInput, chat_conversationsUncheckedUpdateWithoutChat_messagesInput>
+  }
+
+  export type chat_conversationsUpdateWithoutChat_messagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput
+    shifts?: shiftsUpdateOneRequiredWithoutChat_conversationsNestedInput
+    worker_profiles?: worker_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput
+  }
+
+  export type chat_conversationsUncheckedUpdateWithoutChat_messagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shift_id?: StringFieldUpdateOperationsInput | string
+    worker_profile_id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type usersUpsertWithoutChat_messagesInput = {
+    update: XOR<usersUpdateWithoutChat_messagesInput, usersUncheckedUpdateWithoutChat_messagesInput>
+    create: XOR<usersCreateWithoutChat_messagesInput, usersUncheckedCreateWithoutChat_messagesInput>
+    where?: usersWhereInput
+  }
+
+  export type usersUpdateToOneWithWhereWithoutChat_messagesInput = {
+    where?: usersWhereInput
+    data: XOR<usersUpdateWithoutChat_messagesInput, usersUncheckedUpdateWithoutChat_messagesInput>
+  }
+
+  export type usersUpdateWithoutChat_messagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: usersUpdaterolesInput | string[]
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    is_phone_verified?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    devices?: devicesUpdateManyWithoutUsersNestedInput
+    disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
+    disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
+    disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
+    notifications?: notificationsUpdateManyWithoutUsersNestedInput
+    payout_requests_payout_requests_processed_byTousers?: payout_requestsUpdateManyWithoutUsers_payout_requests_processed_byTousersNestedInput
+    payout_requests_payout_requests_user_idTousers?: payout_requestsUpdateManyWithoutUsers_payout_requests_user_idTousersNestedInput
+    ratings_ratings_rated_user_idTousers?: ratingsUpdateManyWithoutUsers_ratings_rated_user_idTousersNestedInput
+    ratings_ratings_rater_user_idTousers?: ratingsUpdateManyWithoutUsers_ratings_rater_user_idTousersNestedInput
+    refresh_tokens?: refresh_tokensUpdateManyWithoutUsersNestedInput
+    reports_reports_reported_idTousers?: reportsUpdateManyWithoutUsers_reports_reported_idTousersNestedInput
+    reports_reports_reporter_idTousers?: reportsUpdateManyWithoutUsers_reports_reporter_idTousersNestedInput
+    reports_reports_resolved_byTousers?: reportsUpdateManyWithoutUsers_reports_resolved_byTousersNestedInput
+    sessions?: sessionsUpdateManyWithoutUsersNestedInput
+    user_sanctions_user_sanctions_issued_byTousers?: user_sanctionsUpdateManyWithoutUsers_user_sanctions_issued_byTousersNestedInput
+    user_sanctions_user_sanctions_user_idTousers?: user_sanctionsUpdateManyWithoutUsers_user_sanctions_user_idTousersNestedInput
+    wallets?: walletsUpdateOneWithoutUsersNestedInput
+    worker_profiles?: worker_profilesUpdateOneWithoutUsersNestedInput
+  }
+
+  export type usersUncheckedUpdateWithoutChat_messagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: usersUpdaterolesInput | string[]
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    is_phone_verified?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
+    disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
+    disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
+    notifications?: notificationsUncheckedUpdateManyWithoutUsersNestedInput
+    payout_requests_payout_requests_processed_byTousers?: payout_requestsUncheckedUpdateManyWithoutUsers_payout_requests_processed_byTousersNestedInput
+    payout_requests_payout_requests_user_idTousers?: payout_requestsUncheckedUpdateManyWithoutUsers_payout_requests_user_idTousersNestedInput
+    ratings_ratings_rated_user_idTousers?: ratingsUncheckedUpdateManyWithoutUsers_ratings_rated_user_idTousersNestedInput
+    ratings_ratings_rater_user_idTousers?: ratingsUncheckedUpdateManyWithoutUsers_ratings_rater_user_idTousersNestedInput
+    refresh_tokens?: refresh_tokensUncheckedUpdateManyWithoutUsersNestedInput
+    reports_reports_reported_idTousers?: reportsUncheckedUpdateManyWithoutUsers_reports_reported_idTousersNestedInput
+    reports_reports_reporter_idTousers?: reportsUncheckedUpdateManyWithoutUsers_reports_reporter_idTousersNestedInput
+    reports_reports_resolved_byTousers?: reportsUncheckedUpdateManyWithoutUsers_reports_resolved_byTousersNestedInput
+    sessions?: sessionsUncheckedUpdateManyWithoutUsersNestedInput
+    user_sanctions_user_sanctions_issued_byTousers?: user_sanctionsUncheckedUpdateManyWithoutUsers_user_sanctions_issued_byTousersNestedInput
+    user_sanctions_user_sanctions_user_idTousers?: user_sanctionsUncheckedUpdateManyWithoutUsers_user_sanctions_user_idTousersNestedInput
+    wallets?: walletsUncheckedUpdateOneWithoutUsersNestedInput
+    worker_profiles?: worker_profilesUncheckedUpdateOneWithoutUsersNestedInput
   }
 
   export type shiftsCreateManyCategoriesInput = {
@@ -62005,6 +66664,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -62044,6 +66704,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -62196,6 +66857,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUpdateManyWithoutWorker_profilesNestedInput
@@ -62232,6 +66894,7 @@ export namespace Prisma {
     profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
     applications?: applicationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_categories?: worker_categoriesUncheckedUpdateManyWithoutWorker_profilesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutWorker_profilesNestedInput
@@ -62374,6 +67037,17 @@ export namespace Prisma {
 
   export type worker_skillsUncheckedUpdateManyWithoutSkillsInput = {
     worker_profile_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type chat_messagesCreateManyUsersInput = {
+    id?: string
+    conversation_id: string
+    sender_role: string
+    body: string
+    read_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
   }
 
   export type devicesCreateManyUsersInput = {
@@ -62635,6 +67309,39 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+  }
+
+  export type chat_messagesUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    chat_conversations?: chat_conversationsUpdateOneRequiredWithoutChat_messagesNestedInput
+  }
+
+  export type chat_messagesUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversation_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type chat_messagesUncheckedUpdateManyWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversation_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type devicesUpdateWithoutUsersInput = {
@@ -63578,6 +68285,7 @@ export namespace Prisma {
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -63610,6 +68318,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -63668,6 +68377,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -63707,6 +68417,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -63876,6 +68587,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -63915,6 +68627,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -63969,6 +68682,20 @@ export namespace Prisma {
   export type business_favorite_workersCreateManyBusiness_profilesInput = {
     worker_profile_id: string
     created_at?: Date | string
+  }
+
+  export type chat_conversationsCreateManyBusiness_profilesInput = {
+    id?: string
+    shift_id: string
+    worker_profile_id: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
   }
 
   export type shiftsCreateManyBusiness_profilesInput = {
@@ -64060,6 +68787,50 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type chat_conversationsUpdateWithoutBusiness_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    shifts?: shiftsUpdateOneRequiredWithoutChat_conversationsNestedInput
+    worker_profiles?: worker_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutChat_conversationsNestedInput
+  }
+
+  export type chat_conversationsUncheckedUpdateWithoutBusiness_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shift_id?: StringFieldUpdateOperationsInput | string
+    worker_profile_id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutChat_conversationsNestedInput
+  }
+
+  export type chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shift_id?: StringFieldUpdateOperationsInput | string
+    worker_profile_id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type shiftsUpdateWithoutBusiness_profilesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -64086,6 +68857,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
     reports?: reportsUpdateManyWithoutShiftsNestedInput
@@ -64125,6 +68897,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -64232,6 +69005,20 @@ export namespace Prisma {
     status?: $Enums.application_status_enum
     applied_at?: Date | string
     note?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type chat_conversationsCreateManyShiftsInput = {
+    id?: string
+    worker_profile_id: string
+    business_profile_id: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -64355,6 +69142,50 @@ export namespace Prisma {
     status?: Enumapplication_status_enumFieldUpdateOperationsInput | $Enums.application_status_enum
     applied_at?: DateTimeFieldUpdateOperationsInput | Date | string
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type chat_conversationsUpdateWithoutShiftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput
+    worker_profiles?: worker_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutChat_conversationsNestedInput
+  }
+
+  export type chat_conversationsUncheckedUpdateWithoutShiftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    worker_profile_id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutChat_conversationsNestedInput
+  }
+
+  export type chat_conversationsUncheckedUpdateManyWithoutShiftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    worker_profile_id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -64904,6 +69735,20 @@ export namespace Prisma {
     created_at?: Date | string
   }
 
+  export type chat_conversationsCreateManyWorker_profilesInput = {
+    id?: string
+    shift_id: string
+    business_profile_id: string
+    last_message_at?: Date | string | null
+    last_message_text?: string | null
+    last_sender_role?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
   export type worker_assignmentsCreateManyWorker_profilesInput = {
     id?: string
     shift_id: string
@@ -64985,6 +69830,50 @@ export namespace Prisma {
   export type business_favorite_workersUncheckedUpdateManyWithoutWorker_profilesInput = {
     business_profile_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type chat_conversationsUpdateWithoutWorker_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUpdateOneRequiredWithoutChat_conversationsNestedInput
+    shifts?: shiftsUpdateOneRequiredWithoutChat_conversationsNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutChat_conversationsNestedInput
+  }
+
+  export type chat_conversationsUncheckedUpdateWithoutWorker_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shift_id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutChat_conversationsNestedInput
+  }
+
+  export type chat_conversationsUncheckedUpdateManyWithoutWorker_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shift_id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    last_message_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    last_message_text?: NullableStringFieldUpdateOperationsInput | string | null
+    last_sender_role?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type worker_assignmentsUpdateWithoutWorker_profilesInput = {
@@ -65070,6 +69959,50 @@ export namespace Prisma {
 
   export type worker_skillsUncheckedUpdateManyWithoutWorker_profilesInput = {
     skill_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type chat_messagesCreateManyChat_conversationsInput = {
+    id?: string
+    sender_user_id: string
+    sender_role: string
+    body: string
+    read_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type chat_messagesUpdateWithoutChat_conversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users?: usersUpdateOneRequiredWithoutChat_messagesNestedInput
+  }
+
+  export type chat_messagesUncheckedUpdateWithoutChat_conversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_user_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type chat_messagesUncheckedUpdateManyWithoutChat_conversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_user_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

@@ -671,6 +671,53 @@ CREATE TABLE notifications (
 
 
 -- ============================================================
+-- DOMAIN 12: CHAT
+-- ============================================================
+-- Worker <-> business messaging, scoped per shift. A conversation is keyed by
+-- (shift_id, worker_profile_id); the business side is derived from the shift.
+-- A conversation may only be opened once an application exists for that pair.
+
+CREATE TABLE chat_conversations (
+    id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    shift_id            UUID NOT NULL REFERENCES shifts(id) ON DELETE CASCADE,
+    worker_profile_id   UUID NOT NULL REFERENCES worker_profiles(id) ON DELETE CASCADE,
+    business_profile_id UUID NOT NULL REFERENCES business_profiles(id) ON DELETE CASCADE,
+    last_message_at     TIMESTAMPTZ,                     -- inbox sort key
+    last_message_text   TEXT,                            -- preview snippet
+    last_sender_role    VARCHAR(10),                     -- 'worker' | 'business'
+
+    created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    deleted_at          TIMESTAMPTZ,
+    created_by          UUID,
+    updated_by          UUID,
+
+    UNIQUE (shift_id, worker_profile_id)
+);
+
+CREATE INDEX idx_chat_conversations_worker ON chat_conversations(worker_profile_id);
+CREATE INDEX idx_chat_conversations_business ON chat_conversations(business_profile_id);
+CREATE INDEX idx_chat_conversations_shift ON chat_conversations(shift_id);
+CREATE INDEX idx_chat_conversations_last_msg ON chat_conversations(last_message_at DESC);
+
+CREATE TABLE chat_messages (
+    id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    conversation_id UUID NOT NULL REFERENCES chat_conversations(id) ON DELETE CASCADE,
+    sender_user_id  UUID NOT NULL REFERENCES users(id) ON DELETE NO ACTION,
+    sender_role     VARCHAR(10) NOT NULL,                -- 'worker' | 'business'
+    body            TEXT NOT NULL,
+    read_at         TIMESTAMPTZ,                         -- set when the recipient reads it
+
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    deleted_at      TIMESTAMPTZ
+);
+
+CREATE INDEX idx_chat_messages_conversation ON chat_messages(conversation_id, created_at DESC);
+CREATE INDEX idx_chat_messages_unread ON chat_messages(conversation_id, sender_role, read_at);
+
+
+-- ============================================================
 -- INDEXES
 -- ============================================================
 
