@@ -97,10 +97,31 @@ export const markOtpAsUsed = (otpId) => {
 };
 
 /**
- * @param {{ user_id: string, access_token: string, expires_at: Date, ip_address?: string, user_agent?: string }} data
+ * @param {{ user_id: string, access_token: string, active_role?: string|null, expires_at: Date, ip_address?: string, user_agent?: string }} data
  */
 export const createSession = (data) => {
   return prisma.sessions.create({ data });
+};
+
+/**
+ * @param {string} id
+ * @param {object} data
+ */
+export const updateSession = (id, data) => {
+  return prisma.sessions.update({ where: { id }, data });
+};
+
+/**
+ * Active session for a user keyed by its current access token — used to persist
+ * an account-context switch onto the right session/device.
+ * @param {string} accessToken
+ * @param {string} userId
+ */
+export const findActiveSessionByAccessToken = (accessToken, userId) => {
+  return prisma.sessions.findFirst({
+    where: { access_token: accessToken, user_id: userId, status: "active", deleted_at: null },
+    select: { id: true },
+  });
 };
 
 /**

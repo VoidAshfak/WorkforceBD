@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authenticate from "../../middleware/authenticate.js";
-import authorize from "../../middleware/authorize.js";
+import requireActiveRole from "../../middleware/requireActiveRole.js";
 import requireVerifiedProfile from "../../middleware/requireVerifiedProfile.js";
 import * as applicationController from "./application.controller.js";
 import { applyRules, listApplicationsRules, applicationIdRules, checkInRules } from "./application.validation.js";
@@ -8,7 +8,7 @@ import { applyRules, listApplicationsRules, applicationIdRules, checkInRules } f
 const router = Router();
 
 // all application routes are worker-facing
-router.use(authenticate, authorize("worker"));
+router.use(authenticate, requireActiveRole("worker"));
 
 // applying requires an admin-verified worker profile; viewing/withdrawing does not
 router.post("/", requireVerifiedProfile("worker"), applyRules, applicationController.apply);

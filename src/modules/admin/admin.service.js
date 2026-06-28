@@ -1,6 +1,8 @@
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
+import { prisma } from "../../db/index.js";
 import * as adminRepository from "./admin.repository.js";
+import { refundShiftEscrow } from "../business/business.service.js";
 import { createNotification } from "../notification/notification.service.js";
 
 /**
@@ -145,9 +147,12 @@ export const decideShiftPost = async (adminId, shiftId, { decision, note }) => {
   }
 
   const newStatus = decision === "approve" ? "published" : "draft";
-  const updated = await adminRepository.updateShiftStatus(shiftId, {
-    status: newStatus,
-    updated_by: adminId,
+
+  // Approve keeps the escrow held (released later at settlement); reject returns
+  // it to the business wallet and flips the shift back to draft atomically.
+  const updated = await prisma.$transaction(async (tx) => {
+    if (decision === "reject") await refundShiftEscrow(shift, adminId, tx);
+    return adminRepository.updateShiftStatus(shiftId, { status: newStatus, updated_by: adminId }, tx);
   });
 
   await notifyShiftDecision(shift.business_profiles.user_id, decision, shift.title, note);

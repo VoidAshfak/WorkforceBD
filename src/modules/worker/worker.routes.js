@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authenticate from "../../middleware/authenticate.js";
-import authorize from "../../middleware/authorize.js";
+import requireActiveRole from "../../middleware/requireActiveRole.js";
 import * as workerController from "./worker.controller.js";
 import {
   basicInfoRules,
@@ -11,8 +11,8 @@ import {
 
 const router = Router();
 
-// all worker routes require auth + worker role
-router.use(authenticate, authorize("worker"));
+// all worker routes require auth + active worker context
+router.use(authenticate, requireActiveRole("worker"));
 
 router.get("/skills", workerController.getSkills);
 router.get("/zones", workerController.getZones);

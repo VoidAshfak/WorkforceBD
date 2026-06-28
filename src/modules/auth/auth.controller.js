@@ -38,6 +38,15 @@ export const getMe = asyncHandler(async (req, res) => {
   return sendSuccess(res, 200, "Authenticated", user);
 });
 
+export const switchRole = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
+
+  const currentAccessToken = req.headers.authorization.split(" ")[1];
+  const result = await authService.switchRole(req.user.id, currentAccessToken, req.body.role);
+  return sendSuccess(res, 200, `Switched to ${result.active_role} account`, result);
+});
+
 export const logout = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());

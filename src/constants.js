@@ -18,6 +18,17 @@ export const WORKER_CHECKIN_METHODS = ["gps", "qr"];
 // All check-in verification methods (mirrors checkin_method_enum in the DB).
 export const CHECKIN_METHODS = ["manual", "gps", "qr", "pin"];
 
+// Business escrow.
+// Starting balance seeded into a business wallet on first use. Placeholder funding
+// until the MFS top-up/checkout flow (bKash/Nagad corporate) is built — a business
+// must have enough balance to escrow a shift's full cost before it can be published.
+export const BUSINESS_WALLET_SEED_BALANCE = 500;
+// Smallest single wallet top-up (BDT).
+export const MIN_BUSINESS_TOPUP = 100;
+// MFS/channels a business may top up from. Real gateway authorization is wired
+// later — for now a top-up is an instant manual credit (no external capture).
+export const BUSINESS_TOPUP_METHODS = ["bkash", "nagad", "bank_transfer"];
+
 // Chat tuning.
 // Max length of a single chat message body.
 export const CHAT_MESSAGE_MAX_LENGTH = 2000;

@@ -24,6 +24,13 @@ export const verifyOtpRules = [
     .isIn(["worker", "business"]).withMessage("Role must be 'worker' or 'business'"),
 ];
 
+export const switchRoleRules = [
+  body("role")
+    .trim()
+    .notEmpty().withMessage("Role is required")
+    .isIn(["worker", "business"]).withMessage("Role must be 'worker' or 'business'"),
+];
+
 export const refreshTokenRules = [
   body("refresh_token").trim().notEmpty().withMessage("Refresh token is required"),
 ];

@@ -1,6 +1,8 @@
+import { Prisma } from "../../prisma/index.js";
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import { prisma } from "../../db/index.js";
+import { BUSINESS_WALLET_SEED_BALANCE, MIN_BUSINESS_TOPUP } from "../../constants.js";
 import * as businessRepository from "./business.repository.js";
 import { createNotification } from "../notification/notification.service.js";
 import { currentCheckinCode } from "../../utils/qrToken.js";
@@ -75,6 +77,133 @@ const toShiftDto = (shift) => {
     is_full: filled >= shift.workers_needed,
     applicants_waiting: _count?.applications ?? 0,
   };
+};
+
+/* ============================================================
+ * Escrow (business wallet funding — screen 7)
+ * ========================================================== */
+
+/**
+ * Flat estimated cost a shift escrows: pay per worker × full capacity.
+ * @param {Prisma.Decimal|string|number} payAmount
+ * @param {number} workersNeeded
+ * @returns {Prisma.Decimal}
+ */
+const shiftEscrowCost = (payAmount, workersNeeded) =>
+  new Prisma.Decimal(payAmount).times(workersNeeded);
+
+/**
+ * Moves `cost` from the business wallet's spendable balance into `held`. Throws
+ * 402 when the wallet can't cover it. Runs inside the caller's transaction.
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} tx
+ * @param {string} profileId
+ * @param {string} userId
+ * @param {Prisma.Decimal} cost
+ */
+const reserveFromWallet = async (tx, profileId, userId, cost) => {
+  const wallet = await businessRepository.ensureBusinessWallet(profileId, userId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  if (new Prisma.Decimal(wallet.balance).lessThan(cost)) {
+    throw new AppError(
+      `Insufficient wallet balance to publish this shift. Required ৳${cost}, available ৳${wallet.balance}. Top up your wallet to continue.`,
+      402,
+    );
+  }
+  await businessRepository.updateBusinessWallet(wallet.id, {
+    balance: new Prisma.Decimal(wallet.balance).minus(cost),
+    held: new Prisma.Decimal(wallet.held).plus(cost),
+    updated_by: userId,
+  }, tx);
+};
+
+/**
+ * Returns a held amount from `held` back to spendable balance.
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} tx
+ * @param {string} profileId
+ * @param {string} userId
+ * @param {Prisma.Decimal|string|number} amount
+ */
+const returnToWallet = async (tx, profileId, userId, amount) => {
+  const wallet = await businessRepository.ensureBusinessWallet(profileId, userId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  const amt = new Prisma.Decimal(amount);
+  await businessRepository.updateBusinessWallet(wallet.id, {
+    balance: new Prisma.Decimal(wallet.balance).plus(amt),
+    held: new Prisma.Decimal(wallet.held).minus(amt),
+    updated_by: userId,
+  }, tx);
+};
+
+/**
+ * Refunds a shift's held escrow back to the business wallet and marks it
+ * `refunded`. No-op unless escrow is currently `held` (idempotent). Used when a
+ * shift is cancelled or its post is rejected before any work happens.
+ * @param {{ id: string, business_profile_id: string, escrow_status: string, escrow_amount: Prisma.Decimal|string|number }} shift
+ * @param {string} actorId
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [tx]
+ */
+export const refundShiftEscrow = async (shift, actorId, tx = prisma) => {
+  if (shift.escrow_status !== "held") return;
+  await returnToWallet(tx, shift.business_profile_id, actorId, shift.escrow_amount);
+  await businessRepository.updateShift(shift.id, { escrow_status: "refunded", updated_by: actorId }, tx);
+  logger.info(`Shift escrow refunded | shiftId=${shift.id} amount=${shift.escrow_amount}`);
+};
+
+/**
+ * Releases a settled shift's escrow: the actually-paid amount becomes spend, and
+ * any unspent remainder (no-shows / unfilled slots) returns to spendable balance.
+ * No-op unless escrow is `held`. Must run inside the settlement transaction.
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} tx
+ * @param {{ id: string, business_profile_id: string, escrow_status: string, escrow_amount: Prisma.Decimal|string|number }} shift
+ * @param {Prisma.Decimal|string|number} totalPaid amount actually paid to workers
+ * @param {string} actorId
+ */
+export const releaseShiftEscrow = async (tx, shift, totalPaid, actorId) => {
+  if (shift.escrow_status !== "held") return;
+  const wallet = await businessRepository.ensureBusinessWallet(shift.business_profile_id, actorId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  const escrow = new Prisma.Decimal(shift.escrow_amount);
+  const spent = new Prisma.Decimal(totalPaid);
+  const unspent = escrow.minus(spent);
+
+  await businessRepository.updateBusinessWallet(wallet.id, {
+    held: new Prisma.Decimal(wallet.held).minus(escrow),
+    balance: new Prisma.Decimal(wallet.balance).plus(unspent),
+    total_spent: new Prisma.Decimal(wallet.total_spent).plus(spent),
+    updated_by: actorId,
+  }, tx);
+  await businessRepository.updateShift(shift.id, { escrow_status: "released", updated_by: actorId }, tx);
+  logger.info(`Shift escrow released | shiftId=${shift.id} spent=${spent} returned=${unspent}`);
+};
+
+/**
+ * Business wallet snapshot (balance / held / total_spent). Creates the wallet on
+ * first access, seeded with the starting balance.
+ * @param {string} userId
+ */
+export const getWallet = async (userId) => {
+  const profile = await getProfileSummaryOrThrow(userId);
+  return businessRepository.ensureBusinessWallet(profile.id, userId, BUSINESS_WALLET_SEED_BALANCE);
+};
+
+/**
+ * Tops up the business wallet's spendable balance. Placeholder funding: the credit
+ * is applied instantly with no external capture — real MFS gateway authorization
+ * (bKash/Nagad corporate) is wired in later. `method` is recorded only for the log.
+ * @param {string} userId
+ * @param {{ amount: number, method?: string }} data
+ */
+export const topUpWallet = async (userId, { amount, method }) => {
+  const profile = await getProfileSummaryOrThrow(userId);
+  const amt = new Prisma.Decimal(amount);
+  if (amt.lessThan(MIN_BUSINESS_TOPUP)) {
+    throw new AppError(`Minimum top-up is ৳${MIN_BUSINESS_TOPUP}`, 400);
+  }
+
+  const wallet = await businessRepository.ensureBusinessWallet(profile.id, userId, BUSINESS_WALLET_SEED_BALANCE);
+  const updated = await businessRepository.updateBusinessWallet(wallet.id, {
+    balance: new Prisma.Decimal(wallet.balance).plus(amt),
+    updated_by: userId,
+  });
+  logger.info(`Business wallet topped up | userId=${userId} amount=${amt} method=${method ?? "manual"}`);
+  return updated;
 };
 
 /* ============================================================
@@ -181,9 +310,13 @@ export const createShift = async (userId, data) => {
   const shiftDate = new Date(data.shift_date);
   if (shiftDate < today()) throw new AppError("Shift date cannot be in the past", 400);
 
-  const status = data.draft ? "draft" : "pending_approval";
+  // Submitting straight to review (not a draft) escrows the shift's full cost now.
+  const isSubmitting = !data.draft;
+  const status = isSubmitting ? "pending_approval" : "draft";
+  const workersNeeded = Number(data.workers_needed);
+  const cost = shiftEscrowCost(data.pay_amount, workersNeeded);
 
-  const shift = await businessRepository.createShift({
+  const shiftData = {
     business_profile_id: profile.id,
     title: data.title,
     description: data.description ?? null,
@@ -194,7 +327,7 @@ export const createShift = async (userId, data) => {
     start_time: timeStringToDate(data.start_time),
     end_time: timeStringToDate(data.end_time),
     pay_amount: data.pay_amount,
-    workers_needed: Number(data.workers_needed),
+    workers_needed: workersNeeded,
     gender_preference: data.gender_preference ?? null,
     meal_included: data.meal_included ?? false,
     transport_support: data.transport_support ?? false,
@@ -202,10 +335,21 @@ export const createShift = async (userId, data) => {
     landmark: data.landmark ?? profile.landmark ?? null,
     zone_id: zoneId,
     status,
+    escrow_amount: isSubmitting ? cost : new Prisma.Decimal(0),
+    escrow_status: isSubmitting ? "held" : "none",
     created_by: userId,
-  });
+  };
 
-  logger.info(`Shift created | userId=${userId} shiftId=${shift.id} status=${status}`);
+  // Drafts hold no money. Submitting reserves the escrow and creates the shift
+  // atomically, so a funding failure never leaves an unfunded pending shift.
+  const shift = isSubmitting
+    ? await prisma.$transaction(async (tx) => {
+        await reserveFromWallet(tx, profile.id, userId, cost);
+        return businessRepository.createShift(shiftData, tx);
+      })
+    : await businessRepository.createShift(shiftData);
+
+  logger.info(`Shift created | userId=${userId} shiftId=${shift.id} status=${status}${isSubmitting ? ` escrow=${cost}` : ""}`);
   return shift;
 };
 
@@ -297,8 +441,19 @@ export const publishShift = async (userId, shiftId) => {
   if (!shift) throw new AppError("Shift not found", 404);
   if (shift.status !== "draft") throw new AppError("Only draft shifts can be submitted", 409);
 
-  const updated = await businessRepository.updateShift(shiftId, { status: "pending_approval", updated_by: userId });
-  logger.info(`Shift submitted for review | userId=${userId} shiftId=${shiftId}`);
+  const cost = shiftEscrowCost(shift.pay_amount, shift.workers_needed);
+
+  // Reserve the escrow and flip status atomically.
+  const updated = await prisma.$transaction(async (tx) => {
+    await reserveFromWallet(tx, profile.id, userId, cost);
+    return businessRepository.updateShift(shiftId, {
+      status: "pending_approval",
+      escrow_amount: cost,
+      escrow_status: "held",
+      updated_by: userId,
+    }, tx);
+  });
+  logger.info(`Shift submitted for review | userId=${userId} shiftId=${shiftId} escrow=${cost}`);
   return updated;
 };
 
@@ -316,10 +471,14 @@ export const cancelShift = async (userId, shiftId, reason) => {
     throw new AppError(`A '${shift.status}' shift cannot be cancelled`, 409);
   }
 
-  const updated = await businessRepository.updateShift(shiftId, {
-    status: "cancelled",
-    cancellation_reason: reason,
-    updated_by: userId,
+  // Refund any held escrow and cancel atomically.
+  const updated = await prisma.$transaction(async (tx) => {
+    await refundShiftEscrow(shift, userId, tx);
+    return businessRepository.updateShift(shiftId, {
+      status: "cancelled",
+      cancellation_reason: reason,
+      updated_by: userId,
+    }, tx);
   });
   logger.info(`Shift cancelled | userId=${userId} shiftId=${shiftId}`);
   return updated;

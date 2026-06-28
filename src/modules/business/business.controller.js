@@ -52,6 +52,20 @@ export const updatePreferences = asyncHandler(async (req, res) => {
   return sendSuccess(res, 200, "Preferences saved", profile);
 });
 
+/* ------------------------------ Wallet ----------------------------- */
+
+export const getWallet = asyncHandler(async (req, res) => {
+  const wallet = await businessService.getWallet(req.user.id);
+  return sendSuccess(res, 200, "Wallet fetched", wallet);
+});
+
+export const topUpWallet = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const { amount, method } = req.body;
+  const wallet = await businessService.topUpWallet(req.user.id, { amount, method });
+  return sendSuccess(res, 200, "Wallet topped up", wallet);
+});
+
 /* ----------------------------- Dashboard --------------------------- */
 
 export const getDashboard = asyncHandler(async (req, res) => {

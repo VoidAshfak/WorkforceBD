@@ -129,6 +129,11 @@ export type user_sanctions = $Result.DefaultSelection<Prisma.$user_sanctionsPayl
  */
 export type wallets = $Result.DefaultSelection<Prisma.$walletsPayload>
 /**
+ * Model business_wallets
+ * 
+ */
+export type business_wallets = $Result.DefaultSelection<Prisma.$business_walletsPayload>
+/**
  * Model worker_assignments
  * 
  */
@@ -188,6 +193,16 @@ export const checkin_method_enum: {
 };
 
 export type checkin_method_enum = (typeof checkin_method_enum)[keyof typeof checkin_method_enum]
+
+
+export const escrow_status_enum: {
+  none: 'none',
+  held: 'held',
+  released: 'released',
+  refunded: 'refunded'
+};
+
+export type escrow_status_enum = (typeof escrow_status_enum)[keyof typeof escrow_status_enum]
 
 
 export const gender_enum: {
@@ -348,6 +363,10 @@ export const application_status_enum: typeof $Enums.application_status_enum
 export type checkin_method_enum = $Enums.checkin_method_enum
 
 export const checkin_method_enum: typeof $Enums.checkin_method_enum
+
+export type escrow_status_enum = $Enums.escrow_status_enum
+
+export const escrow_status_enum: typeof $Enums.escrow_status_enum
 
 export type gender_enum = $Enums.gender_enum
 
@@ -755,6 +774,16 @@ export class PrismaClient<
     * ```
     */
   get wallets(): Prisma.walletsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.business_wallets`: Exposes CRUD operations for the **business_wallets** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Business_wallets
+    * const business_wallets = await prisma.business_wallets.findMany()
+    * ```
+    */
+  get business_wallets(): Prisma.business_walletsDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.worker_assignments`: Exposes CRUD operations for the **worker_assignments** model.
@@ -1282,6 +1311,7 @@ export namespace Prisma {
     transactions: 'transactions',
     user_sanctions: 'user_sanctions',
     wallets: 'wallets',
+    business_wallets: 'business_wallets',
     worker_assignments: 'worker_assignments',
     worker_categories: 'worker_categories',
     worker_preferred_zones: 'worker_preferred_zones',
@@ -1304,7 +1334,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "categories" | "cities" | "devices" | "otp_requests" | "refresh_tokens" | "sessions" | "skills" | "spatial_ref_sys" | "users" | "zones" | "applications" | "business_branches" | "business_favorite_workers" | "business_profiles" | "disputes" | "notifications" | "payout_requests" | "ratings" | "reports" | "shifts" | "transactions" | "user_sanctions" | "wallets" | "worker_assignments" | "worker_categories" | "worker_preferred_zones" | "worker_profiles" | "worker_skills" | "chat_conversations" | "chat_messages"
+      modelProps: "categories" | "cities" | "devices" | "otp_requests" | "refresh_tokens" | "sessions" | "skills" | "spatial_ref_sys" | "users" | "zones" | "applications" | "business_branches" | "business_favorite_workers" | "business_profiles" | "disputes" | "notifications" | "payout_requests" | "ratings" | "reports" | "shifts" | "transactions" | "user_sanctions" | "wallets" | "business_wallets" | "worker_assignments" | "worker_categories" | "worker_preferred_zones" | "worker_profiles" | "worker_skills" | "chat_conversations" | "chat_messages"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3010,6 +3040,80 @@ export namespace Prisma {
           }
         }
       }
+      business_wallets: {
+        payload: Prisma.$business_walletsPayload<ExtArgs>
+        fields: Prisma.business_walletsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.business_walletsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.business_walletsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload>
+          }
+          findFirst: {
+            args: Prisma.business_walletsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.business_walletsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload>
+          }
+          findMany: {
+            args: Prisma.business_walletsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload>[]
+          }
+          create: {
+            args: Prisma.business_walletsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload>
+          }
+          createMany: {
+            args: Prisma.business_walletsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.business_walletsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload>[]
+          }
+          delete: {
+            args: Prisma.business_walletsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload>
+          }
+          update: {
+            args: Prisma.business_walletsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload>
+          }
+          deleteMany: {
+            args: Prisma.business_walletsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.business_walletsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.business_walletsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload>[]
+          }
+          upsert: {
+            args: Prisma.business_walletsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_walletsPayload>
+          }
+          aggregate: {
+            args: Prisma.Business_walletsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBusiness_wallets>
+          }
+          groupBy: {
+            args: Prisma.business_walletsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Business_walletsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.business_walletsCountArgs<ExtArgs>
+            result: $Utils.Optional<Business_walletsCountAggregateOutputType> | number
+          }
+        }
+      }
       worker_assignments: {
         payload: Prisma.$worker_assignmentsPayload<ExtArgs>
         fields: Prisma.worker_assignmentsFieldRefs
@@ -3659,6 +3763,7 @@ export namespace Prisma {
     transactions?: transactionsOmit
     user_sanctions?: user_sanctionsOmit
     wallets?: walletsOmit
+    business_wallets?: business_walletsOmit
     worker_assignments?: worker_assignmentsOmit
     worker_categories?: worker_categoriesOmit
     worker_preferred_zones?: worker_preferred_zonesOmit
@@ -20397,6 +20502,7 @@ export namespace Prisma {
     updated_by?: boolean
     business_branches?: boolean | business_profiles$business_branchesArgs<ExtArgs>
     business_favorite_workers?: boolean | business_profiles$business_favorite_workersArgs<ExtArgs>
+    business_wallets?: boolean | business_profiles$business_walletsArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     zones?: boolean | business_profiles$zonesArgs<ExtArgs>
     chat_conversations?: boolean | business_profiles$chat_conversationsArgs<ExtArgs>
@@ -20502,6 +20608,7 @@ export namespace Prisma {
   export type business_profilesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     business_branches?: boolean | business_profiles$business_branchesArgs<ExtArgs>
     business_favorite_workers?: boolean | business_profiles$business_favorite_workersArgs<ExtArgs>
+    business_wallets?: boolean | business_profiles$business_walletsArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     zones?: boolean | business_profiles$zonesArgs<ExtArgs>
     chat_conversations?: boolean | business_profiles$chat_conversationsArgs<ExtArgs>
@@ -20522,6 +20629,7 @@ export namespace Prisma {
     objects: {
       business_branches: Prisma.$business_branchesPayload<ExtArgs>[]
       business_favorite_workers: Prisma.$business_favorite_workersPayload<ExtArgs>[]
+      business_wallets: Prisma.$business_walletsPayload<ExtArgs> | null
       users: Prisma.$usersPayload<ExtArgs>
       zones: Prisma.$zonesPayload<ExtArgs> | null
       chat_conversations: Prisma.$chat_conversationsPayload<ExtArgs>[]
@@ -20951,6 +21059,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     business_branches<T extends business_profiles$business_branchesArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$business_branchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_branchesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     business_favorite_workers<T extends business_profiles$business_favorite_workersArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$business_favorite_workersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_favorite_workersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    business_wallets<T extends business_profiles$business_walletsArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$business_walletsArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     zones<T extends business_profiles$zonesArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$zonesArgs<ExtArgs>>): Prisma__zonesClient<$Result.GetResult<Prisma.$zonesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     chat_conversations<T extends business_profiles$chat_conversationsArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$chat_conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -21457,6 +21566,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Business_favorite_workersScalarFieldEnum | Business_favorite_workersScalarFieldEnum[]
+  }
+
+  /**
+   * business_profiles.business_wallets
+   */
+  export type business_profiles$business_walletsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    where?: business_walletsWhereInput
   }
 
   /**
@@ -27895,11 +28023,13 @@ export namespace Prisma {
   export type ShiftsAvgAggregateOutputType = {
     pay_amount: Decimal | null
     workers_needed: number | null
+    escrow_amount: Decimal | null
   }
 
   export type ShiftsSumAggregateOutputType = {
     pay_amount: Decimal | null
     workers_needed: number | null
+    escrow_amount: Decimal | null
   }
 
   export type ShiftsMinAggregateOutputType = {
@@ -27925,6 +28055,8 @@ export namespace Prisma {
     zone_id: string | null
     status: $Enums.shift_status_enum | null
     cancellation_reason: string | null
+    escrow_amount: Decimal | null
+    escrow_status: $Enums.escrow_status_enum | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -27956,6 +28088,8 @@ export namespace Prisma {
     zone_id: string | null
     status: $Enums.shift_status_enum | null
     cancellation_reason: string | null
+    escrow_amount: Decimal | null
+    escrow_status: $Enums.escrow_status_enum | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
@@ -27987,6 +28121,8 @@ export namespace Prisma {
     zone_id: number
     status: number
     cancellation_reason: number
+    escrow_amount: number
+    escrow_status: number
     created_at: number
     updated_at: number
     deleted_at: number
@@ -28000,11 +28136,13 @@ export namespace Prisma {
   export type ShiftsAvgAggregateInputType = {
     pay_amount?: true
     workers_needed?: true
+    escrow_amount?: true
   }
 
   export type ShiftsSumAggregateInputType = {
     pay_amount?: true
     workers_needed?: true
+    escrow_amount?: true
   }
 
   export type ShiftsMinAggregateInputType = {
@@ -28030,6 +28168,8 @@ export namespace Prisma {
     zone_id?: true
     status?: true
     cancellation_reason?: true
+    escrow_amount?: true
+    escrow_status?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -28061,6 +28201,8 @@ export namespace Prisma {
     zone_id?: true
     status?: true
     cancellation_reason?: true
+    escrow_amount?: true
+    escrow_status?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -28092,6 +28234,8 @@ export namespace Prisma {
     zone_id?: true
     status?: true
     cancellation_reason?: true
+    escrow_amount?: true
+    escrow_status?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
@@ -28210,6 +28354,8 @@ export namespace Prisma {
     zone_id: string | null
     status: $Enums.shift_status_enum
     cancellation_reason: string | null
+    escrow_amount: Decimal
+    escrow_status: $Enums.escrow_status_enum
     created_at: Date
     updated_at: Date
     deleted_at: Date | null
@@ -28260,6 +28406,8 @@ export namespace Prisma {
     zone_id?: boolean
     status?: boolean
     cancellation_reason?: boolean
+    escrow_amount?: boolean
+    escrow_status?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -28303,6 +28451,8 @@ export namespace Prisma {
     zone_id?: boolean
     status?: boolean
     cancellation_reason?: boolean
+    escrow_amount?: boolean
+    escrow_status?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -28338,6 +28488,8 @@ export namespace Prisma {
     zone_id?: boolean
     status?: boolean
     cancellation_reason?: boolean
+    escrow_amount?: boolean
+    escrow_status?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -28373,6 +28525,8 @@ export namespace Prisma {
     zone_id?: boolean
     status?: boolean
     cancellation_reason?: boolean
+    escrow_amount?: boolean
+    escrow_status?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
@@ -28381,7 +28535,7 @@ export namespace Prisma {
     checkin_qr_token?: boolean
   }
 
-  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token", ExtArgs["result"]["shifts"]>
+  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "escrow_amount" | "escrow_status" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token", ExtArgs["result"]["shifts"]>
   export type shiftsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | shifts$applicationsArgs<ExtArgs>
     chat_conversations?: boolean | shifts$chat_conversationsArgs<ExtArgs>
@@ -28447,6 +28601,8 @@ export namespace Prisma {
       zone_id: string | null
       status: $Enums.shift_status_enum
       cancellation_reason: string | null
+      escrow_amount: Prisma.Decimal
+      escrow_status: $Enums.escrow_status_enum
       created_at: Date
       updated_at: Date
       deleted_at: Date | null
@@ -28909,6 +29065,8 @@ export namespace Prisma {
     readonly zone_id: FieldRef<"shifts", 'String'>
     readonly status: FieldRef<"shifts", 'shift_status_enum'>
     readonly cancellation_reason: FieldRef<"shifts", 'String'>
+    readonly escrow_amount: FieldRef<"shifts", 'Decimal'>
+    readonly escrow_status: FieldRef<"shifts", 'escrow_status_enum'>
     readonly created_at: FieldRef<"shifts", 'DateTime'>
     readonly updated_at: FieldRef<"shifts", 'DateTime'>
     readonly deleted_at: FieldRef<"shifts", 'DateTime'>
@@ -33225,6 +33383,1189 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: walletsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model business_wallets
+   */
+
+  export type AggregateBusiness_wallets = {
+    _count: Business_walletsCountAggregateOutputType | null
+    _avg: Business_walletsAvgAggregateOutputType | null
+    _sum: Business_walletsSumAggregateOutputType | null
+    _min: Business_walletsMinAggregateOutputType | null
+    _max: Business_walletsMaxAggregateOutputType | null
+  }
+
+  export type Business_walletsAvgAggregateOutputType = {
+    balance: Decimal | null
+    held: Decimal | null
+    total_spent: Decimal | null
+  }
+
+  export type Business_walletsSumAggregateOutputType = {
+    balance: Decimal | null
+    held: Decimal | null
+    total_spent: Decimal | null
+  }
+
+  export type Business_walletsMinAggregateOutputType = {
+    id: string | null
+    business_profile_id: string | null
+    balance: Decimal | null
+    held: Decimal | null
+    total_spent: Decimal | null
+    currency: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    deleted_at: Date | null
+    created_by: string | null
+    updated_by: string | null
+  }
+
+  export type Business_walletsMaxAggregateOutputType = {
+    id: string | null
+    business_profile_id: string | null
+    balance: Decimal | null
+    held: Decimal | null
+    total_spent: Decimal | null
+    currency: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    deleted_at: Date | null
+    created_by: string | null
+    updated_by: string | null
+  }
+
+  export type Business_walletsCountAggregateOutputType = {
+    id: number
+    business_profile_id: number
+    balance: number
+    held: number
+    total_spent: number
+    currency: number
+    created_at: number
+    updated_at: number
+    deleted_at: number
+    created_by: number
+    updated_by: number
+    _all: number
+  }
+
+
+  export type Business_walletsAvgAggregateInputType = {
+    balance?: true
+    held?: true
+    total_spent?: true
+  }
+
+  export type Business_walletsSumAggregateInputType = {
+    balance?: true
+    held?: true
+    total_spent?: true
+  }
+
+  export type Business_walletsMinAggregateInputType = {
+    id?: true
+    business_profile_id?: true
+    balance?: true
+    held?: true
+    total_spent?: true
+    currency?: true
+    created_at?: true
+    updated_at?: true
+    deleted_at?: true
+    created_by?: true
+    updated_by?: true
+  }
+
+  export type Business_walletsMaxAggregateInputType = {
+    id?: true
+    business_profile_id?: true
+    balance?: true
+    held?: true
+    total_spent?: true
+    currency?: true
+    created_at?: true
+    updated_at?: true
+    deleted_at?: true
+    created_by?: true
+    updated_by?: true
+  }
+
+  export type Business_walletsCountAggregateInputType = {
+    id?: true
+    business_profile_id?: true
+    balance?: true
+    held?: true
+    total_spent?: true
+    currency?: true
+    created_at?: true
+    updated_at?: true
+    deleted_at?: true
+    created_by?: true
+    updated_by?: true
+    _all?: true
+  }
+
+  export type Business_walletsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which business_wallets to aggregate.
+     */
+    where?: business_walletsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of business_wallets to fetch.
+     */
+    orderBy?: business_walletsOrderByWithRelationInput | business_walletsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: business_walletsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` business_wallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` business_wallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned business_wallets
+    **/
+    _count?: true | Business_walletsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Business_walletsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Business_walletsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Business_walletsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Business_walletsMaxAggregateInputType
+  }
+
+  export type GetBusiness_walletsAggregateType<T extends Business_walletsAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusiness_wallets]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBusiness_wallets[P]>
+      : GetScalarType<T[P], AggregateBusiness_wallets[P]>
+  }
+
+
+
+
+  export type business_walletsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: business_walletsWhereInput
+    orderBy?: business_walletsOrderByWithAggregationInput | business_walletsOrderByWithAggregationInput[]
+    by: Business_walletsScalarFieldEnum[] | Business_walletsScalarFieldEnum
+    having?: business_walletsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Business_walletsCountAggregateInputType | true
+    _avg?: Business_walletsAvgAggregateInputType
+    _sum?: Business_walletsSumAggregateInputType
+    _min?: Business_walletsMinAggregateInputType
+    _max?: Business_walletsMaxAggregateInputType
+  }
+
+  export type Business_walletsGroupByOutputType = {
+    id: string
+    business_profile_id: string
+    balance: Decimal
+    held: Decimal
+    total_spent: Decimal
+    currency: string
+    created_at: Date
+    updated_at: Date
+    deleted_at: Date | null
+    created_by: string | null
+    updated_by: string | null
+    _count: Business_walletsCountAggregateOutputType | null
+    _avg: Business_walletsAvgAggregateOutputType | null
+    _sum: Business_walletsSumAggregateOutputType | null
+    _min: Business_walletsMinAggregateOutputType | null
+    _max: Business_walletsMaxAggregateOutputType | null
+  }
+
+  type GetBusiness_walletsGroupByPayload<T extends business_walletsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Business_walletsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Business_walletsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Business_walletsGroupByOutputType[P]>
+            : GetScalarType<T[P], Business_walletsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type business_walletsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    business_profile_id?: boolean
+    balance?: boolean
+    held?: boolean
+    total_spent?: boolean
+    currency?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    created_by?: boolean
+    updated_by?: boolean
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["business_wallets"]>
+
+  export type business_walletsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    business_profile_id?: boolean
+    balance?: boolean
+    held?: boolean
+    total_spent?: boolean
+    currency?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    created_by?: boolean
+    updated_by?: boolean
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["business_wallets"]>
+
+  export type business_walletsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    business_profile_id?: boolean
+    balance?: boolean
+    held?: boolean
+    total_spent?: boolean
+    currency?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    created_by?: boolean
+    updated_by?: boolean
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["business_wallets"]>
+
+  export type business_walletsSelectScalar = {
+    id?: boolean
+    business_profile_id?: boolean
+    balance?: boolean
+    held?: boolean
+    total_spent?: boolean
+    currency?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    deleted_at?: boolean
+    created_by?: boolean
+    updated_by?: boolean
+  }
+
+  export type business_walletsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "balance" | "held" | "total_spent" | "currency" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["business_wallets"]>
+  export type business_walletsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+  }
+  export type business_walletsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+  }
+  export type business_walletsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+  }
+
+  export type $business_walletsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "business_wallets"
+    objects: {
+      business_profiles: Prisma.$business_profilesPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      business_profile_id: string
+      balance: Prisma.Decimal
+      held: Prisma.Decimal
+      total_spent: Prisma.Decimal
+      currency: string
+      created_at: Date
+      updated_at: Date
+      deleted_at: Date | null
+      created_by: string | null
+      updated_by: string | null
+    }, ExtArgs["result"]["business_wallets"]>
+    composites: {}
+  }
+
+  type business_walletsGetPayload<S extends boolean | null | undefined | business_walletsDefaultArgs> = $Result.GetResult<Prisma.$business_walletsPayload, S>
+
+  type business_walletsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<business_walletsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Business_walletsCountAggregateInputType | true
+    }
+
+  export interface business_walletsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['business_wallets'], meta: { name: 'business_wallets' } }
+    /**
+     * Find zero or one Business_wallets that matches the filter.
+     * @param {business_walletsFindUniqueArgs} args - Arguments to find a Business_wallets
+     * @example
+     * // Get one Business_wallets
+     * const business_wallets = await prisma.business_wallets.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends business_walletsFindUniqueArgs>(args: SelectSubset<T, business_walletsFindUniqueArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Business_wallets that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {business_walletsFindUniqueOrThrowArgs} args - Arguments to find a Business_wallets
+     * @example
+     * // Get one Business_wallets
+     * const business_wallets = await prisma.business_wallets.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends business_walletsFindUniqueOrThrowArgs>(args: SelectSubset<T, business_walletsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Business_wallets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_walletsFindFirstArgs} args - Arguments to find a Business_wallets
+     * @example
+     * // Get one Business_wallets
+     * const business_wallets = await prisma.business_wallets.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends business_walletsFindFirstArgs>(args?: SelectSubset<T, business_walletsFindFirstArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Business_wallets that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_walletsFindFirstOrThrowArgs} args - Arguments to find a Business_wallets
+     * @example
+     * // Get one Business_wallets
+     * const business_wallets = await prisma.business_wallets.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends business_walletsFindFirstOrThrowArgs>(args?: SelectSubset<T, business_walletsFindFirstOrThrowArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Business_wallets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_walletsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Business_wallets
+     * const business_wallets = await prisma.business_wallets.findMany()
+     * 
+     * // Get first 10 Business_wallets
+     * const business_wallets = await prisma.business_wallets.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const business_walletsWithIdOnly = await prisma.business_wallets.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends business_walletsFindManyArgs>(args?: SelectSubset<T, business_walletsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Business_wallets.
+     * @param {business_walletsCreateArgs} args - Arguments to create a Business_wallets.
+     * @example
+     * // Create one Business_wallets
+     * const Business_wallets = await prisma.business_wallets.create({
+     *   data: {
+     *     // ... data to create a Business_wallets
+     *   }
+     * })
+     * 
+     */
+    create<T extends business_walletsCreateArgs>(args: SelectSubset<T, business_walletsCreateArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Business_wallets.
+     * @param {business_walletsCreateManyArgs} args - Arguments to create many Business_wallets.
+     * @example
+     * // Create many Business_wallets
+     * const business_wallets = await prisma.business_wallets.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends business_walletsCreateManyArgs>(args?: SelectSubset<T, business_walletsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Business_wallets and returns the data saved in the database.
+     * @param {business_walletsCreateManyAndReturnArgs} args - Arguments to create many Business_wallets.
+     * @example
+     * // Create many Business_wallets
+     * const business_wallets = await prisma.business_wallets.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Business_wallets and only return the `id`
+     * const business_walletsWithIdOnly = await prisma.business_wallets.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends business_walletsCreateManyAndReturnArgs>(args?: SelectSubset<T, business_walletsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Business_wallets.
+     * @param {business_walletsDeleteArgs} args - Arguments to delete one Business_wallets.
+     * @example
+     * // Delete one Business_wallets
+     * const Business_wallets = await prisma.business_wallets.delete({
+     *   where: {
+     *     // ... filter to delete one Business_wallets
+     *   }
+     * })
+     * 
+     */
+    delete<T extends business_walletsDeleteArgs>(args: SelectSubset<T, business_walletsDeleteArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Business_wallets.
+     * @param {business_walletsUpdateArgs} args - Arguments to update one Business_wallets.
+     * @example
+     * // Update one Business_wallets
+     * const business_wallets = await prisma.business_wallets.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends business_walletsUpdateArgs>(args: SelectSubset<T, business_walletsUpdateArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Business_wallets.
+     * @param {business_walletsDeleteManyArgs} args - Arguments to filter Business_wallets to delete.
+     * @example
+     * // Delete a few Business_wallets
+     * const { count } = await prisma.business_wallets.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends business_walletsDeleteManyArgs>(args?: SelectSubset<T, business_walletsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Business_wallets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_walletsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Business_wallets
+     * const business_wallets = await prisma.business_wallets.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends business_walletsUpdateManyArgs>(args: SelectSubset<T, business_walletsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Business_wallets and returns the data updated in the database.
+     * @param {business_walletsUpdateManyAndReturnArgs} args - Arguments to update many Business_wallets.
+     * @example
+     * // Update many Business_wallets
+     * const business_wallets = await prisma.business_wallets.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Business_wallets and only return the `id`
+     * const business_walletsWithIdOnly = await prisma.business_wallets.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends business_walletsUpdateManyAndReturnArgs>(args: SelectSubset<T, business_walletsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Business_wallets.
+     * @param {business_walletsUpsertArgs} args - Arguments to update or create a Business_wallets.
+     * @example
+     * // Update or create a Business_wallets
+     * const business_wallets = await prisma.business_wallets.upsert({
+     *   create: {
+     *     // ... data to create a Business_wallets
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Business_wallets we want to update
+     *   }
+     * })
+     */
+    upsert<T extends business_walletsUpsertArgs>(args: SelectSubset<T, business_walletsUpsertArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Business_wallets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_walletsCountArgs} args - Arguments to filter Business_wallets to count.
+     * @example
+     * // Count the number of Business_wallets
+     * const count = await prisma.business_wallets.count({
+     *   where: {
+     *     // ... the filter for the Business_wallets we want to count
+     *   }
+     * })
+    **/
+    count<T extends business_walletsCountArgs>(
+      args?: Subset<T, business_walletsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Business_walletsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Business_wallets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Business_walletsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Business_walletsAggregateArgs>(args: Subset<T, Business_walletsAggregateArgs>): Prisma.PrismaPromise<GetBusiness_walletsAggregateType<T>>
+
+    /**
+     * Group by Business_wallets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_walletsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends business_walletsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: business_walletsGroupByArgs['orderBy'] }
+        : { orderBy?: business_walletsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, business_walletsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusiness_walletsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the business_wallets model
+   */
+  readonly fields: business_walletsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for business_wallets.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__business_walletsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    business_profiles<T extends business_profilesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, business_profilesDefaultArgs<ExtArgs>>): Prisma__business_profilesClient<$Result.GetResult<Prisma.$business_profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the business_wallets model
+   */
+  interface business_walletsFieldRefs {
+    readonly id: FieldRef<"business_wallets", 'String'>
+    readonly business_profile_id: FieldRef<"business_wallets", 'String'>
+    readonly balance: FieldRef<"business_wallets", 'Decimal'>
+    readonly held: FieldRef<"business_wallets", 'Decimal'>
+    readonly total_spent: FieldRef<"business_wallets", 'Decimal'>
+    readonly currency: FieldRef<"business_wallets", 'String'>
+    readonly created_at: FieldRef<"business_wallets", 'DateTime'>
+    readonly updated_at: FieldRef<"business_wallets", 'DateTime'>
+    readonly deleted_at: FieldRef<"business_wallets", 'DateTime'>
+    readonly created_by: FieldRef<"business_wallets", 'String'>
+    readonly updated_by: FieldRef<"business_wallets", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * business_wallets findUnique
+   */
+  export type business_walletsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallets to fetch.
+     */
+    where: business_walletsWhereUniqueInput
+  }
+
+  /**
+   * business_wallets findUniqueOrThrow
+   */
+  export type business_walletsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallets to fetch.
+     */
+    where: business_walletsWhereUniqueInput
+  }
+
+  /**
+   * business_wallets findFirst
+   */
+  export type business_walletsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallets to fetch.
+     */
+    where?: business_walletsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of business_wallets to fetch.
+     */
+    orderBy?: business_walletsOrderByWithRelationInput | business_walletsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for business_wallets.
+     */
+    cursor?: business_walletsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` business_wallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` business_wallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of business_wallets.
+     */
+    distinct?: Business_walletsScalarFieldEnum | Business_walletsScalarFieldEnum[]
+  }
+
+  /**
+   * business_wallets findFirstOrThrow
+   */
+  export type business_walletsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallets to fetch.
+     */
+    where?: business_walletsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of business_wallets to fetch.
+     */
+    orderBy?: business_walletsOrderByWithRelationInput | business_walletsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for business_wallets.
+     */
+    cursor?: business_walletsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` business_wallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` business_wallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of business_wallets.
+     */
+    distinct?: Business_walletsScalarFieldEnum | Business_walletsScalarFieldEnum[]
+  }
+
+  /**
+   * business_wallets findMany
+   */
+  export type business_walletsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallets to fetch.
+     */
+    where?: business_walletsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of business_wallets to fetch.
+     */
+    orderBy?: business_walletsOrderByWithRelationInput | business_walletsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing business_wallets.
+     */
+    cursor?: business_walletsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` business_wallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` business_wallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of business_wallets.
+     */
+    distinct?: Business_walletsScalarFieldEnum | Business_walletsScalarFieldEnum[]
+  }
+
+  /**
+   * business_wallets create
+   */
+  export type business_walletsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a business_wallets.
+     */
+    data: XOR<business_walletsCreateInput, business_walletsUncheckedCreateInput>
+  }
+
+  /**
+   * business_wallets createMany
+   */
+  export type business_walletsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many business_wallets.
+     */
+    data: business_walletsCreateManyInput | business_walletsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * business_wallets createManyAndReturn
+   */
+  export type business_walletsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * The data used to create many business_wallets.
+     */
+    data: business_walletsCreateManyInput | business_walletsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * business_wallets update
+   */
+  export type business_walletsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a business_wallets.
+     */
+    data: XOR<business_walletsUpdateInput, business_walletsUncheckedUpdateInput>
+    /**
+     * Choose, which business_wallets to update.
+     */
+    where: business_walletsWhereUniqueInput
+  }
+
+  /**
+   * business_wallets updateMany
+   */
+  export type business_walletsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update business_wallets.
+     */
+    data: XOR<business_walletsUpdateManyMutationInput, business_walletsUncheckedUpdateManyInput>
+    /**
+     * Filter which business_wallets to update
+     */
+    where?: business_walletsWhereInput
+    /**
+     * Limit how many business_wallets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * business_wallets updateManyAndReturn
+   */
+  export type business_walletsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * The data used to update business_wallets.
+     */
+    data: XOR<business_walletsUpdateManyMutationInput, business_walletsUncheckedUpdateManyInput>
+    /**
+     * Filter which business_wallets to update
+     */
+    where?: business_walletsWhereInput
+    /**
+     * Limit how many business_wallets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * business_wallets upsert
+   */
+  export type business_walletsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the business_wallets to update in case it exists.
+     */
+    where: business_walletsWhereUniqueInput
+    /**
+     * In case the business_wallets found by the `where` argument doesn't exist, create a new business_wallets with this data.
+     */
+    create: XOR<business_walletsCreateInput, business_walletsUncheckedCreateInput>
+    /**
+     * In case the business_wallets was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<business_walletsUpdateInput, business_walletsUncheckedUpdateInput>
+  }
+
+  /**
+   * business_wallets delete
+   */
+  export type business_walletsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    /**
+     * Filter which business_wallets to delete.
+     */
+    where: business_walletsWhereUniqueInput
+  }
+
+  /**
+   * business_wallets deleteMany
+   */
+  export type business_walletsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which business_wallets to delete
+     */
+    where?: business_walletsWhereInput
+    /**
+     * Limit how many business_wallets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * business_wallets without action
+   */
+  export type business_walletsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
   }
 
 
@@ -41893,6 +43234,8 @@ export namespace Prisma {
     zone_id: 'zone_id',
     status: 'status',
     cancellation_reason: 'cancellation_reason',
+    escrow_amount: 'escrow_amount',
+    escrow_status: 'escrow_status',
     created_at: 'created_at',
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
@@ -41958,6 +43301,23 @@ export namespace Prisma {
   };
 
   export type WalletsScalarFieldEnum = (typeof WalletsScalarFieldEnum)[keyof typeof WalletsScalarFieldEnum]
+
+
+  export const Business_walletsScalarFieldEnum: {
+    id: 'id',
+    business_profile_id: 'business_profile_id',
+    balance: 'balance',
+    held: 'held',
+    total_spent: 'total_spent',
+    currency: 'currency',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    deleted_at: 'deleted_at',
+    created_by: 'created_by',
+    updated_by: 'updated_by'
+  };
+
+  export type Business_walletsScalarFieldEnum = (typeof Business_walletsScalarFieldEnum)[keyof typeof Business_walletsScalarFieldEnum]
 
 
   export const Worker_assignmentsScalarFieldEnum: {
@@ -42371,6 +43731,20 @@ export namespace Prisma {
    * Reference to a field of type 'shift_status_enum[]'
    */
   export type ListEnumshift_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'shift_status_enum[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'escrow_status_enum'
+   */
+  export type Enumescrow_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'escrow_status_enum'>
+    
+
+
+  /**
+   * Reference to a field of type 'escrow_status_enum[]'
+   */
+  export type ListEnumescrow_status_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'escrow_status_enum[]'>
     
 
 
@@ -43582,6 +44956,7 @@ export namespace Prisma {
     updated_by?: UuidNullableFilter<"business_profiles"> | string | null
     business_branches?: Business_branchesListRelationFilter
     business_favorite_workers?: Business_favorite_workersListRelationFilter
+    business_wallets?: XOR<Business_walletsNullableScalarRelationFilter, business_walletsWhereInput> | null
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     zones?: XOR<ZonesNullableScalarRelationFilter, zonesWhereInput> | null
     chat_conversations?: Chat_conversationsListRelationFilter
@@ -43618,6 +44993,7 @@ export namespace Prisma {
     updated_by?: SortOrderInput | SortOrder
     business_branches?: business_branchesOrderByRelationAggregateInput
     business_favorite_workers?: business_favorite_workersOrderByRelationAggregateInput
+    business_wallets?: business_walletsOrderByWithRelationInput
     users?: usersOrderByWithRelationInput
     zones?: zonesOrderByWithRelationInput
     chat_conversations?: chat_conversationsOrderByRelationAggregateInput
@@ -43657,6 +45033,7 @@ export namespace Prisma {
     updated_by?: UuidNullableFilter<"business_profiles"> | string | null
     business_branches?: Business_branchesListRelationFilter
     business_favorite_workers?: Business_favorite_workersListRelationFilter
+    business_wallets?: XOR<Business_walletsNullableScalarRelationFilter, business_walletsWhereInput> | null
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     zones?: XOR<ZonesNullableScalarRelationFilter, zonesWhereInput> | null
     chat_conversations?: Chat_conversationsListRelationFilter
@@ -44341,6 +45718,8 @@ export namespace Prisma {
     zone_id?: UuidNullableFilter<"shifts"> | string | null
     status?: Enumshift_status_enumFilter<"shifts"> | $Enums.shift_status_enum
     cancellation_reason?: StringNullableFilter<"shifts"> | string | null
+    escrow_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFilter<"shifts"> | $Enums.escrow_status_enum
     created_at?: DateTimeFilter<"shifts"> | Date | string
     updated_at?: DateTimeFilter<"shifts"> | Date | string
     deleted_at?: DateTimeNullableFilter<"shifts"> | Date | string | null
@@ -44383,6 +45762,8 @@ export namespace Prisma {
     zone_id?: SortOrderInput | SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrderInput | SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -44428,6 +45809,8 @@ export namespace Prisma {
     zone_id?: UuidNullableFilter<"shifts"> | string | null
     status?: Enumshift_status_enumFilter<"shifts"> | $Enums.shift_status_enum
     cancellation_reason?: StringNullableFilter<"shifts"> | string | null
+    escrow_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFilter<"shifts"> | $Enums.escrow_status_enum
     created_at?: DateTimeFilter<"shifts"> | Date | string
     updated_at?: DateTimeFilter<"shifts"> | Date | string
     deleted_at?: DateTimeNullableFilter<"shifts"> | Date | string | null
@@ -44470,6 +45853,8 @@ export namespace Prisma {
     zone_id?: SortOrderInput | SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrderInput | SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -44509,6 +45894,8 @@ export namespace Prisma {
     zone_id?: UuidNullableWithAggregatesFilter<"shifts"> | string | null
     status?: Enumshift_status_enumWithAggregatesFilter<"shifts"> | $Enums.shift_status_enum
     cancellation_reason?: StringNullableWithAggregatesFilter<"shifts"> | string | null
+    escrow_amount?: DecimalWithAggregatesFilter<"shifts"> | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumWithAggregatesFilter<"shifts"> | $Enums.escrow_status_enum
     created_at?: DateTimeWithAggregatesFilter<"shifts"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"shifts"> | Date | string
     deleted_at?: DateTimeNullableWithAggregatesFilter<"shifts"> | Date | string | null
@@ -44814,6 +46201,93 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"wallets"> | Date | string | null
     created_by?: UuidNullableWithAggregatesFilter<"wallets"> | string | null
     updated_by?: UuidNullableWithAggregatesFilter<"wallets"> | string | null
+  }
+
+  export type business_walletsWhereInput = {
+    AND?: business_walletsWhereInput | business_walletsWhereInput[]
+    OR?: business_walletsWhereInput[]
+    NOT?: business_walletsWhereInput | business_walletsWhereInput[]
+    id?: UuidFilter<"business_wallets"> | string
+    business_profile_id?: UuidFilter<"business_wallets"> | string
+    balance?: DecimalFilter<"business_wallets"> | Decimal | DecimalJsLike | number | string
+    held?: DecimalFilter<"business_wallets"> | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFilter<"business_wallets"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"business_wallets"> | string
+    created_at?: DateTimeFilter<"business_wallets"> | Date | string
+    updated_at?: DateTimeFilter<"business_wallets"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"business_wallets"> | Date | string | null
+    created_by?: UuidNullableFilter<"business_wallets"> | string | null
+    updated_by?: UuidNullableFilter<"business_wallets"> | string | null
+    business_profiles?: XOR<Business_profilesScalarRelationFilter, business_profilesWhereInput>
+  }
+
+  export type business_walletsOrderByWithRelationInput = {
+    id?: SortOrder
+    business_profile_id?: SortOrder
+    balance?: SortOrder
+    held?: SortOrder
+    total_spent?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
+    created_by?: SortOrderInput | SortOrder
+    updated_by?: SortOrderInput | SortOrder
+    business_profiles?: business_profilesOrderByWithRelationInput
+  }
+
+  export type business_walletsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    business_profile_id?: string
+    AND?: business_walletsWhereInput | business_walletsWhereInput[]
+    OR?: business_walletsWhereInput[]
+    NOT?: business_walletsWhereInput | business_walletsWhereInput[]
+    balance?: DecimalFilter<"business_wallets"> | Decimal | DecimalJsLike | number | string
+    held?: DecimalFilter<"business_wallets"> | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFilter<"business_wallets"> | Decimal | DecimalJsLike | number | string
+    currency?: StringFilter<"business_wallets"> | string
+    created_at?: DateTimeFilter<"business_wallets"> | Date | string
+    updated_at?: DateTimeFilter<"business_wallets"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"business_wallets"> | Date | string | null
+    created_by?: UuidNullableFilter<"business_wallets"> | string | null
+    updated_by?: UuidNullableFilter<"business_wallets"> | string | null
+    business_profiles?: XOR<Business_profilesScalarRelationFilter, business_profilesWhereInput>
+  }, "id" | "business_profile_id">
+
+  export type business_walletsOrderByWithAggregationInput = {
+    id?: SortOrder
+    business_profile_id?: SortOrder
+    balance?: SortOrder
+    held?: SortOrder
+    total_spent?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrderInput | SortOrder
+    created_by?: SortOrderInput | SortOrder
+    updated_by?: SortOrderInput | SortOrder
+    _count?: business_walletsCountOrderByAggregateInput
+    _avg?: business_walletsAvgOrderByAggregateInput
+    _max?: business_walletsMaxOrderByAggregateInput
+    _min?: business_walletsMinOrderByAggregateInput
+    _sum?: business_walletsSumOrderByAggregateInput
+  }
+
+  export type business_walletsScalarWhereWithAggregatesInput = {
+    AND?: business_walletsScalarWhereWithAggregatesInput | business_walletsScalarWhereWithAggregatesInput[]
+    OR?: business_walletsScalarWhereWithAggregatesInput[]
+    NOT?: business_walletsScalarWhereWithAggregatesInput | business_walletsScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"business_wallets"> | string
+    business_profile_id?: UuidWithAggregatesFilter<"business_wallets"> | string
+    balance?: DecimalWithAggregatesFilter<"business_wallets"> | Decimal | DecimalJsLike | number | string
+    held?: DecimalWithAggregatesFilter<"business_wallets"> | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalWithAggregatesFilter<"business_wallets"> | Decimal | DecimalJsLike | number | string
+    currency?: StringWithAggregatesFilter<"business_wallets"> | string
+    created_at?: DateTimeWithAggregatesFilter<"business_wallets"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"business_wallets"> | Date | string
+    deleted_at?: DateTimeNullableWithAggregatesFilter<"business_wallets"> | Date | string | null
+    created_by?: UuidNullableWithAggregatesFilter<"business_wallets"> | string | null
+    updated_by?: UuidNullableWithAggregatesFilter<"business_wallets"> | string | null
   }
 
   export type worker_assignmentsWhereInput = {
@@ -46721,6 +48195,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
@@ -46757,6 +48232,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsUncheckedCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -46789,6 +48265,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
@@ -46825,6 +48302,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUncheckedUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -47574,6 +49052,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -47616,6 +49096,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -47650,6 +49132,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -47692,6 +49176,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -47730,6 +49216,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -47757,6 +49245,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -47788,6 +49278,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -48119,6 +49611,103 @@ export namespace Prisma {
     balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total_earned?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total_withdrawn?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_walletsCreateInput = {
+    id?: string
+    balance?: Decimal | DecimalJsLike | number | string
+    held?: Decimal | DecimalJsLike | number | string
+    total_spent?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles: business_profilesCreateNestedOneWithoutBusiness_walletsInput
+  }
+
+  export type business_walletsUncheckedCreateInput = {
+    id?: string
+    business_profile_id: string
+    balance?: Decimal | DecimalJsLike | number | string
+    held?: Decimal | DecimalJsLike | number | string
+    total_spent?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type business_walletsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUpdateOneRequiredWithoutBusiness_walletsNestedInput
+  }
+
+  export type business_walletsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_walletsCreateManyInput = {
+    id?: string
+    business_profile_id: string
+    balance?: Decimal | DecimalJsLike | number | string
+    held?: Decimal | DecimalJsLike | number | string
+    total_spent?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type business_walletsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_walletsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49865,6 +51454,11 @@ export namespace Prisma {
     none?: business_favorite_workersWhereInput
   }
 
+  export type Business_walletsNullableScalarRelationFilter = {
+    is?: business_walletsWhereInput | null
+    isNot?: business_walletsWhereInput | null
+  }
+
   export type Chat_conversationsListRelationFilter = {
     every?: chat_conversationsWhereInput
     some?: chat_conversationsWhereInput
@@ -50536,6 +52130,13 @@ export namespace Prisma {
     not?: NestedEnumshift_status_enumFilter<$PrismaModel> | $Enums.shift_status_enum
   }
 
+  export type Enumescrow_status_enumFilter<$PrismaModel = never> = {
+    equals?: $Enums.escrow_status_enum | Enumescrow_status_enumFieldRefInput<$PrismaModel>
+    in?: $Enums.escrow_status_enum[] | ListEnumescrow_status_enumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.escrow_status_enum[] | ListEnumescrow_status_enumFieldRefInput<$PrismaModel>
+    not?: NestedEnumescrow_status_enumFilter<$PrismaModel> | $Enums.escrow_status_enum
+  }
+
   export type ApplicationsListRelationFilter = {
     every?: applicationsWhereInput
     some?: applicationsWhereInput
@@ -50589,6 +52190,8 @@ export namespace Prisma {
     zone_id?: SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -50600,6 +52203,7 @@ export namespace Prisma {
   export type shiftsAvgOrderByAggregateInput = {
     pay_amount?: SortOrder
     workers_needed?: SortOrder
+    escrow_amount?: SortOrder
   }
 
   export type shiftsMaxOrderByAggregateInput = {
@@ -50625,6 +52229,8 @@ export namespace Prisma {
     zone_id?: SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -50656,6 +52262,8 @@ export namespace Prisma {
     zone_id?: SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
@@ -50667,6 +52275,7 @@ export namespace Prisma {
   export type shiftsSumOrderByAggregateInput = {
     pay_amount?: SortOrder
     workers_needed?: SortOrder
+    escrow_amount?: SortOrder
   }
 
   export type Enumshift_type_enumWithAggregatesFilter<$PrismaModel = never> = {
@@ -50697,6 +52306,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumshift_status_enumFilter<$PrismaModel>
     _max?: NestedEnumshift_status_enumFilter<$PrismaModel>
+  }
+
+  export type Enumescrow_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.escrow_status_enum | Enumescrow_status_enumFieldRefInput<$PrismaModel>
+    in?: $Enums.escrow_status_enum[] | ListEnumescrow_status_enumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.escrow_status_enum[] | ListEnumescrow_status_enumFieldRefInput<$PrismaModel>
+    not?: NestedEnumescrow_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.escrow_status_enum
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumescrow_status_enumFilter<$PrismaModel>
+    _max?: NestedEnumescrow_status_enumFilter<$PrismaModel>
   }
 
   export type Enumtransaction_type_enumFilter<$PrismaModel = never> = {
@@ -50894,6 +52513,60 @@ export namespace Prisma {
     balance?: SortOrder
     total_earned?: SortOrder
     total_withdrawn?: SortOrder
+  }
+
+  export type business_walletsCountOrderByAggregateInput = {
+    id?: SortOrder
+    business_profile_id?: SortOrder
+    balance?: SortOrder
+    held?: SortOrder
+    total_spent?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrder
+    created_by?: SortOrder
+    updated_by?: SortOrder
+  }
+
+  export type business_walletsAvgOrderByAggregateInput = {
+    balance?: SortOrder
+    held?: SortOrder
+    total_spent?: SortOrder
+  }
+
+  export type business_walletsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    business_profile_id?: SortOrder
+    balance?: SortOrder
+    held?: SortOrder
+    total_spent?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrder
+    created_by?: SortOrder
+    updated_by?: SortOrder
+  }
+
+  export type business_walletsMinOrderByAggregateInput = {
+    id?: SortOrder
+    business_profile_id?: SortOrder
+    balance?: SortOrder
+    held?: SortOrder
+    total_spent?: SortOrder
+    currency?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    deleted_at?: SortOrder
+    created_by?: SortOrder
+    updated_by?: SortOrder
+  }
+
+  export type business_walletsSumOrderByAggregateInput = {
+    balance?: SortOrder
+    held?: SortOrder
+    total_spent?: SortOrder
   }
 
   export type Enumcheckin_method_enumNullableFilter<$PrismaModel = never> = {
@@ -52842,6 +54515,12 @@ export namespace Prisma {
     connect?: business_favorite_workersWhereUniqueInput | business_favorite_workersWhereUniqueInput[]
   }
 
+  export type business_walletsCreateNestedOneWithoutBusiness_profilesInput = {
+    create?: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
+    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_profilesInput
+    connect?: business_walletsWhereUniqueInput
+  }
+
   export type usersCreateNestedOneWithoutBusiness_profilesInput = {
     create?: XOR<usersCreateWithoutBusiness_profilesInput, usersUncheckedCreateWithoutBusiness_profilesInput>
     connectOrCreate?: usersCreateOrConnectWithoutBusiness_profilesInput
@@ -52880,6 +54559,12 @@ export namespace Prisma {
     connectOrCreate?: business_favorite_workersCreateOrConnectWithoutBusiness_profilesInput | business_favorite_workersCreateOrConnectWithoutBusiness_profilesInput[]
     createMany?: business_favorite_workersCreateManyBusiness_profilesInputEnvelope
     connect?: business_favorite_workersWhereUniqueInput | business_favorite_workersWhereUniqueInput[]
+  }
+
+  export type business_walletsUncheckedCreateNestedOneWithoutBusiness_profilesInput = {
+    create?: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
+    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_profilesInput
+    connect?: business_walletsWhereUniqueInput
   }
 
   export type chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput = {
@@ -52934,6 +54619,16 @@ export namespace Prisma {
     update?: business_favorite_workersUpdateWithWhereUniqueWithoutBusiness_profilesInput | business_favorite_workersUpdateWithWhereUniqueWithoutBusiness_profilesInput[]
     updateMany?: business_favorite_workersUpdateManyWithWhereWithoutBusiness_profilesInput | business_favorite_workersUpdateManyWithWhereWithoutBusiness_profilesInput[]
     deleteMany?: business_favorite_workersScalarWhereInput | business_favorite_workersScalarWhereInput[]
+  }
+
+  export type business_walletsUpdateOneWithoutBusiness_profilesNestedInput = {
+    create?: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
+    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_profilesInput
+    upsert?: business_walletsUpsertWithoutBusiness_profilesInput
+    disconnect?: business_walletsWhereInput | boolean
+    delete?: business_walletsWhereInput | boolean
+    connect?: business_walletsWhereUniqueInput
+    update?: XOR<XOR<business_walletsUpdateToOneWithWhereWithoutBusiness_profilesInput, business_walletsUpdateWithoutBusiness_profilesInput>, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
   }
 
   export type usersUpdateOneRequiredWithoutBusiness_profilesNestedInput = {
@@ -53008,6 +54703,16 @@ export namespace Prisma {
     update?: business_favorite_workersUpdateWithWhereUniqueWithoutBusiness_profilesInput | business_favorite_workersUpdateWithWhereUniqueWithoutBusiness_profilesInput[]
     updateMany?: business_favorite_workersUpdateManyWithWhereWithoutBusiness_profilesInput | business_favorite_workersUpdateManyWithWhereWithoutBusiness_profilesInput[]
     deleteMany?: business_favorite_workersScalarWhereInput | business_favorite_workersScalarWhereInput[]
+  }
+
+  export type business_walletsUncheckedUpdateOneWithoutBusiness_profilesNestedInput = {
+    create?: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
+    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_profilesInput
+    upsert?: business_walletsUpsertWithoutBusiness_profilesInput
+    disconnect?: business_walletsWhereInput | boolean
+    delete?: business_walletsWhereInput | boolean
+    connect?: business_walletsWhereUniqueInput
+    update?: XOR<XOR<business_walletsUpdateToOneWithWhereWithoutBusiness_profilesInput, business_walletsUpdateWithoutBusiness_profilesInput>, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
   }
 
   export type chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput = {
@@ -53507,6 +55212,10 @@ export namespace Prisma {
     set?: $Enums.shift_status_enum
   }
 
+  export type Enumescrow_status_enumFieldUpdateOperationsInput = {
+    set?: $Enums.escrow_status_enum
+  }
+
   export type applicationsUpdateManyWithoutShiftsNestedInput = {
     create?: XOR<applicationsCreateWithoutShiftsInput, applicationsUncheckedCreateWithoutShiftsInput> | applicationsCreateWithoutShiftsInput[] | applicationsUncheckedCreateWithoutShiftsInput[]
     connectOrCreate?: applicationsCreateOrConnectWithoutShiftsInput | applicationsCreateOrConnectWithoutShiftsInput[]
@@ -53917,6 +55626,20 @@ export namespace Prisma {
     update?: transactionsUpdateWithWhereUniqueWithoutWalletsInput | transactionsUpdateWithWhereUniqueWithoutWalletsInput[]
     updateMany?: transactionsUpdateManyWithWhereWithoutWalletsInput | transactionsUpdateManyWithWhereWithoutWalletsInput[]
     deleteMany?: transactionsScalarWhereInput | transactionsScalarWhereInput[]
+  }
+
+  export type business_profilesCreateNestedOneWithoutBusiness_walletsInput = {
+    create?: XOR<business_profilesCreateWithoutBusiness_walletsInput, business_profilesUncheckedCreateWithoutBusiness_walletsInput>
+    connectOrCreate?: business_profilesCreateOrConnectWithoutBusiness_walletsInput
+    connect?: business_profilesWhereUniqueInput
+  }
+
+  export type business_profilesUpdateOneRequiredWithoutBusiness_walletsNestedInput = {
+    create?: XOR<business_profilesCreateWithoutBusiness_walletsInput, business_profilesUncheckedCreateWithoutBusiness_walletsInput>
+    connectOrCreate?: business_profilesCreateOrConnectWithoutBusiness_walletsInput
+    upsert?: business_profilesUpsertWithoutBusiness_walletsInput
+    connect?: business_profilesWhereUniqueInput
+    update?: XOR<XOR<business_profilesUpdateToOneWithWhereWithoutBusiness_walletsInput, business_profilesUpdateWithoutBusiness_walletsInput>, business_profilesUncheckedUpdateWithoutBusiness_walletsInput>
   }
 
   export type ratingsCreateNestedManyWithoutWorker_assignmentsInput = {
@@ -55106,6 +56829,13 @@ export namespace Prisma {
     not?: NestedEnumshift_status_enumFilter<$PrismaModel> | $Enums.shift_status_enum
   }
 
+  export type NestedEnumescrow_status_enumFilter<$PrismaModel = never> = {
+    equals?: $Enums.escrow_status_enum | Enumescrow_status_enumFieldRefInput<$PrismaModel>
+    in?: $Enums.escrow_status_enum[] | ListEnumescrow_status_enumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.escrow_status_enum[] | ListEnumescrow_status_enumFieldRefInput<$PrismaModel>
+    not?: NestedEnumescrow_status_enumFilter<$PrismaModel> | $Enums.escrow_status_enum
+  }
+
   export type NestedEnumshift_type_enumWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.shift_type_enum | Enumshift_type_enumFieldRefInput<$PrismaModel>
     in?: $Enums.shift_type_enum[] | ListEnumshift_type_enumFieldRefInput<$PrismaModel>
@@ -55134,6 +56864,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumshift_status_enumFilter<$PrismaModel>
     _max?: NestedEnumshift_status_enumFilter<$PrismaModel>
+  }
+
+  export type NestedEnumescrow_status_enumWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.escrow_status_enum | Enumescrow_status_enumFieldRefInput<$PrismaModel>
+    in?: $Enums.escrow_status_enum[] | ListEnumescrow_status_enumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.escrow_status_enum[] | ListEnumescrow_status_enumFieldRefInput<$PrismaModel>
+    not?: NestedEnumescrow_status_enumWithAggregatesFilter<$PrismaModel> | $Enums.escrow_status_enum
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumescrow_status_enumFilter<$PrismaModel>
+    _max?: NestedEnumescrow_status_enumFilter<$PrismaModel>
   }
 
   export type NestedEnumtransaction_type_enumFilter<$PrismaModel = never> = {
@@ -55206,6 +56946,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -55246,6 +56988,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -55365,6 +57109,8 @@ export namespace Prisma {
     zone_id?: UuidNullableFilter<"shifts"> | string | null
     status?: Enumshift_status_enumFilter<"shifts"> | $Enums.shift_status_enum
     cancellation_reason?: StringNullableFilter<"shifts"> | string | null
+    escrow_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFilter<"shifts"> | $Enums.escrow_status_enum
     created_at?: DateTimeFilter<"shifts"> | Date | string
     updated_at?: DateTimeFilter<"shifts"> | Date | string
     deleted_at?: DateTimeNullableFilter<"shifts"> | Date | string | null
@@ -56385,6 +58131,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
@@ -56419,6 +58166,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsUncheckedCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -57301,6 +59049,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
@@ -57335,6 +59084,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUncheckedUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -57981,6 +59731,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
@@ -58015,6 +59766,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsUncheckedCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -58048,6 +59800,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -58088,6 +59842,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -58337,6 +60093,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -58378,6 +60136,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -58548,6 +60308,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -58589,6 +60351,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -58748,6 +60512,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
@@ -58783,6 +60548,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsUncheckedCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -58846,6 +60612,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -58886,6 +60654,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -58949,6 +60719,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
@@ -58984,6 +60755,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUncheckedUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -59072,6 +60844,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
@@ -59107,6 +60880,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsUncheckedCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -59231,6 +61005,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
@@ -59266,6 +61041,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUncheckedUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -59411,6 +61187,37 @@ export namespace Prisma {
   export type business_favorite_workersCreateManyBusiness_profilesInputEnvelope = {
     data: business_favorite_workersCreateManyBusiness_profilesInput | business_favorite_workersCreateManyBusiness_profilesInput[]
     skipDuplicates?: boolean
+  }
+
+  export type business_walletsCreateWithoutBusiness_profilesInput = {
+    id?: string
+    balance?: Decimal | DecimalJsLike | number | string
+    held?: Decimal | DecimalJsLike | number | string
+    total_spent?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type business_walletsUncheckedCreateWithoutBusiness_profilesInput = {
+    id?: string
+    balance?: Decimal | DecimalJsLike | number | string
+    held?: Decimal | DecimalJsLike | number | string
+    total_spent?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type business_walletsCreateOrConnectWithoutBusiness_profilesInput = {
+    where: business_walletsWhereUniqueInput
+    create: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
   }
 
   export type usersCreateWithoutBusiness_profilesInput = {
@@ -59582,6 +61389,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -59622,6 +61431,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -59686,6 +61497,43 @@ export namespace Prisma {
     business_profile_id?: UuidFilter<"business_favorite_workers"> | string
     worker_profile_id?: UuidFilter<"business_favorite_workers"> | string
     created_at?: DateTimeFilter<"business_favorite_workers"> | Date | string
+  }
+
+  export type business_walletsUpsertWithoutBusiness_profilesInput = {
+    update: XOR<business_walletsUpdateWithoutBusiness_profilesInput, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
+    create: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
+    where?: business_walletsWhereInput
+  }
+
+  export type business_walletsUpdateToOneWithWhereWithoutBusiness_profilesInput = {
+    where?: business_walletsWhereInput
+    data: XOR<business_walletsUpdateWithoutBusiness_profilesInput, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
+  }
+
+  export type business_walletsUpdateWithoutBusiness_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_walletsUncheckedUpdateWithoutBusiness_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type usersUpsertWithoutBusiness_profilesInput = {
@@ -60145,6 +61993,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -60186,6 +62036,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -60525,6 +62377,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -60566,6 +62420,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61332,6 +63188,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -61373,6 +63231,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -61629,6 +63489,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61670,6 +63532,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61970,6 +63834,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -62011,6 +63877,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -62319,6 +64187,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -62360,6 +64230,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -62649,6 +64521,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
@@ -62684,6 +64557,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsUncheckedCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -63023,6 +64897,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
@@ -63058,6 +64933,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUncheckedUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -63251,6 +65127,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -63292,6 +65170,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -63421,6 +65301,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -63462,6 +65344,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -64105,6 +65989,158 @@ export namespace Prisma {
     worker_profiles?: worker_profilesUncheckedUpdateOneWithoutUsersNestedInput
   }
 
+  export type business_profilesCreateWithoutBusiness_walletsInput = {
+    id?: string
+    business_name: string
+    business_type?: string | null
+    logo_url?: string | null
+    manager_name?: string | null
+    manager_phone?: string | null
+    address?: string | null
+    landmark?: string | null
+    trade_license_url?: string | null
+    business_doc_url?: string | null
+    verification_status?: $Enums.verification_status_enum
+    verification_note?: string | null
+    meal_included?: boolean
+    transport_support?: boolean
+    female_friendly?: boolean
+    uniform_required?: boolean
+    reliability_score?: Decimal | DecimalJsLike | number | string | null
+    cancellation_rate?: Decimal | DecimalJsLike | number | string | null
+    payment_reliability?: Decimal | DecimalJsLike | number | string | null
+    dispute_count?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
+    business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
+    users: usersCreateNestedOneWithoutBusiness_profilesInput
+    zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
+    shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
+  }
+
+  export type business_profilesUncheckedCreateWithoutBusiness_walletsInput = {
+    id?: string
+    user_id: string
+    business_name: string
+    business_type?: string | null
+    logo_url?: string | null
+    manager_name?: string | null
+    manager_phone?: string | null
+    address?: string | null
+    landmark?: string | null
+    zone_id?: string | null
+    trade_license_url?: string | null
+    business_doc_url?: string | null
+    verification_status?: $Enums.verification_status_enum
+    verification_note?: string | null
+    meal_included?: boolean
+    transport_support?: boolean
+    female_friendly?: boolean
+    uniform_required?: boolean
+    reliability_score?: Decimal | DecimalJsLike | number | string | null
+    cancellation_rate?: Decimal | DecimalJsLike | number | string | null
+    payment_reliability?: Decimal | DecimalJsLike | number | string | null
+    dispute_count?: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
+  }
+
+  export type business_profilesCreateOrConnectWithoutBusiness_walletsInput = {
+    where: business_profilesWhereUniqueInput
+    create: XOR<business_profilesCreateWithoutBusiness_walletsInput, business_profilesUncheckedCreateWithoutBusiness_walletsInput>
+  }
+
+  export type business_profilesUpsertWithoutBusiness_walletsInput = {
+    update: XOR<business_profilesUpdateWithoutBusiness_walletsInput, business_profilesUncheckedUpdateWithoutBusiness_walletsInput>
+    create: XOR<business_profilesCreateWithoutBusiness_walletsInput, business_profilesUncheckedCreateWithoutBusiness_walletsInput>
+    where?: business_profilesWhereInput
+  }
+
+  export type business_profilesUpdateToOneWithWhereWithoutBusiness_walletsInput = {
+    where?: business_profilesWhereInput
+    data: XOR<business_profilesUpdateWithoutBusiness_walletsInput, business_profilesUncheckedUpdateWithoutBusiness_walletsInput>
+  }
+
+  export type business_profilesUpdateWithoutBusiness_walletsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_name?: StringFieldUpdateOperationsInput | string
+    business_type?: NullableStringFieldUpdateOperationsInput | string | null
+    logo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_name?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    trade_license_url?: NullableStringFieldUpdateOperationsInput | string | null
+    business_doc_url?: NullableStringFieldUpdateOperationsInput | string | null
+    verification_status?: Enumverification_status_enumFieldUpdateOperationsInput | $Enums.verification_status_enum
+    verification_note?: NullableStringFieldUpdateOperationsInput | string | null
+    meal_included?: BoolFieldUpdateOperationsInput | boolean
+    transport_support?: BoolFieldUpdateOperationsInput | boolean
+    female_friendly?: BoolFieldUpdateOperationsInput | boolean
+    uniform_required?: BoolFieldUpdateOperationsInput | boolean
+    reliability_score?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    cancellation_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_reliability?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    dispute_count?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
+    business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
+    users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
+    zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
+    shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
+  }
+
+  export type business_profilesUncheckedUpdateWithoutBusiness_walletsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    business_name?: StringFieldUpdateOperationsInput | string
+    business_type?: NullableStringFieldUpdateOperationsInput | string | null
+    logo_url?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_name?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    zone_id?: NullableStringFieldUpdateOperationsInput | string | null
+    trade_license_url?: NullableStringFieldUpdateOperationsInput | string | null
+    business_doc_url?: NullableStringFieldUpdateOperationsInput | string | null
+    verification_status?: Enumverification_status_enumFieldUpdateOperationsInput | $Enums.verification_status_enum
+    verification_note?: NullableStringFieldUpdateOperationsInput | string | null
+    meal_included?: BoolFieldUpdateOperationsInput | boolean
+    transport_support?: BoolFieldUpdateOperationsInput | boolean
+    female_friendly?: BoolFieldUpdateOperationsInput | boolean
+    uniform_required?: BoolFieldUpdateOperationsInput | boolean
+    reliability_score?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    cancellation_rate?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    payment_reliability?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    dispute_count?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+  }
+
   export type ratingsCreateWithoutWorker_assignmentsInput = {
     id?: string
     overall_score: number
@@ -64245,6 +66281,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -64286,6 +66324,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -64483,6 +66523,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -64524,6 +66566,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -65869,6 +67913,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
@@ -65904,6 +67949,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesUncheckedCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersUncheckedCreateNestedManyWithoutBusiness_profilesInput
+    business_wallets?: business_walletsUncheckedCreateNestedOneWithoutBusiness_profilesInput
     shifts?: shiftsUncheckedCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -65931,6 +67977,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -65972,6 +68020,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -66139,6 +68189,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
@@ -66174,6 +68225,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUncheckedUpdateOneWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -66207,6 +68259,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -66248,6 +68302,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -66615,6 +68671,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -66657,6 +68715,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -66697,6 +68757,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -66734,6 +68796,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -68200,6 +70264,8 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -68284,6 +70350,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
@@ -68318,6 +70385,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUncheckedUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -68370,6 +70438,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -68410,6 +70480,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -68447,6 +70519,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -68553,6 +70627,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -68580,6 +70656,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -68620,6 +70698,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -68657,6 +70737,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -68720,6 +70802,8 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
@@ -68850,6 +70934,8 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -68890,6 +70976,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -68927,6 +71015,8 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
