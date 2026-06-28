@@ -89,17 +89,34 @@ const buildActiveProfile = (role, userId) => {
 };
 
 /**
- * Creates session + tokens for an authenticated user.
+ * Resolves the account context a token should carry. Prefers an explicitly
+ * requested role the user holds; otherwise falls back to their first non-admin
+ * role. Returns null only when the user holds no worker/business role.
+ * @param {{ roles: string[] }} user
+ * @param {string} [requestedRole]
+ * @returns {string|null}
+ */
+const resolveActiveRole = (user, requestedRole) => {
+  if (requestedRole && user.roles.includes(requestedRole)) return requestedRole;
+  return user.roles.find((r) => r !== "admin") ?? null;
+};
+
+/**
+ * Creates session + tokens for an authenticated user. The access token carries
+ * the active account context (`active_role`), persisted on the session so it
+ * survives token refresh.
  * @param {object} user
+ * @param {string|null} activeRole
  * @param {{ ipAddress?: string, userAgent?: string }} meta
  */
-const issueTokens = async (user, meta = {}) => {
-  const accessToken = generateAccessToken({ id: user.id, roles: user.roles });
+const issueTokens = async (user, activeRole, meta = {}) => {
+  const accessToken = generateAccessToken({ id: user.id, roles: user.roles, active_role: activeRole });
   const refreshTokenValue = generateRefreshToken();
 
   const session = await authRepository.createSession({
     user_id: user.id,
     access_token: accessToken,
+    active_role: activeRole,
     expires_at: new Date(Date.now() + 15 * 60 * 1000),
     ...(meta.ipAddress && { ip_address: meta.ipAddress }),
     ...(meta.userAgent && { user_agent: meta.userAgent }),
@@ -178,14 +195,16 @@ export const verifyOtpAndAuthenticate = async (phone, otpCode, role, meta = {}) 
     throw new AppError("Account is deactivated", 403);
   }
 
-  const { accessToken, refreshToken } = await issueTokens(user, meta);
-  const activeProfile = await buildActiveProfile(role, user.id);
-  logger.info(`Session issued | userId=${user.id} role=${role ?? "none"}`);
+  // Active context for this session: the role they signed in as, else their default.
+  const activeRole = resolveActiveRole(user, role);
+  const { accessToken, refreshToken } = await issueTokens(user, activeRole, meta);
+  const activeProfile = await buildActiveProfile(activeRole, user.id);
+  logger.info(`Session issued | userId=${user.id} active_role=${activeRole ?? "none"}`);
   return {
     accessToken,
     refreshToken,
     user: formatUser(user),
-    active_role: role ?? null,
+    active_role: activeRole,
     profile: activeProfile,
   };
 };
@@ -232,8 +251,13 @@ export const refreshAccessToken = async (refreshToken) => {
     expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   });
 
-  const accessToken = generateAccessToken({ id: user.id, roles: user.roles });
-  logger.info(`Tokens rotated | userId=${user.id}`);
+  // Carry the session's account context forward; fall back to a default if unset
+  // (e.g. a session created before active_role existed).
+  const activeRole = record.sessions.active_role ?? resolveActiveRole(user);
+  const accessToken = generateAccessToken({ id: user.id, roles: user.roles, active_role: activeRole });
+  // Keep the session's access_token current so a context switch can locate it.
+  await authRepository.updateSession(record.session_id, { access_token: accessToken, active_role: activeRole });
+  logger.info(`Tokens rotated | userId=${user.id} active_role=${activeRole ?? "none"}`);
   return { accessToken, refreshToken: newRefreshToken };
 };
 
@@ -256,6 +280,38 @@ export const getMe = async (userId) => {
   };
 
   return { ...formatUser(user), profiles };
+};
+
+/**
+ * Switches the caller's active account context (worker ⇄ business). The user must
+ * already hold the target role. Mints a fresh access token carrying the new
+ * `active_role` (the old token keeps its old context until it expires) and
+ * persists the context on the session so it survives refresh. Returns the new
+ * token plus the target role's profile summary for routing.
+ * @param {string} userId
+ * @param {string} currentAccessToken the caller's bearer token (to locate the session)
+ * @param {"worker"|"business"} role
+ */
+export const switchRole = async (userId, currentAccessToken, role) => {
+  const user = await authRepository.findUserById(userId);
+  if (!user) throw new AppError("User not found", 404);
+  if (!user.roles.includes(role)) {
+    throw new AppError(`You don't have a ${role} account. Sign in with this number and pick '${role}' to create one.`, 403);
+  }
+
+  const accessToken = generateAccessToken({ id: user.id, roles: user.roles, active_role: role });
+
+  // Persist the new context on this session/device so a later refresh keeps it.
+  const session = await authRepository.findActiveSessionByAccessToken(currentAccessToken, userId);
+  if (session) {
+    await authRepository.updateSession(session.id, { access_token: accessToken, active_role: role });
+  } else {
+    logger.warn(`Switch-role: no active session matched the token | userId=${userId}`);
+  }
+
+  const profile = await buildActiveProfile(role, userId);
+  logger.info(`Active role switched | userId=${userId} role=${role}`);
+  return { accessToken, active_role: role, user: formatUser(user), profile };
 };
 
 export const logout = async (refreshToken) => {

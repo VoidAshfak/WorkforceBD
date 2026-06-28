@@ -5,6 +5,7 @@ import { otpSendLimiter, otpVerifyLimiter } from "../../middleware/rateLimiter.j
 import {
   sendOtpRules,
   verifyOtpRules,
+  switchRoleRules,
   refreshTokenRules,
   logoutRules,
 } from "./auth.validation.js";
@@ -14,6 +15,7 @@ const router = Router();
 router.get("/me", authenticate, authController.getMe);
 router.post("/send-otp", otpSendLimiter, sendOtpRules, authController.sendOtp);
 router.post("/verify-otp", otpVerifyLimiter, verifyOtpRules, authController.verifyOtp);
+router.post("/switch-role", authenticate, switchRoleRules, authController.switchRole);
 router.post("/refresh", refreshTokenRules, authController.refreshToken);
 router.post("/logout", logoutRules, authController.logout);
 

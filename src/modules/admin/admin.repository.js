@@ -109,5 +109,6 @@ export const findShiftById = (id) => {
 /**
  * @param {string} id
  * @param {object} data
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
  */
-export const updateShiftStatus = (id, data) => prisma.shifts.update({ where: { id }, data });
+export const updateShiftStatus = (id, data, client = prisma) => client.shifts.update({ where: { id }, data });

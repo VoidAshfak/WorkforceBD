@@ -3,6 +3,7 @@ import { prisma } from "../../db/index.js";
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import { createNotification } from "../notification/notification.service.js";
+import { releaseShiftEscrow } from "../business/business.service.js";
 import * as paymentRepository from "./payment.repository.js";
 
 // Minimum a worker may withdraw in one payout request (BDT).
@@ -225,6 +226,10 @@ export const settleShift = async (userId, shiftId) => {
         created_by: userId,
       }, tx);
     }
+
+    // Release the business escrow: paid amount becomes spend, unspent (no-shows /
+    // unfilled slots) returns to the business wallet's spendable balance.
+    await releaseShiftEscrow(tx, shift, payEach.times(attended.length), userId);
   });
 
   // Notify paid workers after commit so a delivery failure can't roll back payment.

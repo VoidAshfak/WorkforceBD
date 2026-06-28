@@ -3,7 +3,7 @@ import { randomBytes, createHash } from "crypto";
 import { env } from "../config/env.js";
 
 /**
- * @param {{ id: string, roles: string[] }} payload
+ * @param {{ id: string, roles: string[], active_role?: string|null }} payload
  * @returns {string}
  */
 export const generateAccessToken = (payload) => {
@@ -29,7 +29,7 @@ export const hashRefreshToken = (token) => createHash("sha256").update(token).di
 
 /**
  * @param {string} token
- * @returns {{ id: string, roles: string[] }}
+ * @returns {{ id: string, roles: string[], active_role?: string|null }}
  */
 export const verifyAccessToken = (token) => {
   return jwt.verify(token, env.jwtSecret, { algorithms: ["HS256"] });

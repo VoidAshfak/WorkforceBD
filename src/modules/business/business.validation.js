@@ -1,4 +1,5 @@
 import { body, param, query } from "express-validator";
+import { BUSINESS_TOPUP_METHODS } from "../../constants.js";
 
 const TIME_24H = /^([01]\d|2[0-3]):([0-5]\d)$/;
 const SHIFT_TYPES = ["instant", "scheduled", "prebooked"];
@@ -92,6 +93,13 @@ export const shiftIdRules = [param("id").isUUID().withMessage("Invalid shift id"
 export const cancelShiftRules = [
   param("id").isUUID().withMessage("Invalid shift id"),
   body("reason").trim().notEmpty().withMessage("Cancellation reason is required").isLength({ max: 500 }),
+];
+
+/* ------------------------------ Wallet ----------------------------- */
+
+export const topUpRules = [
+  body("amount").notEmpty().isFloat({ gt: 0 }).withMessage("amount must be greater than 0"),
+  body("method").optional().isIn(BUSINESS_TOPUP_METHODS).withMessage(`method must be one of: ${BUSINESS_TOPUP_METHODS.join(", ")}`),
 ];
 
 /* ---------------------------- Applicants ---------------------------- */

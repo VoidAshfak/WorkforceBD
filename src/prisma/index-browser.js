@@ -430,6 +430,8 @@ exports.Prisma.ShiftsScalarFieldEnum = {
   zone_id: 'zone_id',
   status: 'status',
   cancellation_reason: 'cancellation_reason',
+  escrow_amount: 'escrow_amount',
+  escrow_status: 'escrow_status',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
@@ -477,6 +479,20 @@ exports.Prisma.WalletsScalarFieldEnum = {
   balance: 'balance',
   total_earned: 'total_earned',
   total_withdrawn: 'total_withdrawn',
+  currency: 'currency',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.Business_walletsScalarFieldEnum = {
+  id: 'id',
+  business_profile_id: 'business_profile_id',
+  balance: 'balance',
+  held: 'held',
+  total_spent: 'total_spent',
   currency: 'currency',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -703,6 +719,13 @@ exports.shift_status_enum = exports.$Enums.shift_status_enum = {
   pending_approval: 'pending_approval'
 };
 
+exports.escrow_status_enum = exports.$Enums.escrow_status_enum = {
+  none: 'none',
+  held: 'held',
+  released: 'released',
+  refunded: 'refunded'
+};
+
 exports.transaction_type_enum = exports.$Enums.transaction_type_enum = {
   credit: 'credit',
   debit: 'debit'
@@ -746,6 +769,7 @@ exports.Prisma.ModelName = {
   transactions: 'transactions',
   user_sanctions: 'user_sanctions',
   wallets: 'wallets',
+  business_wallets: 'business_wallets',
   worker_assignments: 'worker_assignments',
   worker_categories: 'worker_categories',
   worker_preferred_zones: 'worker_preferred_zones',

@@ -219,7 +219,10 @@ export const updatePayout = (id, data, client = prisma) => {
 export const findOwnedShiftForSettle = (shiftId, userId) => {
   return prisma.shifts.findFirst({
     where: { id: shiftId, deleted_at: null, business_profiles: { user_id: userId } },
-    select: { id: true, status: true, title: true, pay_amount: true },
+    select: {
+      id: true, status: true, title: true, pay_amount: true,
+      business_profile_id: true, escrow_amount: true, escrow_status: true,
+    },
   });
 };
 

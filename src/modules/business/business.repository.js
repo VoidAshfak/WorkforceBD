@@ -83,8 +83,11 @@ export const findActiveCategory = (categoryId) => {
 // Status buckets shared by service-layer rules.
 export const ACTIVE_SHIFT_STATUSES = ["published", "applications_open"];
 
-/** @param {object} data */
-export const createShift = (data) => prisma.shifts.create({ data });
+/**
+ * @param {object} data
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
+ */
+export const createShift = (data, client = prisma) => client.shifts.create({ data });
 
 /**
  * Shift owned by a business, with live applicant/hire counters. 404-safe via findFirst.
@@ -118,7 +121,10 @@ export const findOwnedShift = (shiftId, businessProfileId) => {
 export const findOwnedShiftBasic = (shiftId, businessProfileId) => {
   return prisma.shifts.findFirst({
     where: { id: shiftId, business_profile_id: businessProfileId, deleted_at: null },
-    select: { id: true, status: true, workers_needed: true, shift_date: true },
+    select: {
+      id: true, status: true, workers_needed: true, shift_date: true,
+      pay_amount: true, business_profile_id: true, escrow_amount: true, escrow_status: true,
+    },
   });
 };
 
@@ -160,8 +166,42 @@ export const countOwnedShifts = ({ businessProfileId, status }) => {
 /**
  * @param {string} id
  * @param {object} data
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
  */
-export const updateShift = (id, data) => prisma.shifts.update({ where: { id }, data });
+export const updateShift = (id, data, client = prisma) => client.shifts.update({ where: { id }, data });
+
+/* ============================================================
+ * Business wallet (escrow funding)
+ * ========================================================== */
+
+// Client-safe wallet columns.
+const businessWalletSelect = { id: true, balance: true, held: true, total_spent: true, currency: true };
+
+/**
+ * Business wallet, created on first access (one per business profile). New wallets
+ * are seeded with a starting balance — see BUSINESS_WALLET_SEED_BALANCE.
+ * @param {string} businessProfileId
+ * @param {string} userId actor id recorded as creator
+ * @param {number} seedBalance starting balance for a freshly created wallet
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
+ */
+export const ensureBusinessWallet = (businessProfileId, userId, seedBalance, client = prisma) => {
+  return client.business_wallets.upsert({
+    where: { business_profile_id: businessProfileId },
+    update: {},
+    create: { business_profile_id: businessProfileId, balance: seedBalance, created_by: userId },
+    select: businessWalletSelect,
+  });
+};
+
+/**
+ * @param {string} id
+ * @param {object} data
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
+ */
+export const updateBusinessWallet = (id, data, client = prisma) => {
+  return client.business_wallets.update({ where: { id }, data, select: businessWalletSelect });
+};
 
 /** @param {object} where */
 export const countShifts = (where) => prisma.shifts.count({ where });

@@ -30,6 +30,11 @@ CREATE TYPE shift_status_enum AS ENUM (
 
 CREATE TYPE shift_type_enum AS ENUM ('instant', 'scheduled', 'prebooked');
 
+-- Per-shift escrow state on the business wallet:
+--   none → never funded (draft) | held → cost reserved (awaiting work)
+--   released → settled (paid out) | refunded → returned (cancelled/rejected)
+CREATE TYPE escrow_status_enum AS ENUM ('none', 'held', 'released', 'refunded');
+
 CREATE TYPE application_status_enum AS ENUM (
     'pending', 'shortlisted', 'accepted', 'rejected', 'withdrawn', 'no_show'
 );
@@ -113,6 +118,7 @@ CREATE TABLE sessions (
     user_id         UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     access_token    TEXT NOT NULL UNIQUE,
     status          session_status_enum NOT NULL DEFAULT 'active',
+    active_role     VARCHAR(20),                -- worker/business context this session is in
     expires_at      TIMESTAMPTZ NOT NULL,
     ip_address      INET,
     user_agent      TEXT,
@@ -417,6 +423,11 @@ CREATE TABLE shifts (
     -- Cancellation reason (if cancelled)
     cancellation_reason     TEXT,
 
+    -- Escrow: full estimated cost (pay_amount × workers_needed) reserved from the
+    -- business wallet when the shift is submitted for review, released at settlement.
+    escrow_amount           NUMERIC(10,2) NOT NULL DEFAULT 0.00,
+    escrow_status           escrow_status_enum NOT NULL DEFAULT 'none',
+
     -- Audit
     created_at              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -602,6 +613,27 @@ CREATE TABLE wallets (
     created_by          UUID,
     updated_by          UUID
 );
+
+-- Business wallet (one per business) — funds shift escrow.
+-- balance = spendable, held = currently escrowed across active shifts,
+-- total_spent = lifetime paid out to workers. Seeded with a starting balance
+-- (placeholder until MFS corporate top-up exists).
+CREATE TABLE business_wallets (
+    id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    business_profile_id UUID NOT NULL UNIQUE REFERENCES business_profiles(id) ON DELETE CASCADE,
+    balance             NUMERIC(12,2) NOT NULL DEFAULT 500.00,
+    held                NUMERIC(12,2) NOT NULL DEFAULT 0.00,
+    total_spent         NUMERIC(12,2) NOT NULL DEFAULT 0.00,
+    currency            VARCHAR(3) NOT NULL DEFAULT 'BDT',
+
+    created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    deleted_at          TIMESTAMPTZ,
+    created_by          UUID,
+    updated_by          UUID
+);
+
+CREATE INDEX idx_business_wallets_profile ON business_wallets(business_profile_id);
 
 -- All money movements (ledger)
 CREATE TABLE transactions (
@@ -819,7 +851,7 @@ BEGIN
         'worker_profiles', 'business_profiles', 'business_branches',
         'shifts', 'applications', 'worker_assignments',
         'ratings', 'reports', 'disputes', 'user_sanctions',
-        'wallets', 'transactions', 'payout_requests',
+        'wallets', 'business_wallets', 'transactions', 'payout_requests',
         'notifications'
     ])
     LOOP
@@ -897,8 +929,15 @@ INSERT INTO categories (id, name) VALUES
 --   Use ST_DWithin(coordinates, ST_MakePoint(lng, lat)::geography, radius_meters)
 --   to find shifts or workers within a radius. Requires GIST index (already created).
 
+-- ESCROW MODEL (implemented):
+--   business_wallets funds shift escrow. On submit-for-review the shift's full
+--   cost (pay_amount × workers_needed) moves balance → held + shifts.escrow_status='held'.
+--   Cancel/reject → held back to balance ('refunded'). Settlement pays attended
+--   workers from held, returns the unspent remainder to balance ('released').
+
 -- FUTURE FEATURES (not in MVP, easy to add):
---   - Escrow payments: add escrow_status to worker_assignments
+--   - Business wallet top-up via MFS corporate checkout (bKash/Nagad B2B)
+--   - Hourly billing (rate/hour, break, platform fee) replacing flat pay_amount
 --   - QR/PIN check-in: already supported via checkin_method enum
 --   - Branch-level hiring: set branch_id on shifts
 --   - Worker badges: add worker_badges table
