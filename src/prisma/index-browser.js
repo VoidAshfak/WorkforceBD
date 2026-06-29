@@ -198,7 +198,8 @@ exports.Prisma.SessionsScalarFieldEnum = {
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
   created_by: 'created_by',
-  updated_by: 'updated_by'
+  updated_by: 'updated_by',
+  active_role: 'active_role'
 };
 
 exports.Prisma.SkillsScalarFieldEnum = {
@@ -430,14 +431,14 @@ exports.Prisma.ShiftsScalarFieldEnum = {
   zone_id: 'zone_id',
   status: 'status',
   cancellation_reason: 'cancellation_reason',
-  escrow_amount: 'escrow_amount',
-  escrow_status: 'escrow_status',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
   created_by: 'created_by',
   updated_by: 'updated_by',
-  checkin_qr_token: 'checkin_qr_token'
+  checkin_qr_token: 'checkin_qr_token',
+  escrow_amount: 'escrow_amount',
+  escrow_status: 'escrow_status'
 };
 
 exports.Prisma.TransactionsScalarFieldEnum = {

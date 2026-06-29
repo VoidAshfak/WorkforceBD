@@ -491,6 +491,28 @@ A dual-role user in the **wrong context** gets `403 Switch to your <role> accoun
 
 ---
 
+## Categories
+
+Shared reference data — used by businesses when creating shifts (`category_id` is required) and by workers as a discovery filter.
+
+### GET `/categories`
+
+Returns all active categories for selection dropdowns. Requires auth; readable by any active role (worker, business, admin).
+
+**Response `200`**
+```json
+{
+  "success": true,
+  "message": "Categories fetched",
+  "data": [
+    { "id": "uuid", "name": "Event Staff", "icon_url": null },
+    { "id": "uuid", "name": "Restaurant Staff", "icon_url": null }
+  ]
+}
+```
+
+---
+
 ## Worker Profile
 
 All endpoints require:
