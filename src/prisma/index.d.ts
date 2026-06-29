@@ -10395,6 +10395,7 @@ export namespace Prisma {
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
+    active_role: string | null
   }
 
   export type SessionsMaxAggregateOutputType = {
@@ -10410,6 +10411,7 @@ export namespace Prisma {
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
+    active_role: string | null
   }
 
   export type SessionsCountAggregateOutputType = {
@@ -10425,6 +10427,7 @@ export namespace Prisma {
     deleted_at: number
     created_by: number
     updated_by: number
+    active_role: number
     _all: number
   }
 
@@ -10442,6 +10445,7 @@ export namespace Prisma {
     deleted_at?: true
     created_by?: true
     updated_by?: true
+    active_role?: true
   }
 
   export type SessionsMaxAggregateInputType = {
@@ -10457,6 +10461,7 @@ export namespace Prisma {
     deleted_at?: true
     created_by?: true
     updated_by?: true
+    active_role?: true
   }
 
   export type SessionsCountAggregateInputType = {
@@ -10472,6 +10477,7 @@ export namespace Prisma {
     deleted_at?: true
     created_by?: true
     updated_by?: true
+    active_role?: true
     _all?: true
   }
 
@@ -10560,6 +10566,7 @@ export namespace Prisma {
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
+    active_role: string | null
     _count: SessionsCountAggregateOutputType | null
     _min: SessionsMinAggregateOutputType | null
     _max: SessionsMaxAggregateOutputType | null
@@ -10592,6 +10599,7 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    active_role?: boolean
     refresh_tokens?: boolean | sessions$refresh_tokensArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     _count?: boolean | SessionsCountOutputTypeDefaultArgs<ExtArgs>
@@ -10610,6 +10618,7 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    active_role?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sessions"]>
 
@@ -10626,6 +10635,7 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    active_role?: boolean
     users?: boolean | usersDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sessions"]>
 
@@ -10642,9 +10652,10 @@ export namespace Prisma {
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    active_role?: boolean
   }
 
-  export type sessionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "access_token" | "status" | "expires_at" | "ip_address" | "user_agent" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["sessions"]>
+  export type sessionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "access_token" | "status" | "expires_at" | "ip_address" | "user_agent" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "active_role", ExtArgs["result"]["sessions"]>
   export type sessionsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     refresh_tokens?: boolean | sessions$refresh_tokensArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
@@ -10676,6 +10687,7 @@ export namespace Prisma {
       deleted_at: Date | null
       created_by: string | null
       updated_by: string | null
+      active_role: string | null
     }, ExtArgs["result"]["sessions"]>
     composites: {}
   }
@@ -11113,6 +11125,7 @@ export namespace Prisma {
     readonly deleted_at: FieldRef<"sessions", 'DateTime'>
     readonly created_by: FieldRef<"sessions", 'String'>
     readonly updated_by: FieldRef<"sessions", 'String'>
+    readonly active_role: FieldRef<"sessions", 'String'>
   }
     
 
@@ -20502,9 +20515,9 @@ export namespace Prisma {
     updated_by?: boolean
     business_branches?: boolean | business_profiles$business_branchesArgs<ExtArgs>
     business_favorite_workers?: boolean | business_profiles$business_favorite_workersArgs<ExtArgs>
-    business_wallets?: boolean | business_profiles$business_walletsArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     zones?: boolean | business_profiles$zonesArgs<ExtArgs>
+    business_wallets?: boolean | business_profiles$business_walletsArgs<ExtArgs>
     chat_conversations?: boolean | business_profiles$chat_conversationsArgs<ExtArgs>
     shifts?: boolean | business_profiles$shiftsArgs<ExtArgs>
     _count?: boolean | Business_profilesCountOutputTypeDefaultArgs<ExtArgs>
@@ -20608,9 +20621,9 @@ export namespace Prisma {
   export type business_profilesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     business_branches?: boolean | business_profiles$business_branchesArgs<ExtArgs>
     business_favorite_workers?: boolean | business_profiles$business_favorite_workersArgs<ExtArgs>
-    business_wallets?: boolean | business_profiles$business_walletsArgs<ExtArgs>
     users?: boolean | usersDefaultArgs<ExtArgs>
     zones?: boolean | business_profiles$zonesArgs<ExtArgs>
+    business_wallets?: boolean | business_profiles$business_walletsArgs<ExtArgs>
     chat_conversations?: boolean | business_profiles$chat_conversationsArgs<ExtArgs>
     shifts?: boolean | business_profiles$shiftsArgs<ExtArgs>
     _count?: boolean | Business_profilesCountOutputTypeDefaultArgs<ExtArgs>
@@ -20629,9 +20642,9 @@ export namespace Prisma {
     objects: {
       business_branches: Prisma.$business_branchesPayload<ExtArgs>[]
       business_favorite_workers: Prisma.$business_favorite_workersPayload<ExtArgs>[]
-      business_wallets: Prisma.$business_walletsPayload<ExtArgs> | null
       users: Prisma.$usersPayload<ExtArgs>
       zones: Prisma.$zonesPayload<ExtArgs> | null
+      business_wallets: Prisma.$business_walletsPayload<ExtArgs> | null
       chat_conversations: Prisma.$chat_conversationsPayload<ExtArgs>[]
       shifts: Prisma.$shiftsPayload<ExtArgs>[]
     }
@@ -21059,9 +21072,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     business_branches<T extends business_profiles$business_branchesArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$business_branchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_branchesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     business_favorite_workers<T extends business_profiles$business_favorite_workersArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$business_favorite_workersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_favorite_workersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    business_wallets<T extends business_profiles$business_walletsArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$business_walletsArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     users<T extends usersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usersDefaultArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     zones<T extends business_profiles$zonesArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$zonesArgs<ExtArgs>>): Prisma__zonesClient<$Result.GetResult<Prisma.$zonesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    business_wallets<T extends business_profiles$business_walletsArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$business_walletsArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     chat_conversations<T extends business_profiles$chat_conversationsArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$chat_conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shifts<T extends business_profiles$shiftsArgs<ExtArgs> = {}>(args?: Subset<T, business_profiles$shiftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$shiftsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -21569,25 +21582,6 @@ export namespace Prisma {
   }
 
   /**
-   * business_profiles.business_wallets
-   */
-  export type business_profiles$business_walletsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the business_wallets
-     */
-    select?: business_walletsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the business_wallets
-     */
-    omit?: business_walletsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: business_walletsInclude<ExtArgs> | null
-    where?: business_walletsWhereInput
-  }
-
-  /**
    * business_profiles.zones
    */
   export type business_profiles$zonesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21604,6 +21598,25 @@ export namespace Prisma {
      */
     include?: zonesInclude<ExtArgs> | null
     where?: zonesWhereInput
+  }
+
+  /**
+   * business_profiles.business_wallets
+   */
+  export type business_profiles$business_walletsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallets
+     */
+    select?: business_walletsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallets
+     */
+    omit?: business_walletsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_walletsInclude<ExtArgs> | null
+    where?: business_walletsWhereInput
   }
 
   /**
@@ -28055,14 +28068,14 @@ export namespace Prisma {
     zone_id: string | null
     status: $Enums.shift_status_enum | null
     cancellation_reason: string | null
-    escrow_amount: Decimal | null
-    escrow_status: $Enums.escrow_status_enum | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
     checkin_qr_token: string | null
+    escrow_amount: Decimal | null
+    escrow_status: $Enums.escrow_status_enum | null
   }
 
   export type ShiftsMaxAggregateOutputType = {
@@ -28088,14 +28101,14 @@ export namespace Prisma {
     zone_id: string | null
     status: $Enums.shift_status_enum | null
     cancellation_reason: string | null
-    escrow_amount: Decimal | null
-    escrow_status: $Enums.escrow_status_enum | null
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
     checkin_qr_token: string | null
+    escrow_amount: Decimal | null
+    escrow_status: $Enums.escrow_status_enum | null
   }
 
   export type ShiftsCountAggregateOutputType = {
@@ -28121,14 +28134,14 @@ export namespace Prisma {
     zone_id: number
     status: number
     cancellation_reason: number
-    escrow_amount: number
-    escrow_status: number
     created_at: number
     updated_at: number
     deleted_at: number
     created_by: number
     updated_by: number
     checkin_qr_token: number
+    escrow_amount: number
+    escrow_status: number
     _all: number
   }
 
@@ -28168,14 +28181,14 @@ export namespace Prisma {
     zone_id?: true
     status?: true
     cancellation_reason?: true
-    escrow_amount?: true
-    escrow_status?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
     created_by?: true
     updated_by?: true
     checkin_qr_token?: true
+    escrow_amount?: true
+    escrow_status?: true
   }
 
   export type ShiftsMaxAggregateInputType = {
@@ -28201,14 +28214,14 @@ export namespace Prisma {
     zone_id?: true
     status?: true
     cancellation_reason?: true
-    escrow_amount?: true
-    escrow_status?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
     created_by?: true
     updated_by?: true
     checkin_qr_token?: true
+    escrow_amount?: true
+    escrow_status?: true
   }
 
   export type ShiftsCountAggregateInputType = {
@@ -28234,14 +28247,14 @@ export namespace Prisma {
     zone_id?: true
     status?: true
     cancellation_reason?: true
-    escrow_amount?: true
-    escrow_status?: true
     created_at?: true
     updated_at?: true
     deleted_at?: true
     created_by?: true
     updated_by?: true
     checkin_qr_token?: true
+    escrow_amount?: true
+    escrow_status?: true
     _all?: true
   }
 
@@ -28354,14 +28367,14 @@ export namespace Prisma {
     zone_id: string | null
     status: $Enums.shift_status_enum
     cancellation_reason: string | null
-    escrow_amount: Decimal
-    escrow_status: $Enums.escrow_status_enum
     created_at: Date
     updated_at: Date
     deleted_at: Date | null
     created_by: string | null
     updated_by: string | null
     checkin_qr_token: string
+    escrow_amount: Decimal
+    escrow_status: $Enums.escrow_status_enum
     _count: ShiftsCountAggregateOutputType | null
     _avg: ShiftsAvgAggregateOutputType | null
     _sum: ShiftsSumAggregateOutputType | null
@@ -28406,14 +28419,14 @@ export namespace Prisma {
     zone_id?: boolean
     status?: boolean
     cancellation_reason?: boolean
-    escrow_amount?: boolean
-    escrow_status?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
     checkin_qr_token?: boolean
+    escrow_amount?: boolean
+    escrow_status?: boolean
     applications?: boolean | shifts$applicationsArgs<ExtArgs>
     chat_conversations?: boolean | shifts$chat_conversationsArgs<ExtArgs>
     disputes?: boolean | shifts$disputesArgs<ExtArgs>
@@ -28451,14 +28464,14 @@ export namespace Prisma {
     zone_id?: boolean
     status?: boolean
     cancellation_reason?: boolean
-    escrow_amount?: boolean
-    escrow_status?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
     checkin_qr_token?: boolean
+    escrow_amount?: boolean
+    escrow_status?: boolean
     business_branches?: boolean | shifts$business_branchesArgs<ExtArgs>
     business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
     categories?: boolean | categoriesDefaultArgs<ExtArgs>
@@ -28488,14 +28501,14 @@ export namespace Prisma {
     zone_id?: boolean
     status?: boolean
     cancellation_reason?: boolean
-    escrow_amount?: boolean
-    escrow_status?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
     checkin_qr_token?: boolean
+    escrow_amount?: boolean
+    escrow_status?: boolean
     business_branches?: boolean | shifts$business_branchesArgs<ExtArgs>
     business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
     categories?: boolean | categoriesDefaultArgs<ExtArgs>
@@ -28525,17 +28538,17 @@ export namespace Prisma {
     zone_id?: boolean
     status?: boolean
     cancellation_reason?: boolean
-    escrow_amount?: boolean
-    escrow_status?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
     checkin_qr_token?: boolean
+    escrow_amount?: boolean
+    escrow_status?: boolean
   }
 
-  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "escrow_amount" | "escrow_status" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token", ExtArgs["result"]["shifts"]>
+  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token" | "escrow_amount" | "escrow_status", ExtArgs["result"]["shifts"]>
   export type shiftsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | shifts$applicationsArgs<ExtArgs>
     chat_conversations?: boolean | shifts$chat_conversationsArgs<ExtArgs>
@@ -28601,14 +28614,14 @@ export namespace Prisma {
       zone_id: string | null
       status: $Enums.shift_status_enum
       cancellation_reason: string | null
-      escrow_amount: Prisma.Decimal
-      escrow_status: $Enums.escrow_status_enum
       created_at: Date
       updated_at: Date
       deleted_at: Date | null
       created_by: string | null
       updated_by: string | null
       checkin_qr_token: string
+      escrow_amount: Prisma.Decimal
+      escrow_status: $Enums.escrow_status_enum
     }, ExtArgs["result"]["shifts"]>
     composites: {}
   }
@@ -29065,14 +29078,14 @@ export namespace Prisma {
     readonly zone_id: FieldRef<"shifts", 'String'>
     readonly status: FieldRef<"shifts", 'shift_status_enum'>
     readonly cancellation_reason: FieldRef<"shifts", 'String'>
-    readonly escrow_amount: FieldRef<"shifts", 'Decimal'>
-    readonly escrow_status: FieldRef<"shifts", 'escrow_status_enum'>
     readonly created_at: FieldRef<"shifts", 'DateTime'>
     readonly updated_at: FieldRef<"shifts", 'DateTime'>
     readonly deleted_at: FieldRef<"shifts", 'DateTime'>
     readonly created_by: FieldRef<"shifts", 'String'>
     readonly updated_by: FieldRef<"shifts", 'String'>
     readonly checkin_qr_token: FieldRef<"shifts", 'String'>
+    readonly escrow_amount: FieldRef<"shifts", 'Decimal'>
+    readonly escrow_status: FieldRef<"shifts", 'escrow_status_enum'>
   }
     
 
@@ -42960,7 +42973,8 @@ export namespace Prisma {
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
     created_by: 'created_by',
-    updated_by: 'updated_by'
+    updated_by: 'updated_by',
+    active_role: 'active_role'
   };
 
   export type SessionsScalarFieldEnum = (typeof SessionsScalarFieldEnum)[keyof typeof SessionsScalarFieldEnum]
@@ -43234,14 +43248,14 @@ export namespace Prisma {
     zone_id: 'zone_id',
     status: 'status',
     cancellation_reason: 'cancellation_reason',
-    escrow_amount: 'escrow_amount',
-    escrow_status: 'escrow_status',
     created_at: 'created_at',
     updated_at: 'updated_at',
     deleted_at: 'deleted_at',
     created_by: 'created_by',
     updated_by: 'updated_by',
-    checkin_qr_token: 'checkin_qr_token'
+    checkin_qr_token: 'checkin_qr_token',
+    escrow_amount: 'escrow_amount',
+    escrow_status: 'escrow_status'
   };
 
   export type ShiftsScalarFieldEnum = (typeof ShiftsScalarFieldEnum)[keyof typeof ShiftsScalarFieldEnum]
@@ -44237,6 +44251,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"sessions"> | Date | string | null
     created_by?: UuidNullableFilter<"sessions"> | string | null
     updated_by?: UuidNullableFilter<"sessions"> | string | null
+    active_role?: StringNullableFilter<"sessions"> | string | null
     refresh_tokens?: Refresh_tokensListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
   }
@@ -44254,6 +44269,7 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
+    active_role?: SortOrderInput | SortOrder
     refresh_tokens?: refresh_tokensOrderByRelationAggregateInput
     users?: usersOrderByWithRelationInput
   }
@@ -44274,6 +44290,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"sessions"> | Date | string | null
     created_by?: UuidNullableFilter<"sessions"> | string | null
     updated_by?: UuidNullableFilter<"sessions"> | string | null
+    active_role?: StringNullableFilter<"sessions"> | string | null
     refresh_tokens?: Refresh_tokensListRelationFilter
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
   }, "id" | "access_token">
@@ -44291,6 +44308,7 @@ export namespace Prisma {
     deleted_at?: SortOrderInput | SortOrder
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
+    active_role?: SortOrderInput | SortOrder
     _count?: sessionsCountOrderByAggregateInput
     _max?: sessionsMaxOrderByAggregateInput
     _min?: sessionsMinOrderByAggregateInput
@@ -44312,6 +44330,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"sessions"> | Date | string | null
     created_by?: UuidNullableWithAggregatesFilter<"sessions"> | string | null
     updated_by?: UuidNullableWithAggregatesFilter<"sessions"> | string | null
+    active_role?: StringNullableWithAggregatesFilter<"sessions"> | string | null
   }
 
   export type skillsWhereInput = {
@@ -44956,9 +44975,9 @@ export namespace Prisma {
     updated_by?: UuidNullableFilter<"business_profiles"> | string | null
     business_branches?: Business_branchesListRelationFilter
     business_favorite_workers?: Business_favorite_workersListRelationFilter
-    business_wallets?: XOR<Business_walletsNullableScalarRelationFilter, business_walletsWhereInput> | null
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     zones?: XOR<ZonesNullableScalarRelationFilter, zonesWhereInput> | null
+    business_wallets?: XOR<Business_walletsNullableScalarRelationFilter, business_walletsWhereInput> | null
     chat_conversations?: Chat_conversationsListRelationFilter
     shifts?: ShiftsListRelationFilter
   }
@@ -44993,9 +45012,9 @@ export namespace Prisma {
     updated_by?: SortOrderInput | SortOrder
     business_branches?: business_branchesOrderByRelationAggregateInput
     business_favorite_workers?: business_favorite_workersOrderByRelationAggregateInput
-    business_wallets?: business_walletsOrderByWithRelationInput
     users?: usersOrderByWithRelationInput
     zones?: zonesOrderByWithRelationInput
+    business_wallets?: business_walletsOrderByWithRelationInput
     chat_conversations?: chat_conversationsOrderByRelationAggregateInput
     shifts?: shiftsOrderByRelationAggregateInput
   }
@@ -45033,9 +45052,9 @@ export namespace Prisma {
     updated_by?: UuidNullableFilter<"business_profiles"> | string | null
     business_branches?: Business_branchesListRelationFilter
     business_favorite_workers?: Business_favorite_workersListRelationFilter
-    business_wallets?: XOR<Business_walletsNullableScalarRelationFilter, business_walletsWhereInput> | null
     users?: XOR<UsersScalarRelationFilter, usersWhereInput>
     zones?: XOR<ZonesNullableScalarRelationFilter, zonesWhereInput> | null
+    business_wallets?: XOR<Business_walletsNullableScalarRelationFilter, business_walletsWhereInput> | null
     chat_conversations?: Chat_conversationsListRelationFilter
     shifts?: ShiftsListRelationFilter
   }, "id" | "user_id">
@@ -45718,14 +45737,14 @@ export namespace Prisma {
     zone_id?: UuidNullableFilter<"shifts"> | string | null
     status?: Enumshift_status_enumFilter<"shifts"> | $Enums.shift_status_enum
     cancellation_reason?: StringNullableFilter<"shifts"> | string | null
-    escrow_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFilter<"shifts"> | $Enums.escrow_status_enum
     created_at?: DateTimeFilter<"shifts"> | Date | string
     updated_at?: DateTimeFilter<"shifts"> | Date | string
     deleted_at?: DateTimeNullableFilter<"shifts"> | Date | string | null
     created_by?: UuidNullableFilter<"shifts"> | string | null
     updated_by?: UuidNullableFilter<"shifts"> | string | null
     checkin_qr_token?: UuidFilter<"shifts"> | string
+    escrow_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFilter<"shifts"> | $Enums.escrow_status_enum
     applications?: ApplicationsListRelationFilter
     chat_conversations?: Chat_conversationsListRelationFilter
     disputes?: DisputesListRelationFilter
@@ -45762,14 +45781,14 @@ export namespace Prisma {
     zone_id?: SortOrderInput | SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrderInput | SortOrder
-    escrow_amount?: SortOrder
-    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrderInput | SortOrder
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
     checkin_qr_token?: SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
     applications?: applicationsOrderByRelationAggregateInput
     chat_conversations?: chat_conversationsOrderByRelationAggregateInput
     disputes?: disputesOrderByRelationAggregateInput
@@ -45809,14 +45828,14 @@ export namespace Prisma {
     zone_id?: UuidNullableFilter<"shifts"> | string | null
     status?: Enumshift_status_enumFilter<"shifts"> | $Enums.shift_status_enum
     cancellation_reason?: StringNullableFilter<"shifts"> | string | null
-    escrow_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFilter<"shifts"> | $Enums.escrow_status_enum
     created_at?: DateTimeFilter<"shifts"> | Date | string
     updated_at?: DateTimeFilter<"shifts"> | Date | string
     deleted_at?: DateTimeNullableFilter<"shifts"> | Date | string | null
     created_by?: UuidNullableFilter<"shifts"> | string | null
     updated_by?: UuidNullableFilter<"shifts"> | string | null
     checkin_qr_token?: UuidFilter<"shifts"> | string
+    escrow_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFilter<"shifts"> | $Enums.escrow_status_enum
     applications?: ApplicationsListRelationFilter
     chat_conversations?: Chat_conversationsListRelationFilter
     disputes?: DisputesListRelationFilter
@@ -45853,14 +45872,14 @@ export namespace Prisma {
     zone_id?: SortOrderInput | SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrderInput | SortOrder
-    escrow_amount?: SortOrder
-    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrderInput | SortOrder
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
     checkin_qr_token?: SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
     _count?: shiftsCountOrderByAggregateInput
     _avg?: shiftsAvgOrderByAggregateInput
     _max?: shiftsMaxOrderByAggregateInput
@@ -45894,14 +45913,14 @@ export namespace Prisma {
     zone_id?: UuidNullableWithAggregatesFilter<"shifts"> | string | null
     status?: Enumshift_status_enumWithAggregatesFilter<"shifts"> | $Enums.shift_status_enum
     cancellation_reason?: StringNullableWithAggregatesFilter<"shifts"> | string | null
-    escrow_amount?: DecimalWithAggregatesFilter<"shifts"> | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumWithAggregatesFilter<"shifts"> | $Enums.escrow_status_enum
     created_at?: DateTimeWithAggregatesFilter<"shifts"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"shifts"> | Date | string
     deleted_at?: DateTimeNullableWithAggregatesFilter<"shifts"> | Date | string | null
     created_by?: UuidNullableWithAggregatesFilter<"shifts"> | string | null
     updated_by?: UuidNullableWithAggregatesFilter<"shifts"> | string | null
     checkin_qr_token?: UuidWithAggregatesFilter<"shifts"> | string
+    escrow_amount?: DecimalWithAggregatesFilter<"shifts"> | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumWithAggregatesFilter<"shifts"> | $Enums.escrow_status_enum
   }
 
   export type transactionsWhereInput = {
@@ -47390,6 +47409,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    active_role?: string | null
     refresh_tokens?: refresh_tokensCreateNestedManyWithoutSessionsInput
     users: usersCreateNestedOneWithoutSessionsInput
   }
@@ -47407,6 +47427,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    active_role?: string | null
     refresh_tokens?: refresh_tokensUncheckedCreateNestedManyWithoutSessionsInput
   }
 
@@ -47422,6 +47443,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
     refresh_tokens?: refresh_tokensUpdateManyWithoutSessionsNestedInput
     users?: usersUpdateOneRequiredWithoutSessionsNestedInput
   }
@@ -47439,6 +47461,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
     refresh_tokens?: refresh_tokensUncheckedUpdateManyWithoutSessionsNestedInput
   }
 
@@ -47455,6 +47478,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    active_role?: string | null
   }
 
   export type sessionsUpdateManyMutationInput = {
@@ -47469,6 +47493,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type sessionsUncheckedUpdateManyInput = {
@@ -47484,6 +47509,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type skillsCreateInput = {
@@ -48195,9 +48221,9 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
-    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -48265,9 +48291,9 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
-    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -49052,14 +49078,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
@@ -49096,14 +49122,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
@@ -49132,14 +49158,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
@@ -49176,14 +49202,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
@@ -49216,14 +49242,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
   }
 
   export type shiftsUpdateManyMutationInput = {
@@ -49245,14 +49271,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
   }
 
   export type shiftsUncheckedUpdateManyInput = {
@@ -49278,14 +49304,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
   }
 
   export type transactionsCreateInput = {
@@ -50852,6 +50878,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+    active_role?: SortOrder
   }
 
   export type sessionsMaxOrderByAggregateInput = {
@@ -50867,6 +50894,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+    active_role?: SortOrder
   }
 
   export type sessionsMinOrderByAggregateInput = {
@@ -50882,6 +50910,7 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+    active_role?: SortOrder
   }
 
   export type Enumsession_status_enumWithAggregatesFilter<$PrismaModel = never> = {
@@ -52190,14 +52219,14 @@ export namespace Prisma {
     zone_id?: SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrder
-    escrow_amount?: SortOrder
-    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
     checkin_qr_token?: SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
   }
 
   export type shiftsAvgOrderByAggregateInput = {
@@ -52229,14 +52258,14 @@ export namespace Prisma {
     zone_id?: SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrder
-    escrow_amount?: SortOrder
-    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
     checkin_qr_token?: SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
   }
 
   export type shiftsMinOrderByAggregateInput = {
@@ -52262,14 +52291,14 @@ export namespace Prisma {
     zone_id?: SortOrder
     status?: SortOrder
     cancellation_reason?: SortOrder
-    escrow_amount?: SortOrder
-    escrow_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
     checkin_qr_token?: SortOrder
+    escrow_amount?: SortOrder
+    escrow_status?: SortOrder
   }
 
   export type shiftsSumOrderByAggregateInput = {
@@ -54515,12 +54544,6 @@ export namespace Prisma {
     connect?: business_favorite_workersWhereUniqueInput | business_favorite_workersWhereUniqueInput[]
   }
 
-  export type business_walletsCreateNestedOneWithoutBusiness_profilesInput = {
-    create?: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
-    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_profilesInput
-    connect?: business_walletsWhereUniqueInput
-  }
-
   export type usersCreateNestedOneWithoutBusiness_profilesInput = {
     create?: XOR<usersCreateWithoutBusiness_profilesInput, usersUncheckedCreateWithoutBusiness_profilesInput>
     connectOrCreate?: usersCreateOrConnectWithoutBusiness_profilesInput
@@ -54531,6 +54554,12 @@ export namespace Prisma {
     create?: XOR<zonesCreateWithoutBusiness_profilesInput, zonesUncheckedCreateWithoutBusiness_profilesInput>
     connectOrCreate?: zonesCreateOrConnectWithoutBusiness_profilesInput
     connect?: zonesWhereUniqueInput
+  }
+
+  export type business_walletsCreateNestedOneWithoutBusiness_profilesInput = {
+    create?: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
+    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_profilesInput
+    connect?: business_walletsWhereUniqueInput
   }
 
   export type chat_conversationsCreateNestedManyWithoutBusiness_profilesInput = {
@@ -54621,16 +54650,6 @@ export namespace Prisma {
     deleteMany?: business_favorite_workersScalarWhereInput | business_favorite_workersScalarWhereInput[]
   }
 
-  export type business_walletsUpdateOneWithoutBusiness_profilesNestedInput = {
-    create?: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
-    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_profilesInput
-    upsert?: business_walletsUpsertWithoutBusiness_profilesInput
-    disconnect?: business_walletsWhereInput | boolean
-    delete?: business_walletsWhereInput | boolean
-    connect?: business_walletsWhereUniqueInput
-    update?: XOR<XOR<business_walletsUpdateToOneWithWhereWithoutBusiness_profilesInput, business_walletsUpdateWithoutBusiness_profilesInput>, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
-  }
-
   export type usersUpdateOneRequiredWithoutBusiness_profilesNestedInput = {
     create?: XOR<usersCreateWithoutBusiness_profilesInput, usersUncheckedCreateWithoutBusiness_profilesInput>
     connectOrCreate?: usersCreateOrConnectWithoutBusiness_profilesInput
@@ -54647,6 +54666,16 @@ export namespace Prisma {
     delete?: zonesWhereInput | boolean
     connect?: zonesWhereUniqueInput
     update?: XOR<XOR<zonesUpdateToOneWithWhereWithoutBusiness_profilesInput, zonesUpdateWithoutBusiness_profilesInput>, zonesUncheckedUpdateWithoutBusiness_profilesInput>
+  }
+
+  export type business_walletsUpdateOneWithoutBusiness_profilesNestedInput = {
+    create?: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
+    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_profilesInput
+    upsert?: business_walletsUpsertWithoutBusiness_profilesInput
+    disconnect?: business_walletsWhereInput | boolean
+    delete?: business_walletsWhereInput | boolean
+    connect?: business_walletsWhereUniqueInput
+    update?: XOR<XOR<business_walletsUpdateToOneWithWhereWithoutBusiness_profilesInput, business_walletsUpdateWithoutBusiness_profilesInput>, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
   }
 
   export type chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput = {
@@ -56946,14 +56975,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
@@ -56988,14 +57017,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
@@ -57109,14 +57138,14 @@ export namespace Prisma {
     zone_id?: UuidNullableFilter<"shifts"> | string | null
     status?: Enumshift_status_enumFilter<"shifts"> | $Enums.shift_status_enum
     cancellation_reason?: StringNullableFilter<"shifts"> | string | null
-    escrow_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFilter<"shifts"> | $Enums.escrow_status_enum
     created_at?: DateTimeFilter<"shifts"> | Date | string
     updated_at?: DateTimeFilter<"shifts"> | Date | string
     deleted_at?: DateTimeNullableFilter<"shifts"> | Date | string | null
     created_by?: UuidNullableFilter<"shifts"> | string | null
     updated_by?: UuidNullableFilter<"shifts"> | string | null
     checkin_qr_token?: UuidFilter<"shifts"> | string
+    escrow_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFilter<"shifts"> | $Enums.escrow_status_enum
   }
 
   export type skillsUpsertWithWhereUniqueWithoutCategoriesInput = {
@@ -57544,6 +57573,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    active_role?: string | null
     users: usersCreateNestedOneWithoutSessionsInput
   }
 
@@ -57560,6 +57590,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    active_role?: string | null
   }
 
   export type sessionsCreateOrConnectWithoutRefresh_tokensInput = {
@@ -57665,6 +57696,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
     users?: usersUpdateOneRequiredWithoutSessionsNestedInput
   }
 
@@ -57681,6 +57713,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type usersUpsertWithoutRefresh_tokensInput = {
@@ -58131,8 +58164,8 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
-    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -58790,6 +58823,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    active_role?: string | null
     refresh_tokens?: refresh_tokensCreateNestedManyWithoutSessionsInput
   }
 
@@ -58805,6 +58839,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    active_role?: string | null
     refresh_tokens?: refresh_tokensUncheckedCreateNestedManyWithoutSessionsInput
   }
 
@@ -59049,8 +59084,8 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
-    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -59486,6 +59521,7 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"sessions"> | Date | string | null
     created_by?: UuidNullableFilter<"sessions"> | string | null
     updated_by?: UuidNullableFilter<"sessions"> | string | null
+    active_role?: StringNullableFilter<"sessions"> | string | null
   }
 
   export type user_sanctionsUpsertWithWhereUniqueWithoutUsers_user_sanctions_issued_byTousersInput = {
@@ -59731,8 +59767,8 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
-    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -59800,14 +59836,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
@@ -59842,14 +59878,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
@@ -60093,14 +60129,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -60136,14 +60172,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -60308,14 +60344,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -60351,14 +60387,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -60512,9 +60548,9 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
-    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -60612,14 +60648,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
@@ -60654,14 +60690,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
@@ -60719,9 +60755,9 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
-    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -60844,9 +60880,9 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
-    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
@@ -61005,9 +61041,9 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
-    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -61189,37 +61225,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type business_walletsCreateWithoutBusiness_profilesInput = {
-    id?: string
-    balance?: Decimal | DecimalJsLike | number | string
-    held?: Decimal | DecimalJsLike | number | string
-    total_spent?: Decimal | DecimalJsLike | number | string
-    currency?: string
-    created_at?: Date | string
-    updated_at?: Date | string
-    deleted_at?: Date | string | null
-    created_by?: string | null
-    updated_by?: string | null
-  }
-
-  export type business_walletsUncheckedCreateWithoutBusiness_profilesInput = {
-    id?: string
-    balance?: Decimal | DecimalJsLike | number | string
-    held?: Decimal | DecimalJsLike | number | string
-    total_spent?: Decimal | DecimalJsLike | number | string
-    currency?: string
-    created_at?: Date | string
-    updated_at?: Date | string
-    deleted_at?: Date | string | null
-    created_by?: string | null
-    updated_by?: string | null
-  }
-
-  export type business_walletsCreateOrConnectWithoutBusiness_profilesInput = {
-    where: business_walletsWhereUniqueInput
-    create: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
-  }
-
   export type usersCreateWithoutBusiness_profilesInput = {
     id?: string
     phone: string
@@ -61330,6 +61335,37 @@ export namespace Prisma {
     create: XOR<zonesCreateWithoutBusiness_profilesInput, zonesUncheckedCreateWithoutBusiness_profilesInput>
   }
 
+  export type business_walletsCreateWithoutBusiness_profilesInput = {
+    id?: string
+    balance?: Decimal | DecimalJsLike | number | string
+    held?: Decimal | DecimalJsLike | number | string
+    total_spent?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type business_walletsUncheckedCreateWithoutBusiness_profilesInput = {
+    id?: string
+    balance?: Decimal | DecimalJsLike | number | string
+    held?: Decimal | DecimalJsLike | number | string
+    total_spent?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type business_walletsCreateOrConnectWithoutBusiness_profilesInput = {
+    where: business_walletsWhereUniqueInput
+    create: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
+  }
+
   export type chat_conversationsCreateWithoutBusiness_profilesInput = {
     id?: string
     last_message_at?: Date | string | null
@@ -61389,14 +61425,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
@@ -61431,14 +61467,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
@@ -61497,43 +61533,6 @@ export namespace Prisma {
     business_profile_id?: UuidFilter<"business_favorite_workers"> | string
     worker_profile_id?: UuidFilter<"business_favorite_workers"> | string
     created_at?: DateTimeFilter<"business_favorite_workers"> | Date | string
-  }
-
-  export type business_walletsUpsertWithoutBusiness_profilesInput = {
-    update: XOR<business_walletsUpdateWithoutBusiness_profilesInput, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
-    create: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
-    where?: business_walletsWhereInput
-  }
-
-  export type business_walletsUpdateToOneWithWhereWithoutBusiness_profilesInput = {
-    where?: business_walletsWhereInput
-    data: XOR<business_walletsUpdateWithoutBusiness_profilesInput, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
-  }
-
-  export type business_walletsUpdateWithoutBusiness_profilesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_by?: NullableStringFieldUpdateOperationsInput | string | null
-    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type business_walletsUncheckedUpdateWithoutBusiness_profilesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    currency?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_by?: NullableStringFieldUpdateOperationsInput | string | null
-    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type usersUpsertWithoutBusiness_profilesInput = {
@@ -61656,6 +61655,43 @@ export namespace Prisma {
     business_branches?: business_branchesUncheckedUpdateManyWithoutZonesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutZonesNestedInput
     worker_preferred_zones?: worker_preferred_zonesUncheckedUpdateManyWithoutZonesNestedInput
+  }
+
+  export type business_walletsUpsertWithoutBusiness_profilesInput = {
+    update: XOR<business_walletsUpdateWithoutBusiness_profilesInput, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
+    create: XOR<business_walletsCreateWithoutBusiness_profilesInput, business_walletsUncheckedCreateWithoutBusiness_profilesInput>
+    where?: business_walletsWhereInput
+  }
+
+  export type business_walletsUpdateToOneWithWhereWithoutBusiness_profilesInput = {
+    where?: business_walletsWhereInput
+    data: XOR<business_walletsUpdateWithoutBusiness_profilesInput, business_walletsUncheckedUpdateWithoutBusiness_profilesInput>
+  }
+
+  export type business_walletsUpdateWithoutBusiness_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_walletsUncheckedUpdateWithoutBusiness_profilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type chat_conversationsUpsertWithWhereUniqueWithoutBusiness_profilesInput = {
@@ -61993,14 +62029,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -62036,14 +62072,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -62377,14 +62413,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -62420,14 +62456,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -63188,14 +63224,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
@@ -63231,14 +63267,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
@@ -63489,14 +63525,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
@@ -63532,14 +63568,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
@@ -63834,14 +63870,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
@@ -63877,14 +63913,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
@@ -64187,14 +64223,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
@@ -64230,14 +64266,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
@@ -64521,9 +64557,9 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
-    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -64897,9 +64933,9 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
-    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -65127,14 +65163,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
@@ -65170,14 +65206,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
@@ -65301,14 +65337,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
@@ -65344,14 +65380,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
@@ -66281,14 +66317,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
@@ -66324,14 +66360,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     chat_conversations?: chat_conversationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
@@ -66523,14 +66559,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
@@ -66566,14 +66602,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
@@ -67913,9 +67949,9 @@ export namespace Prisma {
     updated_by?: string | null
     business_branches?: business_branchesCreateNestedManyWithoutBusiness_profilesInput
     business_favorite_workers?: business_favorite_workersCreateNestedManyWithoutBusiness_profilesInput
-    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     users: usersCreateNestedOneWithoutBusiness_profilesInput
     zones?: zonesCreateNestedOneWithoutBusiness_profilesInput
+    business_wallets?: business_walletsCreateNestedOneWithoutBusiness_profilesInput
     shifts?: shiftsCreateNestedManyWithoutBusiness_profilesInput
   }
 
@@ -67977,14 +68013,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsCreateNestedManyWithoutShiftsInput
     disputes?: disputesCreateNestedManyWithoutShiftsInput
     ratings?: ratingsCreateNestedManyWithoutShiftsInput
@@ -68020,14 +68056,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
     applications?: applicationsUncheckedCreateNestedManyWithoutShiftsInput
     disputes?: disputesUncheckedCreateNestedManyWithoutShiftsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutShiftsInput
@@ -68189,9 +68225,9 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
-    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
     zones?: zonesUpdateOneWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
 
@@ -68259,14 +68295,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUpdateManyWithoutShiftsNestedInput
@@ -68302,14 +68338,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutShiftsNestedInput
@@ -68671,14 +68707,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
   }
 
   export type skillsCreateManyCategoriesInput = {
@@ -68715,14 +68751,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
@@ -68757,14 +68793,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
@@ -68796,14 +68832,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
   }
 
   export type skillsUpdateWithoutCategoriesInput = {
@@ -69343,6 +69379,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    active_role?: string | null
   }
 
   export type user_sanctionsCreateManyUsers_user_sanctions_issued_byTousersInput = {
@@ -70077,6 +70114,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
     refresh_tokens?: refresh_tokensUpdateManyWithoutSessionsNestedInput
   }
 
@@ -70092,6 +70130,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
     refresh_tokens?: refresh_tokensUncheckedUpdateManyWithoutSessionsNestedInput
   }
 
@@ -70107,6 +70146,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type user_sanctionsUpdateWithoutUsers_user_sanctions_issued_byTousersInput = {
@@ -70264,14 +70304,14 @@ export namespace Prisma {
     landmark?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
   }
 
   export type worker_preferred_zonesCreateManyZonesInput = {
@@ -70350,8 +70390,8 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_branches?: business_branchesUpdateManyWithoutBusiness_profilesNestedInput
     business_favorite_workers?: business_favorite_workersUpdateManyWithoutBusiness_profilesNestedInput
-    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     users?: usersUpdateOneRequiredWithoutBusiness_profilesNestedInput
+    business_wallets?: business_walletsUpdateOneWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUpdateManyWithoutBusiness_profilesNestedInput
   }
@@ -70438,14 +70478,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
@@ -70480,14 +70520,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
@@ -70519,14 +70559,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
   }
 
   export type worker_preferred_zonesUpdateWithoutZonesInput = {
@@ -70627,14 +70667,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
   }
 
   export type shiftsUpdateWithoutBusiness_branchesInput = {
@@ -70656,14 +70696,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
@@ -70698,14 +70738,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
@@ -70737,14 +70777,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
   }
 
   export type business_branchesCreateManyBusiness_profilesInput = {
@@ -70802,14 +70842,14 @@ export namespace Prisma {
     zone_id?: string | null
     status?: $Enums.shift_status_enum
     cancellation_reason?: string | null
-    escrow_amount?: Decimal | DecimalJsLike | number | string
-    escrow_status?: $Enums.escrow_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
     checkin_qr_token?: string
+    escrow_amount?: Decimal | DecimalJsLike | number | string
+    escrow_status?: $Enums.escrow_status_enum
   }
 
   export type business_branchesUpdateWithoutBusiness_profilesInput = {
@@ -70934,14 +70974,14 @@ export namespace Prisma {
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUpdateManyWithoutShiftsNestedInput
@@ -70976,14 +71016,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     applications?: applicationsUncheckedUpdateManyWithoutShiftsNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutShiftsNestedInput
     disputes?: disputesUncheckedUpdateManyWithoutShiftsNestedInput
@@ -71015,14 +71055,14 @@ export namespace Prisma {
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
     cancellation_reason?: NullableStringFieldUpdateOperationsInput | string | null
-    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     checkin_qr_token?: StringFieldUpdateOperationsInput | string
+    escrow_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    escrow_status?: Enumescrow_status_enumFieldUpdateOperationsInput | $Enums.escrow_status_enum
   }
 
   export type disputesCreateManyReportsInput = {
