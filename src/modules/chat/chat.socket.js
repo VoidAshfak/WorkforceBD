@@ -23,6 +23,9 @@ const errorAck = (cb, err, fallback) => {
  */
 export const registerChatSocket = (socket) => {
   const userId = socket.user.id;
+  // Same account context the ticket was minted under — keeps socket chat scoped
+  // to one side (worker vs business) like the REST endpoints.
+  const activeRole = socket.user.active_role ?? null;
 
   // chat:send → persist + broadcast. Ack returns { ok, message } | { ok:false, error }.
   socket.on("chat:send", async (payload, cb) => {
@@ -36,7 +39,7 @@ export const registerChatSocket = (socket) => {
         return ack(cb, { ok: false, error: `Message body must be at most ${CHAT_MESSAGE_MAX_LENGTH} characters` });
       }
 
-      const message = await chatService.sendMessage(userId, conversationId, body);
+      const message = await chatService.sendMessage(userId, conversationId, body, activeRole);
       ack(cb, { ok: true, message });
     } catch (err) {
       logger.warn(`chat:send failed | userId=${userId} ${err.message}`);
@@ -50,7 +53,7 @@ export const registerChatSocket = (socket) => {
       const conversationId = payload?.conversation_id;
       if (!UUID_RE.test(conversationId ?? "")) return ack(cb, { ok: false, error: "Invalid conversation id" });
 
-      const result = await chatService.markConversationRead(userId, conversationId);
+      const result = await chatService.markConversationRead(userId, conversationId, activeRole);
       ack(cb, { ok: true, ...result });
     } catch (err) {
       logger.warn(`chat:read failed | userId=${userId} ${err.message}`);

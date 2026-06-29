@@ -127,4 +127,7 @@ docs/*
 /prisma/src/prisma
 
 /prisma/src/prisma
-.vscode
+.vscode/*
+.agents
+.claude
+skills-lock.json

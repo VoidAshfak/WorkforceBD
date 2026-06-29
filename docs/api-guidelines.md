@@ -992,7 +992,7 @@ Worker applies to shifts and tracks application state. All endpoints require:
 
 ### POST `/applications`
 
-Apply to a shift. Requires a verified worker profile.
+Apply to a shift. Requires a verified worker profile. On success the owning business is notified instantly (`notification:new`, `data.kind = "new_applicant"` with `shift_id` + `application_id`).
 
 **Request Body**
 ```json
@@ -1200,9 +1200,17 @@ Business-side endpoints: profile onboarding, shift management, applicant screeni
 - `Authorization: Bearer <access_token>`
 - Active context must be `business` (see [Account context](#account-context-active-role)) — the `business` role is chosen on the role-select screen, added on first `business` OTP login
 
-Base path: `/api/v1/business`. Onboarding endpoints do **not** require a verified profile — a business builds its profile here. Verification is optional (increases worker trust) and reviewed by an admin (see [Admin](#admin)).
+Base path: `/api/v1/business`. Onboarding and read endpoints do **not** require a verified profile — a business builds its profile and browses here. **Impactful actions require an admin-verified profile** (see the verification gate below).
 
-> **Shift moderation:** Submitting a shift does **not** make it instantly visible. It enters `pending_approval` and an admin must approve it (`pending_approval` → `published`) before workers can see/apply. Rejection returns it to `draft` for the business to edit and resubmit (see [Admin](#admin)). A business may submit shifts while still `unverified`.
+> **Verification gate:** Onboarding (`POST/PATCH /business/profile*`) and all reads (`GET` profile, wallet, dashboard, shifts, applicants, roster) are open to an `unverified` business so it can complete its profile and submit documents. The following **require `verification_status = verified`** and otherwise return `403`:
+> - `POST /business/wallet/topup`
+> - `POST /business/shifts`, `PATCH /business/shifts/:id`, `PATCH /business/shifts/:id/publish`, `PATCH /business/shifts/:id/cancel`
+> - `PATCH /business/applications/:id/{shortlist,accept,reject}`
+> - `POST /payments/shifts/:shiftId/settle` (see [Payments](#payments))
+>
+> `403` body: `{ "success": false, "message": "Your business profile must be verified by an admin first" }` (or `"Complete your business profile to continue"` when no profile exists).
+
+> **Shift moderation:** Submitting a shift does **not** make it instantly visible. It enters `pending_approval` and an admin must approve it (`pending_approval` → `published`) before workers can see/apply. Rejection returns it to `draft` for the business to edit and resubmit (see [Admin](#admin)).
 
 ### Shift status lifecycle
 `draft` → `pending_approval` (submitted) → `published` (admin-approved, worker-visible) → `applications_open` → … On rejection a shift returns to `draft`.
@@ -1287,7 +1295,9 @@ Step 2 — saves operating location and zone (screen 4).
 
 ### PATCH `/business/profile/documents`
 
-Step 3 — submits verification documents; moves `verification_status` to `pending` (screen 5). Optional/skippable.
+Step 3 — submits verification documents; moves `verification_status` to `pending` (screen 5). Required before the business can perform impactful actions (see the verification gate above).
+
+Upload each file first via [`POST /upload/presign`](#post-uploadpresign) with `purpose` = `trade_license` or `business_doc`, push it to Cloudinary, then send the resulting `secure_url`(s) here.
 
 **Body:** `trade_license_url` (URL), `business_doc_url` (URL) — at least one required.
 
@@ -1434,7 +1444,7 @@ Lists the business's own shifts, paginated, newest first.
 
 **Query:** `status` (any shift status), `page` (default 1), `limit` (default 10, max 50).
 
-**Response `200`** — `{ items: [...], pagination: {...} }`. Each item carries `filled`, `capacity`, `is_full`, and `applicants_waiting`.
+**Response `200`** — `{ items: [...], pagination: {...} }`. Each item carries `filled`, `capacity`, `is_full`, `applicants_waiting`, and `is_editable`.
 
 ---
 
@@ -1442,13 +1452,18 @@ Lists the business's own shifts, paginated, newest first.
 
 Single owned-shift detail with staffing counters (screens 13–14). `404 Shift not found` if missing or not owned.
 
+Counters on the returned shift:
+- `filled` — workers hired (accepted) · `capacity` — `workers_needed` · `is_full`
+- `applicants_waiting` — pending + shortlisted applicants
+- `is_editable` — `true` only while the shift is `draft`/`published`/`applications_open` **and** nobody is hired yet. Use it to show/hide the edit button; the journey bar is driven by `status`.
+
 ---
 
 ### PATCH `/business/shifts/:id`
 
-Edits an owned shift. Allowed only while `draft`/`published`/`applications_open`. Body accepts the same (optional) fields as create except `draft`.
+Edits an owned shift. Allowed only while `draft`/`published`/`applications_open` **and before any worker is hired** (mirrors `is_editable`). Body accepts the same (optional) fields as create except `draft`.
 
-**Errors:** `409 A '<state>' shift can no longer be edited`, `400` (invalid refs/date), `404`, `422`.
+**Errors:** `409 A '<state>' shift can no longer be edited`, `409 This shift can no longer be edited — a worker has already been hired`, `400` (invalid refs/date), `404`, `422`.
 
 ---
 
@@ -1619,7 +1634,7 @@ Mints a socket ticket for the authenticated caller. Requires `Authorization: Bea
 }
 ```
 
-The ticket is a JWT scoped to the `socket` audience — it cannot call REST endpoints and cannot be refreshed. `expires_in` is seconds.
+The ticket is a JWT scoped to the `socket` audience — it cannot call REST endpoints and cannot be refreshed. `expires_in` is seconds. It also captures the caller's **active role** at mint time, so socket chat (`chat:send` / `chat:read`) stays scoped to the same side as REST. After switching role, mint a fresh ticket and reconnect to chat as the other side.
 
 **Errors:** `401 Authorization token required` (missing/invalid access token).
 
@@ -1629,7 +1644,7 @@ On connect, the socket auto-joins a private room (`user:<id>`) — events are de
 
 | Event | Payload | When |
 |---|---|---|
-| `notification:new` | `{ notification, unread_count }` | Any new notification for this user (verification decision, hire/reject, shift moderation, …) |
+| `notification:new` | `{ notification, unread_count }` | Any new notification for this user (new applicant, verification decision, hire/reject, shift moderation, …) |
 | `chat:message` | `{ conversation_id, message }` | The counterpart sent a new chat message in a conversation this user is in |
 | `chat:read` | `{ conversation_id, reader_role, read_at, count }` | The counterpart opened/marked the thread read — update your sent-message read receipts |
 
@@ -1752,6 +1767,8 @@ Direct messaging between a worker and a business, **scoped per shift**. A conver
 
 Base path: `/api/v1/chat`. Requires `Authorization: Bearer <access_token>`. Every endpoint resolves the caller's **side** (`worker` or `business`) from their profile and rejects non-participants.
 
+**Scoped to the active account context.** A user who holds both a worker and a business profile sees **only** the conversations for their currently active role — worker chats and business chats are separate inboxes. The inbox listing, the unread badge, and per-conversation access (open / messages / send / read) are all filtered by the `active_role` of the access token; a worker-context request that targets a business-side conversation gets `404 Conversation not found` (and vice versa). Switch role (`POST /auth/switch-role`) to see the other side. Legacy tokens minted before `active_role` existed fall back to a merged view until refreshed.
+
 **Access gate:** a conversation can only be opened once an **application exists** for that `(shift, worker)` pair (any status — `pending`…`withdrawn`). No cold-messaging. Because applying requires a verified worker and posting a shift requires a verified business, both participants are implicitly verified.
 
 A `message` carries: `id`, `conversation_id`, `sender_user_id`, `sender_role` (`worker` · `business`), `body`, `read_at` (null until the recipient reads it), `created_at`.
@@ -1872,12 +1889,20 @@ Marks all incoming messages in the conversation as read and emits `chat:read` to
 
 ### GET `/chat/unread-count`
 
-Total unread messages across all the caller's conversations — bind to the chat badge.
+Total unread messages across the caller's conversations (scoped to the active account context) — bind to the chat badge.
+
+**Query Params**
+
+| Param | Type | Required | Notes |
+|---|---|---|---|
+| `shift_id` | UUID | no | Scopes the count to a single shift's conversations (per-shift badge). Omit for the global total. |
 
 **Response `200`**
 ```json
 { "success": true, "message": "Unread count fetched", "data": { "unread_count": 5 } }
 ```
+
+**Error `422`** — `shift_id must be a valid UUID`.
 
 ---
 
@@ -2322,6 +2347,9 @@ Generates a signed upload credential. Valid for one upload only.
 | `nid_back` | National ID back photo | jpg, jpeg, png, pdf |
 | `selfie` | Live selfie for identity | jpg, jpeg, png |
 | `student_id` | Optional student ID | jpg, jpeg, png, pdf |
+| `trade_license` | Business trade license (verification) | jpg, jpeg, png, pdf |
+| `business_doc` | Other business verification document | jpg, jpeg, png, pdf |
+| `business_logo` | Business logo | jpg, jpeg, png, webp |
 
 **Response `200`**
 ```json

@@ -11,6 +11,16 @@ const { ACTIVE_SHIFT_STATUSES } = businessRepository;
 
 // Shift states that may still be edited by the business.
 const EDITABLE_SHIFT_STATUSES = ["draft", "published", "applications_open"];
+
+/**
+ * A shift is editable while it is in an editable state AND no worker has been
+ * hired yet. Once anyone is hired the posting is locked (changing pay, timing,
+ * or capacity out from under a hired worker is not allowed).
+ * @param {string} status
+ * @param {number} hiredCount accepted applications on the shift
+ */
+const isShiftEditable = (status, hiredCount) =>
+  EDITABLE_SHIFT_STATUSES.includes(status) && hiredCount === 0;
 // Terminal/locked states a shift can no longer be cancelled from.
 const NON_CANCELLABLE_STATUSES = ["completed", "payment_pending", "paid", "closed", "cancelled"];
 // Applicant states a business may still act on.
@@ -76,6 +86,8 @@ const toShiftDto = (shift) => {
     capacity: shift.workers_needed,
     is_full: filled >= shift.workers_needed,
     applicants_waiting: _count?.applications ?? 0,
+    // Drives the edit button: false once hired or in a locked state.
+    is_editable: isShiftEditable(shift.status, filled),
   };
 };
 
@@ -400,6 +412,11 @@ export const updateShift = async (userId, shiftId, data) => {
   if (!shift) throw new AppError("Shift not found", 404);
   if (!EDITABLE_SHIFT_STATUSES.includes(shift.status)) {
     throw new AppError(`A '${shift.status}' shift can no longer be edited`, 409);
+  }
+  // Lock the posting once anyone is hired.
+  const hired = await businessRepository.countAcceptedForShift(shiftId);
+  if (hired > 0) {
+    throw new AppError("This shift can no longer be edited — a worker has already been hired", 409);
   }
 
   if (data.category_id) {

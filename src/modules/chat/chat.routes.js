@@ -3,6 +3,7 @@ import authenticate from "../../middleware/authenticate.js";
 import * as chatController from "./chat.controller.js";
 import {
   openConversationRules,
+  unreadCountRules,
   listConversationsRules,
   conversationIdRules,
   listMessagesRules,
@@ -16,7 +17,7 @@ const router = Router();
 // verified (applying / posting a shift both require a verified profile).
 router.use(authenticate);
 
-router.get("/unread-count", chatController.getUnreadCount);
+router.get("/unread-count", unreadCountRules, chatController.getUnreadCount);
 
 router.get("/conversations", listConversationsRules, chatController.listConversations);
 router.post("/conversations", openConversationRules, chatController.openConversation);

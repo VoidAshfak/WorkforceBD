@@ -6,6 +6,10 @@ export const openConversationRules = [
   body("worker_profile_id").optional().isUUID().withMessage("worker_profile_id must be a valid UUID"),
 ];
 
+export const unreadCountRules = [
+  query("shift_id").optional().isUUID().withMessage("shift_id must be a valid UUID"),
+];
+
 export const listConversationsRules = [
   query("page").optional().isInt({ min: 1 }).withMessage("page must be a positive integer"),
   query("limit").optional().isInt({ min: 1, max: 50 }).withMessage("limit must be 1–50"),

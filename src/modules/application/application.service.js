@@ -67,6 +67,18 @@ export const applyToShift = async (userId, { shift_id, note }) => {
     worker_profile_id: worker.id,
     note,
   });
+
+  // Notify the hiring business in real time (createNotification pushes
+  // `notification:new` over Socket.IO).
+  await createNotification({
+    user_id: shift.business_profiles.user_id,
+    type: "in_app",
+    priority: "high",
+    title: "New applicant",
+    body: `${worker.full_name ?? "A worker"} applied to "${shift.title}".`,
+    data: { kind: "new_applicant", shift_id: shift.id, application_id: application.id },
+  });
+
   logger.info(`Application created | userId=${userId} shift=${shift_id} app=${application.id}`);
   return application;
 };

@@ -18,6 +18,28 @@ const resolveSide = (conv, profiles) => {
   return null;
 };
 
+/**
+ * Restricts a user's profile pair to the side matching their active account
+ * context, so a dual-role user's worker and business inboxes stay separate.
+ * Tokens minted before `active_role` existed keep the legacy merged (both-sides)
+ * view until they refresh.
+ * @param {{ workerProfileId: string|null, businessProfileId: string|null }} profiles
+ * @param {string|null|undefined} activeRole
+ */
+const scopeToActiveRole = (profiles, activeRole) => {
+  if (activeRole === "worker") return { workerProfileId: profiles.workerProfileId, businessProfileId: null };
+  if (activeRole === "business") return { workerProfileId: null, businessProfileId: profiles.businessProfileId };
+  return profiles;
+};
+
+/**
+ * Loads the user's profiles already scoped to their active role.
+ * @param {string} userId
+ * @param {string|null|undefined} activeRole
+ */
+const scopedProfiles = async (userId, activeRole) =>
+  scopeToActiveRole(await chatRepository.findUserProfiles(userId), activeRole);
+
 /** User id of the participant on the opposite side. */
 const counterpartUserId = (conv, side) =>
   side === "worker" ? conv.business_profiles.user_id : conv.worker_profiles.user_id;
@@ -76,9 +98,10 @@ const toConversationDto = (conv, side, unread) => ({
  * the shift's business and name the worker via `worker_profile_id`.
  * @param {string} userId
  * @param {{ shift_id: string, worker_profile_id?: string }} data
+ * @param {string|null} [activeRole] - acting account context (worker/business)
  */
-export const openConversation = async (userId, { shift_id, worker_profile_id }) => {
-  const profiles = await chatRepository.findUserProfiles(userId);
+export const openConversation = async (userId, { shift_id, worker_profile_id }, activeRole = null) => {
+  const profiles = scopeToActiveRole(await chatRepository.findUserProfiles(userId), activeRole);
 
   const shift = await chatRepository.findShift(shift_id);
   if (!shift) throw new AppError("Shift not found", 404);
@@ -137,9 +160,10 @@ export const openConversation = async (userId, { shift_id, worker_profile_id }) 
  * Paginated inbox of the user's conversations, latest activity first.
  * @param {string} userId
  * @param {{ page?: number, limit?: number }} query
+ * @param {string|null} [activeRole] - acting account context (worker/business)
  */
-export const listConversations = async (userId, query) => {
-  const profiles = await chatRepository.findUserProfiles(userId);
+export const listConversations = async (userId, query, activeRole = null) => {
+  const profiles = await scopedProfiles(userId, activeRole);
   const page = Math.max(1, query.page ?? 1);
   const limit = Math.min(50, Math.max(1, query.limit ?? 20));
   const skip = (page - 1) * limit;
@@ -163,12 +187,15 @@ export const listConversations = async (userId, query) => {
  * Loads an owned conversation and the viewer's side, or throws 404/403.
  * @param {string} userId
  * @param {string} conversationId
+ * @param {string|null} [activeRole] - acting account context (worker/business)
  */
-const getOwnedConversation = async (userId, conversationId) => {
+const getOwnedConversation = async (userId, conversationId, activeRole = null) => {
   const conv = await chatRepository.findConversationById(conversationId);
   if (!conv) throw new AppError("Conversation not found", 404);
 
-  const profiles = await chatRepository.findUserProfiles(userId);
+  // Scoped to the active role: a worker-context request can't reach a
+  // business-side conversation (and vice versa), keeping the two inboxes apart.
+  const profiles = scopeToActiveRole(await chatRepository.findUserProfiles(userId), activeRole);
   const side = resolveSide(conv, profiles);
   if (!side) throw new AppError("Conversation not found", 404);
   return { conv, side };
@@ -180,9 +207,10 @@ const getOwnedConversation = async (userId, conversationId) => {
  * @param {string} userId
  * @param {string} conversationId
  * @param {{ page?: number, limit?: number }} query
+ * @param {string|null} [activeRole] - acting account context (worker/business)
  */
-export const listMessages = async (userId, conversationId, query) => {
-  const { conv, side } = await getOwnedConversation(userId, conversationId);
+export const listMessages = async (userId, conversationId, query, activeRole = null) => {
+  const { conv, side } = await getOwnedConversation(userId, conversationId, activeRole);
 
   const page = Math.max(1, query.page ?? 1);
   const limit = Math.min(50, Math.max(1, query.limit ?? 30));
@@ -209,9 +237,10 @@ export const listMessages = async (userId, conversationId, query) => {
  * @param {string} userId
  * @param {string} conversationId
  * @param {string} body
+ * @param {string|null} [activeRole] - acting account context (worker/business)
  */
-export const sendMessage = async (userId, conversationId, body) => {
-  const { conv, side } = await getOwnedConversation(userId, conversationId);
+export const sendMessage = async (userId, conversationId, body, activeRole = null) => {
+  const { conv, side } = await getOwnedConversation(userId, conversationId, activeRole);
 
   const message = await chatRepository.createMessage({
     conversation_id: conv.id,
@@ -257,19 +286,23 @@ const markRead = async (conv, side) => {
  * Public mark-as-read endpoint handler.
  * @param {string} userId
  * @param {string} conversationId
+ * @param {string|null} [activeRole] - acting account context (worker/business)
  */
-export const markConversationRead = async (userId, conversationId) => {
-  const { conv, side } = await getOwnedConversation(userId, conversationId);
+export const markConversationRead = async (userId, conversationId, activeRole = null) => {
+  const { conv, side } = await getOwnedConversation(userId, conversationId, activeRole);
   const updated = await markRead(conv, side);
   return { updated };
 };
 
 /**
- * Total unread message count across the user's conversations (badge).
+ * Total unread message count across the user's conversations (badge), scoped to
+ * the active account context. Pass `shiftId` to scope to one shift's threads.
  * @param {string} userId
+ * @param {string|null} [activeRole] - acting account context (worker/business)
+ * @param {string} [shiftId] - optional shift to scope the count to
  */
-export const getUnreadCount = async (userId) => {
-  const profiles = await chatRepository.findUserProfiles(userId);
-  const unread = await chatRepository.countTotalUnread(profiles);
+export const getUnreadCount = async (userId, activeRole = null, shiftId) => {
+  const profiles = await scopedProfiles(userId, activeRole);
+  const unread = await chatRepository.countTotalUnread({ ...profiles, shiftId });
   return { unread_count: unread };
 };
