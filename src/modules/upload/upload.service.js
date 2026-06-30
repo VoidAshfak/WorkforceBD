@@ -31,6 +31,21 @@ const UPLOAD_CONFIG = {
     allowed_formats: ["jpg", "jpeg", "png", "pdf"],
     transformation: [{ quality: "auto" }],
   },
+  trade_license: {
+    folder: "workforcebd/business_documents",
+    allowed_formats: ["jpg", "jpeg", "png", "pdf"],
+    transformation: [{ quality: "auto" }],
+  },
+  business_doc: {
+    folder: "workforcebd/business_documents",
+    allowed_formats: ["jpg", "jpeg", "png", "pdf"],
+    transformation: [{ quality: "auto" }],
+  },
+  business_logo: {
+    folder: "workforcebd/business_logos",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+    transformation: [{ width: 400, height: 400, crop: "fill", quality: "auto" }],
+  },
 };
 
 /**

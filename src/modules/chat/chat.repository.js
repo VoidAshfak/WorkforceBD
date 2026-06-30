@@ -170,16 +170,18 @@ export const countUnreadInConversation = (conversationId, viewerRole) => {
 };
 
 /**
- * Total unread across every conversation the user participates in (badge count).
- * @param {{ workerProfileId: string|null, businessProfileId: string|null }} opts
+ * Total unread across the user's conversations (badge count). Pass `shiftId` to
+ * scope the count to a single shift's conversations.
+ * @param {{ workerProfileId: string|null, businessProfileId: string|null, shiftId?: string }} opts
  */
-export const countTotalUnread = ({ workerProfileId, businessProfileId }) => {
+export const countTotalUnread = ({ workerProfileId, businessProfileId, shiftId }) => {
+  const convFilter = (extra) => ({ deleted_at: null, ...(shiftId ? { shift_id: shiftId } : {}), ...extra });
   const or = [];
   if (workerProfileId) {
-    or.push({ sender_role: "business", chat_conversations: { worker_profile_id: workerProfileId, deleted_at: null } });
+    or.push({ sender_role: "business", chat_conversations: convFilter({ worker_profile_id: workerProfileId }) });
   }
   if (businessProfileId) {
-    or.push({ sender_role: "worker", chat_conversations: { business_profile_id: businessProfileId, deleted_at: null } });
+    or.push({ sender_role: "worker", chat_conversations: convFilter({ business_profile_id: businessProfileId }) });
   }
   if (!or.length) return Promise.resolve(0);
   return prisma.chat_messages.count({ where: { read_at: null, deleted_at: null, OR: or } });

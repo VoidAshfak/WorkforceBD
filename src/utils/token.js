@@ -43,12 +43,14 @@ const SOCKET_TICKET_AUDIENCE = "socket";
  * Mints a short-lived, single-purpose credential for the Socket.IO handshake.
  * Carries only the subject (userId) and a `socket` audience — it can't call the
  * REST API and can't be refreshed. Expiry is the only thing keeping it safe, so
- * keep it short (see env.socketTicketExpiresIn).
+ * keep it short (see env.socketTicketExpiresIn). Carries the caller's active
+ * account context so socket chat stays scoped to one side (worker vs business).
  * @param {string} userId
+ * @param {string|null} [activeRole]
  * @returns {string}
  */
-export const generateSocketTicket = (userId) => {
-  return jwt.sign({}, env.jwtSecret, {
+export const generateSocketTicket = (userId, activeRole = null) => {
+  return jwt.sign({ active_role: activeRole }, env.jwtSecret, {
     subject: userId,
     audience: SOCKET_TICKET_AUDIENCE,
     expiresIn: env.socketTicketExpiresIn,
@@ -59,12 +61,12 @@ export const generateSocketTicket = (userId) => {
  * Verifies a socket ticket. Rejects anything that isn't a `socket`-audience
  * token (e.g. a raw access token) or is expired.
  * @param {string} token
- * @returns {{ id: string }} the authenticated user
+ * @returns {{ id: string, active_role: string|null }} the authenticated user
  */
 export const verifySocketTicket = (token) => {
   const decoded = jwt.verify(token, env.jwtSecret, {
     algorithms: ["HS256"],
     audience: SOCKET_TICKET_AUDIENCE,
   });
-  return { id: decoded.sub };
+  return { id: decoded.sub, active_role: decoded.active_role ?? null };
 };

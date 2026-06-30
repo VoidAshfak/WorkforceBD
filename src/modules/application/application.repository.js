@@ -7,7 +7,7 @@ import { prisma } from "../../db/index.js";
 export const findWorkerProfile = (userId) => {
   return prisma.worker_profiles.findUnique({
     where: { user_id: userId },
-    select: { id: true, verification_status: true },
+    select: { id: true, verification_status: true, full_name: true },
   });
 };
 
@@ -15,7 +15,10 @@ export const findWorkerProfile = (userId) => {
 export const findShiftById = (shiftId) => {
   return prisma.shifts.findFirst({
     where: { id: shiftId, deleted_at: null },
-    select: { id: true, status: true, shift_date: true, workers_needed: true },
+    select: {
+      id: true, status: true, title: true, shift_date: true, workers_needed: true,
+      business_profiles: { select: { user_id: true } },
+    },
   });
 };
 
