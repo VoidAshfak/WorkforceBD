@@ -42,7 +42,7 @@ export const findProfileByUserId = async (userId) => {
 export const findProfileSummary = (userId) => {
   return prisma.business_profiles.findUnique({
     where: { user_id: userId },
-    select: { id: true, verification_status: true, zone_id: true, address: true, landmark: true },
+    select: { id: true, verification_status: true, zone_id: true, address: true, landmark: true, manager_phone: true },
   });
 };
 
@@ -88,6 +88,26 @@ export const ACTIVE_SHIFT_STATUSES = ["published", "applications_open"];
  * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
  */
 export const createShift = (data, client = prisma) => client.shifts.create({ data });
+
+/**
+ * Finds a live (not cancelled/deleted) shift by the same business that overlaps
+ * the given slot — same category, date and start time. Used to warn on an
+ * accidental duplicate post before creating another one.
+ * @param {{ businessProfileId: string, categoryId: string, shiftDate: Date, startTime: Date }} opts
+ */
+export const findDuplicateShift = ({ businessProfileId, categoryId, shiftDate, startTime }) => {
+  return prisma.shifts.findFirst({
+    where: {
+      business_profile_id: businessProfileId,
+      category_id: categoryId,
+      shift_date: shiftDate,
+      start_time: startTime,
+      deleted_at: null,
+      status: { not: "cancelled" },
+    },
+    select: { id: true, title: true },
+  });
+};
 
 /**
  * Shift owned by a business, with live applicant/hire counters. 404-safe via findFirst.

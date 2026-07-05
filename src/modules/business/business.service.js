@@ -2,7 +2,12 @@ import { Prisma } from "../../prisma/index.js";
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import { prisma } from "../../db/index.js";
-import { BUSINESS_WALLET_SEED_BALANCE, MIN_BUSINESS_TOPUP } from "../../constants.js";
+import {
+  BUSINESS_WALLET_SEED_BALANCE,
+  MIN_BUSINESS_TOPUP,
+  PLATFORM_FEE_PERCENT,
+  LARGE_REQUEST_WORKER_THRESHOLD,
+} from "../../constants.js";
 import * as businessRepository from "./business.repository.js";
 import { createNotification } from "../notification/notification.service.js";
 import { currentCheckinCode } from "../../utils/qrToken.js";
@@ -29,7 +34,9 @@ const DECIDABLE_APPLICATION_STATUSES = ["pending", "shortlisted"];
 const EDITABLE_SHIFT_FIELDS = [
   "title", "description", "category_id", "role_type", "shift_type",
   "pay_amount", "gender_preference", "meal_included", "transport_support",
-  "zone_id", "address", "landmark",
+  "uniform_provided", "tips_expected", "experience_required", "languages",
+  "customer_facing", "reporting_details", "dress_code", "manager_contact",
+  "is_urgent", "zone_id", "address", "landmark",
 ];
 
 /* ============================================================
@@ -80,6 +87,8 @@ const getProfileSummaryOrThrow = async (userId) => {
 const toShiftDto = (shift) => {
   const { applications, _count, ...rest } = shift;
   const filled = applications?.length ?? 0;
+  const workerPay = shiftEscrowCost(shift.pay_amount, shift.workers_needed);
+  const fee = new Prisma.Decimal(shift.platform_fee ?? 0);
   return {
     ...rest,
     filled,
@@ -88,6 +97,15 @@ const toShiftDto = (shift) => {
     applicants_waiting: _count?.applications ?? 0,
     // Drives the edit button: false once hired or in a locked state.
     is_editable: isShiftEditable(shift.status, filled),
+    // Compensation breakdown for the review screen (screen 7).
+    cost_breakdown: {
+      worker_pay: shift.pay_amount,
+      workers_needed: shift.workers_needed,
+      total_worker_pay: workerPay,
+      platform_fee: fee,
+      total_cost: workerPay.plus(fee),
+    },
+    is_large_request: shift.workers_needed > LARGE_REQUEST_WORKER_THRESHOLD,
   };
 };
 
@@ -103,6 +121,17 @@ const toShiftDto = (shift) => {
  */
 const shiftEscrowCost = (payAmount, workersNeeded) =>
   new Prisma.Decimal(payAmount).times(workersNeeded);
+
+/**
+ * Platform commission on the total worker pay of a shift (screen 7 breakdown).
+ * Shown to the business at creation; only the worker pay is escrowed today —
+ * fee capture is deferred with the payment gateway.
+ * @param {Prisma.Decimal|string|number} payAmount
+ * @param {number} workersNeeded
+ * @returns {Prisma.Decimal}
+ */
+const shiftPlatformFee = (payAmount, workersNeeded) =>
+  shiftEscrowCost(payAmount, workersNeeded).times(PLATFORM_FEE_PERCENT).dividedBy(100).toDecimalPlaces(2);
 
 /**
  * Moves `cost` from the business wallet's spendable balance into `held`. Throws
@@ -322,11 +351,31 @@ export const createShift = async (userId, data) => {
   const shiftDate = new Date(data.shift_date);
   if (shiftDate < today()) throw new AppError("Shift date cannot be in the past", 400);
 
+  const startTime = timeStringToDate(data.start_time);
+
+  // Duplicate guard: same category + date + start time as a live shift usually
+  // means a double-tap. Block unless the business confirms it's intentional.
+  if (!data.allow_duplicate) {
+    const dup = await businessRepository.findDuplicateShift({
+      businessProfileId: profile.id,
+      categoryId: data.category_id,
+      shiftDate,
+      startTime,
+    });
+    if (dup) {
+      throw new AppError(
+        `You already have a similar shift ("${dup.title}") at this date and time. Resubmit with allow_duplicate=true to post it anyway.`,
+        409,
+      );
+    }
+  }
+
   // Submitting straight to review (not a draft) escrows the shift's full cost now.
   const isSubmitting = !data.draft;
   const status = isSubmitting ? "pending_approval" : "draft";
   const workersNeeded = Number(data.workers_needed);
   const cost = shiftEscrowCost(data.pay_amount, workersNeeded);
+  const platformFee = shiftPlatformFee(data.pay_amount, workersNeeded);
 
   const shiftData = {
     business_profile_id: profile.id,
@@ -336,13 +385,23 @@ export const createShift = async (userId, data) => {
     role_type: data.role_type ?? null,
     shift_type: data.shift_type,
     shift_date: shiftDate,
-    start_time: timeStringToDate(data.start_time),
+    start_time: startTime,
     end_time: timeStringToDate(data.end_time),
     pay_amount: data.pay_amount,
+    platform_fee: platformFee,
     workers_needed: workersNeeded,
     gender_preference: data.gender_preference ?? null,
     meal_included: data.meal_included ?? false,
     transport_support: data.transport_support ?? false,
+    uniform_provided: data.uniform_provided ?? false,
+    tips_expected: data.tips_expected ?? false,
+    experience_required: data.experience_required ?? false,
+    languages: data.languages ?? [],
+    customer_facing: data.customer_facing ?? false,
+    reporting_details: data.reporting_details ?? null,
+    dress_code: data.dress_code ?? null,
+    manager_contact: data.manager_contact ?? profile.manager_phone ?? null,
+    is_urgent: data.is_urgent ?? false,
     address: data.address ?? profile.address ?? null,
     landmark: data.landmark ?? profile.landmark ?? null,
     zone_id: zoneId,
@@ -441,6 +500,13 @@ export const updateShift = async (userId, shiftId, data) => {
   if (data.start_time) patch.start_time = timeStringToDate(data.start_time);
   if (data.end_time) patch.end_time = timeStringToDate(data.end_time);
   if (data.workers_needed !== undefined) patch.workers_needed = Number(data.workers_needed);
+
+  // Keep the fee in step with any pay/capacity change (display breakdown).
+  if (data.pay_amount !== undefined || data.workers_needed !== undefined) {
+    const pay = data.pay_amount ?? shift.pay_amount;
+    const workers = data.workers_needed !== undefined ? Number(data.workers_needed) : shift.workers_needed;
+    patch.platform_fee = shiftPlatformFee(pay, workers);
+  }
 
   const updated = await businessRepository.updateShift(shiftId, patch);
   logger.info(`Shift updated | userId=${userId} shiftId=${shiftId}`);

@@ -4,6 +4,30 @@ import { BUSINESS_TOPUP_METHODS } from "../../constants.js";
 const TIME_24H = /^([01]\d|2[0-3]):([0-5]\d)$/;
 const SHIFT_TYPES = ["instant", "scheduled", "prebooked"];
 const GENDERS = ["male", "female", "other", "prefer_not_to_say"];
+
+// Rejects a shift whose end time is not strictly after its start time (edge
+// case: "Invalid Time"). Only fires when both are present (update is partial).
+const endAfterStart = (endTime, { req }) => {
+  const start = req.body.start_time;
+  if (start && endTime && endTime <= start) {
+    throw new Error("end_time must be after start_time");
+  }
+  return true;
+};
+
+// Requirements/benefits/instructions shared by create + update.
+const detailRules = (opts) => [
+  opts.body("uniform_provided").optional().isBoolean(),
+  opts.body("tips_expected").optional().isBoolean(),
+  opts.body("experience_required").optional().isBoolean(),
+  opts.body("customer_facing").optional().isBoolean(),
+  opts.body("is_urgent").optional().isBoolean(),
+  opts.body("languages").optional().isArray({ max: 10 }).withMessage("languages must be an array"),
+  opts.body("languages.*").optional().isString().trim().isLength({ min: 1, max: 50 }),
+  opts.body("reporting_details").optional().trim().isLength({ max: 1000 }),
+  opts.body("dress_code").optional().trim().isLength({ max: 500 }),
+  opts.body("manager_contact").optional().trim().isLength({ max: 20 }),
+];
 const SHIFT_STATUSES = [
   "draft", "published", "applications_open", "worker_selected", "worker_confirmed",
   "worker_arriving", "checked_in", "active", "completed", "payment_pending", "paid", "closed", "cancelled",
@@ -50,16 +74,19 @@ export const createShiftRules = [
   body("shift_type").notEmpty().isIn(SHIFT_TYPES).withMessage(`shift_type must be one of: ${SHIFT_TYPES.join(", ")}`),
   body("shift_date").notEmpty().isDate({ format: "YYYY-MM-DD" }).withMessage("shift_date must be YYYY-MM-DD"),
   body("start_time").notEmpty().matches(TIME_24H).withMessage("start_time must be HH:MM (24h)"),
-  body("end_time").notEmpty().matches(TIME_24H).withMessage("end_time must be HH:MM (24h)"),
+  body("end_time").notEmpty().matches(TIME_24H).withMessage("end_time must be HH:MM (24h)").custom(endAfterStart),
   body("pay_amount").notEmpty().isFloat({ gt: 0 }).withMessage("pay_amount must be greater than 0"),
   body("workers_needed").notEmpty().isInt({ min: 1, max: 1000 }).withMessage("workers_needed must be at least 1"),
   body("gender_preference").optional().isIn(GENDERS).withMessage("Invalid gender_preference"),
   body("meal_included").optional().isBoolean(),
   body("transport_support").optional().isBoolean(),
+  ...detailRules({ body }),
   body("zone_id").optional().isUUID().withMessage("zone_id must be a valid UUID"),
   body("address").optional().trim().isLength({ max: 500 }),
   body("landmark").optional().trim().isLength({ max: 200 }),
   body("draft").optional().isBoolean().withMessage("draft must be a boolean"),
+  // Bypass the near-duplicate guard when the business confirms the repeat is intentional.
+  body("allow_duplicate").optional().isBoolean().withMessage("allow_duplicate must be a boolean"),
 ];
 
 export const updateShiftRules = [
@@ -71,12 +98,13 @@ export const updateShiftRules = [
   body("shift_type").optional().isIn(SHIFT_TYPES).withMessage(`shift_type must be one of: ${SHIFT_TYPES.join(", ")}`),
   body("shift_date").optional().isDate({ format: "YYYY-MM-DD" }).withMessage("shift_date must be YYYY-MM-DD"),
   body("start_time").optional().matches(TIME_24H).withMessage("start_time must be HH:MM (24h)"),
-  body("end_time").optional().matches(TIME_24H).withMessage("end_time must be HH:MM (24h)"),
+  body("end_time").optional().matches(TIME_24H).withMessage("end_time must be HH:MM (24h)").custom(endAfterStart),
   body("pay_amount").optional().isFloat({ gt: 0 }).withMessage("pay_amount must be greater than 0"),
   body("workers_needed").optional().isInt({ min: 1, max: 1000 }).withMessage("workers_needed must be at least 1"),
   body("gender_preference").optional().isIn(GENDERS).withMessage("Invalid gender_preference"),
   body("meal_included").optional().isBoolean(),
   body("transport_support").optional().isBoolean(),
+  ...detailRules({ body }),
   body("zone_id").optional().isUUID().withMessage("zone_id must be a valid UUID"),
   body("address").optional().trim().isLength({ max: 500 }),
   body("landmark").optional().trim().isLength({ max: 200 }),

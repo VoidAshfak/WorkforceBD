@@ -29,6 +29,15 @@ export const MIN_BUSINESS_TOPUP = 100;
 // later — for now a top-up is an instant manual credit (no external capture).
 export const BUSINESS_TOPUP_METHODS = ["bkash", "nagad", "bank_transfer"];
 
+// Platform commission (%) charged on top of the total worker pay of a shift.
+// Shown to the business in the cost breakdown at creation. Only escrow of the
+// worker pay is captured today — real fee collection is wired with the gateway.
+export const PLATFORM_FEE_PERCENT = 10;
+// Requesting more workers than this on a single shift is flagged as a large
+// request (surfaced to admin review) — all shifts already require approval, this
+// just marks the outsized ones.
+export const LARGE_REQUEST_WORKER_THRESHOLD = 20;
+
 // Chat tuning.
 // Max length of a single chat message body.
 export const CHAT_MESSAGE_MAX_LENGTH = 2000;

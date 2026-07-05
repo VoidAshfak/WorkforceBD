@@ -406,6 +406,24 @@ CREATE TABLE shifts (
     -- Benefits
     meal_included           BOOLEAN NOT NULL DEFAULT FALSE,
     transport_support       BOOLEAN NOT NULL DEFAULT FALSE,
+    uniform_provided        BOOLEAN NOT NULL DEFAULT FALSE,
+    tips_expected           BOOLEAN NOT NULL DEFAULT FALSE,
+
+    -- Requirements
+    experience_required     BOOLEAN NOT NULL DEFAULT FALSE,
+    languages               TEXT[] NOT NULL DEFAULT '{}',
+    customer_facing         BOOLEAN NOT NULL DEFAULT FALSE,
+
+    -- On-site instructions shown to hired workers
+    reporting_details       TEXT,
+    dress_code              TEXT,
+    manager_contact         VARCHAR(20),
+
+    -- Emergency/urgent staffing flag (drives priority distribution)
+    is_urgent               BOOLEAN NOT NULL DEFAULT FALSE,
+
+    -- Platform fee charged on top of worker pay (display/accounting; capture deferred)
+    platform_fee            DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
 
     -- Location (can differ from business address)
     address                 TEXT,
