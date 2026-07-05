@@ -413,12 +413,24 @@ export const createShift = async (userId, data) => {
 
   // Drafts hold no money. Submitting reserves the escrow and creates the shift
   // atomically, so a funding failure never leaves an unfunded pending shift.
+  // Map pin: use the sent coordinates, else fall back to the business location
+  // (same fallback as address/landmark). null when neither is set.
+  const coords = (data.latitude != null && data.longitude != null)
+    ? { latitude: data.latitude, longitude: data.longitude }
+    : await businessRepository.findProfileCoordinates(profile.id);
+
+  const persist = async (client) => {
+    const created = await businessRepository.createShift(shiftData, client);
+    if (coords) await businessRepository.setShiftCoordinates(created.id, coords.latitude, coords.longitude, client);
+    return created;
+  };
+
   const shift = isSubmitting
     ? await prisma.$transaction(async (tx) => {
         await reserveFromWallet(tx, profile.id, userId, cost);
-        return businessRepository.createShift(shiftData, tx);
+        return persist(tx);
       })
-    : await businessRepository.createShift(shiftData);
+    : await persist();
 
   logger.info(`Shift created | userId=${userId} shiftId=${shift.id} status=${status}${isSubmitting ? ` escrow=${cost}` : ""}`);
   return shift;
@@ -456,7 +468,10 @@ export const getShift = async (userId, shiftId) => {
   const profile = await getProfileSummaryOrThrow(userId);
   const shift = await businessRepository.findOwnedShift(shiftId, profile.id);
   if (!shift) throw new AppError("Shift not found", 404);
-  return toShiftDto(shift);
+  const dto = toShiftDto(shift);
+  // Map-pin coordinates live in a PostGIS column Prisma can't select — read raw.
+  dto.coordinates = await businessRepository.findShiftCoordinates(shiftId);
+  return dto;
 };
 
 /**
@@ -508,9 +523,13 @@ export const updateShift = async (userId, shiftId, data) => {
     patch.platform_fee = shiftPlatformFee(pay, workers);
   }
 
-  const updated = await businessRepository.updateShift(shiftId, patch);
+  await businessRepository.updateShift(shiftId, patch);
+  // Map-pin move is a separate raw write (PostGIS geography).
+  if (data.latitude != null && data.longitude != null) {
+    await businessRepository.setShiftCoordinates(shiftId, data.latitude, data.longitude);
+  }
   logger.info(`Shift updated | userId=${userId} shiftId=${shiftId}`);
-  return toShiftDto(await businessRepository.findOwnedShift(shiftId, profile.id)) ?? updated;
+  return getShift(userId, shiftId);
 };
 
 /**

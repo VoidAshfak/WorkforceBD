@@ -15,6 +15,20 @@ const endAfterStart = (endTime, { req }) => {
   return true;
 };
 
+// Map-pin latitude/longitude must be sent as a pair (or not at all).
+const bothOrNeitherCoord = (_value, { req }) => {
+  const { latitude, longitude } = req.body;
+  if ((latitude == null) !== (longitude == null)) {
+    throw new Error("latitude and longitude must be provided together");
+  }
+  return true;
+};
+
+const coordinateRules = (opts) => [
+  opts.body("latitude").optional().isFloat({ min: -90, max: 90 }).withMessage("latitude must be between -90 and 90").custom(bothOrNeitherCoord),
+  opts.body("longitude").optional().isFloat({ min: -180, max: 180 }).withMessage("longitude must be between -180 and 180").custom(bothOrNeitherCoord),
+];
+
 // Requirements/benefits/instructions shared by create + update.
 const detailRules = (opts) => [
   opts.body("uniform_provided").optional().isBoolean(),
@@ -81,6 +95,7 @@ export const createShiftRules = [
   body("meal_included").optional().isBoolean(),
   body("transport_support").optional().isBoolean(),
   ...detailRules({ body }),
+  ...coordinateRules({ body }),
   body("zone_id").optional().isUUID().withMessage("zone_id must be a valid UUID"),
   body("address").optional().trim().isLength({ max: 500 }),
   body("landmark").optional().trim().isLength({ max: 200 }),
@@ -105,6 +120,7 @@ export const updateShiftRules = [
   body("meal_included").optional().isBoolean(),
   body("transport_support").optional().isBoolean(),
   ...detailRules({ body }),
+  ...coordinateRules({ body }),
   body("zone_id").optional().isUUID().withMessage("zone_id must be a valid UUID"),
   body("address").optional().trim().isLength({ max: 500 }),
   body("landmark").optional().trim().isLength({ max: 200 }),

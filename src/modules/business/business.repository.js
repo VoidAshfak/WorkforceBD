@@ -11,7 +11,7 @@ import { prisma } from "../../db/index.js";
  * @param {string} profileId
  * @returns {Promise<{ latitude: number, longitude: number } | null>}
  */
-const findProfileCoordinates = async (profileId) => {
+export const findProfileCoordinates = async (profileId) => {
   const rows = await prisma.$queryRaw`
     SELECT ST_Y(coordinates::geometry) AS latitude,
            ST_X(coordinates::geometry) AS longitude
@@ -189,6 +189,37 @@ export const countOwnedShifts = ({ businessProfileId, status }) => {
  * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
  */
 export const updateShift = (id, data, client = prisma) => client.shifts.update({ where: { id }, data });
+
+/**
+ * Sets a shift's map-pin location. `coordinates` is a PostGIS geography Prisma
+ * can't write through the model, so build the point via raw SQL (lng, lat order).
+ * @param {string} shiftId
+ * @param {number} latitude
+ * @param {number} longitude
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
+ */
+export const setShiftCoordinates = (shiftId, latitude, longitude, client = prisma) => {
+  return client.$executeRaw`
+    UPDATE shifts
+    SET coordinates = ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326)::geography,
+        updated_at = now()
+    WHERE id = ${shiftId}::uuid
+  `;
+};
+
+/**
+ * Decoded map-pin of a shift ({ latitude, longitude }) or null when unset.
+ * @param {string} shiftId
+ */
+export const findShiftCoordinates = async (shiftId) => {
+  const rows = await prisma.$queryRaw`
+    SELECT ST_Y(coordinates::geometry) AS latitude,
+           ST_X(coordinates::geometry) AS longitude
+    FROM shifts
+    WHERE id = ${shiftId}::uuid AND coordinates IS NOT NULL
+  `;
+  return rows[0] ?? null;
+};
 
 /* ============================================================
  * Business wallet (escrow funding)
