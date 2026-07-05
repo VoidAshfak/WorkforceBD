@@ -156,3 +156,10 @@ export const listApplicantsRules = [
 ];
 
 export const applicationIdRules = [param("id").isUUID().withMessage("Invalid application id")];
+
+export const bulkDecisionRules = [
+  param("id").isUUID().withMessage("Invalid shift id"),
+  body("action").isIn(["shortlist", "reject"]).withMessage("action must be 'shortlist' or 'reject'"),
+  body("application_ids").isArray({ min: 1, max: 100 }).withMessage("application_ids must be a non-empty array (max 100)"),
+  body("application_ids.*").isUUID().withMessage("each application id must be a valid UUID"),
+];

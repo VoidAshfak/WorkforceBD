@@ -77,7 +77,26 @@ export const findWorkerApplications = (workerProfileId, { status, skip, take }) 
           zones: { select: { name: true } },
         },
       },
+      // Drives the "checked in / in progress" activity state for hired workers.
+      worker_assignments: {
+        where: { deleted_at: null },
+        select: { checked_in_at: true, checked_out_at: true, payment_status: true },
+        take: 1,
+      },
     },
+  });
+};
+
+/**
+ * Application counts grouped by status for the worker's activity tab header.
+ * @param {string} workerProfileId
+ * @returns {Promise<Array<{ status: string, _count: { status: number } }>>}
+ */
+export const groupWorkerApplicationsByStatus = (workerProfileId) => {
+  return prisma.applications.groupBy({
+    by: ["status"],
+    where: { worker_profile_id: workerProfileId, deleted_at: null },
+    _count: { status: true },
   });
 };
 

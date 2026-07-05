@@ -7,7 +7,9 @@ import {
   CHECKIN_MAX_ACCURACY_METERS,
 } from "../../constants.js";
 import { verifyCheckinCode } from "../../utils/qrToken.js";
+import { buildRoadmap } from "../../utils/shiftRoadmap.js";
 import * as applicationRepository from "./application.repository.js";
+import * as notificationRepository from "../notification/notification.repository.js";
 
 // Shift states that accept new applications
 const APPLYABLE_SHIFT_STATUSES = ["published", "applications_open"];
@@ -15,6 +17,49 @@ const APPLYABLE_SHIFT_STATUSES = ["published", "applications_open"];
 const WITHDRAWABLE_STATUSES = ["pending", "shortlisted"];
 // Shift states where check-in/out is no longer permitted.
 const CHECKIN_BLOCKED_SHIFT_STATUSES = ["cancelled", "closed"];
+// Shift states that mean the work is over (used to derive "completed" activity).
+const SHIFT_DONE_STATUSES = ["completed", "payment_pending", "paid", "closed"];
+
+/**
+ * Derives the activity-tab presentation of an application: a single status the
+ * worker understands (blends application + shift state), a contextual message,
+ * and the next action they can take. See the Activity screen (screen 11).
+ * @param {object} application application row including `shifts` + `worker_assignments`
+ * @returns {{ activity_status: string, message: string|null, next_action: string|null }}
+ */
+const deriveActivity = (application) => {
+  const shiftStatus = application.shifts?.status;
+  const assignment = application.worker_assignments?.[0] ?? null;
+
+  if (application.status === "withdrawn") return { activity_status: "withdrawn", message: "You withdrew from this shift.", next_action: null };
+  if (application.status === "rejected") return { activity_status: "not_selected", message: "Not selected this time.", next_action: null };
+  if (shiftStatus === "cancelled") return { activity_status: "cancelled", message: "This shift was cancelled.", next_action: null };
+  if (application.status === "pending") return { activity_status: "pending", message: "Application under review.", next_action: null };
+  if (application.status === "shortlisted") return { activity_status: "shortlisted", message: "You've been shortlisted.", next_action: null };
+
+  // Hired (accepted): position within the run.
+  if (assignment?.payment_status === "paid" || assignment?.checked_out_at || SHIFT_DONE_STATUSES.includes(shiftStatus)) {
+    return { activity_status: "completed", message: "Shift completed.", next_action: null };
+  }
+  if (assignment?.checked_in_at) {
+    return { activity_status: "in_progress", message: "You're checked in — enjoy your shift.", next_action: "check_out" };
+  }
+  return { activity_status: "upcoming", message: "You got this shift! Get there on time for check-in.", next_action: "check_in" };
+};
+
+/**
+ * Shapes an application row into an activity-tab item (derived status, message,
+ * next action, and the shift's status roadmap). Drops the raw assignment array.
+ * @param {object} application
+ */
+const toActivityItem = (application) => {
+  const { worker_assignments, ...rest } = application;
+  return {
+    ...rest,
+    ...deriveActivity(application),
+    roadmap: buildRoadmap(application.shifts?.status),
+  };
+};
 
 /**
  * Resolves the worker profile for the requesting user.
@@ -103,8 +148,32 @@ export const listMyApplications = async (userId, query) => {
   ]);
 
   return {
-    items,
+    items: items.map(toActivityItem),
     pagination: { page, limit, total, total_pages: Math.ceil(total / limit) },
+  };
+};
+
+/**
+ * Activity-tab header counts: applications grouped by status plus the worker's
+ * unread notification badge (screen 11).
+ * @param {string} userId
+ */
+export const getActivitySummary = async (userId) => {
+  const worker = await applicationRepository.findWorkerProfile(userId);
+  if (!worker) throw new AppError("Worker profile not found", 404);
+
+  const [groups, unread] = await Promise.all([
+    applicationRepository.groupWorkerApplicationsByStatus(worker.id),
+    notificationRepository.countUnread(userId),
+  ]);
+
+  const byStatus = Object.fromEntries(groups.map((g) => [g.status, g._count.status]));
+  const total = groups.reduce((sum, g) => sum + g._count.status, 0);
+  const active = (byStatus.pending ?? 0) + (byStatus.shortlisted ?? 0) + (byStatus.accepted ?? 0);
+
+  return {
+    applications: { total, active, by_status: byStatus },
+    unread_notifications: unread,
   };
 };
 

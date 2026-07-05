@@ -21,6 +21,11 @@ export const listMyApplications = asyncHandler(async (req, res) => {
   return sendSuccess(res, 200, "Applications fetched", data);
 });
 
+export const activitySummary = asyncHandler(async (req, res) => {
+  const data = await applicationService.getActivitySummary(req.user.id);
+  return sendSuccess(res, 200, "Activity summary fetched", data);
+});
+
 export const withdraw = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());

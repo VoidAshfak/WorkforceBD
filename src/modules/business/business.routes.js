@@ -15,6 +15,7 @@ import {
   cancelShiftRules,
   listApplicantsRules,
   applicationIdRules,
+  bulkDecisionRules,
   topUpRules,
 } from "./business.validation.js";
 
@@ -53,7 +54,9 @@ router.get("/shifts/:id/roster", shiftIdRules, businessController.getRoster);
 
 // Applicant decisions — hiring/screening requires verification
 router.patch("/applications/:id/shortlist", verified, applicationIdRules, businessController.shortlistApplicant);
+router.patch("/applications/:id/unshortlist", verified, applicationIdRules, businessController.unshortlistApplicant);
 router.patch("/applications/:id/accept", verified, applicationIdRules, businessController.acceptApplicant);
 router.patch("/applications/:id/reject", verified, applicationIdRules, businessController.rejectApplicant);
+router.post("/shifts/:id/applicants/bulk", verified, bulkDecisionRules, businessController.bulkDecideApplicants);
 
 export default router;

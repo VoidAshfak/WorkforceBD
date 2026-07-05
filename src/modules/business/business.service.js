@@ -11,6 +11,7 @@ import {
 import * as businessRepository from "./business.repository.js";
 import { createNotification } from "../notification/notification.service.js";
 import { currentCheckinCode } from "../../utils/qrToken.js";
+import { buildRoadmap } from "../../utils/shiftRoadmap.js";
 
 const { ACTIVE_SHIFT_STATUSES } = businessRepository;
 
@@ -471,6 +472,8 @@ export const getShift = async (userId, shiftId) => {
   const dto = toShiftDto(shift);
   // Map-pin coordinates live in a PostGIS column Prisma can't select — read raw.
   dto.coordinates = await businessRepository.findShiftCoordinates(shiftId);
+  // Journey bar (screen 13) — ordered status roadmap with the current step.
+  dto.roadmap = buildRoadmap(shift.status);
   return dto;
 };
 
@@ -758,6 +761,62 @@ export const rejectApplicant = async (userId, applicationId) => {
   await notifyApplicant(application.worker_profiles.user_id, "rejected", application.shifts.title);
   logger.info(`Applicant rejected | userId=${userId} app=${applicationId}`);
   return updated;
+};
+
+/**
+ * Reverts a shortlisted applicant back to pending (un-shortlist toggle). No
+ * notification — this is a private screening change.
+ * @param {string} userId
+ * @param {string} applicationId
+ */
+export const unshortlistApplicant = async (userId, applicationId) => {
+  const profile = await getProfileSummaryOrThrow(userId);
+  const application = await businessRepository.findOwnedApplication(applicationId, profile.id);
+  if (!application) throw new AppError("Applicant not found", 404);
+  if (application.status !== "shortlisted") {
+    throw new AppError(`Only a shortlisted applicant can be moved back to pending (currently '${application.status}')`, 409);
+  }
+
+  const updated = await businessRepository.updateApplication(applicationId, {
+    status: "pending",
+    updated_by: userId,
+  });
+  logger.info(`Applicant un-shortlisted | userId=${userId} app=${applicationId}`);
+  return updated;
+};
+
+/**
+ * Bulk shortlist or reject applicants on an owned shift in one call. Only
+ * still-decidable (pending/shortlisted) owned rows are touched; already-decided
+ * or foreign ids are silently skipped and reported in the count. Hiring is
+ * intentionally excluded here (capacity must be enforced per-slot via accept).
+ * @param {string} userId
+ * @param {string} shiftId
+ * @param {{ action: "shortlist"|"reject", application_ids: string[] }} data
+ */
+export const bulkDecideApplicants = async (userId, shiftId, { action, application_ids }) => {
+  const profile = await getProfileSummaryOrThrow(userId);
+  const shift = await businessRepository.findOwnedShiftBasic(shiftId, profile.id);
+  if (!shift) throw new AppError("Shift not found", 404);
+
+  const status = action === "shortlist" ? "shortlisted" : "rejected";
+  const apps = await businessRepository.findOwnedApplicationsForBulk(application_ids, profile.id, shiftId);
+
+  if (apps.length > 0) {
+    const ids = apps.map((a) => a.id);
+    await businessRepository.updateApplicationsStatus(ids, status, userId);
+    await Promise.all(
+      apps.map((a) => notifyApplicant(a.worker_profiles.user_id, status, a.shifts.title)),
+    );
+  }
+
+  logger.info(`Bulk ${action} | userId=${userId} shift=${shiftId} updated=${apps.length}/${application_ids.length}`);
+  return {
+    action,
+    requested: application_ids.length,
+    updated: apps.length,
+    skipped: application_ids.length - apps.length,
+  };
 };
 
 /* ============================================================

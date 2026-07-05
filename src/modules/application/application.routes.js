@@ -13,6 +13,7 @@ router.use(authenticate, requireActiveRole("worker"));
 // applying requires an admin-verified worker profile; viewing/withdrawing does not
 router.post("/", requireVerifiedProfile("worker"), applyRules, applicationController.apply);
 router.get("/", listApplicationsRules, applicationController.listMyApplications);
+router.get("/summary", applicationController.activitySummary);
 router.patch("/:id/withdraw", applicationIdRules, applicationController.withdraw);
 
 // live attendance — requires an admin-verified worker profile

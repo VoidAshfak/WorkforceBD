@@ -372,6 +372,43 @@ export const updateApplication = (id, data, client = prisma) =>
   client.applications.update({ where: { id }, data });
 
 /**
+ * Still-decidable applications (pending/shortlisted) on an owned shift, scoped to
+ * the given id set, with the data needed to notify each worker. Used by bulk
+ * shortlist/reject so only eligible, owned rows are touched.
+ * @param {string[]} applicationIds
+ * @param {string} businessProfileId
+ * @param {string} shiftId
+ */
+export const findOwnedApplicationsForBulk = (applicationIds, businessProfileId, shiftId) => {
+  return prisma.applications.findMany({
+    where: {
+      id: { in: applicationIds },
+      shift_id: shiftId,
+      deleted_at: null,
+      status: { in: ["pending", "shortlisted"] },
+      shifts: { business_profile_id: businessProfileId, deleted_at: null },
+    },
+    include: {
+      shifts: { select: { id: true, title: true } },
+      worker_profiles: { select: { user_id: true } },
+    },
+  });
+};
+
+/**
+ * Sets the same status on a batch of applications.
+ * @param {string[]} ids
+ * @param {string} status
+ * @param {string} userId actor
+ */
+export const updateApplicationsStatus = (ids, status, userId) => {
+  return prisma.applications.updateMany({
+    where: { id: { in: ids } },
+    data: { status, updated_by: userId },
+  });
+};
+
+/**
  * Creates (or revives) the worker assignment that backs the live-attendance
  * roster. Upsert keyed on the unique (shift, worker) pair so re-hiring a worker
  * who previously withdrew resets their check-in state instead of failing.

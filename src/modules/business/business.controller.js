@@ -152,3 +152,16 @@ export const rejectApplicant = asyncHandler(async (req, res) => {
   const application = await businessService.rejectApplicant(req.user.id, req.params.id);
   return sendSuccess(res, 200, "Applicant rejected", application);
 });
+
+export const unshortlistApplicant = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const application = await businessService.unshortlistApplicant(req.user.id, req.params.id);
+  return sendSuccess(res, 200, "Applicant moved back to pending", application);
+});
+
+export const bulkDecideApplicants = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const { action, application_ids } = req.body;
+  const result = await businessService.bulkDecideApplicants(req.user.id, req.params.id, { action, application_ids });
+  return sendSuccess(res, 200, `Bulk ${action} applied`, result);
+});
