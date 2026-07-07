@@ -38,6 +38,36 @@ export const PLATFORM_FEE_PERCENT = 10;
 // just marks the outsized ones.
 export const LARGE_REQUEST_WORKER_THRESHOLD = 20;
 
+// Shift cancellation penalty (business deletes/cancels a shift that already has
+// hired workers). A free cancel refunds the full escrow; a penalising cancel pays
+// each hired worker `pay_amount * rate` as compensation and returns the remainder.
+// Every value here tunes the rate engine (src/utils/cancellationPenalty.js) — no
+// business logic lives in the numbers, so they can be adjusted freely.
+//
+// A scheduled/prebooked shift cancelled earlier than this many hours before start
+// is free; within the window (or an instant shift at any time) a penalty applies.
+export const CANCEL_FREE_NOTICE_HOURS = 24;
+// Absolute clamp on the computed per-worker penalty rate (fraction of pay_amount).
+export const PENALTY_MIN_RATE = 0.1;
+export const PENALTY_MAX_RATE = 0.75;
+// Timing base rate: PENALTY_TIMING_MIN_RATE at the free-notice boundary rising to
+// PENALTY_TIMING_MAX_RATE at (or past) the shift start time.
+export const PENALTY_TIMING_MIN_RATE = 0.2;
+export const PENALTY_TIMING_MAX_RATE = 0.55;
+// Instant shifts have no notice window — their base floors here.
+export const PENALTY_INSTANT_BASE = 0.4;
+// Max upward swing each adjustment factor (hiring duration, worker reliability,
+// business reliability, demand) can add to the base rate.
+export const PENALTY_FACTOR_WEIGHT = 0.1;
+// Hours-since-hire at which the "long commitment" factor reaches full weight.
+export const PENALTY_DURATION_SATURATION_HOURS = 48;
+// Applicants-per-slot ratio at which the demand factor reaches full weight.
+export const PENALTY_DEMAND_SATURATION_RATIO = 3;
+// reliability_score is stored on a 0–5 scale; unrated profiles (score <= 0) are
+// treated as neutral rather than punished/rewarded.
+export const RELIABILITY_MAX_SCORE = 5;
+export const RELIABILITY_NEUTRAL_NORM = 0.5;
+
 // Chat tuning.
 // Max length of a single chat message body.
 export const CHAT_MESSAGE_MAX_LENGTH = 2000;

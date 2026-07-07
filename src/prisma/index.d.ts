@@ -28036,12 +28036,14 @@ export namespace Prisma {
   export type ShiftsAvgAggregateOutputType = {
     pay_amount: Decimal | null
     workers_needed: number | null
+    platform_fee: Decimal | null
     escrow_amount: Decimal | null
   }
 
   export type ShiftsSumAggregateOutputType = {
     pay_amount: Decimal | null
     workers_needed: number | null
+    platform_fee: Decimal | null
     escrow_amount: Decimal | null
   }
 
@@ -28063,6 +28065,15 @@ export namespace Prisma {
     gender_preference: $Enums.gender_enum | null
     meal_included: boolean | null
     transport_support: boolean | null
+    uniform_provided: boolean | null
+    tips_expected: boolean | null
+    experience_required: boolean | null
+    customer_facing: boolean | null
+    reporting_details: string | null
+    dress_code: string | null
+    manager_contact: string | null
+    is_urgent: boolean | null
+    platform_fee: Decimal | null
     address: string | null
     landmark: string | null
     zone_id: string | null
@@ -28096,6 +28107,15 @@ export namespace Prisma {
     gender_preference: $Enums.gender_enum | null
     meal_included: boolean | null
     transport_support: boolean | null
+    uniform_provided: boolean | null
+    tips_expected: boolean | null
+    experience_required: boolean | null
+    customer_facing: boolean | null
+    reporting_details: string | null
+    dress_code: string | null
+    manager_contact: string | null
+    is_urgent: boolean | null
+    platform_fee: Decimal | null
     address: string | null
     landmark: string | null
     zone_id: string | null
@@ -28129,6 +28149,16 @@ export namespace Prisma {
     gender_preference: number
     meal_included: number
     transport_support: number
+    uniform_provided: number
+    tips_expected: number
+    experience_required: number
+    languages: number
+    customer_facing: number
+    reporting_details: number
+    dress_code: number
+    manager_contact: number
+    is_urgent: number
+    platform_fee: number
     address: number
     landmark: number
     zone_id: number
@@ -28149,12 +28179,14 @@ export namespace Prisma {
   export type ShiftsAvgAggregateInputType = {
     pay_amount?: true
     workers_needed?: true
+    platform_fee?: true
     escrow_amount?: true
   }
 
   export type ShiftsSumAggregateInputType = {
     pay_amount?: true
     workers_needed?: true
+    platform_fee?: true
     escrow_amount?: true
   }
 
@@ -28176,6 +28208,15 @@ export namespace Prisma {
     gender_preference?: true
     meal_included?: true
     transport_support?: true
+    uniform_provided?: true
+    tips_expected?: true
+    experience_required?: true
+    customer_facing?: true
+    reporting_details?: true
+    dress_code?: true
+    manager_contact?: true
+    is_urgent?: true
+    platform_fee?: true
     address?: true
     landmark?: true
     zone_id?: true
@@ -28209,6 +28250,15 @@ export namespace Prisma {
     gender_preference?: true
     meal_included?: true
     transport_support?: true
+    uniform_provided?: true
+    tips_expected?: true
+    experience_required?: true
+    customer_facing?: true
+    reporting_details?: true
+    dress_code?: true
+    manager_contact?: true
+    is_urgent?: true
+    platform_fee?: true
     address?: true
     landmark?: true
     zone_id?: true
@@ -28242,6 +28292,16 @@ export namespace Prisma {
     gender_preference?: true
     meal_included?: true
     transport_support?: true
+    uniform_provided?: true
+    tips_expected?: true
+    experience_required?: true
+    languages?: true
+    customer_facing?: true
+    reporting_details?: true
+    dress_code?: true
+    manager_contact?: true
+    is_urgent?: true
+    platform_fee?: true
     address?: true
     landmark?: true
     zone_id?: true
@@ -28362,6 +28422,16 @@ export namespace Prisma {
     gender_preference: $Enums.gender_enum | null
     meal_included: boolean
     transport_support: boolean
+    uniform_provided: boolean
+    tips_expected: boolean
+    experience_required: boolean
+    languages: string[]
+    customer_facing: boolean
+    reporting_details: string | null
+    dress_code: string | null
+    manager_contact: string | null
+    is_urgent: boolean
+    platform_fee: Decimal
     address: string | null
     landmark: string | null
     zone_id: string | null
@@ -28414,6 +28484,16 @@ export namespace Prisma {
     gender_preference?: boolean
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: boolean
+    customer_facing?: boolean
+    reporting_details?: boolean
+    dress_code?: boolean
+    manager_contact?: boolean
+    is_urgent?: boolean
+    platform_fee?: boolean
     address?: boolean
     landmark?: boolean
     zone_id?: boolean
@@ -28459,6 +28539,16 @@ export namespace Prisma {
     gender_preference?: boolean
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: boolean
+    customer_facing?: boolean
+    reporting_details?: boolean
+    dress_code?: boolean
+    manager_contact?: boolean
+    is_urgent?: boolean
+    platform_fee?: boolean
     address?: boolean
     landmark?: boolean
     zone_id?: boolean
@@ -28496,6 +28586,16 @@ export namespace Prisma {
     gender_preference?: boolean
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: boolean
+    customer_facing?: boolean
+    reporting_details?: boolean
+    dress_code?: boolean
+    manager_contact?: boolean
+    is_urgent?: boolean
+    platform_fee?: boolean
     address?: boolean
     landmark?: boolean
     zone_id?: boolean
@@ -28533,6 +28633,16 @@ export namespace Prisma {
     gender_preference?: boolean
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: boolean
+    customer_facing?: boolean
+    reporting_details?: boolean
+    dress_code?: boolean
+    manager_contact?: boolean
+    is_urgent?: boolean
+    platform_fee?: boolean
     address?: boolean
     landmark?: boolean
     zone_id?: boolean
@@ -28548,7 +28658,7 @@ export namespace Prisma {
     escrow_status?: boolean
   }
 
-  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token" | "escrow_amount" | "escrow_status", ExtArgs["result"]["shifts"]>
+  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "uniform_provided" | "tips_expected" | "experience_required" | "languages" | "customer_facing" | "reporting_details" | "dress_code" | "manager_contact" | "is_urgent" | "platform_fee" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token" | "escrow_amount" | "escrow_status", ExtArgs["result"]["shifts"]>
   export type shiftsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | shifts$applicationsArgs<ExtArgs>
     chat_conversations?: boolean | shifts$chat_conversationsArgs<ExtArgs>
@@ -28609,6 +28719,16 @@ export namespace Prisma {
       gender_preference: $Enums.gender_enum | null
       meal_included: boolean
       transport_support: boolean
+      uniform_provided: boolean
+      tips_expected: boolean
+      experience_required: boolean
+      languages: string[]
+      customer_facing: boolean
+      reporting_details: string | null
+      dress_code: string | null
+      manager_contact: string | null
+      is_urgent: boolean
+      platform_fee: Prisma.Decimal
       address: string | null
       landmark: string | null
       zone_id: string | null
@@ -29073,6 +29193,16 @@ export namespace Prisma {
     readonly gender_preference: FieldRef<"shifts", 'gender_enum'>
     readonly meal_included: FieldRef<"shifts", 'Boolean'>
     readonly transport_support: FieldRef<"shifts", 'Boolean'>
+    readonly uniform_provided: FieldRef<"shifts", 'Boolean'>
+    readonly tips_expected: FieldRef<"shifts", 'Boolean'>
+    readonly experience_required: FieldRef<"shifts", 'Boolean'>
+    readonly languages: FieldRef<"shifts", 'String[]'>
+    readonly customer_facing: FieldRef<"shifts", 'Boolean'>
+    readonly reporting_details: FieldRef<"shifts", 'String'>
+    readonly dress_code: FieldRef<"shifts", 'String'>
+    readonly manager_contact: FieldRef<"shifts", 'String'>
+    readonly is_urgent: FieldRef<"shifts", 'Boolean'>
+    readonly platform_fee: FieldRef<"shifts", 'Decimal'>
     readonly address: FieldRef<"shifts", 'String'>
     readonly landmark: FieldRef<"shifts", 'String'>
     readonly zone_id: FieldRef<"shifts", 'String'>
@@ -43243,6 +43373,16 @@ export namespace Prisma {
     gender_preference: 'gender_preference',
     meal_included: 'meal_included',
     transport_support: 'transport_support',
+    uniform_provided: 'uniform_provided',
+    tips_expected: 'tips_expected',
+    experience_required: 'experience_required',
+    languages: 'languages',
+    customer_facing: 'customer_facing',
+    reporting_details: 'reporting_details',
+    dress_code: 'dress_code',
+    manager_contact: 'manager_contact',
+    is_urgent: 'is_urgent',
+    platform_fee: 'platform_fee',
     address: 'address',
     landmark: 'landmark',
     zone_id: 'zone_id',
@@ -45732,6 +45872,16 @@ export namespace Prisma {
     gender_preference?: Enumgender_enumNullableFilter<"shifts"> | $Enums.gender_enum | null
     meal_included?: BoolFilter<"shifts"> | boolean
     transport_support?: BoolFilter<"shifts"> | boolean
+    uniform_provided?: BoolFilter<"shifts"> | boolean
+    tips_expected?: BoolFilter<"shifts"> | boolean
+    experience_required?: BoolFilter<"shifts"> | boolean
+    languages?: StringNullableListFilter<"shifts">
+    customer_facing?: BoolFilter<"shifts"> | boolean
+    reporting_details?: StringNullableFilter<"shifts"> | string | null
+    dress_code?: StringNullableFilter<"shifts"> | string | null
+    manager_contact?: StringNullableFilter<"shifts"> | string | null
+    is_urgent?: BoolFilter<"shifts"> | boolean
+    platform_fee?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
     address?: StringNullableFilter<"shifts"> | string | null
     landmark?: StringNullableFilter<"shifts"> | string | null
     zone_id?: UuidNullableFilter<"shifts"> | string | null
@@ -45776,6 +45926,16 @@ export namespace Prisma {
     gender_preference?: SortOrderInput | SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
+    uniform_provided?: SortOrder
+    tips_expected?: SortOrder
+    experience_required?: SortOrder
+    languages?: SortOrder
+    customer_facing?: SortOrder
+    reporting_details?: SortOrderInput | SortOrder
+    dress_code?: SortOrderInput | SortOrder
+    manager_contact?: SortOrderInput | SortOrder
+    is_urgent?: SortOrder
+    platform_fee?: SortOrder
     address?: SortOrderInput | SortOrder
     landmark?: SortOrderInput | SortOrder
     zone_id?: SortOrderInput | SortOrder
@@ -45823,6 +45983,16 @@ export namespace Prisma {
     gender_preference?: Enumgender_enumNullableFilter<"shifts"> | $Enums.gender_enum | null
     meal_included?: BoolFilter<"shifts"> | boolean
     transport_support?: BoolFilter<"shifts"> | boolean
+    uniform_provided?: BoolFilter<"shifts"> | boolean
+    tips_expected?: BoolFilter<"shifts"> | boolean
+    experience_required?: BoolFilter<"shifts"> | boolean
+    languages?: StringNullableListFilter<"shifts">
+    customer_facing?: BoolFilter<"shifts"> | boolean
+    reporting_details?: StringNullableFilter<"shifts"> | string | null
+    dress_code?: StringNullableFilter<"shifts"> | string | null
+    manager_contact?: StringNullableFilter<"shifts"> | string | null
+    is_urgent?: BoolFilter<"shifts"> | boolean
+    platform_fee?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
     address?: StringNullableFilter<"shifts"> | string | null
     landmark?: StringNullableFilter<"shifts"> | string | null
     zone_id?: UuidNullableFilter<"shifts"> | string | null
@@ -45867,6 +46037,16 @@ export namespace Prisma {
     gender_preference?: SortOrderInput | SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
+    uniform_provided?: SortOrder
+    tips_expected?: SortOrder
+    experience_required?: SortOrder
+    languages?: SortOrder
+    customer_facing?: SortOrder
+    reporting_details?: SortOrderInput | SortOrder
+    dress_code?: SortOrderInput | SortOrder
+    manager_contact?: SortOrderInput | SortOrder
+    is_urgent?: SortOrder
+    platform_fee?: SortOrder
     address?: SortOrderInput | SortOrder
     landmark?: SortOrderInput | SortOrder
     zone_id?: SortOrderInput | SortOrder
@@ -45908,6 +46088,16 @@ export namespace Prisma {
     gender_preference?: Enumgender_enumNullableWithAggregatesFilter<"shifts"> | $Enums.gender_enum | null
     meal_included?: BoolWithAggregatesFilter<"shifts"> | boolean
     transport_support?: BoolWithAggregatesFilter<"shifts"> | boolean
+    uniform_provided?: BoolWithAggregatesFilter<"shifts"> | boolean
+    tips_expected?: BoolWithAggregatesFilter<"shifts"> | boolean
+    experience_required?: BoolWithAggregatesFilter<"shifts"> | boolean
+    languages?: StringNullableListFilter<"shifts">
+    customer_facing?: BoolWithAggregatesFilter<"shifts"> | boolean
+    reporting_details?: StringNullableWithAggregatesFilter<"shifts"> | string | null
+    dress_code?: StringNullableWithAggregatesFilter<"shifts"> | string | null
+    manager_contact?: StringNullableWithAggregatesFilter<"shifts"> | string | null
+    is_urgent?: BoolWithAggregatesFilter<"shifts"> | boolean
+    platform_fee?: DecimalWithAggregatesFilter<"shifts"> | Decimal | DecimalJsLike | number | string
     address?: StringNullableWithAggregatesFilter<"shifts"> | string | null
     landmark?: StringNullableWithAggregatesFilter<"shifts"> | string | null
     zone_id?: UuidNullableWithAggregatesFilter<"shifts"> | string | null
@@ -49074,6 +49264,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -49117,6 +49317,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -49154,6 +49364,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -49197,6 +49417,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -49237,6 +49467,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -49267,6 +49507,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -49299,6 +49549,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -52214,6 +52474,16 @@ export namespace Prisma {
     gender_preference?: SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
+    uniform_provided?: SortOrder
+    tips_expected?: SortOrder
+    experience_required?: SortOrder
+    languages?: SortOrder
+    customer_facing?: SortOrder
+    reporting_details?: SortOrder
+    dress_code?: SortOrder
+    manager_contact?: SortOrder
+    is_urgent?: SortOrder
+    platform_fee?: SortOrder
     address?: SortOrder
     landmark?: SortOrder
     zone_id?: SortOrder
@@ -52232,6 +52502,7 @@ export namespace Prisma {
   export type shiftsAvgOrderByAggregateInput = {
     pay_amount?: SortOrder
     workers_needed?: SortOrder
+    platform_fee?: SortOrder
     escrow_amount?: SortOrder
   }
 
@@ -52253,6 +52524,15 @@ export namespace Prisma {
     gender_preference?: SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
+    uniform_provided?: SortOrder
+    tips_expected?: SortOrder
+    experience_required?: SortOrder
+    customer_facing?: SortOrder
+    reporting_details?: SortOrder
+    dress_code?: SortOrder
+    manager_contact?: SortOrder
+    is_urgent?: SortOrder
+    platform_fee?: SortOrder
     address?: SortOrder
     landmark?: SortOrder
     zone_id?: SortOrder
@@ -52286,6 +52566,15 @@ export namespace Prisma {
     gender_preference?: SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
+    uniform_provided?: SortOrder
+    tips_expected?: SortOrder
+    experience_required?: SortOrder
+    customer_facing?: SortOrder
+    reporting_details?: SortOrder
+    dress_code?: SortOrder
+    manager_contact?: SortOrder
+    is_urgent?: SortOrder
+    platform_fee?: SortOrder
     address?: SortOrder
     landmark?: SortOrder
     zone_id?: SortOrder
@@ -52304,6 +52593,7 @@ export namespace Prisma {
   export type shiftsSumOrderByAggregateInput = {
     pay_amount?: SortOrder
     workers_needed?: SortOrder
+    platform_fee?: SortOrder
     escrow_amount?: SortOrder
   }
 
@@ -55107,6 +55397,10 @@ export namespace Prisma {
     deleteMany?: disputesScalarWhereInput | disputesScalarWhereInput[]
   }
 
+  export type shiftsCreatelanguagesInput = {
+    set: string[]
+  }
+
   export type applicationsCreateNestedManyWithoutShiftsInput = {
     create?: XOR<applicationsCreateWithoutShiftsInput, applicationsUncheckedCreateWithoutShiftsInput> | applicationsCreateWithoutShiftsInput[] | applicationsUncheckedCreateWithoutShiftsInput[]
     connectOrCreate?: applicationsCreateOrConnectWithoutShiftsInput | applicationsCreateOrConnectWithoutShiftsInput[]
@@ -55235,6 +55529,11 @@ export namespace Prisma {
 
   export type NullableEnumgender_enumFieldUpdateOperationsInput = {
     set?: $Enums.gender_enum | null
+  }
+
+  export type shiftsUpdatelanguagesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type Enumshift_status_enumFieldUpdateOperationsInput = {
@@ -56971,6 +57270,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -57012,6 +57321,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -57133,6 +57452,16 @@ export namespace Prisma {
     gender_preference?: Enumgender_enumNullableFilter<"shifts"> | $Enums.gender_enum | null
     meal_included?: BoolFilter<"shifts"> | boolean
     transport_support?: BoolFilter<"shifts"> | boolean
+    uniform_provided?: BoolFilter<"shifts"> | boolean
+    tips_expected?: BoolFilter<"shifts"> | boolean
+    experience_required?: BoolFilter<"shifts"> | boolean
+    languages?: StringNullableListFilter<"shifts">
+    customer_facing?: BoolFilter<"shifts"> | boolean
+    reporting_details?: StringNullableFilter<"shifts"> | string | null
+    dress_code?: StringNullableFilter<"shifts"> | string | null
+    manager_contact?: StringNullableFilter<"shifts"> | string | null
+    is_urgent?: BoolFilter<"shifts"> | boolean
+    platform_fee?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
     address?: StringNullableFilter<"shifts"> | string | null
     landmark?: StringNullableFilter<"shifts"> | string | null
     zone_id?: UuidNullableFilter<"shifts"> | string | null
@@ -59832,6 +60161,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -59874,6 +60213,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -60125,6 +60474,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -60167,6 +60526,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -60340,6 +60709,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -60382,6 +60761,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -60644,6 +61033,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -60685,6 +61084,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -61421,6 +61830,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -61462,6 +61881,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -62025,6 +62454,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -62067,6 +62506,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -62409,6 +62858,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -62451,6 +62910,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63220,6 +63689,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -63262,6 +63741,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -63521,6 +64010,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -63563,6 +64062,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -63866,6 +64375,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -63908,6 +64427,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -64219,6 +64748,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -64261,6 +64800,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65159,6 +65708,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -65201,6 +65760,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -65333,6 +65902,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -65375,6 +65954,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66313,6 +66902,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -66355,6 +66954,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -66555,6 +67164,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -66597,6 +67216,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68009,6 +68638,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -68051,6 +68690,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -68291,6 +68940,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -68333,6 +68992,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68702,6 +69371,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -68747,6 +69426,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -68788,6 +69477,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -68827,6 +69526,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70300,6 +71009,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     status?: $Enums.shift_status_enum
@@ -70474,6 +71193,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -70516,6 +71245,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -70555,6 +71294,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -70662,6 +71411,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -70692,6 +71451,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -70733,6 +71502,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70772,6 +71551,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -70837,6 +71626,16 @@ export namespace Prisma {
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
+    uniform_provided?: boolean
+    tips_expected?: boolean
+    experience_required?: boolean
+    languages?: shiftsCreatelanguagesInput | string[]
+    customer_facing?: boolean
+    reporting_details?: string | null
+    dress_code?: string | null
+    manager_contact?: string | null
+    is_urgent?: boolean
+    platform_fee?: Decimal | DecimalJsLike | number | string
     address?: string | null
     landmark?: string | null
     zone_id?: string | null
@@ -70970,6 +71769,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumshift_status_enumFieldUpdateOperationsInput | $Enums.shift_status_enum
@@ -71011,6 +71820,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -71050,6 +71869,16 @@ export namespace Prisma {
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
+    uniform_provided?: BoolFieldUpdateOperationsInput | boolean
+    tips_expected?: BoolFieldUpdateOperationsInput | boolean
+    experience_required?: BoolFieldUpdateOperationsInput | boolean
+    languages?: shiftsUpdatelanguagesInput | string[]
+    customer_facing?: BoolFieldUpdateOperationsInput | boolean
+    reporting_details?: NullableStringFieldUpdateOperationsInput | string | null
+    dress_code?: NullableStringFieldUpdateOperationsInput | string | null
+    manager_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    is_urgent?: BoolFieldUpdateOperationsInput | boolean
+    platform_fee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     address?: NullableStringFieldUpdateOperationsInput | string | null
     landmark?: NullableStringFieldUpdateOperationsInput | string | null
     zone_id?: NullableStringFieldUpdateOperationsInput | string | null

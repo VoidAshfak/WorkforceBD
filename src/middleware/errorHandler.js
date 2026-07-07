@@ -21,7 +21,8 @@ const errorHandler = (err, req, res, next) => {
 
   const statusCode = err.statusCode || 500;
   const message = err.isOperational ? err.message : "Internal server error";
-  return sendError(res, statusCode, message);
+  // Operational errors may attach a structured payload (e.g. a penalty breakdown).
+  return sendError(res, statusCode, message, err.isOperational ? err.details : undefined);
 };
 
 export default errorHandler;

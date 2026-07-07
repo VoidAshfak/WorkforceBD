@@ -112,8 +112,23 @@ export const publishShift = asyncHandler(async (req, res) => {
 
 export const cancelShift = asyncHandler(async (req, res) => {
   if (failedValidation(req, res)) return;
-  const shift = await businessService.cancelShift(req.user.id, req.params.id, req.body.reason);
-  return sendSuccess(res, 200, "Shift cancelled", shift);
+  const result = await businessService.cancelShift(req.user.id, req.params.id, req.body.reason);
+  return sendSuccess(res, 200, "Shift cancelled", result);
+});
+
+export const cancellationPreview = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const preview = await businessService.previewShiftCancellation(req.user.id, req.params.id);
+  return sendSuccess(res, 200, "Cancellation preview", preview);
+});
+
+export const deleteShift = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const result = await businessService.deleteShift(req.user.id, req.params.id, {
+    reason: req.body.reason,
+    acknowledgePenalty: req.body.acknowledge_penalty === true,
+  });
+  return sendSuccess(res, 200, result.free ? "Shift deleted" : "Shift cancelled and workers compensated", result);
 });
 
 export const getRoster = asyncHandler(async (req, res) => {

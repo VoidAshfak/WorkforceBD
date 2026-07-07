@@ -21,6 +21,39 @@ export const SHIFT_ROADMAP = [
 // Statuses that aren't their own milestone map onto an existing step's position.
 const ROADMAP_ALIAS = { payment_pending: "completed" };
 
+// Full lifecycle ordering (superset of the roadmap: adds the pre/terminal states
+// that don't render as milestones). Drives forward-only status transitions so a
+// lifecycle event can advance a shift but never rewind it.
+export const STATUS_RANK = {
+  draft: 0,
+  pending_approval: 1,
+  published: 2,
+  applications_open: 3,
+  worker_selected: 4,
+  worker_confirmed: 5,
+  worker_arriving: 6,
+  checked_in: 7,
+  active: 8,
+  completed: 9,
+  payment_pending: 10,
+  paid: 11,
+  closed: 12,
+};
+
+/**
+ * Whether moving `current` → `target` advances the shift lifecycle. False for an
+ * equal/earlier target, an unknown status, or a cancelled shift (off-path, frozen).
+ * @param {string} current a shift_status_enum value
+ * @param {string} target a shift_status_enum value
+ * @returns {boolean}
+ */
+export const isForwardTransition = (current, target) => {
+  if (current === "cancelled") return false;
+  const c = STATUS_RANK[current];
+  const t = STATUS_RANK[target];
+  return c != null && t != null && t > c;
+};
+
 /**
  * Resolves the roadmap index a status sits at (-1 for pre/off-path states).
  * @param {string} status

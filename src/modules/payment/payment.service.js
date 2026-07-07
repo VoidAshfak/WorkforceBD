@@ -3,13 +3,21 @@ import { prisma } from "../../db/index.js";
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import { createNotification } from "../notification/notification.service.js";
-import { releaseShiftEscrow } from "../business/business.service.js";
+import { releaseShiftEscrow, advanceShiftStatus } from "../business/business.service.js";
 import * as paymentRepository from "./payment.repository.js";
 
 // Minimum a worker may withdraw in one payout request (BDT).
 const MIN_PAYOUT = 50;
-// Shift states money operations may act on.
-const COMPLETABLE_SHIFT_STATUSES = ["published", "applications_open"];
+// Shift states a business may manually mark completed from (auto-completion on the
+// last checkout may already have advanced it; this covers shifts still mid-run).
+const COMPLETABLE_SHIFT_STATUSES = [
+  "published",
+  "applications_open",
+  "worker_selected",
+  "worker_confirmed",
+  "checked_in",
+  "active",
+];
 
 /* ============================================================
  * Helpers
@@ -185,7 +193,9 @@ export const completeShift = async (userId, shiftId) => {
  */
 export const settleShift = async (userId, shiftId) => {
   const shift = await getOwnedShiftOrThrow(userId, shiftId);
-  if (shift.status === "paid") throw new AppError("This shift is already settled", 409);
+  if (shift.status === "paid" || shift.status === "closed") {
+    throw new AppError("This shift is already settled", 409);
+  }
   if (shift.status !== "completed") throw new AppError("Complete the shift before settling payment", 409);
 
   const accepted = await paymentRepository.findAcceptedApplications(shiftId);
@@ -230,6 +240,9 @@ export const settleShift = async (userId, shiftId) => {
     // Release the business escrow: paid amount becomes spend, unspent (no-shows /
     // unfilled slots) returns to the business wallet's spendable balance.
     await releaseShiftEscrow(tx, shift, payEach.times(attended.length), userId);
+
+    // Roadmap: settlement is the final event — money's out, shift is closed.
+    await advanceShiftStatus(shiftId, "closed", userId, tx);
   });
 
   // Notify paid workers after commit so a delivery failure can't roll back payment.

@@ -205,3 +205,10 @@ export const countCheckedIn = (shiftId) => {
     where: { shift_id: shiftId, checked_in_at: { not: null }, deleted_at: null },
   });
 };
+
+/** Count of workers who have checked out on a shift. @param {string} shiftId */
+export const countCheckedOut = (shiftId) => {
+  return prisma.worker_assignments.count({
+    where: { shift_id: shiftId, checked_out_at: { not: null }, deleted_at: null },
+  });
+};

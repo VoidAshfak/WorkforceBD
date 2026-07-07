@@ -434,6 +434,16 @@ model shifts {
   gender_preference   gender_enum?
   meal_included       Boolean                   @default(false)
   transport_support   Boolean                   @default(false)
+  uniform_provided    Boolean                   @default(false)
+  tips_expected       Boolean                   @default(false)
+  experience_required Boolean                   @default(false)
+  languages           String[]                  @default([])
+  customer_facing     Boolean                   @default(false)
+  reporting_details   String?
+  dress_code          String?
+  manager_contact     String?                   @db.VarChar(20)
+  is_urgent           Boolean                   @default(false)
+  platform_fee        Decimal                   @default(0.00) @db.Decimal(10, 2)
   address             String?
   landmark            String?
   coordinates         Unsupported("geography")?

@@ -8,6 +8,7 @@ import {
 } from "../../constants.js";
 import { verifyCheckinCode } from "../../utils/qrToken.js";
 import { buildRoadmap } from "../../utils/shiftRoadmap.js";
+import { advanceShiftStatus } from "../business/business.service.js";
 import * as applicationRepository from "./application.repository.js";
 import * as notificationRepository from "../notification/notification.repository.js";
 
@@ -308,6 +309,10 @@ export const checkIn = async (userId, applicationId, { method, coordinates, qr_t
     data: { kind: "checkin", shift_id: shift.id, checked_in: checkedIn, needed: shift.workers_needed },
   });
 
+  // Roadmap: first check-in marks the shift checked-in; the last one marks it live.
+  const target = checkedIn >= shift.workers_needed ? "active" : "checked_in";
+  await advanceShiftStatus(shift.id, target, userId);
+
   logger.info(`Worker checked in | userId=${userId} app=${applicationId} method=${method}`);
   return updated;
 };
@@ -323,6 +328,18 @@ export const checkOut = async (userId, applicationId) => {
   if (assignment.checked_out_at) throw new AppError("You have already checked out", 409);
 
   const updated = await applicationRepository.setCheckOut(assignment.id);
+
+  // Roadmap: once every checked-in worker has left and the shift window has
+  // ended, the work is over — mark the shift completed (unlocks settlement).
+  const [checkedIn, checkedOut] = await Promise.all([
+    applicationRepository.countCheckedIn(assignment.shift_id),
+    applicationRepository.countCheckedOut(assignment.shift_id),
+  ]);
+  const { close } = checkinWindow(assignment.shifts);
+  if (checkedIn > 0 && checkedOut >= checkedIn && new Date() >= close) {
+    await advanceShiftStatus(assignment.shift_id, "completed", userId);
+  }
+
   logger.info(`Worker checked out | userId=${userId} app=${applicationId}`);
   return updated;
 };

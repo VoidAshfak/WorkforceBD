@@ -139,6 +139,13 @@ export const cancelShiftRules = [
   body("reason").trim().notEmpty().withMessage("Cancellation reason is required").isLength({ max: 500 }),
 ];
 
+// DELETE /shifts/:id — reason optional; acknowledge_penalty confirms the charge.
+export const deleteShiftRules = [
+  param("id").isUUID().withMessage("Invalid shift id"),
+  body("reason").optional().trim().isLength({ max: 500 }).withMessage("reason must be at most 500 characters"),
+  body("acknowledge_penalty").optional().isBoolean().withMessage("acknowledge_penalty must be a boolean").toBoolean(),
+];
+
 /* ------------------------------ Wallet ----------------------------- */
 
 export const topUpRules = [

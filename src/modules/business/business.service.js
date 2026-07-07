@@ -9,9 +9,11 @@ import {
   LARGE_REQUEST_WORKER_THRESHOLD,
 } from "../../constants.js";
 import * as businessRepository from "./business.repository.js";
+import * as paymentRepository from "../payment/payment.repository.js";
 import { createNotification } from "../notification/notification.service.js";
 import { currentCheckinCode } from "../../utils/qrToken.js";
-import { buildRoadmap } from "../../utils/shiftRoadmap.js";
+import { buildRoadmap, isForwardTransition } from "../../utils/shiftRoadmap.js";
+import { computeCancellation } from "../../utils/cancellationPenalty.js";
 
 const { ACTIVE_SHIFT_STATUSES } = businessRepository;
 
@@ -562,32 +564,219 @@ export const publishShift = async (userId, shiftId) => {
   return updated;
 };
 
+/* ============================================================
+ * Shift cancellation / deletion (with worker compensation)
+ * ========================================================== */
+
+/** Composes a shift's DATE column + a TIME column into one UTC datetime. */
+const composeDateTime = (shiftDate, time) => new Date(Date.UTC(
+  shiftDate.getUTCFullYear(), shiftDate.getUTCMonth(), shiftDate.getUTCDate(),
+  time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds(),
+));
+
 /**
- * Cancels an owned shift with a reason.
+ * Runs the penalty engine for a shift and turns the per-worker rates into money.
+ * Returns both the client-facing breakdown DTO and the raw figures the executor
+ * needs (per-worker amounts, total penalty, refund, hired rows).
+ * @param {object} shift row from {@link findShiftForCancellation}
+ * @param {object[]} hired rows from {@link findHiredForCancellation}
+ * @param {number} applicantCount
+ * @param {Date} now
+ */
+const assembleCancellation = (shift, hired, applicantCount, now) => {
+  const startAt = composeDateTime(shift.shift_date, shift.start_time);
+  let endAt = composeDateTime(shift.shift_date, shift.end_time);
+  if (endAt <= startAt) endAt = new Date(endAt.getTime() + 24 * 60 * 60 * 1000); // overnight
+
+  const result = computeCancellation({
+    now,
+    shiftType: shift.shift_type,
+    startAt,
+    endAt,
+    workersNeeded: shift.workers_needed,
+    applicantCount,
+    businessReliabilityScore: shift.business_profiles?.reliability_score,
+    hired: hired.map((h) => ({
+      workerProfileId: h.worker_profiles.id,
+      userId: h.worker_profiles.user_id,
+      fullName: h.worker_profiles.full_name,
+      reliabilityScore: h.worker_profiles.reliability_score,
+      hiredAt: h.worker_assignments[0]?.created_at ?? null,
+      checkedIn: !!h.worker_assignments[0]?.checked_in_at,
+    })),
+  });
+
+  const payAmount = new Prisma.Decimal(shift.pay_amount);
+  const escrow = new Prisma.Decimal(shift.escrow_amount);
+
+  const perWorker = result.per_worker.map((w) => ({
+    ...w,
+    amount: payAmount.times(w.rate).toDecimalPlaces(2),
+  }));
+  let totalPenalty = perWorker.reduce((sum, w) => sum.plus(w.amount), new Prisma.Decimal(0));
+  if (totalPenalty.greaterThan(escrow)) totalPenalty = escrow; // safety: never pay out more than held
+  const refund = escrow.minus(totalPenalty);
+
+  const dto = {
+    shift_id: shift.id,
+    title: shift.title,
+    status: shift.status,
+    free: result.free,
+    penalty_applies: result.penalty_applies,
+    reason: result.reason,
+    is_expired: result.is_expired,
+    hours_to_start: result.hours_to_start,
+    hired_count: hired.length,
+    escrow_amount: escrow,
+    refund_to_business: refund,
+    penalty: result.penalty_applies
+      ? {
+          total_penalty: totalPenalty,
+          shift_factors: result.shift_factors,
+          workers: perWorker.map((w) => ({
+            worker_profile_id: w.worker_profile_id,
+            full_name: w.full_name,
+            rate: w.rate,
+            amount: w.amount,
+            factors: w.factors,
+          })),
+        }
+      : null,
+  };
+
+  return { dto, perWorker, totalPenalty, refund, hired };
+};
+
+/**
+ * Dry-run cancellation breakdown for the "swipe to delete" modal: whether the
+ * delete is free or triggers a penalty, and the per-worker compensation math.
+ * Moves no money.
  * @param {string} userId
  * @param {string} shiftId
- * @param {string} reason
  */
-export const cancelShift = async (userId, shiftId, reason) => {
+export const previewShiftCancellation = async (userId, shiftId) => {
   const profile = await getProfileSummaryOrThrow(userId);
-  const shift = await businessRepository.findOwnedShiftBasic(shiftId, profile.id);
+  const shift = await businessRepository.findShiftForCancellation(shiftId, profile.id);
   if (!shift) throw new AppError("Shift not found", 404);
   if (NON_CANCELLABLE_STATUSES.includes(shift.status)) {
     throw new AppError(`A '${shift.status}' shift cannot be cancelled`, 409);
   }
 
-  // Refund any held escrow and cancel atomically.
-  const updated = await prisma.$transaction(async (tx) => {
-    await refundShiftEscrow(shift, userId, tx);
-    return businessRepository.updateShift(shiftId, {
+  const [hired, applicantCount] = await Promise.all([
+    businessRepository.findHiredForCancellation(shiftId),
+    businessRepository.countActiveApplicants(shiftId),
+  ]);
+  return assembleCancellation(shift, hired, applicantCount, new Date()).dto;
+};
+
+/**
+ * Deletes (cancels) an owned shift. Free when nobody is hired, the shift has
+ * expired, or a scheduled shift is cancelled outside the notice window — the full
+ * escrow is refunded and the post is removed. Otherwise a penalty applies: each
+ * hired worker is paid `pay_amount * rate` compensation from escrow, the remainder
+ * returns to the business, and — because money moves — the caller must pass
+ * `acknowledgePenalty` (the frontend confirms the charge in the swipe modal first).
+ * @param {string} userId
+ * @param {string} shiftId
+ * @param {{ reason?: string, acknowledgePenalty?: boolean }} [opts]
+ */
+export const deleteShift = async (userId, shiftId, { reason, acknowledgePenalty } = {}) => {
+  const profile = await getProfileSummaryOrThrow(userId);
+  const shift = await businessRepository.findShiftForCancellation(shiftId, profile.id);
+  if (!shift) throw new AppError("Shift not found", 404);
+  if (NON_CANCELLABLE_STATUSES.includes(shift.status)) {
+    throw new AppError(`A '${shift.status}' shift cannot be cancelled`, 409);
+  }
+
+  const now = new Date();
+  const [hired, applicantCount] = await Promise.all([
+    businessRepository.findHiredForCancellation(shiftId),
+    businessRepository.countActiveApplicants(shiftId),
+  ]);
+  const { dto, perWorker, totalPenalty } = assembleCancellation(shift, hired, applicantCount, now);
+
+  // Gate the money move behind an explicit acknowledgement; return the breakdown.
+  if (dto.penalty_applies && acknowledgePenalty !== true) {
+    throw new AppError("Cancellation penalty must be acknowledged before deleting this shift", 409, dto);
+  }
+
+  const cancellationReason = reason ?? (dto.free ? "Deleted by business" : "Cancelled by business (penalty)");
+
+  await prisma.$transaction(async (tx) => {
+    if (dto.penalty_applies) {
+      // Compensate each hired worker's wallet (mirrors settlement crediting).
+      for (const w of perWorker) {
+        const wallet = await paymentRepository.ensureWallet(w.user_id, tx);
+        const newBalance = new Prisma.Decimal(wallet.balance).plus(w.amount);
+        const newEarned = new Prisma.Decimal(wallet.total_earned).plus(w.amount);
+        await paymentRepository.updateWallet(wallet.id, {
+          balance: newBalance,
+          total_earned: newEarned,
+          updated_by: userId,
+        }, tx);
+        await paymentRepository.createTransaction({
+          wallet_id: wallet.id,
+          shift_id: shiftId,
+          type: "credit",
+          amount: w.amount,
+          balance_after: newBalance,
+          description: `Cancellation compensation: "${shift.title}"`,
+          created_by: userId,
+        }, tx);
+      }
+      // Penalty becomes spend; the unspent remainder returns to the business wallet.
+      await releaseShiftEscrow(tx, shift, totalPenalty, userId);
+    } else {
+      await refundShiftEscrow(shift, userId, tx);
+    }
+
+    await businessRepository.updateShift(shiftId, {
       status: "cancelled",
-      cancellation_reason: reason,
+      cancellation_reason: cancellationReason,
+      deleted_at: now,
       updated_by: userId,
     }, tx);
   });
-  logger.info(`Shift cancelled | userId=${userId} shiftId=${shiftId}`);
-  return updated;
+
+  // Notify affected workers after commit so a delivery failure can't undo money.
+  if (dto.penalty_applies) {
+    await Promise.all(perWorker.map((w) =>
+      createNotification({
+        user_id: w.user_id,
+        type: "in_app",
+        priority: "high",
+        title: "Shift cancelled — compensation paid",
+        body: `"${shift.title}" was cancelled. ৳${w.amount} compensation has been credited to your wallet.`,
+        data: { kind: "shift_cancelled_compensation", shift_id: shiftId, amount: String(w.amount) },
+      })));
+  } else if (hired.length > 0) {
+    await Promise.all(hired.map((h) =>
+      createNotification({
+        user_id: h.worker_profiles.user_id,
+        type: "in_app",
+        priority: "normal",
+        title: "Shift cancelled",
+        body: `"${shift.title}" was cancelled by the business.`,
+        data: { kind: "shift_cancelled", shift_id: shiftId },
+      })));
+  }
+
+  logger.info(
+    `Shift ${dto.free ? "deleted(free)" : "cancelled(penalty)"} | userId=${userId} shiftId=${shiftId} penalty=${totalPenalty} workers=${perWorker.length}`,
+  );
+  return dto;
 };
+
+/**
+ * Cancels an owned shift with a reason (legacy PATCH path). Delegates to
+ * {@link deleteShift} with the penalty pre-acknowledged, so a hired shift now
+ * compensates workers instead of silently refunding the business in full.
+ * @param {string} userId
+ * @param {string} shiftId
+ * @param {string} reason
+ */
+export const cancelShift = (userId, shiftId, reason) =>
+  deleteShift(userId, shiftId, { reason, acknowledgePenalty: true });
 
 /* ============================================================
  * Applicants (screening — screens 9, 15)
@@ -714,6 +903,27 @@ export const shortlistApplicant = async (userId, applicationId) => {
 };
 
 /**
+ * Advances a shift's status when a lifecycle event completes (hire, check-in,
+ * checkout, settle). Forward-only: reads the current status and updates only if
+ * `target` is later in the lifecycle, so repeated/concurrent events and
+ * out-of-order fires can't rewind the journey bar. Safe to call from anywhere the
+ * event fires; a no-op when the shift is already at/past `target` or cancelled.
+ * @param {string} shiftId
+ * @param {string} target a shift_status_enum value to move toward
+ * @param {string} actorId user who triggered the event
+ * @param {import("@prisma/client").PrismaClient} [client] active transaction, if any
+ * @returns {Promise<boolean>} whether the status advanced
+ */
+export const advanceShiftStatus = async (shiftId, target, actorId, client = prisma) => {
+  const shift = await client.shifts.findUnique({ where: { id: shiftId }, select: { status: true } });
+  if (!shift || !isForwardTransition(shift.status, target)) return false;
+
+  await businessRepository.updateShift(shiftId, { status: target, updated_by: actorId }, client);
+  logger.info(`Shift status advanced | shiftId=${shiftId} ${shift.status}->${target}`);
+  return true;
+};
+
+/**
  * Hires an applicant (→ accepted). Enforces the shift's worker capacity.
  * @param {string} userId
  * @param {string} applicationId
@@ -738,6 +948,9 @@ export const acceptApplicant = async (userId, applicationId) => {
       worker_profile_id: application.worker_profiles.id,
       created_by: userId,
     }, tx);
+    // Roadmap: first hire → workers selected; last slot filled → workers confirmed.
+    const target = accepted + 1 >= shift.workers_needed ? "worker_confirmed" : "worker_selected";
+    await advanceShiftStatus(shift.id, target, userId, tx);
     return app;
   });
 

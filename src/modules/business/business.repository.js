@@ -257,6 +257,53 @@ export const updateBusinessWallet = (id, data, client = prisma) => {
 /** @param {object} where */
 export const countShifts = (where) => prisma.shifts.count({ where });
 
+/**
+ * Owned shift with everything the cancellation-penalty engine needs: timing +
+ * type (eligibility), pay/escrow (money), and the owning business's reliability.
+ * @param {string} shiftId
+ * @param {string} businessProfileId
+ */
+export const findShiftForCancellation = (shiftId, businessProfileId) => {
+  return prisma.shifts.findFirst({
+    where: { id: shiftId, business_profile_id: businessProfileId, deleted_at: null },
+    select: {
+      id: true, title: true, status: true, shift_type: true,
+      shift_date: true, start_time: true, end_time: true,
+      pay_amount: true, workers_needed: true,
+      business_profile_id: true, escrow_amount: true, escrow_status: true,
+      business_profiles: { select: { reliability_score: true } },
+    },
+  });
+};
+
+/**
+ * Hired (accepted) workers on a shift with the per-worker signals the penalty
+ * engine needs: reliability, hire time (assignment created_at), and whether they
+ * checked in (drives expiry + which assignment to mark compensated).
+ * @param {string} shiftId
+ */
+export const findHiredForCancellation = (shiftId) => {
+  return prisma.applications.findMany({
+    where: { shift_id: shiftId, status: "accepted", deleted_at: null },
+    select: {
+      id: true,
+      worker_profiles: { select: { id: true, user_id: true, full_name: true, reliability_score: true } },
+      worker_assignments: {
+        where: { deleted_at: null },
+        select: { id: true, created_at: true, checked_in_at: true },
+        take: 1,
+      },
+    },
+  });
+};
+
+/** Active (non-withdrawn/non-rejected) applicant count — a shift demand signal. @param {string} shiftId */
+export const countActiveApplicants = (shiftId) => {
+  return prisma.applications.count({
+    where: { shift_id: shiftId, deleted_at: null, status: { in: ["pending", "shortlisted", "accepted"] } },
+  });
+};
+
 /* ============================================================
  * Applicants (business side of applications)
  * ========================================================== */

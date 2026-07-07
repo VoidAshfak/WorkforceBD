@@ -13,6 +13,7 @@ import {
   listShiftsRules,
   shiftIdRules,
   cancelShiftRules,
+  deleteShiftRules,
   listApplicantsRules,
   applicationIdRules,
   bulkDecisionRules,
@@ -49,6 +50,8 @@ router.get("/shifts/:id", shiftIdRules, businessController.getShift);
 router.patch("/shifts/:id", verified, updateShiftRules, businessController.updateShift);
 router.patch("/shifts/:id/publish", verified, shiftIdRules, businessController.publishShift);
 router.patch("/shifts/:id/cancel", verified, cancelShiftRules, businessController.cancelShift);
+router.get("/shifts/:id/cancellation-preview", verified, shiftIdRules, businessController.cancellationPreview);
+router.delete("/shifts/:id", verified, deleteShiftRules, businessController.deleteShift);
 router.get("/shifts/:id/applicants", listApplicantsRules, businessController.listApplicants);
 router.get("/shifts/:id/roster", shiftIdRules, businessController.getRoster);
 
