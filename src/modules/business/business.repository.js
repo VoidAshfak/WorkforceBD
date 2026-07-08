@@ -254,6 +254,37 @@ export const updateBusinessWallet = (id, data, client = prisma) => {
   return client.business_wallets.update({ where: { id }, data, select: businessWalletSelect });
 };
 
+const businessWalletTxSelect = {
+  id: true, type: true, amount: true, balance_after: true, held_after: true,
+  description: true, shift_id: true, reference_id: true, created_at: true,
+};
+
+/**
+ * Appends a business-wallet ledger row. Must share the caller's transaction so a
+ * ledger entry can never diverge from the balance change it records.
+ * @param {object} data
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
+ */
+export const createBusinessWalletTransaction = (data, client = prisma) => {
+  return client.business_wallet_transactions.create({ data });
+};
+
+/** Paginated business-wallet ledger, newest first. @param {{ businessWalletId: string, skip: number, take: number }} opts */
+export const findBusinessWalletTransactions = ({ businessWalletId, skip, take }) => {
+  return prisma.business_wallet_transactions.findMany({
+    where: { business_wallet_id: businessWalletId },
+    orderBy: { created_at: "desc" },
+    skip,
+    take,
+    select: businessWalletTxSelect,
+  });
+};
+
+/** @param {string} businessWalletId */
+export const countBusinessWalletTransactions = (businessWalletId) => {
+  return prisma.business_wallet_transactions.count({ where: { business_wallet_id: businessWalletId } });
+};
+
 /** @param {object} where */
 export const countShifts = (where) => prisma.shifts.count({ where });
 

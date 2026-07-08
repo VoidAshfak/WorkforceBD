@@ -134,6 +134,11 @@ export type wallets = $Result.DefaultSelection<Prisma.$walletsPayload>
  */
 export type business_wallets = $Result.DefaultSelection<Prisma.$business_walletsPayload>
 /**
+ * Model business_wallet_transactions
+ * 
+ */
+export type business_wallet_transactions = $Result.DefaultSelection<Prisma.$business_wallet_transactionsPayload>
+/**
  * Model worker_assignments
  * 
  */
@@ -786,6 +791,16 @@ export class PrismaClient<
   get business_wallets(): Prisma.business_walletsDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.business_wallet_transactions`: Exposes CRUD operations for the **business_wallet_transactions** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Business_wallet_transactions
+    * const business_wallet_transactions = await prisma.business_wallet_transactions.findMany()
+    * ```
+    */
+  get business_wallet_transactions(): Prisma.business_wallet_transactionsDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.worker_assignments`: Exposes CRUD operations for the **worker_assignments** model.
     * Example usage:
     * ```ts
@@ -1312,6 +1327,7 @@ export namespace Prisma {
     user_sanctions: 'user_sanctions',
     wallets: 'wallets',
     business_wallets: 'business_wallets',
+    business_wallet_transactions: 'business_wallet_transactions',
     worker_assignments: 'worker_assignments',
     worker_categories: 'worker_categories',
     worker_preferred_zones: 'worker_preferred_zones',
@@ -1334,7 +1350,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "categories" | "cities" | "devices" | "otp_requests" | "refresh_tokens" | "sessions" | "skills" | "spatial_ref_sys" | "users" | "zones" | "applications" | "business_branches" | "business_favorite_workers" | "business_profiles" | "disputes" | "notifications" | "payout_requests" | "ratings" | "reports" | "shifts" | "transactions" | "user_sanctions" | "wallets" | "business_wallets" | "worker_assignments" | "worker_categories" | "worker_preferred_zones" | "worker_profiles" | "worker_skills" | "chat_conversations" | "chat_messages"
+      modelProps: "categories" | "cities" | "devices" | "otp_requests" | "refresh_tokens" | "sessions" | "skills" | "spatial_ref_sys" | "users" | "zones" | "applications" | "business_branches" | "business_favorite_workers" | "business_profiles" | "disputes" | "notifications" | "payout_requests" | "ratings" | "reports" | "shifts" | "transactions" | "user_sanctions" | "wallets" | "business_wallets" | "business_wallet_transactions" | "worker_assignments" | "worker_categories" | "worker_preferred_zones" | "worker_profiles" | "worker_skills" | "chat_conversations" | "chat_messages"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3114,6 +3130,80 @@ export namespace Prisma {
           }
         }
       }
+      business_wallet_transactions: {
+        payload: Prisma.$business_wallet_transactionsPayload<ExtArgs>
+        fields: Prisma.business_wallet_transactionsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.business_wallet_transactionsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.business_wallet_transactionsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload>
+          }
+          findFirst: {
+            args: Prisma.business_wallet_transactionsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.business_wallet_transactionsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload>
+          }
+          findMany: {
+            args: Prisma.business_wallet_transactionsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload>[]
+          }
+          create: {
+            args: Prisma.business_wallet_transactionsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload>
+          }
+          createMany: {
+            args: Prisma.business_wallet_transactionsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.business_wallet_transactionsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload>[]
+          }
+          delete: {
+            args: Prisma.business_wallet_transactionsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload>
+          }
+          update: {
+            args: Prisma.business_wallet_transactionsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload>
+          }
+          deleteMany: {
+            args: Prisma.business_wallet_transactionsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.business_wallet_transactionsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.business_wallet_transactionsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload>[]
+          }
+          upsert: {
+            args: Prisma.business_wallet_transactionsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$business_wallet_transactionsPayload>
+          }
+          aggregate: {
+            args: Prisma.Business_wallet_transactionsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBusiness_wallet_transactions>
+          }
+          groupBy: {
+            args: Prisma.business_wallet_transactionsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Business_wallet_transactionsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.business_wallet_transactionsCountArgs<ExtArgs>
+            result: $Utils.Optional<Business_wallet_transactionsCountAggregateOutputType> | number
+          }
+        }
+      }
       worker_assignments: {
         payload: Prisma.$worker_assignmentsPayload<ExtArgs>
         fields: Prisma.worker_assignmentsFieldRefs
@@ -3764,6 +3854,7 @@ export namespace Prisma {
     user_sanctions?: user_sanctionsOmit
     wallets?: walletsOmit
     business_wallets?: business_walletsOmit
+    business_wallet_transactions?: business_wallet_transactionsOmit
     worker_assignments?: worker_assignmentsOmit
     worker_categories?: worker_categoriesOmit
     worker_preferred_zones?: worker_preferred_zonesOmit
@@ -4503,6 +4594,37 @@ export namespace Prisma {
    */
   export type WalletsCountOutputTypeCountTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: transactionsWhereInput
+  }
+
+
+  /**
+   * Count Type Business_walletsCountOutputType
+   */
+
+  export type Business_walletsCountOutputType = {
+    business_wallet_transactions: number
+  }
+
+  export type Business_walletsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_wallet_transactions?: boolean | Business_walletsCountOutputTypeCountBusiness_wallet_transactionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * Business_walletsCountOutputType without action
+   */
+  export type Business_walletsCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Business_walletsCountOutputType
+     */
+    select?: Business_walletsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * Business_walletsCountOutputType without action
+   */
+  export type Business_walletsCountOutputTypeCountBusiness_wallet_transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: business_wallet_transactionsWhereInput
   }
 
 
@@ -33784,6 +33906,8 @@ export namespace Prisma {
     created_by?: boolean
     updated_by?: boolean
     business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+    business_wallet_transactions?: boolean | business_wallets$business_wallet_transactionsArgs<ExtArgs>
+    _count?: boolean | Business_walletsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["business_wallets"]>
 
   export type business_walletsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -33833,6 +33957,8 @@ export namespace Prisma {
   export type business_walletsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "balance" | "held" | "total_spent" | "currency" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["business_wallets"]>
   export type business_walletsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
+    business_wallet_transactions?: boolean | business_wallets$business_wallet_transactionsArgs<ExtArgs>
+    _count?: boolean | Business_walletsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type business_walletsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     business_profiles?: boolean | business_profilesDefaultArgs<ExtArgs>
@@ -33845,6 +33971,7 @@ export namespace Prisma {
     name: "business_wallets"
     objects: {
       business_profiles: Prisma.$business_profilesPayload<ExtArgs>
+      business_wallet_transactions: Prisma.$business_wallet_transactionsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -34253,6 +34380,7 @@ export namespace Prisma {
   export interface Prisma__business_walletsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     business_profiles<T extends business_profilesDefaultArgs<ExtArgs> = {}>(args?: Subset<T, business_profilesDefaultArgs<ExtArgs>>): Prisma__business_profilesClient<$Result.GetResult<Prisma.$business_profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    business_wallet_transactions<T extends business_wallets$business_wallet_transactionsArgs<ExtArgs> = {}>(args?: Subset<T, business_wallets$business_wallet_transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -34694,6 +34822,30 @@ export namespace Prisma {
   }
 
   /**
+   * business_wallets.business_wallet_transactions
+   */
+  export type business_wallets$business_wallet_transactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    where?: business_wallet_transactionsWhereInput
+    orderBy?: business_wallet_transactionsOrderByWithRelationInput | business_wallet_transactionsOrderByWithRelationInput[]
+    cursor?: business_wallet_transactionsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Business_wallet_transactionsScalarFieldEnum | Business_wallet_transactionsScalarFieldEnum[]
+  }
+
+  /**
    * business_wallets without action
    */
   export type business_walletsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -34709,6 +34861,1189 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: business_walletsInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model business_wallet_transactions
+   */
+
+  export type AggregateBusiness_wallet_transactions = {
+    _count: Business_wallet_transactionsCountAggregateOutputType | null
+    _avg: Business_wallet_transactionsAvgAggregateOutputType | null
+    _sum: Business_wallet_transactionsSumAggregateOutputType | null
+    _min: Business_wallet_transactionsMinAggregateOutputType | null
+    _max: Business_wallet_transactionsMaxAggregateOutputType | null
+  }
+
+  export type Business_wallet_transactionsAvgAggregateOutputType = {
+    amount: Decimal | null
+    balance_after: Decimal | null
+    held_after: Decimal | null
+  }
+
+  export type Business_wallet_transactionsSumAggregateOutputType = {
+    amount: Decimal | null
+    balance_after: Decimal | null
+    held_after: Decimal | null
+  }
+
+  export type Business_wallet_transactionsMinAggregateOutputType = {
+    id: string | null
+    business_wallet_id: string | null
+    type: $Enums.transaction_type_enum | null
+    amount: Decimal | null
+    balance_after: Decimal | null
+    held_after: Decimal | null
+    description: string | null
+    shift_id: string | null
+    reference_id: string | null
+    created_at: Date | null
+    created_by: string | null
+  }
+
+  export type Business_wallet_transactionsMaxAggregateOutputType = {
+    id: string | null
+    business_wallet_id: string | null
+    type: $Enums.transaction_type_enum | null
+    amount: Decimal | null
+    balance_after: Decimal | null
+    held_after: Decimal | null
+    description: string | null
+    shift_id: string | null
+    reference_id: string | null
+    created_at: Date | null
+    created_by: string | null
+  }
+
+  export type Business_wallet_transactionsCountAggregateOutputType = {
+    id: number
+    business_wallet_id: number
+    type: number
+    amount: number
+    balance_after: number
+    held_after: number
+    description: number
+    shift_id: number
+    reference_id: number
+    created_at: number
+    created_by: number
+    _all: number
+  }
+
+
+  export type Business_wallet_transactionsAvgAggregateInputType = {
+    amount?: true
+    balance_after?: true
+    held_after?: true
+  }
+
+  export type Business_wallet_transactionsSumAggregateInputType = {
+    amount?: true
+    balance_after?: true
+    held_after?: true
+  }
+
+  export type Business_wallet_transactionsMinAggregateInputType = {
+    id?: true
+    business_wallet_id?: true
+    type?: true
+    amount?: true
+    balance_after?: true
+    held_after?: true
+    description?: true
+    shift_id?: true
+    reference_id?: true
+    created_at?: true
+    created_by?: true
+  }
+
+  export type Business_wallet_transactionsMaxAggregateInputType = {
+    id?: true
+    business_wallet_id?: true
+    type?: true
+    amount?: true
+    balance_after?: true
+    held_after?: true
+    description?: true
+    shift_id?: true
+    reference_id?: true
+    created_at?: true
+    created_by?: true
+  }
+
+  export type Business_wallet_transactionsCountAggregateInputType = {
+    id?: true
+    business_wallet_id?: true
+    type?: true
+    amount?: true
+    balance_after?: true
+    held_after?: true
+    description?: true
+    shift_id?: true
+    reference_id?: true
+    created_at?: true
+    created_by?: true
+    _all?: true
+  }
+
+  export type Business_wallet_transactionsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which business_wallet_transactions to aggregate.
+     */
+    where?: business_wallet_transactionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of business_wallet_transactions to fetch.
+     */
+    orderBy?: business_wallet_transactionsOrderByWithRelationInput | business_wallet_transactionsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: business_wallet_transactionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` business_wallet_transactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` business_wallet_transactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned business_wallet_transactions
+    **/
+    _count?: true | Business_wallet_transactionsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Business_wallet_transactionsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Business_wallet_transactionsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Business_wallet_transactionsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Business_wallet_transactionsMaxAggregateInputType
+  }
+
+  export type GetBusiness_wallet_transactionsAggregateType<T extends Business_wallet_transactionsAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusiness_wallet_transactions]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBusiness_wallet_transactions[P]>
+      : GetScalarType<T[P], AggregateBusiness_wallet_transactions[P]>
+  }
+
+
+
+
+  export type business_wallet_transactionsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: business_wallet_transactionsWhereInput
+    orderBy?: business_wallet_transactionsOrderByWithAggregationInput | business_wallet_transactionsOrderByWithAggregationInput[]
+    by: Business_wallet_transactionsScalarFieldEnum[] | Business_wallet_transactionsScalarFieldEnum
+    having?: business_wallet_transactionsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Business_wallet_transactionsCountAggregateInputType | true
+    _avg?: Business_wallet_transactionsAvgAggregateInputType
+    _sum?: Business_wallet_transactionsSumAggregateInputType
+    _min?: Business_wallet_transactionsMinAggregateInputType
+    _max?: Business_wallet_transactionsMaxAggregateInputType
+  }
+
+  export type Business_wallet_transactionsGroupByOutputType = {
+    id: string
+    business_wallet_id: string
+    type: $Enums.transaction_type_enum
+    amount: Decimal
+    balance_after: Decimal
+    held_after: Decimal
+    description: string | null
+    shift_id: string | null
+    reference_id: string | null
+    created_at: Date
+    created_by: string | null
+    _count: Business_wallet_transactionsCountAggregateOutputType | null
+    _avg: Business_wallet_transactionsAvgAggregateOutputType | null
+    _sum: Business_wallet_transactionsSumAggregateOutputType | null
+    _min: Business_wallet_transactionsMinAggregateOutputType | null
+    _max: Business_wallet_transactionsMaxAggregateOutputType | null
+  }
+
+  type GetBusiness_wallet_transactionsGroupByPayload<T extends business_wallet_transactionsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Business_wallet_transactionsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Business_wallet_transactionsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Business_wallet_transactionsGroupByOutputType[P]>
+            : GetScalarType<T[P], Business_wallet_transactionsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type business_wallet_transactionsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    business_wallet_id?: boolean
+    type?: boolean
+    amount?: boolean
+    balance_after?: boolean
+    held_after?: boolean
+    description?: boolean
+    shift_id?: boolean
+    reference_id?: boolean
+    created_at?: boolean
+    created_by?: boolean
+    business_wallets?: boolean | business_walletsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["business_wallet_transactions"]>
+
+  export type business_wallet_transactionsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    business_wallet_id?: boolean
+    type?: boolean
+    amount?: boolean
+    balance_after?: boolean
+    held_after?: boolean
+    description?: boolean
+    shift_id?: boolean
+    reference_id?: boolean
+    created_at?: boolean
+    created_by?: boolean
+    business_wallets?: boolean | business_walletsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["business_wallet_transactions"]>
+
+  export type business_wallet_transactionsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    business_wallet_id?: boolean
+    type?: boolean
+    amount?: boolean
+    balance_after?: boolean
+    held_after?: boolean
+    description?: boolean
+    shift_id?: boolean
+    reference_id?: boolean
+    created_at?: boolean
+    created_by?: boolean
+    business_wallets?: boolean | business_walletsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["business_wallet_transactions"]>
+
+  export type business_wallet_transactionsSelectScalar = {
+    id?: boolean
+    business_wallet_id?: boolean
+    type?: boolean
+    amount?: boolean
+    balance_after?: boolean
+    held_after?: boolean
+    description?: boolean
+    shift_id?: boolean
+    reference_id?: boolean
+    created_at?: boolean
+    created_by?: boolean
+  }
+
+  export type business_wallet_transactionsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_wallet_id" | "type" | "amount" | "balance_after" | "held_after" | "description" | "shift_id" | "reference_id" | "created_at" | "created_by", ExtArgs["result"]["business_wallet_transactions"]>
+  export type business_wallet_transactionsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_wallets?: boolean | business_walletsDefaultArgs<ExtArgs>
+  }
+  export type business_wallet_transactionsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_wallets?: boolean | business_walletsDefaultArgs<ExtArgs>
+  }
+  export type business_wallet_transactionsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    business_wallets?: boolean | business_walletsDefaultArgs<ExtArgs>
+  }
+
+  export type $business_wallet_transactionsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "business_wallet_transactions"
+    objects: {
+      business_wallets: Prisma.$business_walletsPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      business_wallet_id: string
+      type: $Enums.transaction_type_enum
+      amount: Prisma.Decimal
+      balance_after: Prisma.Decimal
+      held_after: Prisma.Decimal
+      description: string | null
+      shift_id: string | null
+      reference_id: string | null
+      created_at: Date
+      created_by: string | null
+    }, ExtArgs["result"]["business_wallet_transactions"]>
+    composites: {}
+  }
+
+  type business_wallet_transactionsGetPayload<S extends boolean | null | undefined | business_wallet_transactionsDefaultArgs> = $Result.GetResult<Prisma.$business_wallet_transactionsPayload, S>
+
+  type business_wallet_transactionsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<business_wallet_transactionsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Business_wallet_transactionsCountAggregateInputType | true
+    }
+
+  export interface business_wallet_transactionsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['business_wallet_transactions'], meta: { name: 'business_wallet_transactions' } }
+    /**
+     * Find zero or one Business_wallet_transactions that matches the filter.
+     * @param {business_wallet_transactionsFindUniqueArgs} args - Arguments to find a Business_wallet_transactions
+     * @example
+     * // Get one Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends business_wallet_transactionsFindUniqueArgs>(args: SelectSubset<T, business_wallet_transactionsFindUniqueArgs<ExtArgs>>): Prisma__business_wallet_transactionsClient<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Business_wallet_transactions that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {business_wallet_transactionsFindUniqueOrThrowArgs} args - Arguments to find a Business_wallet_transactions
+     * @example
+     * // Get one Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends business_wallet_transactionsFindUniqueOrThrowArgs>(args: SelectSubset<T, business_wallet_transactionsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__business_wallet_transactionsClient<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Business_wallet_transactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_wallet_transactionsFindFirstArgs} args - Arguments to find a Business_wallet_transactions
+     * @example
+     * // Get one Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends business_wallet_transactionsFindFirstArgs>(args?: SelectSubset<T, business_wallet_transactionsFindFirstArgs<ExtArgs>>): Prisma__business_wallet_transactionsClient<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Business_wallet_transactions that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_wallet_transactionsFindFirstOrThrowArgs} args - Arguments to find a Business_wallet_transactions
+     * @example
+     * // Get one Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends business_wallet_transactionsFindFirstOrThrowArgs>(args?: SelectSubset<T, business_wallet_transactionsFindFirstOrThrowArgs<ExtArgs>>): Prisma__business_wallet_transactionsClient<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Business_wallet_transactions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_wallet_transactionsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.findMany()
+     * 
+     * // Get first 10 Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const business_wallet_transactionsWithIdOnly = await prisma.business_wallet_transactions.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends business_wallet_transactionsFindManyArgs>(args?: SelectSubset<T, business_wallet_transactionsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Business_wallet_transactions.
+     * @param {business_wallet_transactionsCreateArgs} args - Arguments to create a Business_wallet_transactions.
+     * @example
+     * // Create one Business_wallet_transactions
+     * const Business_wallet_transactions = await prisma.business_wallet_transactions.create({
+     *   data: {
+     *     // ... data to create a Business_wallet_transactions
+     *   }
+     * })
+     * 
+     */
+    create<T extends business_wallet_transactionsCreateArgs>(args: SelectSubset<T, business_wallet_transactionsCreateArgs<ExtArgs>>): Prisma__business_wallet_transactionsClient<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Business_wallet_transactions.
+     * @param {business_wallet_transactionsCreateManyArgs} args - Arguments to create many Business_wallet_transactions.
+     * @example
+     * // Create many Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends business_wallet_transactionsCreateManyArgs>(args?: SelectSubset<T, business_wallet_transactionsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Business_wallet_transactions and returns the data saved in the database.
+     * @param {business_wallet_transactionsCreateManyAndReturnArgs} args - Arguments to create many Business_wallet_transactions.
+     * @example
+     * // Create many Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Business_wallet_transactions and only return the `id`
+     * const business_wallet_transactionsWithIdOnly = await prisma.business_wallet_transactions.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends business_wallet_transactionsCreateManyAndReturnArgs>(args?: SelectSubset<T, business_wallet_transactionsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Business_wallet_transactions.
+     * @param {business_wallet_transactionsDeleteArgs} args - Arguments to delete one Business_wallet_transactions.
+     * @example
+     * // Delete one Business_wallet_transactions
+     * const Business_wallet_transactions = await prisma.business_wallet_transactions.delete({
+     *   where: {
+     *     // ... filter to delete one Business_wallet_transactions
+     *   }
+     * })
+     * 
+     */
+    delete<T extends business_wallet_transactionsDeleteArgs>(args: SelectSubset<T, business_wallet_transactionsDeleteArgs<ExtArgs>>): Prisma__business_wallet_transactionsClient<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Business_wallet_transactions.
+     * @param {business_wallet_transactionsUpdateArgs} args - Arguments to update one Business_wallet_transactions.
+     * @example
+     * // Update one Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends business_wallet_transactionsUpdateArgs>(args: SelectSubset<T, business_wallet_transactionsUpdateArgs<ExtArgs>>): Prisma__business_wallet_transactionsClient<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Business_wallet_transactions.
+     * @param {business_wallet_transactionsDeleteManyArgs} args - Arguments to filter Business_wallet_transactions to delete.
+     * @example
+     * // Delete a few Business_wallet_transactions
+     * const { count } = await prisma.business_wallet_transactions.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends business_wallet_transactionsDeleteManyArgs>(args?: SelectSubset<T, business_wallet_transactionsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Business_wallet_transactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_wallet_transactionsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends business_wallet_transactionsUpdateManyArgs>(args: SelectSubset<T, business_wallet_transactionsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Business_wallet_transactions and returns the data updated in the database.
+     * @param {business_wallet_transactionsUpdateManyAndReturnArgs} args - Arguments to update many Business_wallet_transactions.
+     * @example
+     * // Update many Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Business_wallet_transactions and only return the `id`
+     * const business_wallet_transactionsWithIdOnly = await prisma.business_wallet_transactions.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends business_wallet_transactionsUpdateManyAndReturnArgs>(args: SelectSubset<T, business_wallet_transactionsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Business_wallet_transactions.
+     * @param {business_wallet_transactionsUpsertArgs} args - Arguments to update or create a Business_wallet_transactions.
+     * @example
+     * // Update or create a Business_wallet_transactions
+     * const business_wallet_transactions = await prisma.business_wallet_transactions.upsert({
+     *   create: {
+     *     // ... data to create a Business_wallet_transactions
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Business_wallet_transactions we want to update
+     *   }
+     * })
+     */
+    upsert<T extends business_wallet_transactionsUpsertArgs>(args: SelectSubset<T, business_wallet_transactionsUpsertArgs<ExtArgs>>): Prisma__business_wallet_transactionsClient<$Result.GetResult<Prisma.$business_wallet_transactionsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Business_wallet_transactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_wallet_transactionsCountArgs} args - Arguments to filter Business_wallet_transactions to count.
+     * @example
+     * // Count the number of Business_wallet_transactions
+     * const count = await prisma.business_wallet_transactions.count({
+     *   where: {
+     *     // ... the filter for the Business_wallet_transactions we want to count
+     *   }
+     * })
+    **/
+    count<T extends business_wallet_transactionsCountArgs>(
+      args?: Subset<T, business_wallet_transactionsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Business_wallet_transactionsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Business_wallet_transactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Business_wallet_transactionsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Business_wallet_transactionsAggregateArgs>(args: Subset<T, Business_wallet_transactionsAggregateArgs>): Prisma.PrismaPromise<GetBusiness_wallet_transactionsAggregateType<T>>
+
+    /**
+     * Group by Business_wallet_transactions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {business_wallet_transactionsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends business_wallet_transactionsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: business_wallet_transactionsGroupByArgs['orderBy'] }
+        : { orderBy?: business_wallet_transactionsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, business_wallet_transactionsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusiness_wallet_transactionsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the business_wallet_transactions model
+   */
+  readonly fields: business_wallet_transactionsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for business_wallet_transactions.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__business_wallet_transactionsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    business_wallets<T extends business_walletsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, business_walletsDefaultArgs<ExtArgs>>): Prisma__business_walletsClient<$Result.GetResult<Prisma.$business_walletsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the business_wallet_transactions model
+   */
+  interface business_wallet_transactionsFieldRefs {
+    readonly id: FieldRef<"business_wallet_transactions", 'String'>
+    readonly business_wallet_id: FieldRef<"business_wallet_transactions", 'String'>
+    readonly type: FieldRef<"business_wallet_transactions", 'transaction_type_enum'>
+    readonly amount: FieldRef<"business_wallet_transactions", 'Decimal'>
+    readonly balance_after: FieldRef<"business_wallet_transactions", 'Decimal'>
+    readonly held_after: FieldRef<"business_wallet_transactions", 'Decimal'>
+    readonly description: FieldRef<"business_wallet_transactions", 'String'>
+    readonly shift_id: FieldRef<"business_wallet_transactions", 'String'>
+    readonly reference_id: FieldRef<"business_wallet_transactions", 'String'>
+    readonly created_at: FieldRef<"business_wallet_transactions", 'DateTime'>
+    readonly created_by: FieldRef<"business_wallet_transactions", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * business_wallet_transactions findUnique
+   */
+  export type business_wallet_transactionsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallet_transactions to fetch.
+     */
+    where: business_wallet_transactionsWhereUniqueInput
+  }
+
+  /**
+   * business_wallet_transactions findUniqueOrThrow
+   */
+  export type business_wallet_transactionsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallet_transactions to fetch.
+     */
+    where: business_wallet_transactionsWhereUniqueInput
+  }
+
+  /**
+   * business_wallet_transactions findFirst
+   */
+  export type business_wallet_transactionsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallet_transactions to fetch.
+     */
+    where?: business_wallet_transactionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of business_wallet_transactions to fetch.
+     */
+    orderBy?: business_wallet_transactionsOrderByWithRelationInput | business_wallet_transactionsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for business_wallet_transactions.
+     */
+    cursor?: business_wallet_transactionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` business_wallet_transactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` business_wallet_transactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of business_wallet_transactions.
+     */
+    distinct?: Business_wallet_transactionsScalarFieldEnum | Business_wallet_transactionsScalarFieldEnum[]
+  }
+
+  /**
+   * business_wallet_transactions findFirstOrThrow
+   */
+  export type business_wallet_transactionsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallet_transactions to fetch.
+     */
+    where?: business_wallet_transactionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of business_wallet_transactions to fetch.
+     */
+    orderBy?: business_wallet_transactionsOrderByWithRelationInput | business_wallet_transactionsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for business_wallet_transactions.
+     */
+    cursor?: business_wallet_transactionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` business_wallet_transactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` business_wallet_transactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of business_wallet_transactions.
+     */
+    distinct?: Business_wallet_transactionsScalarFieldEnum | Business_wallet_transactionsScalarFieldEnum[]
+  }
+
+  /**
+   * business_wallet_transactions findMany
+   */
+  export type business_wallet_transactionsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    /**
+     * Filter, which business_wallet_transactions to fetch.
+     */
+    where?: business_wallet_transactionsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of business_wallet_transactions to fetch.
+     */
+    orderBy?: business_wallet_transactionsOrderByWithRelationInput | business_wallet_transactionsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing business_wallet_transactions.
+     */
+    cursor?: business_wallet_transactionsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` business_wallet_transactions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` business_wallet_transactions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of business_wallet_transactions.
+     */
+    distinct?: Business_wallet_transactionsScalarFieldEnum | Business_wallet_transactionsScalarFieldEnum[]
+  }
+
+  /**
+   * business_wallet_transactions create
+   */
+  export type business_wallet_transactionsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a business_wallet_transactions.
+     */
+    data: XOR<business_wallet_transactionsCreateInput, business_wallet_transactionsUncheckedCreateInput>
+  }
+
+  /**
+   * business_wallet_transactions createMany
+   */
+  export type business_wallet_transactionsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many business_wallet_transactions.
+     */
+    data: business_wallet_transactionsCreateManyInput | business_wallet_transactionsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * business_wallet_transactions createManyAndReturn
+   */
+  export type business_wallet_transactionsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * The data used to create many business_wallet_transactions.
+     */
+    data: business_wallet_transactionsCreateManyInput | business_wallet_transactionsCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * business_wallet_transactions update
+   */
+  export type business_wallet_transactionsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a business_wallet_transactions.
+     */
+    data: XOR<business_wallet_transactionsUpdateInput, business_wallet_transactionsUncheckedUpdateInput>
+    /**
+     * Choose, which business_wallet_transactions to update.
+     */
+    where: business_wallet_transactionsWhereUniqueInput
+  }
+
+  /**
+   * business_wallet_transactions updateMany
+   */
+  export type business_wallet_transactionsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update business_wallet_transactions.
+     */
+    data: XOR<business_wallet_transactionsUpdateManyMutationInput, business_wallet_transactionsUncheckedUpdateManyInput>
+    /**
+     * Filter which business_wallet_transactions to update
+     */
+    where?: business_wallet_transactionsWhereInput
+    /**
+     * Limit how many business_wallet_transactions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * business_wallet_transactions updateManyAndReturn
+   */
+  export type business_wallet_transactionsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * The data used to update business_wallet_transactions.
+     */
+    data: XOR<business_wallet_transactionsUpdateManyMutationInput, business_wallet_transactionsUncheckedUpdateManyInput>
+    /**
+     * Filter which business_wallet_transactions to update
+     */
+    where?: business_wallet_transactionsWhereInput
+    /**
+     * Limit how many business_wallet_transactions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * business_wallet_transactions upsert
+   */
+  export type business_wallet_transactionsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the business_wallet_transactions to update in case it exists.
+     */
+    where: business_wallet_transactionsWhereUniqueInput
+    /**
+     * In case the business_wallet_transactions found by the `where` argument doesn't exist, create a new business_wallet_transactions with this data.
+     */
+    create: XOR<business_wallet_transactionsCreateInput, business_wallet_transactionsUncheckedCreateInput>
+    /**
+     * In case the business_wallet_transactions was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<business_wallet_transactionsUpdateInput, business_wallet_transactionsUncheckedUpdateInput>
+  }
+
+  /**
+   * business_wallet_transactions delete
+   */
+  export type business_wallet_transactionsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
+    /**
+     * Filter which business_wallet_transactions to delete.
+     */
+    where: business_wallet_transactionsWhereUniqueInput
+  }
+
+  /**
+   * business_wallet_transactions deleteMany
+   */
+  export type business_wallet_transactionsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which business_wallet_transactions to delete
+     */
+    where?: business_wallet_transactionsWhereInput
+    /**
+     * Limit how many business_wallet_transactions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * business_wallet_transactions without action
+   */
+  export type business_wallet_transactionsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the business_wallet_transactions
+     */
+    select?: business_wallet_transactionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the business_wallet_transactions
+     */
+    omit?: business_wallet_transactionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: business_wallet_transactionsInclude<ExtArgs> | null
   }
 
 
@@ -43474,6 +44809,23 @@ export namespace Prisma {
   export type Business_walletsScalarFieldEnum = (typeof Business_walletsScalarFieldEnum)[keyof typeof Business_walletsScalarFieldEnum]
 
 
+  export const Business_wallet_transactionsScalarFieldEnum: {
+    id: 'id',
+    business_wallet_id: 'business_wallet_id',
+    type: 'type',
+    amount: 'amount',
+    balance_after: 'balance_after',
+    held_after: 'held_after',
+    description: 'description',
+    shift_id: 'shift_id',
+    reference_id: 'reference_id',
+    created_at: 'created_at',
+    created_by: 'created_by'
+  };
+
+  export type Business_wallet_transactionsScalarFieldEnum = (typeof Business_wallet_transactionsScalarFieldEnum)[keyof typeof Business_wallet_transactionsScalarFieldEnum]
+
+
   export const Worker_assignmentsScalarFieldEnum: {
     id: 'id',
     shift_id: 'shift_id',
@@ -46428,6 +47780,7 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"business_wallets"> | string | null
     updated_by?: UuidNullableFilter<"business_wallets"> | string | null
     business_profiles?: XOR<Business_profilesScalarRelationFilter, business_profilesWhereInput>
+    business_wallet_transactions?: Business_wallet_transactionsListRelationFilter
   }
 
   export type business_walletsOrderByWithRelationInput = {
@@ -46443,6 +47796,7 @@ export namespace Prisma {
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
     business_profiles?: business_profilesOrderByWithRelationInput
+    business_wallet_transactions?: business_wallet_transactionsOrderByRelationAggregateInput
   }
 
   export type business_walletsWhereUniqueInput = Prisma.AtLeast<{
@@ -46461,6 +47815,7 @@ export namespace Prisma {
     created_by?: UuidNullableFilter<"business_wallets"> | string | null
     updated_by?: UuidNullableFilter<"business_wallets"> | string | null
     business_profiles?: XOR<Business_profilesScalarRelationFilter, business_profilesWhereInput>
+    business_wallet_transactions?: Business_wallet_transactionsListRelationFilter
   }, "id" | "business_profile_id">
 
   export type business_walletsOrderByWithAggregationInput = {
@@ -46497,6 +47852,93 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableWithAggregatesFilter<"business_wallets"> | Date | string | null
     created_by?: UuidNullableWithAggregatesFilter<"business_wallets"> | string | null
     updated_by?: UuidNullableWithAggregatesFilter<"business_wallets"> | string | null
+  }
+
+  export type business_wallet_transactionsWhereInput = {
+    AND?: business_wallet_transactionsWhereInput | business_wallet_transactionsWhereInput[]
+    OR?: business_wallet_transactionsWhereInput[]
+    NOT?: business_wallet_transactionsWhereInput | business_wallet_transactionsWhereInput[]
+    id?: UuidFilter<"business_wallet_transactions"> | string
+    business_wallet_id?: UuidFilter<"business_wallet_transactions"> | string
+    type?: Enumtransaction_type_enumFilter<"business_wallet_transactions"> | $Enums.transaction_type_enum
+    amount?: DecimalFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    description?: StringNullableFilter<"business_wallet_transactions"> | string | null
+    shift_id?: UuidNullableFilter<"business_wallet_transactions"> | string | null
+    reference_id?: StringNullableFilter<"business_wallet_transactions"> | string | null
+    created_at?: DateTimeFilter<"business_wallet_transactions"> | Date | string
+    created_by?: UuidNullableFilter<"business_wallet_transactions"> | string | null
+    business_wallets?: XOR<Business_walletsScalarRelationFilter, business_walletsWhereInput>
+  }
+
+  export type business_wallet_transactionsOrderByWithRelationInput = {
+    id?: SortOrder
+    business_wallet_id?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balance_after?: SortOrder
+    held_after?: SortOrder
+    description?: SortOrderInput | SortOrder
+    shift_id?: SortOrderInput | SortOrder
+    reference_id?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    created_by?: SortOrderInput | SortOrder
+    business_wallets?: business_walletsOrderByWithRelationInput
+  }
+
+  export type business_wallet_transactionsWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: business_wallet_transactionsWhereInput | business_wallet_transactionsWhereInput[]
+    OR?: business_wallet_transactionsWhereInput[]
+    NOT?: business_wallet_transactionsWhereInput | business_wallet_transactionsWhereInput[]
+    business_wallet_id?: UuidFilter<"business_wallet_transactions"> | string
+    type?: Enumtransaction_type_enumFilter<"business_wallet_transactions"> | $Enums.transaction_type_enum
+    amount?: DecimalFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    description?: StringNullableFilter<"business_wallet_transactions"> | string | null
+    shift_id?: UuidNullableFilter<"business_wallet_transactions"> | string | null
+    reference_id?: StringNullableFilter<"business_wallet_transactions"> | string | null
+    created_at?: DateTimeFilter<"business_wallet_transactions"> | Date | string
+    created_by?: UuidNullableFilter<"business_wallet_transactions"> | string | null
+    business_wallets?: XOR<Business_walletsScalarRelationFilter, business_walletsWhereInput>
+  }, "id">
+
+  export type business_wallet_transactionsOrderByWithAggregationInput = {
+    id?: SortOrder
+    business_wallet_id?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balance_after?: SortOrder
+    held_after?: SortOrder
+    description?: SortOrderInput | SortOrder
+    shift_id?: SortOrderInput | SortOrder
+    reference_id?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    created_by?: SortOrderInput | SortOrder
+    _count?: business_wallet_transactionsCountOrderByAggregateInput
+    _avg?: business_wallet_transactionsAvgOrderByAggregateInput
+    _max?: business_wallet_transactionsMaxOrderByAggregateInput
+    _min?: business_wallet_transactionsMinOrderByAggregateInput
+    _sum?: business_wallet_transactionsSumOrderByAggregateInput
+  }
+
+  export type business_wallet_transactionsScalarWhereWithAggregatesInput = {
+    AND?: business_wallet_transactionsScalarWhereWithAggregatesInput | business_wallet_transactionsScalarWhereWithAggregatesInput[]
+    OR?: business_wallet_transactionsScalarWhereWithAggregatesInput[]
+    NOT?: business_wallet_transactionsScalarWhereWithAggregatesInput | business_wallet_transactionsScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"business_wallet_transactions"> | string
+    business_wallet_id?: UuidWithAggregatesFilter<"business_wallet_transactions"> | string
+    type?: Enumtransaction_type_enumWithAggregatesFilter<"business_wallet_transactions"> | $Enums.transaction_type_enum
+    amount?: DecimalWithAggregatesFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalWithAggregatesFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalWithAggregatesFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    description?: StringNullableWithAggregatesFilter<"business_wallet_transactions"> | string | null
+    shift_id?: UuidNullableWithAggregatesFilter<"business_wallet_transactions"> | string | null
+    reference_id?: StringNullableWithAggregatesFilter<"business_wallet_transactions"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"business_wallet_transactions"> | Date | string
+    created_by?: UuidNullableWithAggregatesFilter<"business_wallet_transactions"> | string | null
   }
 
   export type worker_assignmentsWhereInput = {
@@ -49917,6 +51359,7 @@ export namespace Prisma {
     created_by?: string | null
     updated_by?: string | null
     business_profiles: business_profilesCreateNestedOneWithoutBusiness_walletsInput
+    business_wallet_transactions?: business_wallet_transactionsCreateNestedManyWithoutBusiness_walletsInput
   }
 
   export type business_walletsUncheckedCreateInput = {
@@ -49931,6 +51374,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    business_wallet_transactions?: business_wallet_transactionsUncheckedCreateNestedManyWithoutBusiness_walletsInput
   }
 
   export type business_walletsUpdateInput = {
@@ -49945,6 +51389,7 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneRequiredWithoutBusiness_walletsNestedInput
+    business_wallet_transactions?: business_wallet_transactionsUpdateManyWithoutBusiness_walletsNestedInput
   }
 
   export type business_walletsUncheckedUpdateInput = {
@@ -49959,6 +51404,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_wallet_transactions?: business_wallet_transactionsUncheckedUpdateManyWithoutBusiness_walletsNestedInput
   }
 
   export type business_walletsCreateManyInput = {
@@ -50000,6 +51446,103 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_wallet_transactionsCreateInput = {
+    id?: string
+    type: $Enums.transaction_type_enum
+    amount: Decimal | DecimalJsLike | number | string
+    balance_after: Decimal | DecimalJsLike | number | string
+    held_after: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    shift_id?: string | null
+    reference_id?: string | null
+    created_at?: Date | string
+    created_by?: string | null
+    business_wallets: business_walletsCreateNestedOneWithoutBusiness_wallet_transactionsInput
+  }
+
+  export type business_wallet_transactionsUncheckedCreateInput = {
+    id?: string
+    business_wallet_id: string
+    type: $Enums.transaction_type_enum
+    amount: Decimal | DecimalJsLike | number | string
+    balance_after: Decimal | DecimalJsLike | number | string
+    held_after: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    shift_id?: string | null
+    reference_id?: string | null
+    created_at?: Date | string
+    created_by?: string | null
+  }
+
+  export type business_wallet_transactionsUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    reference_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_wallets?: business_walletsUpdateOneRequiredWithoutBusiness_wallet_transactionsNestedInput
+  }
+
+  export type business_wallet_transactionsUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_wallet_id?: StringFieldUpdateOperationsInput | string
+    type?: Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    reference_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_wallet_transactionsCreateManyInput = {
+    id?: string
+    business_wallet_id: string
+    type: $Enums.transaction_type_enum
+    amount: Decimal | DecimalJsLike | number | string
+    balance_after: Decimal | DecimalJsLike | number | string
+    held_after: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    shift_id?: string | null
+    reference_id?: string | null
+    created_at?: Date | string
+    created_by?: string | null
+  }
+
+  export type business_wallet_transactionsUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    reference_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_wallet_transactionsUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_wallet_id?: StringFieldUpdateOperationsInput | string
+    type?: Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    reference_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type worker_assignmentsCreateInput = {
@@ -52834,6 +54377,16 @@ export namespace Prisma {
     total_withdrawn?: SortOrder
   }
 
+  export type Business_wallet_transactionsListRelationFilter = {
+    every?: business_wallet_transactionsWhereInput
+    some?: business_wallet_transactionsWhereInput
+    none?: business_wallet_transactionsWhereInput
+  }
+
+  export type business_wallet_transactionsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type business_walletsCountOrderByAggregateInput = {
     id?: SortOrder
     business_profile_id?: SortOrder
@@ -52886,6 +54439,65 @@ export namespace Prisma {
     balance?: SortOrder
     held?: SortOrder
     total_spent?: SortOrder
+  }
+
+  export type Business_walletsScalarRelationFilter = {
+    is?: business_walletsWhereInput
+    isNot?: business_walletsWhereInput
+  }
+
+  export type business_wallet_transactionsCountOrderByAggregateInput = {
+    id?: SortOrder
+    business_wallet_id?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balance_after?: SortOrder
+    held_after?: SortOrder
+    description?: SortOrder
+    shift_id?: SortOrder
+    reference_id?: SortOrder
+    created_at?: SortOrder
+    created_by?: SortOrder
+  }
+
+  export type business_wallet_transactionsAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    balance_after?: SortOrder
+    held_after?: SortOrder
+  }
+
+  export type business_wallet_transactionsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    business_wallet_id?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balance_after?: SortOrder
+    held_after?: SortOrder
+    description?: SortOrder
+    shift_id?: SortOrder
+    reference_id?: SortOrder
+    created_at?: SortOrder
+    created_by?: SortOrder
+  }
+
+  export type business_wallet_transactionsMinOrderByAggregateInput = {
+    id?: SortOrder
+    business_wallet_id?: SortOrder
+    type?: SortOrder
+    amount?: SortOrder
+    balance_after?: SortOrder
+    held_after?: SortOrder
+    description?: SortOrder
+    shift_id?: SortOrder
+    reference_id?: SortOrder
+    created_at?: SortOrder
+    created_by?: SortOrder
+  }
+
+  export type business_wallet_transactionsSumOrderByAggregateInput = {
+    amount?: SortOrder
+    balance_after?: SortOrder
+    held_after?: SortOrder
   }
 
   export type Enumcheckin_method_enumNullableFilter<$PrismaModel = never> = {
@@ -55962,12 +57574,68 @@ export namespace Prisma {
     connect?: business_profilesWhereUniqueInput
   }
 
+  export type business_wallet_transactionsCreateNestedManyWithoutBusiness_walletsInput = {
+    create?: XOR<business_wallet_transactionsCreateWithoutBusiness_walletsInput, business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput> | business_wallet_transactionsCreateWithoutBusiness_walletsInput[] | business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput[]
+    connectOrCreate?: business_wallet_transactionsCreateOrConnectWithoutBusiness_walletsInput | business_wallet_transactionsCreateOrConnectWithoutBusiness_walletsInput[]
+    createMany?: business_wallet_transactionsCreateManyBusiness_walletsInputEnvelope
+    connect?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+  }
+
+  export type business_wallet_transactionsUncheckedCreateNestedManyWithoutBusiness_walletsInput = {
+    create?: XOR<business_wallet_transactionsCreateWithoutBusiness_walletsInput, business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput> | business_wallet_transactionsCreateWithoutBusiness_walletsInput[] | business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput[]
+    connectOrCreate?: business_wallet_transactionsCreateOrConnectWithoutBusiness_walletsInput | business_wallet_transactionsCreateOrConnectWithoutBusiness_walletsInput[]
+    createMany?: business_wallet_transactionsCreateManyBusiness_walletsInputEnvelope
+    connect?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+  }
+
   export type business_profilesUpdateOneRequiredWithoutBusiness_walletsNestedInput = {
     create?: XOR<business_profilesCreateWithoutBusiness_walletsInput, business_profilesUncheckedCreateWithoutBusiness_walletsInput>
     connectOrCreate?: business_profilesCreateOrConnectWithoutBusiness_walletsInput
     upsert?: business_profilesUpsertWithoutBusiness_walletsInput
     connect?: business_profilesWhereUniqueInput
     update?: XOR<XOR<business_profilesUpdateToOneWithWhereWithoutBusiness_walletsInput, business_profilesUpdateWithoutBusiness_walletsInput>, business_profilesUncheckedUpdateWithoutBusiness_walletsInput>
+  }
+
+  export type business_wallet_transactionsUpdateManyWithoutBusiness_walletsNestedInput = {
+    create?: XOR<business_wallet_transactionsCreateWithoutBusiness_walletsInput, business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput> | business_wallet_transactionsCreateWithoutBusiness_walletsInput[] | business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput[]
+    connectOrCreate?: business_wallet_transactionsCreateOrConnectWithoutBusiness_walletsInput | business_wallet_transactionsCreateOrConnectWithoutBusiness_walletsInput[]
+    upsert?: business_wallet_transactionsUpsertWithWhereUniqueWithoutBusiness_walletsInput | business_wallet_transactionsUpsertWithWhereUniqueWithoutBusiness_walletsInput[]
+    createMany?: business_wallet_transactionsCreateManyBusiness_walletsInputEnvelope
+    set?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+    disconnect?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+    delete?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+    connect?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+    update?: business_wallet_transactionsUpdateWithWhereUniqueWithoutBusiness_walletsInput | business_wallet_transactionsUpdateWithWhereUniqueWithoutBusiness_walletsInput[]
+    updateMany?: business_wallet_transactionsUpdateManyWithWhereWithoutBusiness_walletsInput | business_wallet_transactionsUpdateManyWithWhereWithoutBusiness_walletsInput[]
+    deleteMany?: business_wallet_transactionsScalarWhereInput | business_wallet_transactionsScalarWhereInput[]
+  }
+
+  export type business_wallet_transactionsUncheckedUpdateManyWithoutBusiness_walletsNestedInput = {
+    create?: XOR<business_wallet_transactionsCreateWithoutBusiness_walletsInput, business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput> | business_wallet_transactionsCreateWithoutBusiness_walletsInput[] | business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput[]
+    connectOrCreate?: business_wallet_transactionsCreateOrConnectWithoutBusiness_walletsInput | business_wallet_transactionsCreateOrConnectWithoutBusiness_walletsInput[]
+    upsert?: business_wallet_transactionsUpsertWithWhereUniqueWithoutBusiness_walletsInput | business_wallet_transactionsUpsertWithWhereUniqueWithoutBusiness_walletsInput[]
+    createMany?: business_wallet_transactionsCreateManyBusiness_walletsInputEnvelope
+    set?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+    disconnect?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+    delete?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+    connect?: business_wallet_transactionsWhereUniqueInput | business_wallet_transactionsWhereUniqueInput[]
+    update?: business_wallet_transactionsUpdateWithWhereUniqueWithoutBusiness_walletsInput | business_wallet_transactionsUpdateWithWhereUniqueWithoutBusiness_walletsInput[]
+    updateMany?: business_wallet_transactionsUpdateManyWithWhereWithoutBusiness_walletsInput | business_wallet_transactionsUpdateManyWithWhereWithoutBusiness_walletsInput[]
+    deleteMany?: business_wallet_transactionsScalarWhereInput | business_wallet_transactionsScalarWhereInput[]
+  }
+
+  export type business_walletsCreateNestedOneWithoutBusiness_wallet_transactionsInput = {
+    create?: XOR<business_walletsCreateWithoutBusiness_wallet_transactionsInput, business_walletsUncheckedCreateWithoutBusiness_wallet_transactionsInput>
+    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_wallet_transactionsInput
+    connect?: business_walletsWhereUniqueInput
+  }
+
+  export type business_walletsUpdateOneRequiredWithoutBusiness_wallet_transactionsNestedInput = {
+    create?: XOR<business_walletsCreateWithoutBusiness_wallet_transactionsInput, business_walletsUncheckedCreateWithoutBusiness_wallet_transactionsInput>
+    connectOrCreate?: business_walletsCreateOrConnectWithoutBusiness_wallet_transactionsInput
+    upsert?: business_walletsUpsertWithoutBusiness_wallet_transactionsInput
+    connect?: business_walletsWhereUniqueInput
+    update?: XOR<XOR<business_walletsUpdateToOneWithWhereWithoutBusiness_wallet_transactionsInput, business_walletsUpdateWithoutBusiness_wallet_transactionsInput>, business_walletsUncheckedUpdateWithoutBusiness_wallet_transactionsInput>
   }
 
   export type ratingsCreateNestedManyWithoutWorker_assignmentsInput = {
@@ -61755,6 +63423,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    business_wallet_transactions?: business_wallet_transactionsCreateNestedManyWithoutBusiness_walletsInput
   }
 
   export type business_walletsUncheckedCreateWithoutBusiness_profilesInput = {
@@ -61768,6 +63437,7 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    business_wallet_transactions?: business_wallet_transactionsUncheckedCreateNestedManyWithoutBusiness_walletsInput
   }
 
   export type business_walletsCreateOrConnectWithoutBusiness_profilesInput = {
@@ -62108,6 +63778,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_wallet_transactions?: business_wallet_transactionsUpdateManyWithoutBusiness_walletsNestedInput
   }
 
   export type business_walletsUncheckedUpdateWithoutBusiness_profilesInput = {
@@ -62121,6 +63792,7 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_wallet_transactions?: business_wallet_transactionsUncheckedUpdateManyWithoutBusiness_walletsNestedInput
   }
 
   export type chat_conversationsUpsertWithWhereUniqueWithoutBusiness_profilesInput = {
@@ -66687,6 +68359,42 @@ export namespace Prisma {
     create: XOR<business_profilesCreateWithoutBusiness_walletsInput, business_profilesUncheckedCreateWithoutBusiness_walletsInput>
   }
 
+  export type business_wallet_transactionsCreateWithoutBusiness_walletsInput = {
+    id?: string
+    type: $Enums.transaction_type_enum
+    amount: Decimal | DecimalJsLike | number | string
+    balance_after: Decimal | DecimalJsLike | number | string
+    held_after: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    shift_id?: string | null
+    reference_id?: string | null
+    created_at?: Date | string
+    created_by?: string | null
+  }
+
+  export type business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput = {
+    id?: string
+    type: $Enums.transaction_type_enum
+    amount: Decimal | DecimalJsLike | number | string
+    balance_after: Decimal | DecimalJsLike | number | string
+    held_after: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    shift_id?: string | null
+    reference_id?: string | null
+    created_at?: Date | string
+    created_by?: string | null
+  }
+
+  export type business_wallet_transactionsCreateOrConnectWithoutBusiness_walletsInput = {
+    where: business_wallet_transactionsWhereUniqueInput
+    create: XOR<business_wallet_transactionsCreateWithoutBusiness_walletsInput, business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput>
+  }
+
+  export type business_wallet_transactionsCreateManyBusiness_walletsInputEnvelope = {
+    data: business_wallet_transactionsCreateManyBusiness_walletsInput | business_wallet_transactionsCreateManyBusiness_walletsInput[]
+    skipDuplicates?: boolean
+  }
+
   export type business_profilesUpsertWithoutBusiness_walletsInput = {
     update: XOR<business_profilesUpdateWithoutBusiness_walletsInput, business_profilesUncheckedUpdateWithoutBusiness_walletsInput>
     create: XOR<business_profilesCreateWithoutBusiness_walletsInput, business_profilesUncheckedCreateWithoutBusiness_walletsInput>
@@ -66764,6 +68472,111 @@ export namespace Prisma {
     business_favorite_workers?: business_favorite_workersUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     chat_conversations?: chat_conversationsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
     shifts?: shiftsUncheckedUpdateManyWithoutBusiness_profilesNestedInput
+  }
+
+  export type business_wallet_transactionsUpsertWithWhereUniqueWithoutBusiness_walletsInput = {
+    where: business_wallet_transactionsWhereUniqueInput
+    update: XOR<business_wallet_transactionsUpdateWithoutBusiness_walletsInput, business_wallet_transactionsUncheckedUpdateWithoutBusiness_walletsInput>
+    create: XOR<business_wallet_transactionsCreateWithoutBusiness_walletsInput, business_wallet_transactionsUncheckedCreateWithoutBusiness_walletsInput>
+  }
+
+  export type business_wallet_transactionsUpdateWithWhereUniqueWithoutBusiness_walletsInput = {
+    where: business_wallet_transactionsWhereUniqueInput
+    data: XOR<business_wallet_transactionsUpdateWithoutBusiness_walletsInput, business_wallet_transactionsUncheckedUpdateWithoutBusiness_walletsInput>
+  }
+
+  export type business_wallet_transactionsUpdateManyWithWhereWithoutBusiness_walletsInput = {
+    where: business_wallet_transactionsScalarWhereInput
+    data: XOR<business_wallet_transactionsUpdateManyMutationInput, business_wallet_transactionsUncheckedUpdateManyWithoutBusiness_walletsInput>
+  }
+
+  export type business_wallet_transactionsScalarWhereInput = {
+    AND?: business_wallet_transactionsScalarWhereInput | business_wallet_transactionsScalarWhereInput[]
+    OR?: business_wallet_transactionsScalarWhereInput[]
+    NOT?: business_wallet_transactionsScalarWhereInput | business_wallet_transactionsScalarWhereInput[]
+    id?: UuidFilter<"business_wallet_transactions"> | string
+    business_wallet_id?: UuidFilter<"business_wallet_transactions"> | string
+    type?: Enumtransaction_type_enumFilter<"business_wallet_transactions"> | $Enums.transaction_type_enum
+    amount?: DecimalFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFilter<"business_wallet_transactions"> | Decimal | DecimalJsLike | number | string
+    description?: StringNullableFilter<"business_wallet_transactions"> | string | null
+    shift_id?: UuidNullableFilter<"business_wallet_transactions"> | string | null
+    reference_id?: StringNullableFilter<"business_wallet_transactions"> | string | null
+    created_at?: DateTimeFilter<"business_wallet_transactions"> | Date | string
+    created_by?: UuidNullableFilter<"business_wallet_transactions"> | string | null
+  }
+
+  export type business_walletsCreateWithoutBusiness_wallet_transactionsInput = {
+    id?: string
+    balance?: Decimal | DecimalJsLike | number | string
+    held?: Decimal | DecimalJsLike | number | string
+    total_spent?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles: business_profilesCreateNestedOneWithoutBusiness_walletsInput
+  }
+
+  export type business_walletsUncheckedCreateWithoutBusiness_wallet_transactionsInput = {
+    id?: string
+    business_profile_id: string
+    balance?: Decimal | DecimalJsLike | number | string
+    held?: Decimal | DecimalJsLike | number | string
+    total_spent?: Decimal | DecimalJsLike | number | string
+    currency?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type business_walletsCreateOrConnectWithoutBusiness_wallet_transactionsInput = {
+    where: business_walletsWhereUniqueInput
+    create: XOR<business_walletsCreateWithoutBusiness_wallet_transactionsInput, business_walletsUncheckedCreateWithoutBusiness_wallet_transactionsInput>
+  }
+
+  export type business_walletsUpsertWithoutBusiness_wallet_transactionsInput = {
+    update: XOR<business_walletsUpdateWithoutBusiness_wallet_transactionsInput, business_walletsUncheckedUpdateWithoutBusiness_wallet_transactionsInput>
+    create: XOR<business_walletsCreateWithoutBusiness_wallet_transactionsInput, business_walletsUncheckedCreateWithoutBusiness_wallet_transactionsInput>
+    where?: business_walletsWhereInput
+  }
+
+  export type business_walletsUpdateToOneWithWhereWithoutBusiness_wallet_transactionsInput = {
+    where?: business_walletsWhereInput
+    data: XOR<business_walletsUpdateWithoutBusiness_wallet_transactionsInput, business_walletsUncheckedUpdateWithoutBusiness_wallet_transactionsInput>
+  }
+
+  export type business_walletsUpdateWithoutBusiness_wallet_transactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUpdateOneRequiredWithoutBusiness_walletsNestedInput
+  }
+
+  export type business_walletsUncheckedUpdateWithoutBusiness_wallet_transactionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    business_profile_id?: StringFieldUpdateOperationsInput | string
+    balance?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total_spent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    currency?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ratingsCreateWithoutWorker_assignmentsInput = {
@@ -72538,6 +74351,58 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_wallet_transactionsCreateManyBusiness_walletsInput = {
+    id?: string
+    type: $Enums.transaction_type_enum
+    amount: Decimal | DecimalJsLike | number | string
+    balance_after: Decimal | DecimalJsLike | number | string
+    held_after: Decimal | DecimalJsLike | number | string
+    description?: string | null
+    shift_id?: string | null
+    reference_id?: string | null
+    created_at?: Date | string
+    created_by?: string | null
+  }
+
+  export type business_wallet_transactionsUpdateWithoutBusiness_walletsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    reference_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_wallet_transactionsUncheckedUpdateWithoutBusiness_walletsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    reference_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type business_wallet_transactionsUncheckedUpdateManyWithoutBusiness_walletsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: Enumtransaction_type_enumFieldUpdateOperationsInput | $Enums.transaction_type_enum
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    balance_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    held_after?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    reference_id?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ratingsCreateManyWorker_assignmentsInput = {

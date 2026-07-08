@@ -153,6 +153,11 @@ export const topUpRules = [
   body("method").optional().isIn(BUSINESS_TOPUP_METHODS).withMessage(`method must be one of: ${BUSINESS_TOPUP_METHODS.join(", ")}`),
 ];
 
+export const listWalletTxRules = [
+  query("page").optional().isInt({ min: 1 }),
+  query("limit").optional().isInt({ min: 1, max: 50 }),
+];
+
 /* ---------------------------- Applicants ---------------------------- */
 
 export const listApplicantsRules = [

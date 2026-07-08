@@ -18,6 +18,7 @@ import {
   applicationIdRules,
   bulkDecisionRules,
   topUpRules,
+  listWalletTxRules,
 } from "./business.validation.js";
 
 const router = Router();
@@ -38,6 +39,7 @@ router.patch("/profile/preferences", preferencesRules, businessController.update
 
 // Wallet (escrow funding) — reading is open; funding requires verification
 router.get("/wallet", businessController.getWallet);
+router.get("/wallet/transactions", listWalletTxRules, businessController.listWalletTransactions);
 router.post("/wallet/topup", verified, topUpRules, businessController.topUpWallet);
 
 // Dashboard

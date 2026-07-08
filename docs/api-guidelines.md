@@ -792,7 +792,7 @@ Worker-facing shift discovery feed and detail. All endpoints require:
 - `Authorization: Bearer <access_token>`
 - Active context must be `worker` (see [Account context](#account-context-active-role))
 
-Only shifts with status `published` or `applications_open` (and `shift_date` today or later) appear in discovery. Each shift carries computed slot counters:
+Only shifts with status `published` or `applications_open` (and `shift_date` today or later) appear in discovery. A worker's **own business's** shifts are excluded from the feed, the dashboard counters, and cannot be applied to (a single user may hold both a worker and a business profile — same identity — but can't work their own posts; see the self-dealing `403` on [POST `/applications`](#post-applications)). Each shift carries computed slot counters:
 
 | Field | Meaning |
 |---|---|
@@ -898,6 +898,8 @@ GET /api/v1/shifts?filter=high_pay&page=1&limit=10
 
 > `start_time` / `end_time` are time-only values returned as ISO timestamps on the `1970-01-01` epoch date — read the time portion only.
 >
+> **Timezone:** all shift dates/times are **Bangladesh local wall-clock (UTC+6)**. A shift saved as `18:18` means 6:18 PM BDT. The server converts these to real UTC when it checks the check-in/out window, cancellation timing, and expiry — so send/read them as local time, not UTC.
+>
 > `coordinates` is `{ latitude, longitude }` (WGS84) decoded from the PostGIS point, or `null` when the shift has no location set. Present on both the list and detail responses. On detail, the nested `business_profiles` carries its own `coordinates` in the same shape.
 >
 > `has_applied` / `my_application` reflect the **requesting worker's** own application on the shift. `my_application` is `{ id, status }` (status is any of the [application lifecycle](#applications) values, e.g. `pending`, `accepted`, `withdrawn`) or `null` if the worker never applied. When `has_applied` is `true` the apply button should be disabled — re-apply is rejected server-side (`409`), including after a withdrawal. Present on both list and detail.
@@ -920,6 +922,8 @@ Single shift detail. Includes richer business info (reliability + verification).
 | Path param | Type | Notes |
 |---|---|---|
 | `id` | UUID | Shift ID |
+
+**Errors:** `404 Shift not found` (unknown/deleted), `403 You can't view a shift posted by your own business account` (self-dealing — one identity may hold both profiles).
 
 **Response `200`**
 ```json
@@ -1031,6 +1035,7 @@ Apply to a shift. Requires a verified worker profile. On success the owning busi
 |---|---|---|
 | `403` | `Your worker profile must be verified by an admin first` | Profile not verified |
 | `403` | `Complete your worker profile to continue` | No worker profile yet |
+| `403` | `You can't apply to a shift posted by your own business account` | Self-dealing — the shift's owning user is you (one identity may hold both profiles) |
 | `404` | `Shift not found` | Unknown/deleted shift |
 | `409` | `This shift is not accepting applications` | Shift not in an applyable state |
 | `409` | `This shift has already passed` | `shift_date` in the past |
@@ -1387,6 +1392,41 @@ Business wallet snapshot — funds shift escrow. Auto-creates the wallet on firs
 
 ---
 
+### GET `/business/wallet/transactions`
+
+Paginated business-wallet ledger (newest first) — the audit trail behind `balance`/`held`/`total_spent`. Every money move is recorded: top-up, escrow hold (shift submitted), escrow release at settlement (worker-payout spend + any remainder returned), escrow refund (cancel/reject), and cancellation-penalty spend. Role: `business` (read-only; verification not required).
+
+**Query:** `page`, `limit` (≤50, default 20).
+
+**Response `200`** (`data`):
+```json
+{
+  "items": [
+    {
+      "id": "uuid",
+      "type": "debit",
+      "amount": "2400.00",
+      "balance_after": "1100.00",
+      "held_after": "2400.00",
+      "description": "Escrow held: \"Evening waiter\"",
+      "shift_id": "uuid",
+      "reference_id": null,
+      "created_at": "2026-07-07T10:00:00.000Z"
+    }
+  ],
+  "pagination": { "page": 1, "limit": 20, "total": 5, "total_pages": 1 }
+}
+```
+| Field | Meaning |
+|---|---|
+| `type` | `credit` (funds in / returned) or `debit` (funds held or spent) |
+| `balance_after` / `held_after` | Wallet spendable + escrowed balances **after** this entry |
+| `shift_id` | The shift the move relates to (`null` for top-ups) |
+
+**Errors:** `404 Create your business profile first` (no profile yet).
+
+---
+
 ### POST `/business/wallet/topup`
 
 Adds funds to the wallet's spendable `balance`. Role: `business`.
@@ -1682,6 +1722,7 @@ Rejects an applicant (→ `rejected`). Notifies the worker.
 | Code | Message | Cause |
 |---|---|---|
 | `404` | `Applicant not found` | Application missing or not on a shift owned by this business |
+| `403` | `You can't hire or screen your own worker profile` | Self-dealing — the applicant is your own worker profile |
 | `409` | `This applicant is already '<state>'` | Already `accepted`/`rejected`/`withdrawn`/etc. |
 | `409` | `Only a shortlisted applicant can be moved back to pending …` | (unshortlist only) applicant is not `shortlisted` |
 | `409` | `This shift is already fully staffed` | (accept only) hired count reached `workers_needed` |
@@ -1690,7 +1731,7 @@ Rejects an applicant (→ `rejected`). Notifies the worker.
 
 ### POST `/business/shifts/:id/applicants/bulk`
 
-Bulk-shortlist or bulk-reject applicants on an owned shift in one call. Role: `business`, **admin-verified**. Only still-decidable (`pending`/`shortlisted`) applicants that belong to this shift are touched; already-decided or foreign ids are silently skipped and counted. Notifies each affected worker. Hiring is intentionally **not** a bulk action (capacity is enforced per-slot via `accept`).
+Bulk-shortlist or bulk-reject applicants on an owned shift in one call. Role: `business`, **admin-verified**. Only still-decidable (`pending`/`shortlisted`) applicants that belong to this shift are touched; already-decided or foreign ids — and the caller's **own** worker profile (self-dealing) — are silently skipped and counted. Notifies each affected worker. Hiring is intentionally **not** a bulk action (capacity is enforced per-slot via `accept`).
 
 **Body**
 

@@ -14,6 +14,7 @@ import { createNotification } from "../notification/notification.service.js";
 import { currentCheckinCode } from "../../utils/qrToken.js";
 import { buildRoadmap, isForwardTransition } from "../../utils/shiftRoadmap.js";
 import { computeCancellation } from "../../utils/cancellationPenalty.js";
+import { shiftInstant } from "../../utils/shiftTime.js";
 
 const { ACTIVE_SHIFT_STATUSES } = businessRepository;
 
@@ -137,14 +138,36 @@ const shiftPlatformFee = (payAmount, workersNeeded) =>
   shiftEscrowCost(payAmount, workersNeeded).times(PLATFORM_FEE_PERCENT).dividedBy(100).toDecimalPlaces(2);
 
 /**
- * Moves `cost` from the business wallet's spendable balance into `held`. Throws
- * 402 when the wallet can't cover it. Runs inside the caller's transaction.
+ * Appends a ledger row for a business-wallet move, stamping the resulting balance
+ * and held so the history fully explains every state change. Shares the caller's
+ * transaction (the row can't diverge from the balance it records).
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} client
+ * @param {{ id: string, balance: Prisma.Decimal, held: Prisma.Decimal }} wallet updated wallet
+ * @param {{ type: "credit"|"debit", amount: Prisma.Decimal|string|number, description?: string, shiftId?: string, userId?: string }} entry
+ */
+const recordWalletLedger = (client, wallet, { type, amount, description, shiftId, userId }) =>
+  businessRepository.createBusinessWalletTransaction({
+    business_wallet_id: wallet.id,
+    type,
+    amount: new Prisma.Decimal(amount).toDecimalPlaces(2),
+    balance_after: wallet.balance,
+    held_after: wallet.held,
+    description: description ?? null,
+    shift_id: shiftId ?? null,
+    created_by: userId ?? null,
+  }, client);
+
+/**
+ * Moves `cost` from the business wallet's spendable balance into `held` and logs a
+ * `debit` ledger row. Throws 402 when the wallet can't cover it. Runs inside the
+ * caller's transaction.
  * @param {import("../../prisma/index.js").Prisma.TransactionClient} tx
  * @param {string} profileId
  * @param {string} userId
  * @param {Prisma.Decimal} cost
+ * @param {{ shiftId?: string, description?: string }} [meta]
  */
-const reserveFromWallet = async (tx, profileId, userId, cost) => {
+const reserveFromWallet = async (tx, profileId, userId, cost, meta = {}) => {
   const wallet = await businessRepository.ensureBusinessWallet(profileId, userId, BUSINESS_WALLET_SEED_BALANCE, tx);
   if (new Prisma.Decimal(wallet.balance).lessThan(cost)) {
     throw new AppError(
@@ -152,28 +175,35 @@ const reserveFromWallet = async (tx, profileId, userId, cost) => {
       402,
     );
   }
-  await businessRepository.updateBusinessWallet(wallet.id, {
+  const updated = await businessRepository.updateBusinessWallet(wallet.id, {
     balance: new Prisma.Decimal(wallet.balance).minus(cost),
     held: new Prisma.Decimal(wallet.held).plus(cost),
     updated_by: userId,
   }, tx);
+  await recordWalletLedger(tx, updated, {
+    type: "debit", amount: cost, description: meta.description ?? "Shift escrow held", shiftId: meta.shiftId, userId,
+  });
 };
 
 /**
- * Returns a held amount from `held` back to spendable balance.
+ * Returns a held amount from `held` back to spendable balance and logs a `credit`.
  * @param {import("../../prisma/index.js").Prisma.TransactionClient} tx
  * @param {string} profileId
  * @param {string} userId
  * @param {Prisma.Decimal|string|number} amount
+ * @param {{ shiftId?: string, description?: string }} [meta]
  */
-const returnToWallet = async (tx, profileId, userId, amount) => {
+const returnToWallet = async (tx, profileId, userId, amount, meta = {}) => {
   const wallet = await businessRepository.ensureBusinessWallet(profileId, userId, BUSINESS_WALLET_SEED_BALANCE, tx);
   const amt = new Prisma.Decimal(amount);
-  await businessRepository.updateBusinessWallet(wallet.id, {
+  const updated = await businessRepository.updateBusinessWallet(wallet.id, {
     balance: new Prisma.Decimal(wallet.balance).plus(amt),
     held: new Prisma.Decimal(wallet.held).minus(amt),
     updated_by: userId,
   }, tx);
+  await recordWalletLedger(tx, updated, {
+    type: "credit", amount: amt, description: meta.description ?? "Escrow returned", shiftId: meta.shiftId, userId,
+  });
 };
 
 /**
@@ -186,7 +216,9 @@ const returnToWallet = async (tx, profileId, userId, amount) => {
  */
 export const refundShiftEscrow = async (shift, actorId, tx = prisma) => {
   if (shift.escrow_status !== "held") return;
-  await returnToWallet(tx, shift.business_profile_id, actorId, shift.escrow_amount);
+  await returnToWallet(tx, shift.business_profile_id, actorId, shift.escrow_amount, {
+    shiftId: shift.id, description: "Escrow refunded",
+  });
   await businessRepository.updateShift(shift.id, { escrow_status: "refunded", updated_by: actorId }, tx);
   logger.info(`Shift escrow refunded | shiftId=${shift.id} amount=${shift.escrow_amount}`);
 };
@@ -207,13 +239,25 @@ export const releaseShiftEscrow = async (tx, shift, totalPaid, actorId) => {
   const spent = new Prisma.Decimal(totalPaid);
   const unspent = escrow.minus(spent);
 
-  await businessRepository.updateBusinessWallet(wallet.id, {
+  const updated = await businessRepository.updateBusinessWallet(wallet.id, {
     held: new Prisma.Decimal(wallet.held).minus(escrow),
     balance: new Prisma.Decimal(wallet.balance).plus(unspent),
     total_spent: new Prisma.Decimal(wallet.total_spent).plus(spent),
     updated_by: actorId,
   }, tx);
   await businessRepository.updateShift(shift.id, { escrow_status: "released", updated_by: actorId }, tx);
+
+  // Ledger: the spent portion leaves the wallet; any unspent remainder returns.
+  if (spent.greaterThan(0)) {
+    await recordWalletLedger(tx, updated, {
+      type: "debit", amount: spent, description: "Shift escrow released — worker payouts", shiftId: shift.id, userId: actorId,
+    });
+  }
+  if (unspent.greaterThan(0)) {
+    await recordWalletLedger(tx, updated, {
+      type: "credit", amount: unspent, description: "Escrow remainder returned", shiftId: shift.id, userId: actorId,
+    });
+  }
   logger.info(`Shift escrow released | shiftId=${shift.id} spent=${spent} returned=${unspent}`);
 };
 
@@ -242,12 +286,38 @@ export const topUpWallet = async (userId, { amount, method }) => {
   }
 
   const wallet = await businessRepository.ensureBusinessWallet(profile.id, userId, BUSINESS_WALLET_SEED_BALANCE);
-  const updated = await businessRepository.updateBusinessWallet(wallet.id, {
-    balance: new Prisma.Decimal(wallet.balance).plus(amt),
-    updated_by: userId,
+  const updated = await prisma.$transaction(async (tx) => {
+    const w = await businessRepository.updateBusinessWallet(wallet.id, {
+      balance: new Prisma.Decimal(wallet.balance).plus(amt),
+      updated_by: userId,
+    }, tx);
+    await recordWalletLedger(tx, w, {
+      type: "credit", amount: amt, description: `Wallet top-up (${method ?? "manual"})`, userId,
+    });
+    return w;
   });
   logger.info(`Business wallet topped up | userId=${userId} amount=${amt} method=${method ?? "manual"}`);
   return updated;
+};
+
+/**
+ * Paginated business-wallet ledger (newest first) for the wallet history screen.
+ * @param {string} userId
+ * @param {{ page?: number, limit?: number }} query
+ */
+export const listWalletTransactions = async (userId, query) => {
+  const profile = await getProfileSummaryOrThrow(userId);
+  const wallet = await businessRepository.ensureBusinessWallet(profile.id, userId, BUSINESS_WALLET_SEED_BALANCE);
+  const page = Math.max(1, query.page ?? 1);
+  const limit = Math.min(50, Math.max(1, query.limit ?? 20));
+  const skip = (page - 1) * limit;
+
+  const [items, total] = await Promise.all([
+    businessRepository.findBusinessWalletTransactions({ businessWalletId: wallet.id, skip, take: limit }),
+    businessRepository.countBusinessWalletTransactions(wallet.id),
+  ]);
+
+  return { items, pagination: { page, limit, total, total_pages: Math.ceil(total / limit) } };
 };
 
 /* ============================================================
@@ -430,8 +500,13 @@ export const createShift = async (userId, data) => {
 
   const shift = isSubmitting
     ? await prisma.$transaction(async (tx) => {
-        await reserveFromWallet(tx, profile.id, userId, cost);
-        return persist(tx);
+        // Create first so the escrow ledger row can reference the new shift id,
+        // then reserve — a funding failure still rolls back the whole tx.
+        const created = await persist(tx);
+        await reserveFromWallet(tx, profile.id, userId, cost, {
+          shiftId: created.id, description: `Escrow held: "${created.title}"`,
+        });
+        return created;
       })
     : await persist();
 
@@ -552,7 +627,9 @@ export const publishShift = async (userId, shiftId) => {
 
   // Reserve the escrow and flip status atomically.
   const updated = await prisma.$transaction(async (tx) => {
-    await reserveFromWallet(tx, profile.id, userId, cost);
+    await reserveFromWallet(tx, profile.id, userId, cost, {
+      shiftId, description: `Escrow held: "${shift.title ?? "shift"}"`,
+    });
     return businessRepository.updateShift(shiftId, {
       status: "pending_approval",
       escrow_amount: cost,
@@ -568,12 +645,6 @@ export const publishShift = async (userId, shiftId) => {
  * Shift cancellation / deletion (with worker compensation)
  * ========================================================== */
 
-/** Composes a shift's DATE column + a TIME column into one UTC datetime. */
-const composeDateTime = (shiftDate, time) => new Date(Date.UTC(
-  shiftDate.getUTCFullYear(), shiftDate.getUTCMonth(), shiftDate.getUTCDate(),
-  time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds(),
-));
-
 /**
  * Runs the penalty engine for a shift and turns the per-worker rates into money.
  * Returns both the client-facing breakdown DTO and the raw figures the executor
@@ -584,8 +655,8 @@ const composeDateTime = (shiftDate, time) => new Date(Date.UTC(
  * @param {Date} now
  */
 const assembleCancellation = (shift, hired, applicantCount, now) => {
-  const startAt = composeDateTime(shift.shift_date, shift.start_time);
-  let endAt = composeDateTime(shift.shift_date, shift.end_time);
+  const startAt = shiftInstant(shift.shift_date, shift.start_time);
+  let endAt = shiftInstant(shift.shift_date, shift.end_time);
   if (endAt <= startAt) endAt = new Date(endAt.getTime() + 24 * 60 * 60 * 1000); // overnight
 
   const result = computeCancellation({
@@ -879,6 +950,11 @@ const getDecidableApplication = async (userId, applicationId) => {
   const profile = await getProfileSummaryOrThrow(userId);
   const application = await businessRepository.findOwnedApplication(applicationId, profile.id);
   if (!application) throw new AppError("Applicant not found", 404);
+  // Self-dealing guard (defence in depth): apply-time blocks self-applications, but
+  // never hire/screen your own worker profile even if a legacy row slipped through.
+  if (application.worker_profiles?.user_id === userId) {
+    throw new AppError("You can't hire or screen your own worker profile", 403);
+  }
   if (!DECIDABLE_APPLICATION_STATUSES.includes(application.status)) {
     throw new AppError(`This applicant is already '${application.status}'`, 409);
   }
@@ -1013,7 +1089,9 @@ export const bulkDecideApplicants = async (userId, shiftId, { action, applicatio
   if (!shift) throw new AppError("Shift not found", 404);
 
   const status = action === "shortlist" ? "shortlisted" : "rejected";
-  const apps = await businessRepository.findOwnedApplicationsForBulk(application_ids, profile.id, shiftId);
+  // Exclude the caller's own worker profile (self-dealing) from the batch.
+  const apps = (await businessRepository.findOwnedApplicationsForBulk(application_ids, profile.id, shiftId))
+    .filter((a) => a.worker_profiles?.user_id !== userId);
 
   if (apps.length > 0) {
     const ids = apps.map((a) => a.id);

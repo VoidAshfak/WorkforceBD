@@ -68,6 +68,12 @@ export const PENALTY_DEMAND_SATURATION_RATIO = 3;
 export const RELIABILITY_MAX_SCORE = 5;
 export const RELIABILITY_NEUTRAL_NORM = 0.5;
 
+// App operating timezone. Shift `shift_date`/`start_time`/`end_time` columns store
+// Bangladesh wall-clock (UTC+6, no DST) with no zone info. This offset converts
+// those naive values into real UTC instants when comparing against `now`
+// (check-in/out window, cancellation timing, shift expiry). See utils/shiftTime.js.
+export const APP_TZ_OFFSET_MINUTES = 360;
+
 // Chat tuning.
 // Max length of a single chat message body.
 export const CHAT_MESSAGE_MAX_LENGTH = 2000;

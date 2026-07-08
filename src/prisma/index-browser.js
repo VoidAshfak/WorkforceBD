@@ -512,6 +512,20 @@ exports.Prisma.Business_walletsScalarFieldEnum = {
   updated_by: 'updated_by'
 };
 
+exports.Prisma.Business_wallet_transactionsScalarFieldEnum = {
+  id: 'id',
+  business_wallet_id: 'business_wallet_id',
+  type: 'type',
+  amount: 'amount',
+  balance_after: 'balance_after',
+  held_after: 'held_after',
+  description: 'description',
+  shift_id: 'shift_id',
+  reference_id: 'reference_id',
+  created_at: 'created_at',
+  created_by: 'created_by'
+};
+
 exports.Prisma.Worker_assignmentsScalarFieldEnum = {
   id: 'id',
   shift_id: 'shift_id',
@@ -781,6 +795,7 @@ exports.Prisma.ModelName = {
   user_sanctions: 'user_sanctions',
   wallets: 'wallets',
   business_wallets: 'business_wallets',
+  business_wallet_transactions: 'business_wallet_transactions',
   worker_assignments: 'worker_assignments',
   worker_categories: 'worker_categories',
   worker_preferred_zones: 'worker_preferred_zones',

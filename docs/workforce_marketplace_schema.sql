@@ -653,6 +653,27 @@ CREATE TABLE business_wallets (
 
 CREATE INDEX idx_business_wallets_profile ON business_wallets(business_profile_id);
 
+-- Business wallet ledger: every balance/held movement (top-up, escrow hold,
+-- release/return, settlement spend, refund, cancellation penalty). balance_after
+-- and held_after snapshot the wallet state produced by each entry.
+CREATE TABLE business_wallet_transactions (
+    id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    business_wallet_id  UUID NOT NULL REFERENCES business_wallets(id) ON DELETE CASCADE,
+    type                transaction_type_enum NOT NULL,     -- credit | debit
+    amount              NUMERIC(10,2) NOT NULL,
+    balance_after       NUMERIC(12,2) NOT NULL,
+    held_after          NUMERIC(12,2) NOT NULL,
+    description         TEXT,
+    shift_id            UUID,
+    reference_id        VARCHAR(100),
+
+    created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    created_by          UUID
+);
+
+CREATE INDEX idx_bwt_wallet ON business_wallet_transactions(business_wallet_id, created_at DESC);
+CREATE INDEX idx_bwt_shift ON business_wallet_transactions(shift_id);
+
 -- All money movements (ledger)
 CREATE TABLE transactions (
     id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

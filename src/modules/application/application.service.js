@@ -8,6 +8,7 @@ import {
 } from "../../constants.js";
 import { verifyCheckinCode } from "../../utils/qrToken.js";
 import { buildRoadmap } from "../../utils/shiftRoadmap.js";
+import { shiftInstant } from "../../utils/shiftTime.js";
 import { advanceShiftStatus } from "../business/business.service.js";
 import * as applicationRepository from "./application.repository.js";
 import * as notificationRepository from "../notification/notification.repository.js";
@@ -91,6 +92,11 @@ export const applyToShift = async (userId, { shift_id, note }) => {
 
   const shift = await applicationRepository.findShiftById(shift_id);
   if (!shift) throw new AppError("Shift not found", 404);
+  // Self-dealing guard: one user can hold both a worker and a business profile
+  // (same identity — phone). Block applying to a shift your own business posted.
+  if (shift.business_profiles?.user_id === userId) {
+    throw new AppError("You can't apply to a shift posted by your own business account", 403);
+  }
   if (!APPLYABLE_SHIFT_STATUSES.includes(shift.status)) {
     throw new AppError("This shift is not accepting applications", 409);
   }
@@ -209,12 +215,10 @@ export const withdrawApplication = async (userId, applicationId) => {
  * @returns {{ open: Date, close: Date }}
  */
 const checkinWindow = ({ shift_date, start_time, end_time }) => {
-  const at = (time) => new Date(Date.UTC(
-    shift_date.getUTCFullYear(), shift_date.getUTCMonth(), shift_date.getUTCDate(),
-    time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds(),
-  ));
-  const open = at(start_time);
-  let close = at(end_time);
+  // Stored times are Bangladesh wall-clock — convert to real UTC instants so the
+  // window lines up with `now` (see utils/shiftTime.js).
+  const open = shiftInstant(shift_date, start_time);
+  let close = shiftInstant(shift_date, end_time);
   if (close <= open) close = new Date(close.getTime() + 24 * 60 * 60 * 1000);
   open.setMinutes(open.getMinutes() - CHECKIN_GRACE_MINUTES);
   return { open, close };

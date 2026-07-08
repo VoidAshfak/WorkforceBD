@@ -101,6 +101,9 @@ export const listShifts = async (userId, query) => {
     : [];
 
   const where = buildWhere(filter, preferredZoneIds, query);
+  // Never surface a worker's own business's shifts in their discovery feed — one
+  // user can hold both profiles (same identity) but can't work their own posts.
+  where.business_profiles = { user_id: { not: userId } };
   const orderBy = filter === "high_pay"
     ? [{ pay_amount: "desc" }]
     : [{ shift_date: "asc" }, { start_time: "asc" }];
@@ -131,6 +134,11 @@ export const listShifts = async (userId, query) => {
 export const getShiftDetail = async (userId, id) => {
   const shift = await shiftRepository.findShiftById(id);
   if (!shift) throw new AppError("Shift not found", 404);
+  // Same-identity guard: a worker can't view (or apply to) their own business's shift.
+  if (shift.business_profiles?.user_id === userId) {
+    throw new AppError("You can't view a shift posted by your own business account", 403);
+  }
+  if (shift.business_profiles) delete shift.business_profiles.user_id; // internal-only — never expose
 
   const workerProfileId = await shiftRepository.findWorkerProfileId(userId);
   const myApp = workerProfileId
@@ -145,7 +153,8 @@ export const getShiftDetail = async (userId, id) => {
  */
 export const getDashboard = async (userId) => {
   const preferredZoneIds = await shiftRepository.findPreferredZoneIds(userId);
-  const base = { deleted_at: null, status: { in: OPEN_STATUSES } };
+  // Exclude the worker's own business's shifts from every discovery counter too.
+  const base = { deleted_at: null, status: { in: OPEN_STATUSES }, business_profiles: { user_id: { not: userId } } };
 
   const [shiftsToday, nearby, urgent] = await Promise.all([
     shiftRepository.countShifts({

@@ -66,6 +66,13 @@ export const topUpWallet = asyncHandler(async (req, res) => {
   return sendSuccess(res, 200, "Wallet topped up", wallet);
 });
 
+export const listWalletTransactions = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const { page, limit } = req.query;
+  const data = await businessService.listWalletTransactions(req.user.id, { page: Number(page) || undefined, limit: Number(limit) || undefined });
+  return sendSuccess(res, 200, "Wallet transactions fetched", data);
+});
+
 /* ----------------------------- Dashboard --------------------------- */
 
 export const getDashboard = asyncHandler(async (req, res) => {

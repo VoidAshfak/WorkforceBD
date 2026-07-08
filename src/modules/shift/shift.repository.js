@@ -85,6 +85,7 @@ export const findShiftById = async (id) => {
       business_profiles: {
         select: {
           id: true,
+          user_id: true,
           business_name: true,
           logo_url: true,
           reliability_score: true,
