@@ -15,6 +15,8 @@ import adminRoutes from "./modules/admin/admin.routes.js";
 import realtimeRoutes from "./modules/realtime/realtime.routes.js";
 import chatRoutes from "./modules/chat/chat.routes.js";
 import categoryRoutes from "./modules/category/category.routes.js";
+import disputeRoutes from "./modules/dispute/dispute.routes.js";
+import ratingRoutes from "./modules/rating/rating.routes.js";
 import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
@@ -39,6 +41,8 @@ app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/realtime", realtimeRoutes);
 app.use("/api/v1/chat", chatRoutes);
 app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/disputes", disputeRoutes);
+app.use("/api/v1/ratings", ratingRoutes);
 
 app.use(errorHandler);
 

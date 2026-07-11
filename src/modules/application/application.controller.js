@@ -48,5 +48,13 @@ export const checkOut = asyncHandler(async (req, res) => {
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
 
   const assignment = await applicationService.checkOut(req.user.id, req.params.id);
-  return sendSuccess(res, 200, "Checked out", assignment);
+  return sendSuccess(res, 200, "Checked out — awaiting business confirmation", assignment);
+});
+
+export const confirmCheckout = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
+
+  const assignment = await applicationService.confirmCheckout(req.user.id, req.params.id);
+  return sendSuccess(res, 200, "Check-out confirmed — payment released", assignment);
 });

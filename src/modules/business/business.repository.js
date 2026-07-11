@@ -321,7 +321,7 @@ export const findHiredForCancellation = (shiftId) => {
       worker_profiles: { select: { id: true, user_id: true, full_name: true, reliability_score: true } },
       worker_assignments: {
         where: { deleted_at: null },
-        select: { id: true, created_at: true, checked_in_at: true },
+        select: { id: true, created_at: true, checked_in_at: true, paid_at: true },
         take: 1,
       },
     },
@@ -404,9 +404,15 @@ export const findShiftRoster = (shiftId) => {
     orderBy: [{ checked_in_at: { sort: "asc", nulls: "last" } }],
     select: {
       id: true,
+      application_id: true,
       checked_in_at: true,
       checked_out_at: true,
       checkin_method: true,
+      checkout_by: true,
+      completion_status: true,
+      auto_confirm_at: true,
+      paid_amount: true,
+      paid_at: true,
       worker_profiles: {
         select: { id: true, full_name: true, profile_picture: true, reliability_score: true },
       },

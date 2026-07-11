@@ -20,3 +20,16 @@ export const shiftInstant = (shiftDate, time) => {
   );
   return new Date(naive - APP_TZ_OFFSET_MINUTES * 60000);
 };
+
+/**
+ * Real UTC [start, end] window of a shift. An end time at/before the start time
+ * means an overnight shift — the end rolls over to the next day.
+ * @param {{ shift_date: Date, start_time: Date, end_time: Date }} shift
+ * @returns {{ start: Date, end: Date }}
+ */
+export const shiftWindow = ({ shift_date, start_time, end_time }) => {
+  const start = shiftInstant(shift_date, start_time);
+  let end = shiftInstant(shift_date, end_time);
+  if (end <= start) end = new Date(end.getTime() + 24 * 60 * 60 * 1000);
+  return { start, end };
+};

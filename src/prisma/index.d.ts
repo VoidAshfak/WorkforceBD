@@ -178,7 +178,20 @@ export type chat_messages = $Result.DefaultSelection<Prisma.$chat_messagesPayloa
  * Enums
  */
 export namespace $Enums {
-  export const application_status_enum: {
+  export const assignment_completion_enum: {
+  pending: 'pending',
+  worker_done: 'worker_done',
+  business_done: 'business_done',
+  confirmed: 'confirmed',
+  disputed: 'disputed',
+  resolved: 'resolved',
+  no_show: 'no_show'
+};
+
+export type assignment_completion_enum = (typeof assignment_completion_enum)[keyof typeof assignment_completion_enum]
+
+
+export const application_status_enum: {
   pending: 'pending',
   shortlisted: 'shortlisted',
   accepted: 'accepted',
@@ -360,6 +373,10 @@ export const verification_status_enum: {
 export type verification_status_enum = (typeof verification_status_enum)[keyof typeof verification_status_enum]
 
 }
+
+export type assignment_completion_enum = $Enums.assignment_completion_enum
+
+export const assignment_completion_enum: typeof $Enums.assignment_completion_enum
 
 export type application_status_enum = $Enums.application_status_enum
 
@@ -4633,11 +4650,13 @@ export namespace Prisma {
    */
 
   export type Worker_assignmentsCountOutputType = {
+    disputes: number
     ratings: number
     transactions: number
   }
 
   export type Worker_assignmentsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    disputes?: boolean | Worker_assignmentsCountOutputTypeCountDisputesArgs
     ratings?: boolean | Worker_assignmentsCountOutputTypeCountRatingsArgs
     transactions?: boolean | Worker_assignmentsCountOutputTypeCountTransactionsArgs
   }
@@ -4651,6 +4670,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the Worker_assignmentsCountOutputType
      */
     select?: Worker_assignmentsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * Worker_assignmentsCountOutputType without action
+   */
+  export type Worker_assignmentsCountOutputTypeCountDisputesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: disputesWhereInput
   }
 
   /**
@@ -21814,18 +21840,31 @@ export namespace Prisma {
 
   export type AggregateDisputes = {
     _count: DisputesCountAggregateOutputType | null
+    _avg: DisputesAvgAggregateOutputType | null
+    _sum: DisputesSumAggregateOutputType | null
     _min: DisputesMinAggregateOutputType | null
     _max: DisputesMaxAggregateOutputType | null
+  }
+
+  export type DisputesAvgAggregateOutputType = {
+    resolved_amount: Decimal | null
+  }
+
+  export type DisputesSumAggregateOutputType = {
+    resolved_amount: Decimal | null
   }
 
   export type DisputesMinAggregateOutputType = {
     id: string | null
     report_id: string | null
     shift_id: string | null
+    assignment_id: string | null
     raised_by: string | null
     against_user: string | null
     description: string | null
     status: $Enums.report_status_enum | null
+    decision: string | null
+    resolved_amount: Decimal | null
     resolved_by: string | null
     resolution_note: string | null
     created_at: Date | null
@@ -21839,10 +21878,13 @@ export namespace Prisma {
     id: string | null
     report_id: string | null
     shift_id: string | null
+    assignment_id: string | null
     raised_by: string | null
     against_user: string | null
     description: string | null
     status: $Enums.report_status_enum | null
+    decision: string | null
+    resolved_amount: Decimal | null
     resolved_by: string | null
     resolution_note: string | null
     created_at: Date | null
@@ -21856,10 +21898,13 @@ export namespace Prisma {
     id: number
     report_id: number
     shift_id: number
+    assignment_id: number
     raised_by: number
     against_user: number
     description: number
     status: number
+    decision: number
+    resolved_amount: number
     resolved_by: number
     resolution_note: number
     created_at: number
@@ -21871,14 +21916,25 @@ export namespace Prisma {
   }
 
 
+  export type DisputesAvgAggregateInputType = {
+    resolved_amount?: true
+  }
+
+  export type DisputesSumAggregateInputType = {
+    resolved_amount?: true
+  }
+
   export type DisputesMinAggregateInputType = {
     id?: true
     report_id?: true
     shift_id?: true
+    assignment_id?: true
     raised_by?: true
     against_user?: true
     description?: true
     status?: true
+    decision?: true
+    resolved_amount?: true
     resolved_by?: true
     resolution_note?: true
     created_at?: true
@@ -21892,10 +21948,13 @@ export namespace Prisma {
     id?: true
     report_id?: true
     shift_id?: true
+    assignment_id?: true
     raised_by?: true
     against_user?: true
     description?: true
     status?: true
+    decision?: true
+    resolved_amount?: true
     resolved_by?: true
     resolution_note?: true
     created_at?: true
@@ -21909,10 +21968,13 @@ export namespace Prisma {
     id?: true
     report_id?: true
     shift_id?: true
+    assignment_id?: true
     raised_by?: true
     against_user?: true
     description?: true
     status?: true
+    decision?: true
+    resolved_amount?: true
     resolved_by?: true
     resolution_note?: true
     created_at?: true
@@ -21961,6 +22023,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: DisputesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DisputesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: DisputesMinAggregateInputType
@@ -21991,6 +22065,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: DisputesCountAggregateInputType | true
+    _avg?: DisputesAvgAggregateInputType
+    _sum?: DisputesSumAggregateInputType
     _min?: DisputesMinAggregateInputType
     _max?: DisputesMaxAggregateInputType
   }
@@ -21999,10 +22075,13 @@ export namespace Prisma {
     id: string
     report_id: string | null
     shift_id: string | null
+    assignment_id: string | null
     raised_by: string
     against_user: string
     description: string | null
     status: $Enums.report_status_enum
+    decision: string | null
+    resolved_amount: Decimal | null
     resolved_by: string | null
     resolution_note: string | null
     created_at: Date
@@ -22011,6 +22090,8 @@ export namespace Prisma {
     created_by: string | null
     updated_by: string | null
     _count: DisputesCountAggregateOutputType | null
+    _avg: DisputesAvgAggregateOutputType | null
+    _sum: DisputesSumAggregateOutputType | null
     _min: DisputesMinAggregateOutputType | null
     _max: DisputesMaxAggregateOutputType | null
   }
@@ -22033,10 +22114,13 @@ export namespace Prisma {
     id?: boolean
     report_id?: boolean
     shift_id?: boolean
+    assignment_id?: boolean
     raised_by?: boolean
     against_user?: boolean
     description?: boolean
     status?: boolean
+    decision?: boolean
+    resolved_amount?: boolean
     resolved_by?: boolean
     resolution_note?: boolean
     created_at?: boolean
@@ -22049,16 +22133,20 @@ export namespace Prisma {
     reports?: boolean | disputes$reportsArgs<ExtArgs>
     users_disputes_resolved_byTousers?: boolean | disputes$users_disputes_resolved_byTousersArgs<ExtArgs>
     shifts?: boolean | disputes$shiftsArgs<ExtArgs>
+    worker_assignments?: boolean | disputes$worker_assignmentsArgs<ExtArgs>
   }, ExtArgs["result"]["disputes"]>
 
   export type disputesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     report_id?: boolean
     shift_id?: boolean
+    assignment_id?: boolean
     raised_by?: boolean
     against_user?: boolean
     description?: boolean
     status?: boolean
+    decision?: boolean
+    resolved_amount?: boolean
     resolved_by?: boolean
     resolution_note?: boolean
     created_at?: boolean
@@ -22071,16 +22159,20 @@ export namespace Prisma {
     reports?: boolean | disputes$reportsArgs<ExtArgs>
     users_disputes_resolved_byTousers?: boolean | disputes$users_disputes_resolved_byTousersArgs<ExtArgs>
     shifts?: boolean | disputes$shiftsArgs<ExtArgs>
+    worker_assignments?: boolean | disputes$worker_assignmentsArgs<ExtArgs>
   }, ExtArgs["result"]["disputes"]>
 
   export type disputesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     report_id?: boolean
     shift_id?: boolean
+    assignment_id?: boolean
     raised_by?: boolean
     against_user?: boolean
     description?: boolean
     status?: boolean
+    decision?: boolean
+    resolved_amount?: boolean
     resolved_by?: boolean
     resolution_note?: boolean
     created_at?: boolean
@@ -22093,16 +22185,20 @@ export namespace Prisma {
     reports?: boolean | disputes$reportsArgs<ExtArgs>
     users_disputes_resolved_byTousers?: boolean | disputes$users_disputes_resolved_byTousersArgs<ExtArgs>
     shifts?: boolean | disputes$shiftsArgs<ExtArgs>
+    worker_assignments?: boolean | disputes$worker_assignmentsArgs<ExtArgs>
   }, ExtArgs["result"]["disputes"]>
 
   export type disputesSelectScalar = {
     id?: boolean
     report_id?: boolean
     shift_id?: boolean
+    assignment_id?: boolean
     raised_by?: boolean
     against_user?: boolean
     description?: boolean
     status?: boolean
+    decision?: boolean
+    resolved_amount?: boolean
     resolved_by?: boolean
     resolution_note?: boolean
     created_at?: boolean
@@ -22112,13 +22208,14 @@ export namespace Prisma {
     updated_by?: boolean
   }
 
-  export type disputesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "report_id" | "shift_id" | "raised_by" | "against_user" | "description" | "status" | "resolved_by" | "resolution_note" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["disputes"]>
+  export type disputesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "report_id" | "shift_id" | "assignment_id" | "raised_by" | "against_user" | "description" | "status" | "decision" | "resolved_amount" | "resolved_by" | "resolution_note" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["disputes"]>
   export type disputesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users_disputes_against_userTousers?: boolean | usersDefaultArgs<ExtArgs>
     users_disputes_raised_byTousers?: boolean | usersDefaultArgs<ExtArgs>
     reports?: boolean | disputes$reportsArgs<ExtArgs>
     users_disputes_resolved_byTousers?: boolean | disputes$users_disputes_resolved_byTousersArgs<ExtArgs>
     shifts?: boolean | disputes$shiftsArgs<ExtArgs>
+    worker_assignments?: boolean | disputes$worker_assignmentsArgs<ExtArgs>
   }
   export type disputesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users_disputes_against_userTousers?: boolean | usersDefaultArgs<ExtArgs>
@@ -22126,6 +22223,7 @@ export namespace Prisma {
     reports?: boolean | disputes$reportsArgs<ExtArgs>
     users_disputes_resolved_byTousers?: boolean | disputes$users_disputes_resolved_byTousersArgs<ExtArgs>
     shifts?: boolean | disputes$shiftsArgs<ExtArgs>
+    worker_assignments?: boolean | disputes$worker_assignmentsArgs<ExtArgs>
   }
   export type disputesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users_disputes_against_userTousers?: boolean | usersDefaultArgs<ExtArgs>
@@ -22133,6 +22231,7 @@ export namespace Prisma {
     reports?: boolean | disputes$reportsArgs<ExtArgs>
     users_disputes_resolved_byTousers?: boolean | disputes$users_disputes_resolved_byTousersArgs<ExtArgs>
     shifts?: boolean | disputes$shiftsArgs<ExtArgs>
+    worker_assignments?: boolean | disputes$worker_assignmentsArgs<ExtArgs>
   }
 
   export type $disputesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22143,15 +22242,19 @@ export namespace Prisma {
       reports: Prisma.$reportsPayload<ExtArgs> | null
       users_disputes_resolved_byTousers: Prisma.$usersPayload<ExtArgs> | null
       shifts: Prisma.$shiftsPayload<ExtArgs> | null
+      worker_assignments: Prisma.$worker_assignmentsPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       report_id: string | null
       shift_id: string | null
+      assignment_id: string | null
       raised_by: string
       against_user: string
       description: string | null
       status: $Enums.report_status_enum
+      decision: string | null
+      resolved_amount: Prisma.Decimal | null
       resolved_by: string | null
       resolution_note: string | null
       created_at: Date
@@ -22558,6 +22661,7 @@ export namespace Prisma {
     reports<T extends disputes$reportsArgs<ExtArgs> = {}>(args?: Subset<T, disputes$reportsArgs<ExtArgs>>): Prisma__reportsClient<$Result.GetResult<Prisma.$reportsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     users_disputes_resolved_byTousers<T extends disputes$users_disputes_resolved_byTousersArgs<ExtArgs> = {}>(args?: Subset<T, disputes$users_disputes_resolved_byTousersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     shifts<T extends disputes$shiftsArgs<ExtArgs> = {}>(args?: Subset<T, disputes$shiftsArgs<ExtArgs>>): Prisma__shiftsClient<$Result.GetResult<Prisma.$shiftsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    worker_assignments<T extends disputes$worker_assignmentsArgs<ExtArgs> = {}>(args?: Subset<T, disputes$worker_assignmentsArgs<ExtArgs>>): Prisma__worker_assignmentsClient<$Result.GetResult<Prisma.$worker_assignmentsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22590,10 +22694,13 @@ export namespace Prisma {
     readonly id: FieldRef<"disputes", 'String'>
     readonly report_id: FieldRef<"disputes", 'String'>
     readonly shift_id: FieldRef<"disputes", 'String'>
+    readonly assignment_id: FieldRef<"disputes", 'String'>
     readonly raised_by: FieldRef<"disputes", 'String'>
     readonly against_user: FieldRef<"disputes", 'String'>
     readonly description: FieldRef<"disputes", 'String'>
     readonly status: FieldRef<"disputes", 'report_status_enum'>
+    readonly decision: FieldRef<"disputes", 'String'>
+    readonly resolved_amount: FieldRef<"disputes", 'Decimal'>
     readonly resolved_by: FieldRef<"disputes", 'String'>
     readonly resolution_note: FieldRef<"disputes", 'String'>
     readonly created_at: FieldRef<"disputes", 'DateTime'>
@@ -23056,6 +23163,25 @@ export namespace Prisma {
      */
     include?: shiftsInclude<ExtArgs> | null
     where?: shiftsWhereInput
+  }
+
+  /**
+   * disputes.worker_assignments
+   */
+  export type disputes$worker_assignmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the worker_assignments
+     */
+    select?: worker_assignmentsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the worker_assignments
+     */
+    omit?: worker_assignmentsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: worker_assignmentsInclude<ExtArgs> | null
+    where?: worker_assignmentsWhereInput
   }
 
   /**
@@ -36053,8 +36179,18 @@ export namespace Prisma {
 
   export type AggregateWorker_assignments = {
     _count: Worker_assignmentsCountAggregateOutputType | null
+    _avg: Worker_assignmentsAvgAggregateOutputType | null
+    _sum: Worker_assignmentsSumAggregateOutputType | null
     _min: Worker_assignmentsMinAggregateOutputType | null
     _max: Worker_assignmentsMaxAggregateOutputType | null
+  }
+
+  export type Worker_assignmentsAvgAggregateOutputType = {
+    paid_amount: Decimal | null
+  }
+
+  export type Worker_assignmentsSumAggregateOutputType = {
+    paid_amount: Decimal | null
   }
 
   export type Worker_assignmentsMinAggregateOutputType = {
@@ -36065,6 +36201,13 @@ export namespace Prisma {
     checkin_method: $Enums.checkin_method_enum | null
     checked_in_at: Date | null
     checked_out_at: Date | null
+    checkout_by: string | null
+    completion_status: $Enums.assignment_completion_enum | null
+    worker_confirmed_at: Date | null
+    business_confirmed_at: Date | null
+    auto_confirm_at: Date | null
+    paid_amount: Decimal | null
+    paid_at: Date | null
     payment_status: $Enums.payment_status_enum | null
     created_at: Date | null
     updated_at: Date | null
@@ -36081,6 +36224,13 @@ export namespace Prisma {
     checkin_method: $Enums.checkin_method_enum | null
     checked_in_at: Date | null
     checked_out_at: Date | null
+    checkout_by: string | null
+    completion_status: $Enums.assignment_completion_enum | null
+    worker_confirmed_at: Date | null
+    business_confirmed_at: Date | null
+    auto_confirm_at: Date | null
+    paid_amount: Decimal | null
+    paid_at: Date | null
     payment_status: $Enums.payment_status_enum | null
     created_at: Date | null
     updated_at: Date | null
@@ -36097,6 +36247,13 @@ export namespace Prisma {
     checkin_method: number
     checked_in_at: number
     checked_out_at: number
+    checkout_by: number
+    completion_status: number
+    worker_confirmed_at: number
+    business_confirmed_at: number
+    auto_confirm_at: number
+    paid_amount: number
+    paid_at: number
     payment_status: number
     created_at: number
     updated_at: number
@@ -36107,6 +36264,14 @@ export namespace Prisma {
   }
 
 
+  export type Worker_assignmentsAvgAggregateInputType = {
+    paid_amount?: true
+  }
+
+  export type Worker_assignmentsSumAggregateInputType = {
+    paid_amount?: true
+  }
+
   export type Worker_assignmentsMinAggregateInputType = {
     id?: true
     shift_id?: true
@@ -36115,6 +36280,13 @@ export namespace Prisma {
     checkin_method?: true
     checked_in_at?: true
     checked_out_at?: true
+    checkout_by?: true
+    completion_status?: true
+    worker_confirmed_at?: true
+    business_confirmed_at?: true
+    auto_confirm_at?: true
+    paid_amount?: true
+    paid_at?: true
     payment_status?: true
     created_at?: true
     updated_at?: true
@@ -36131,6 +36303,13 @@ export namespace Prisma {
     checkin_method?: true
     checked_in_at?: true
     checked_out_at?: true
+    checkout_by?: true
+    completion_status?: true
+    worker_confirmed_at?: true
+    business_confirmed_at?: true
+    auto_confirm_at?: true
+    paid_amount?: true
+    paid_at?: true
     payment_status?: true
     created_at?: true
     updated_at?: true
@@ -36147,6 +36326,13 @@ export namespace Prisma {
     checkin_method?: true
     checked_in_at?: true
     checked_out_at?: true
+    checkout_by?: true
+    completion_status?: true
+    worker_confirmed_at?: true
+    business_confirmed_at?: true
+    auto_confirm_at?: true
+    paid_amount?: true
+    paid_at?: true
     payment_status?: true
     created_at?: true
     updated_at?: true
@@ -36194,6 +36380,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: Worker_assignmentsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Worker_assignmentsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: Worker_assignmentsMinAggregateInputType
@@ -36224,6 +36422,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: Worker_assignmentsCountAggregateInputType | true
+    _avg?: Worker_assignmentsAvgAggregateInputType
+    _sum?: Worker_assignmentsSumAggregateInputType
     _min?: Worker_assignmentsMinAggregateInputType
     _max?: Worker_assignmentsMaxAggregateInputType
   }
@@ -36236,6 +36436,13 @@ export namespace Prisma {
     checkin_method: $Enums.checkin_method_enum | null
     checked_in_at: Date | null
     checked_out_at: Date | null
+    checkout_by: string | null
+    completion_status: $Enums.assignment_completion_enum
+    worker_confirmed_at: Date | null
+    business_confirmed_at: Date | null
+    auto_confirm_at: Date | null
+    paid_amount: Decimal | null
+    paid_at: Date | null
     payment_status: $Enums.payment_status_enum
     created_at: Date
     updated_at: Date
@@ -36243,6 +36450,8 @@ export namespace Prisma {
     created_by: string | null
     updated_by: string | null
     _count: Worker_assignmentsCountAggregateOutputType | null
+    _avg: Worker_assignmentsAvgAggregateOutputType | null
+    _sum: Worker_assignmentsSumAggregateOutputType | null
     _min: Worker_assignmentsMinAggregateOutputType | null
     _max: Worker_assignmentsMaxAggregateOutputType | null
   }
@@ -36269,12 +36478,20 @@ export namespace Prisma {
     checkin_method?: boolean
     checked_in_at?: boolean
     checked_out_at?: boolean
+    checkout_by?: boolean
+    completion_status?: boolean
+    worker_confirmed_at?: boolean
+    business_confirmed_at?: boolean
+    auto_confirm_at?: boolean
+    paid_amount?: boolean
+    paid_at?: boolean
     payment_status?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
     created_by?: boolean
     updated_by?: boolean
+    disputes?: boolean | worker_assignments$disputesArgs<ExtArgs>
     ratings?: boolean | worker_assignments$ratingsArgs<ExtArgs>
     transactions?: boolean | worker_assignments$transactionsArgs<ExtArgs>
     applications?: boolean | applicationsDefaultArgs<ExtArgs>
@@ -36291,6 +36508,13 @@ export namespace Prisma {
     checkin_method?: boolean
     checked_in_at?: boolean
     checked_out_at?: boolean
+    checkout_by?: boolean
+    completion_status?: boolean
+    worker_confirmed_at?: boolean
+    business_confirmed_at?: boolean
+    auto_confirm_at?: boolean
+    paid_amount?: boolean
+    paid_at?: boolean
     payment_status?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -36310,6 +36534,13 @@ export namespace Prisma {
     checkin_method?: boolean
     checked_in_at?: boolean
     checked_out_at?: boolean
+    checkout_by?: boolean
+    completion_status?: boolean
+    worker_confirmed_at?: boolean
+    business_confirmed_at?: boolean
+    auto_confirm_at?: boolean
+    paid_amount?: boolean
+    paid_at?: boolean
     payment_status?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -36329,6 +36560,13 @@ export namespace Prisma {
     checkin_method?: boolean
     checked_in_at?: boolean
     checked_out_at?: boolean
+    checkout_by?: boolean
+    completion_status?: boolean
+    worker_confirmed_at?: boolean
+    business_confirmed_at?: boolean
+    auto_confirm_at?: boolean
+    paid_amount?: boolean
+    paid_at?: boolean
     payment_status?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -36337,8 +36575,9 @@ export namespace Prisma {
     updated_by?: boolean
   }
 
-  export type worker_assignmentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shift_id" | "application_id" | "worker_profile_id" | "checkin_method" | "checked_in_at" | "checked_out_at" | "payment_status" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["worker_assignments"]>
+  export type worker_assignmentsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shift_id" | "application_id" | "worker_profile_id" | "checkin_method" | "checked_in_at" | "checked_out_at" | "checkout_by" | "completion_status" | "worker_confirmed_at" | "business_confirmed_at" | "auto_confirm_at" | "paid_amount" | "paid_at" | "payment_status" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by", ExtArgs["result"]["worker_assignments"]>
   export type worker_assignmentsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    disputes?: boolean | worker_assignments$disputesArgs<ExtArgs>
     ratings?: boolean | worker_assignments$ratingsArgs<ExtArgs>
     transactions?: boolean | worker_assignments$transactionsArgs<ExtArgs>
     applications?: boolean | applicationsDefaultArgs<ExtArgs>
@@ -36360,6 +36599,7 @@ export namespace Prisma {
   export type $worker_assignmentsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "worker_assignments"
     objects: {
+      disputes: Prisma.$disputesPayload<ExtArgs>[]
       ratings: Prisma.$ratingsPayload<ExtArgs>[]
       transactions: Prisma.$transactionsPayload<ExtArgs>[]
       applications: Prisma.$applicationsPayload<ExtArgs>
@@ -36374,6 +36614,13 @@ export namespace Prisma {
       checkin_method: $Enums.checkin_method_enum | null
       checked_in_at: Date | null
       checked_out_at: Date | null
+      checkout_by: string | null
+      completion_status: $Enums.assignment_completion_enum
+      worker_confirmed_at: Date | null
+      business_confirmed_at: Date | null
+      auto_confirm_at: Date | null
+      paid_amount: Prisma.Decimal | null
+      paid_at: Date | null
       payment_status: $Enums.payment_status_enum
       created_at: Date
       updated_at: Date
@@ -36774,6 +37021,7 @@ export namespace Prisma {
    */
   export interface Prisma__worker_assignmentsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    disputes<T extends worker_assignments$disputesArgs<ExtArgs> = {}>(args?: Subset<T, worker_assignments$disputesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ratings<T extends worker_assignments$ratingsArgs<ExtArgs> = {}>(args?: Subset<T, worker_assignments$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ratingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transactions<T extends worker_assignments$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, worker_assignments$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$transactionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     applications<T extends applicationsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, applicationsDefaultArgs<ExtArgs>>): Prisma__applicationsClient<$Result.GetResult<Prisma.$applicationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
@@ -36815,6 +37063,13 @@ export namespace Prisma {
     readonly checkin_method: FieldRef<"worker_assignments", 'checkin_method_enum'>
     readonly checked_in_at: FieldRef<"worker_assignments", 'DateTime'>
     readonly checked_out_at: FieldRef<"worker_assignments", 'DateTime'>
+    readonly checkout_by: FieldRef<"worker_assignments", 'String'>
+    readonly completion_status: FieldRef<"worker_assignments", 'assignment_completion_enum'>
+    readonly worker_confirmed_at: FieldRef<"worker_assignments", 'DateTime'>
+    readonly business_confirmed_at: FieldRef<"worker_assignments", 'DateTime'>
+    readonly auto_confirm_at: FieldRef<"worker_assignments", 'DateTime'>
+    readonly paid_amount: FieldRef<"worker_assignments", 'Decimal'>
+    readonly paid_at: FieldRef<"worker_assignments", 'DateTime'>
     readonly payment_status: FieldRef<"worker_assignments", 'payment_status_enum'>
     readonly created_at: FieldRef<"worker_assignments", 'DateTime'>
     readonly updated_at: FieldRef<"worker_assignments", 'DateTime'>
@@ -37219,6 +37474,30 @@ export namespace Prisma {
      * Limit how many worker_assignments to delete.
      */
     limit?: number
+  }
+
+  /**
+   * worker_assignments.disputes
+   */
+  export type worker_assignments$disputesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the disputes
+     */
+    select?: disputesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the disputes
+     */
+    omit?: disputesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: disputesInclude<ExtArgs> | null
+    where?: disputesWhereInput
+    orderBy?: disputesOrderByWithRelationInput | disputesOrderByWithRelationInput[]
+    cursor?: disputesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DisputesScalarFieldEnum | DisputesScalarFieldEnum[]
   }
 
   /**
@@ -44586,10 +44865,13 @@ export namespace Prisma {
     id: 'id',
     report_id: 'report_id',
     shift_id: 'shift_id',
+    assignment_id: 'assignment_id',
     raised_by: 'raised_by',
     against_user: 'against_user',
     description: 'description',
     status: 'status',
+    decision: 'decision',
+    resolved_amount: 'resolved_amount',
     resolved_by: 'resolved_by',
     resolution_note: 'resolution_note',
     created_at: 'created_at',
@@ -44834,6 +45116,13 @@ export namespace Prisma {
     checkin_method: 'checkin_method',
     checked_in_at: 'checked_in_at',
     checked_out_at: 'checked_out_at',
+    checkout_by: 'checkout_by',
+    completion_status: 'completion_status',
+    worker_confirmed_at: 'worker_confirmed_at',
+    business_confirmed_at: 'business_confirmed_at',
+    auto_confirm_at: 'auto_confirm_at',
+    paid_amount: 'paid_amount',
+    paid_at: 'paid_at',
     payment_status: 'payment_status',
     created_at: 'created_at',
     updated_at: 'updated_at',
@@ -45293,6 +45582,20 @@ export namespace Prisma {
    * Reference to a field of type 'checkin_method_enum[]'
    */
   export type ListEnumcheckin_method_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'checkin_method_enum[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'assignment_completion_enum'
+   */
+  export type Enumassignment_completion_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'assignment_completion_enum'>
+    
+
+
+  /**
+   * Reference to a field of type 'assignment_completion_enum[]'
+   */
+  export type ListEnumassignment_completion_enumFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'assignment_completion_enum[]'>
     
 
 
@@ -46626,10 +46929,13 @@ export namespace Prisma {
     id?: UuidFilter<"disputes"> | string
     report_id?: UuidNullableFilter<"disputes"> | string | null
     shift_id?: UuidNullableFilter<"disputes"> | string | null
+    assignment_id?: UuidNullableFilter<"disputes"> | string | null
     raised_by?: UuidFilter<"disputes"> | string
     against_user?: UuidFilter<"disputes"> | string
     description?: StringNullableFilter<"disputes"> | string | null
     status?: Enumreport_status_enumFilter<"disputes"> | $Enums.report_status_enum
+    decision?: StringNullableFilter<"disputes"> | string | null
+    resolved_amount?: DecimalNullableFilter<"disputes"> | Decimal | DecimalJsLike | number | string | null
     resolved_by?: UuidNullableFilter<"disputes"> | string | null
     resolution_note?: StringNullableFilter<"disputes"> | string | null
     created_at?: DateTimeFilter<"disputes"> | Date | string
@@ -46642,16 +46948,20 @@ export namespace Prisma {
     reports?: XOR<ReportsNullableScalarRelationFilter, reportsWhereInput> | null
     users_disputes_resolved_byTousers?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
     shifts?: XOR<ShiftsNullableScalarRelationFilter, shiftsWhereInput> | null
+    worker_assignments?: XOR<Worker_assignmentsNullableScalarRelationFilter, worker_assignmentsWhereInput> | null
   }
 
   export type disputesOrderByWithRelationInput = {
     id?: SortOrder
     report_id?: SortOrderInput | SortOrder
     shift_id?: SortOrderInput | SortOrder
+    assignment_id?: SortOrderInput | SortOrder
     raised_by?: SortOrder
     against_user?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
+    decision?: SortOrderInput | SortOrder
+    resolved_amount?: SortOrderInput | SortOrder
     resolved_by?: SortOrderInput | SortOrder
     resolution_note?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -46664,6 +46974,7 @@ export namespace Prisma {
     reports?: reportsOrderByWithRelationInput
     users_disputes_resolved_byTousers?: usersOrderByWithRelationInput
     shifts?: shiftsOrderByWithRelationInput
+    worker_assignments?: worker_assignmentsOrderByWithRelationInput
   }
 
   export type disputesWhereUniqueInput = Prisma.AtLeast<{
@@ -46673,10 +46984,13 @@ export namespace Prisma {
     NOT?: disputesWhereInput | disputesWhereInput[]
     report_id?: UuidNullableFilter<"disputes"> | string | null
     shift_id?: UuidNullableFilter<"disputes"> | string | null
+    assignment_id?: UuidNullableFilter<"disputes"> | string | null
     raised_by?: UuidFilter<"disputes"> | string
     against_user?: UuidFilter<"disputes"> | string
     description?: StringNullableFilter<"disputes"> | string | null
     status?: Enumreport_status_enumFilter<"disputes"> | $Enums.report_status_enum
+    decision?: StringNullableFilter<"disputes"> | string | null
+    resolved_amount?: DecimalNullableFilter<"disputes"> | Decimal | DecimalJsLike | number | string | null
     resolved_by?: UuidNullableFilter<"disputes"> | string | null
     resolution_note?: StringNullableFilter<"disputes"> | string | null
     created_at?: DateTimeFilter<"disputes"> | Date | string
@@ -46689,16 +47003,20 @@ export namespace Prisma {
     reports?: XOR<ReportsNullableScalarRelationFilter, reportsWhereInput> | null
     users_disputes_resolved_byTousers?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
     shifts?: XOR<ShiftsNullableScalarRelationFilter, shiftsWhereInput> | null
+    worker_assignments?: XOR<Worker_assignmentsNullableScalarRelationFilter, worker_assignmentsWhereInput> | null
   }, "id">
 
   export type disputesOrderByWithAggregationInput = {
     id?: SortOrder
     report_id?: SortOrderInput | SortOrder
     shift_id?: SortOrderInput | SortOrder
+    assignment_id?: SortOrderInput | SortOrder
     raised_by?: SortOrder
     against_user?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
+    decision?: SortOrderInput | SortOrder
+    resolved_amount?: SortOrderInput | SortOrder
     resolved_by?: SortOrderInput | SortOrder
     resolution_note?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -46707,8 +47025,10 @@ export namespace Prisma {
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
     _count?: disputesCountOrderByAggregateInput
+    _avg?: disputesAvgOrderByAggregateInput
     _max?: disputesMaxOrderByAggregateInput
     _min?: disputesMinOrderByAggregateInput
+    _sum?: disputesSumOrderByAggregateInput
   }
 
   export type disputesScalarWhereWithAggregatesInput = {
@@ -46718,10 +47038,13 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"disputes"> | string
     report_id?: UuidNullableWithAggregatesFilter<"disputes"> | string | null
     shift_id?: UuidNullableWithAggregatesFilter<"disputes"> | string | null
+    assignment_id?: UuidNullableWithAggregatesFilter<"disputes"> | string | null
     raised_by?: UuidWithAggregatesFilter<"disputes"> | string
     against_user?: UuidWithAggregatesFilter<"disputes"> | string
     description?: StringNullableWithAggregatesFilter<"disputes"> | string | null
     status?: Enumreport_status_enumWithAggregatesFilter<"disputes"> | $Enums.report_status_enum
+    decision?: StringNullableWithAggregatesFilter<"disputes"> | string | null
+    resolved_amount?: DecimalNullableWithAggregatesFilter<"disputes"> | Decimal | DecimalJsLike | number | string | null
     resolved_by?: UuidNullableWithAggregatesFilter<"disputes"> | string | null
     resolution_note?: StringNullableWithAggregatesFilter<"disputes"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"disputes"> | Date | string
@@ -47952,12 +48275,20 @@ export namespace Prisma {
     checkin_method?: Enumcheckin_method_enumNullableFilter<"worker_assignments"> | $Enums.checkin_method_enum | null
     checked_in_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
     checked_out_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    checkout_by?: UuidNullableFilter<"worker_assignments"> | string | null
+    completion_status?: Enumassignment_completion_enumFilter<"worker_assignments"> | $Enums.assignment_completion_enum
+    worker_confirmed_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    business_confirmed_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    auto_confirm_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    paid_amount?: DecimalNullableFilter<"worker_assignments"> | Decimal | DecimalJsLike | number | string | null
+    paid_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
     payment_status?: Enumpayment_status_enumFilter<"worker_assignments"> | $Enums.payment_status_enum
     created_at?: DateTimeFilter<"worker_assignments"> | Date | string
     updated_at?: DateTimeFilter<"worker_assignments"> | Date | string
     deleted_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
     created_by?: UuidNullableFilter<"worker_assignments"> | string | null
     updated_by?: UuidNullableFilter<"worker_assignments"> | string | null
+    disputes?: DisputesListRelationFilter
     ratings?: RatingsListRelationFilter
     transactions?: TransactionsListRelationFilter
     applications?: XOR<ApplicationsScalarRelationFilter, applicationsWhereInput>
@@ -47973,12 +48304,20 @@ export namespace Prisma {
     checkin_method?: SortOrderInput | SortOrder
     checked_in_at?: SortOrderInput | SortOrder
     checked_out_at?: SortOrderInput | SortOrder
+    checkout_by?: SortOrderInput | SortOrder
+    completion_status?: SortOrder
+    worker_confirmed_at?: SortOrderInput | SortOrder
+    business_confirmed_at?: SortOrderInput | SortOrder
+    auto_confirm_at?: SortOrderInput | SortOrder
+    paid_amount?: SortOrderInput | SortOrder
+    paid_at?: SortOrderInput | SortOrder
     payment_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrderInput | SortOrder
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
+    disputes?: disputesOrderByRelationAggregateInput
     ratings?: ratingsOrderByRelationAggregateInput
     transactions?: transactionsOrderByRelationAggregateInput
     applications?: applicationsOrderByWithRelationInput
@@ -47998,12 +48337,20 @@ export namespace Prisma {
     checkin_method?: Enumcheckin_method_enumNullableFilter<"worker_assignments"> | $Enums.checkin_method_enum | null
     checked_in_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
     checked_out_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    checkout_by?: UuidNullableFilter<"worker_assignments"> | string | null
+    completion_status?: Enumassignment_completion_enumFilter<"worker_assignments"> | $Enums.assignment_completion_enum
+    worker_confirmed_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    business_confirmed_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    auto_confirm_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    paid_amount?: DecimalNullableFilter<"worker_assignments"> | Decimal | DecimalJsLike | number | string | null
+    paid_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
     payment_status?: Enumpayment_status_enumFilter<"worker_assignments"> | $Enums.payment_status_enum
     created_at?: DateTimeFilter<"worker_assignments"> | Date | string
     updated_at?: DateTimeFilter<"worker_assignments"> | Date | string
     deleted_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
     created_by?: UuidNullableFilter<"worker_assignments"> | string | null
     updated_by?: UuidNullableFilter<"worker_assignments"> | string | null
+    disputes?: DisputesListRelationFilter
     ratings?: RatingsListRelationFilter
     transactions?: TransactionsListRelationFilter
     applications?: XOR<ApplicationsScalarRelationFilter, applicationsWhereInput>
@@ -48019,6 +48366,13 @@ export namespace Prisma {
     checkin_method?: SortOrderInput | SortOrder
     checked_in_at?: SortOrderInput | SortOrder
     checked_out_at?: SortOrderInput | SortOrder
+    checkout_by?: SortOrderInput | SortOrder
+    completion_status?: SortOrder
+    worker_confirmed_at?: SortOrderInput | SortOrder
+    business_confirmed_at?: SortOrderInput | SortOrder
+    auto_confirm_at?: SortOrderInput | SortOrder
+    paid_amount?: SortOrderInput | SortOrder
+    paid_at?: SortOrderInput | SortOrder
     payment_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -48026,8 +48380,10 @@ export namespace Prisma {
     created_by?: SortOrderInput | SortOrder
     updated_by?: SortOrderInput | SortOrder
     _count?: worker_assignmentsCountOrderByAggregateInput
+    _avg?: worker_assignmentsAvgOrderByAggregateInput
     _max?: worker_assignmentsMaxOrderByAggregateInput
     _min?: worker_assignmentsMinOrderByAggregateInput
+    _sum?: worker_assignmentsSumOrderByAggregateInput
   }
 
   export type worker_assignmentsScalarWhereWithAggregatesInput = {
@@ -48041,6 +48397,13 @@ export namespace Prisma {
     checkin_method?: Enumcheckin_method_enumNullableWithAggregatesFilter<"worker_assignments"> | $Enums.checkin_method_enum | null
     checked_in_at?: DateTimeNullableWithAggregatesFilter<"worker_assignments"> | Date | string | null
     checked_out_at?: DateTimeNullableWithAggregatesFilter<"worker_assignments"> | Date | string | null
+    checkout_by?: UuidNullableWithAggregatesFilter<"worker_assignments"> | string | null
+    completion_status?: Enumassignment_completion_enumWithAggregatesFilter<"worker_assignments"> | $Enums.assignment_completion_enum
+    worker_confirmed_at?: DateTimeNullableWithAggregatesFilter<"worker_assignments"> | Date | string | null
+    business_confirmed_at?: DateTimeNullableWithAggregatesFilter<"worker_assignments"> | Date | string | null
+    auto_confirm_at?: DateTimeNullableWithAggregatesFilter<"worker_assignments"> | Date | string | null
+    paid_amount?: DecimalNullableWithAggregatesFilter<"worker_assignments"> | Decimal | DecimalJsLike | number | string | null
+    paid_at?: DateTimeNullableWithAggregatesFilter<"worker_assignments"> | Date | string | null
     payment_status?: Enumpayment_status_enumWithAggregatesFilter<"worker_assignments"> | $Enums.payment_status_enum
     created_at?: DateTimeWithAggregatesFilter<"worker_assignments"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"worker_assignments"> | Date | string
@@ -50057,6 +50420,8 @@ export namespace Prisma {
     id?: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolution_note?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -50068,16 +50433,20 @@ export namespace Prisma {
     reports?: reportsCreateNestedOneWithoutDisputesInput
     users_disputes_resolved_byTousers?: usersCreateNestedOneWithoutDisputes_disputes_resolved_byTousersInput
     shifts?: shiftsCreateNestedOneWithoutDisputesInput
+    worker_assignments?: worker_assignmentsCreateNestedOneWithoutDisputesInput
   }
 
   export type disputesUncheckedCreateInput = {
     id?: string
     report_id?: string | null
     shift_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -50091,6 +50460,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50102,16 +50473,20 @@ export namespace Prisma {
     reports?: reportsUpdateOneWithoutDisputesNestedInput
     users_disputes_resolved_byTousers?: usersUpdateOneWithoutDisputes_disputes_resolved_byTousersNestedInput
     shifts?: shiftsUpdateOneWithoutDisputesNestedInput
+    worker_assignments?: worker_assignmentsUpdateOneWithoutDisputesNestedInput
   }
 
   export type disputesUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50125,10 +50500,13 @@ export namespace Prisma {
     id?: string
     report_id?: string | null
     shift_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -50142,6 +50520,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50154,10 +50534,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51550,12 +51933,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsCreateNestedManyWithoutWorker_assignmentsInput
     applications: applicationsCreateNestedOneWithoutWorker_assignmentsInput
@@ -51571,12 +51962,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
   }
@@ -51586,12 +51985,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUpdateManyWithoutWorker_assignmentsNestedInput
     applications?: applicationsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
@@ -51607,12 +52014,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
   }
@@ -51625,6 +52040,13 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
@@ -51638,6 +52060,13 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51654,6 +52083,13 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -53457,14 +53893,22 @@ export namespace Prisma {
     isNot?: shiftsWhereInput | null
   }
 
+  export type Worker_assignmentsNullableScalarRelationFilter = {
+    is?: worker_assignmentsWhereInput | null
+    isNot?: worker_assignmentsWhereInput | null
+  }
+
   export type disputesCountOrderByAggregateInput = {
     id?: SortOrder
     report_id?: SortOrder
     shift_id?: SortOrder
+    assignment_id?: SortOrder
     raised_by?: SortOrder
     against_user?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    decision?: SortOrder
+    resolved_amount?: SortOrder
     resolved_by?: SortOrder
     resolution_note?: SortOrder
     created_at?: SortOrder
@@ -53474,14 +53918,21 @@ export namespace Prisma {
     updated_by?: SortOrder
   }
 
+  export type disputesAvgOrderByAggregateInput = {
+    resolved_amount?: SortOrder
+  }
+
   export type disputesMaxOrderByAggregateInput = {
     id?: SortOrder
     report_id?: SortOrder
     shift_id?: SortOrder
+    assignment_id?: SortOrder
     raised_by?: SortOrder
     against_user?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    decision?: SortOrder
+    resolved_amount?: SortOrder
     resolved_by?: SortOrder
     resolution_note?: SortOrder
     created_at?: SortOrder
@@ -53495,10 +53946,13 @@ export namespace Prisma {
     id?: SortOrder
     report_id?: SortOrder
     shift_id?: SortOrder
+    assignment_id?: SortOrder
     raised_by?: SortOrder
     against_user?: SortOrder
     description?: SortOrder
     status?: SortOrder
+    decision?: SortOrder
+    resolved_amount?: SortOrder
     resolved_by?: SortOrder
     resolution_note?: SortOrder
     created_at?: SortOrder
@@ -53506,6 +53960,10 @@ export namespace Prisma {
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+  }
+
+  export type disputesSumOrderByAggregateInput = {
+    resolved_amount?: SortOrder
   }
 
   export type Enumreport_status_enumWithAggregatesFilter<$PrismaModel = never> = {
@@ -53788,11 +54246,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumpayment_status_enumFilter<$PrismaModel>
     _max?: NestedEnumpayment_status_enumFilter<$PrismaModel>
-  }
-
-  export type Worker_assignmentsNullableScalarRelationFilter = {
-    is?: worker_assignmentsWhereInput | null
-    isNot?: worker_assignmentsWhereInput | null
   }
 
   export type ratingsShift_idRater_user_idRated_user_idCompoundUniqueInput = {
@@ -54507,6 +54960,13 @@ export namespace Prisma {
     not?: NestedEnumcheckin_method_enumNullableFilter<$PrismaModel> | $Enums.checkin_method_enum | null
   }
 
+  export type Enumassignment_completion_enumFilter<$PrismaModel = never> = {
+    equals?: $Enums.assignment_completion_enum | Enumassignment_completion_enumFieldRefInput<$PrismaModel>
+    in?: $Enums.assignment_completion_enum[] | ListEnumassignment_completion_enumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.assignment_completion_enum[] | ListEnumassignment_completion_enumFieldRefInput<$PrismaModel>
+    not?: NestedEnumassignment_completion_enumFilter<$PrismaModel> | $Enums.assignment_completion_enum
+  }
+
   export type ApplicationsScalarRelationFilter = {
     is?: applicationsWhereInput
     isNot?: applicationsWhereInput
@@ -54525,12 +54985,23 @@ export namespace Prisma {
     checkin_method?: SortOrder
     checked_in_at?: SortOrder
     checked_out_at?: SortOrder
+    checkout_by?: SortOrder
+    completion_status?: SortOrder
+    worker_confirmed_at?: SortOrder
+    business_confirmed_at?: SortOrder
+    auto_confirm_at?: SortOrder
+    paid_amount?: SortOrder
+    paid_at?: SortOrder
     payment_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+  }
+
+  export type worker_assignmentsAvgOrderByAggregateInput = {
+    paid_amount?: SortOrder
   }
 
   export type worker_assignmentsMaxOrderByAggregateInput = {
@@ -54541,6 +55012,13 @@ export namespace Prisma {
     checkin_method?: SortOrder
     checked_in_at?: SortOrder
     checked_out_at?: SortOrder
+    checkout_by?: SortOrder
+    completion_status?: SortOrder
+    worker_confirmed_at?: SortOrder
+    business_confirmed_at?: SortOrder
+    auto_confirm_at?: SortOrder
+    paid_amount?: SortOrder
+    paid_at?: SortOrder
     payment_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -54557,12 +55035,23 @@ export namespace Prisma {
     checkin_method?: SortOrder
     checked_in_at?: SortOrder
     checked_out_at?: SortOrder
+    checkout_by?: SortOrder
+    completion_status?: SortOrder
+    worker_confirmed_at?: SortOrder
+    business_confirmed_at?: SortOrder
+    auto_confirm_at?: SortOrder
+    paid_amount?: SortOrder
+    paid_at?: SortOrder
     payment_status?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrder
     created_by?: SortOrder
     updated_by?: SortOrder
+  }
+
+  export type worker_assignmentsSumOrderByAggregateInput = {
+    paid_amount?: SortOrder
   }
 
   export type Enumcheckin_method_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -54573,6 +55062,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumcheckin_method_enumNullableFilter<$PrismaModel>
     _max?: NestedEnumcheckin_method_enumNullableFilter<$PrismaModel>
+  }
+
+  export type Enumassignment_completion_enumWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.assignment_completion_enum | Enumassignment_completion_enumFieldRefInput<$PrismaModel>
+    in?: $Enums.assignment_completion_enum[] | ListEnumassignment_completion_enumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.assignment_completion_enum[] | ListEnumassignment_completion_enumFieldRefInput<$PrismaModel>
+    not?: NestedEnumassignment_completion_enumWithAggregatesFilter<$PrismaModel> | $Enums.assignment_completion_enum
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumassignment_completion_enumFilter<$PrismaModel>
+    _max?: NestedEnumassignment_completion_enumFilter<$PrismaModel>
   }
 
   export type worker_categoriesWorker_profile_idCategory_idCompoundUniqueInput = {
@@ -56704,6 +57203,12 @@ export namespace Prisma {
     connect?: shiftsWhereUniqueInput
   }
 
+  export type worker_assignmentsCreateNestedOneWithoutDisputesInput = {
+    create?: XOR<worker_assignmentsCreateWithoutDisputesInput, worker_assignmentsUncheckedCreateWithoutDisputesInput>
+    connectOrCreate?: worker_assignmentsCreateOrConnectWithoutDisputesInput
+    connect?: worker_assignmentsWhereUniqueInput
+  }
+
   export type Enumreport_status_enumFieldUpdateOperationsInput = {
     set?: $Enums.report_status_enum
   }
@@ -56752,6 +57257,16 @@ export namespace Prisma {
     delete?: shiftsWhereInput | boolean
     connect?: shiftsWhereUniqueInput
     update?: XOR<XOR<shiftsUpdateToOneWithWhereWithoutDisputesInput, shiftsUpdateWithoutDisputesInput>, shiftsUncheckedUpdateWithoutDisputesInput>
+  }
+
+  export type worker_assignmentsUpdateOneWithoutDisputesNestedInput = {
+    create?: XOR<worker_assignmentsCreateWithoutDisputesInput, worker_assignmentsUncheckedCreateWithoutDisputesInput>
+    connectOrCreate?: worker_assignmentsCreateOrConnectWithoutDisputesInput
+    upsert?: worker_assignmentsUpsertWithoutDisputesInput
+    disconnect?: worker_assignmentsWhereInput | boolean
+    delete?: worker_assignmentsWhereInput | boolean
+    connect?: worker_assignmentsWhereUniqueInput
+    update?: XOR<XOR<worker_assignmentsUpdateToOneWithWhereWithoutDisputesInput, worker_assignmentsUpdateWithoutDisputesInput>, worker_assignmentsUncheckedUpdateWithoutDisputesInput>
   }
 
   export type usersCreateNestedOneWithoutNotificationsInput = {
@@ -57638,6 +58153,13 @@ export namespace Prisma {
     update?: XOR<XOR<business_walletsUpdateToOneWithWhereWithoutBusiness_wallet_transactionsInput, business_walletsUpdateWithoutBusiness_wallet_transactionsInput>, business_walletsUncheckedUpdateWithoutBusiness_wallet_transactionsInput>
   }
 
+  export type disputesCreateNestedManyWithoutWorker_assignmentsInput = {
+    create?: XOR<disputesCreateWithoutWorker_assignmentsInput, disputesUncheckedCreateWithoutWorker_assignmentsInput> | disputesCreateWithoutWorker_assignmentsInput[] | disputesUncheckedCreateWithoutWorker_assignmentsInput[]
+    connectOrCreate?: disputesCreateOrConnectWithoutWorker_assignmentsInput | disputesCreateOrConnectWithoutWorker_assignmentsInput[]
+    createMany?: disputesCreateManyWorker_assignmentsInputEnvelope
+    connect?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+  }
+
   export type ratingsCreateNestedManyWithoutWorker_assignmentsInput = {
     create?: XOR<ratingsCreateWithoutWorker_assignmentsInput, ratingsUncheckedCreateWithoutWorker_assignmentsInput> | ratingsCreateWithoutWorker_assignmentsInput[] | ratingsUncheckedCreateWithoutWorker_assignmentsInput[]
     connectOrCreate?: ratingsCreateOrConnectWithoutWorker_assignmentsInput | ratingsCreateOrConnectWithoutWorker_assignmentsInput[]
@@ -57670,6 +58192,13 @@ export namespace Prisma {
     connect?: worker_profilesWhereUniqueInput
   }
 
+  export type disputesUncheckedCreateNestedManyWithoutWorker_assignmentsInput = {
+    create?: XOR<disputesCreateWithoutWorker_assignmentsInput, disputesUncheckedCreateWithoutWorker_assignmentsInput> | disputesCreateWithoutWorker_assignmentsInput[] | disputesUncheckedCreateWithoutWorker_assignmentsInput[]
+    connectOrCreate?: disputesCreateOrConnectWithoutWorker_assignmentsInput | disputesCreateOrConnectWithoutWorker_assignmentsInput[]
+    createMany?: disputesCreateManyWorker_assignmentsInputEnvelope
+    connect?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+  }
+
   export type ratingsUncheckedCreateNestedManyWithoutWorker_assignmentsInput = {
     create?: XOR<ratingsCreateWithoutWorker_assignmentsInput, ratingsUncheckedCreateWithoutWorker_assignmentsInput> | ratingsCreateWithoutWorker_assignmentsInput[] | ratingsUncheckedCreateWithoutWorker_assignmentsInput[]
     connectOrCreate?: ratingsCreateOrConnectWithoutWorker_assignmentsInput | ratingsCreateOrConnectWithoutWorker_assignmentsInput[]
@@ -57686,6 +58215,24 @@ export namespace Prisma {
 
   export type NullableEnumcheckin_method_enumFieldUpdateOperationsInput = {
     set?: $Enums.checkin_method_enum | null
+  }
+
+  export type Enumassignment_completion_enumFieldUpdateOperationsInput = {
+    set?: $Enums.assignment_completion_enum
+  }
+
+  export type disputesUpdateManyWithoutWorker_assignmentsNestedInput = {
+    create?: XOR<disputesCreateWithoutWorker_assignmentsInput, disputesUncheckedCreateWithoutWorker_assignmentsInput> | disputesCreateWithoutWorker_assignmentsInput[] | disputesUncheckedCreateWithoutWorker_assignmentsInput[]
+    connectOrCreate?: disputesCreateOrConnectWithoutWorker_assignmentsInput | disputesCreateOrConnectWithoutWorker_assignmentsInput[]
+    upsert?: disputesUpsertWithWhereUniqueWithoutWorker_assignmentsInput | disputesUpsertWithWhereUniqueWithoutWorker_assignmentsInput[]
+    createMany?: disputesCreateManyWorker_assignmentsInputEnvelope
+    set?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+    disconnect?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+    delete?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+    connect?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+    update?: disputesUpdateWithWhereUniqueWithoutWorker_assignmentsInput | disputesUpdateWithWhereUniqueWithoutWorker_assignmentsInput[]
+    updateMany?: disputesUpdateManyWithWhereWithoutWorker_assignmentsInput | disputesUpdateManyWithWhereWithoutWorker_assignmentsInput[]
+    deleteMany?: disputesScalarWhereInput | disputesScalarWhereInput[]
   }
 
   export type ratingsUpdateManyWithoutWorker_assignmentsNestedInput = {
@@ -57738,6 +58285,20 @@ export namespace Prisma {
     upsert?: worker_profilesUpsertWithoutWorker_assignmentsInput
     connect?: worker_profilesWhereUniqueInput
     update?: XOR<XOR<worker_profilesUpdateToOneWithWhereWithoutWorker_assignmentsInput, worker_profilesUpdateWithoutWorker_assignmentsInput>, worker_profilesUncheckedUpdateWithoutWorker_assignmentsInput>
+  }
+
+  export type disputesUncheckedUpdateManyWithoutWorker_assignmentsNestedInput = {
+    create?: XOR<disputesCreateWithoutWorker_assignmentsInput, disputesUncheckedCreateWithoutWorker_assignmentsInput> | disputesCreateWithoutWorker_assignmentsInput[] | disputesUncheckedCreateWithoutWorker_assignmentsInput[]
+    connectOrCreate?: disputesCreateOrConnectWithoutWorker_assignmentsInput | disputesCreateOrConnectWithoutWorker_assignmentsInput[]
+    upsert?: disputesUpsertWithWhereUniqueWithoutWorker_assignmentsInput | disputesUpsertWithWhereUniqueWithoutWorker_assignmentsInput[]
+    createMany?: disputesCreateManyWorker_assignmentsInputEnvelope
+    set?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+    disconnect?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+    delete?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+    connect?: disputesWhereUniqueInput | disputesWhereUniqueInput[]
+    update?: disputesUpdateWithWhereUniqueWithoutWorker_assignmentsInput | disputesUpdateWithWhereUniqueWithoutWorker_assignmentsInput[]
+    updateMany?: disputesUpdateManyWithWhereWithoutWorker_assignmentsInput | disputesUpdateManyWithWhereWithoutWorker_assignmentsInput[]
+    deleteMany?: disputesScalarWhereInput | disputesScalarWhereInput[]
   }
 
   export type ratingsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput = {
@@ -58913,6 +59474,13 @@ export namespace Prisma {
     not?: NestedEnumcheckin_method_enumNullableFilter<$PrismaModel> | $Enums.checkin_method_enum | null
   }
 
+  export type NestedEnumassignment_completion_enumFilter<$PrismaModel = never> = {
+    equals?: $Enums.assignment_completion_enum | Enumassignment_completion_enumFieldRefInput<$PrismaModel>
+    in?: $Enums.assignment_completion_enum[] | ListEnumassignment_completion_enumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.assignment_completion_enum[] | ListEnumassignment_completion_enumFieldRefInput<$PrismaModel>
+    not?: NestedEnumassignment_completion_enumFilter<$PrismaModel> | $Enums.assignment_completion_enum
+  }
+
   export type NestedEnumcheckin_method_enumNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.checkin_method_enum | Enumcheckin_method_enumFieldRefInput<$PrismaModel> | null
     in?: $Enums.checkin_method_enum[] | ListEnumcheckin_method_enumFieldRefInput<$PrismaModel> | null
@@ -58921,6 +59489,16 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumcheckin_method_enumNullableFilter<$PrismaModel>
     _max?: NestedEnumcheckin_method_enumNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumassignment_completion_enumWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.assignment_completion_enum | Enumassignment_completion_enumFieldRefInput<$PrismaModel>
+    in?: $Enums.assignment_completion_enum[] | ListEnumassignment_completion_enumFieldRefInput<$PrismaModel>
+    notIn?: $Enums.assignment_completion_enum[] | ListEnumassignment_completion_enumFieldRefInput<$PrismaModel>
+    not?: NestedEnumassignment_completion_enumWithAggregatesFilter<$PrismaModel> | $Enums.assignment_completion_enum
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumassignment_completion_enumFilter<$PrismaModel>
+    _max?: NestedEnumassignment_completion_enumFilter<$PrismaModel>
   }
 
   export type shiftsCreateWithoutCategoriesInput = {
@@ -60280,6 +60858,8 @@ export namespace Prisma {
     id?: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolution_note?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -60290,15 +60870,19 @@ export namespace Prisma {
     reports?: reportsCreateNestedOneWithoutDisputesInput
     users_disputes_resolved_byTousers?: usersCreateNestedOneWithoutDisputes_disputes_resolved_byTousersInput
     shifts?: shiftsCreateNestedOneWithoutDisputesInput
+    worker_assignments?: worker_assignmentsCreateNestedOneWithoutDisputesInput
   }
 
   export type disputesUncheckedCreateWithoutUsers_disputes_against_userTousersInput = {
     id?: string
     report_id?: string | null
     shift_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -60322,6 +60906,8 @@ export namespace Prisma {
     id?: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolution_note?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -60332,15 +60918,19 @@ export namespace Prisma {
     reports?: reportsCreateNestedOneWithoutDisputesInput
     users_disputes_resolved_byTousers?: usersCreateNestedOneWithoutDisputes_disputes_resolved_byTousersInput
     shifts?: shiftsCreateNestedOneWithoutDisputesInput
+    worker_assignments?: worker_assignmentsCreateNestedOneWithoutDisputesInput
   }
 
   export type disputesUncheckedCreateWithoutUsers_disputes_raised_byTousersInput = {
     id?: string
     report_id?: string | null
     shift_id?: string | null
+    assignment_id?: string | null
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -60364,6 +60954,8 @@ export namespace Prisma {
     id?: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolution_note?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -60374,16 +60966,20 @@ export namespace Prisma {
     users_disputes_raised_byTousers: usersCreateNestedOneWithoutDisputes_disputes_raised_byTousersInput
     reports?: reportsCreateNestedOneWithoutDisputesInput
     shifts?: shiftsCreateNestedOneWithoutDisputesInput
+    worker_assignments?: worker_assignmentsCreateNestedOneWithoutDisputesInput
   }
 
   export type disputesUncheckedCreateWithoutUsers_disputes_resolved_byTousersInput = {
     id?: string
     report_id?: string | null
     shift_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolution_note?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -61209,10 +61805,13 @@ export namespace Prisma {
     id?: UuidFilter<"disputes"> | string
     report_id?: UuidNullableFilter<"disputes"> | string | null
     shift_id?: UuidNullableFilter<"disputes"> | string | null
+    assignment_id?: UuidNullableFilter<"disputes"> | string | null
     raised_by?: UuidFilter<"disputes"> | string
     against_user?: UuidFilter<"disputes"> | string
     description?: StringNullableFilter<"disputes"> | string | null
     status?: Enumreport_status_enumFilter<"disputes"> | $Enums.report_status_enum
+    decision?: StringNullableFilter<"disputes"> | string | null
+    resolved_amount?: DecimalNullableFilter<"disputes"> | Decimal | DecimalJsLike | number | string | null
     resolved_by?: UuidNullableFilter<"disputes"> | string | null
     resolution_note?: StringNullableFilter<"disputes"> | string | null
     created_at?: DateTimeFilter<"disputes"> | Date | string
@@ -62312,12 +62911,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsCreateNestedManyWithoutWorker_assignmentsInput
     shifts: shiftsCreateNestedOneWithoutWorker_assignmentsInput
@@ -62331,12 +62938,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
   }
@@ -62570,6 +63185,13 @@ export namespace Prisma {
     checkin_method?: Enumcheckin_method_enumNullableFilter<"worker_assignments"> | $Enums.checkin_method_enum | null
     checked_in_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
     checked_out_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    checkout_by?: UuidNullableFilter<"worker_assignments"> | string | null
+    completion_status?: Enumassignment_completion_enumFilter<"worker_assignments"> | $Enums.assignment_completion_enum
+    worker_confirmed_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    business_confirmed_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    auto_confirm_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
+    paid_amount?: DecimalNullableFilter<"worker_assignments"> | Decimal | DecimalJsLike | number | string | null
+    paid_at?: DateTimeNullableFilter<"worker_assignments"> | Date | string | null
     payment_status?: Enumpayment_status_enumFilter<"worker_assignments"> | $Enums.payment_status_enum
     created_at?: DateTimeFilter<"worker_assignments"> | Date | string
     updated_at?: DateTimeFilter<"worker_assignments"> | Date | string
@@ -64214,6 +64836,61 @@ export namespace Prisma {
     create: XOR<shiftsCreateWithoutDisputesInput, shiftsUncheckedCreateWithoutDisputesInput>
   }
 
+  export type worker_assignmentsCreateWithoutDisputesInput = {
+    id?: string
+    checkin_method?: $Enums.checkin_method_enum | null
+    checked_in_at?: Date | string | null
+    checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    payment_status?: $Enums.payment_status_enum
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    ratings?: ratingsCreateNestedManyWithoutWorker_assignmentsInput
+    transactions?: transactionsCreateNestedManyWithoutWorker_assignmentsInput
+    applications: applicationsCreateNestedOneWithoutWorker_assignmentsInput
+    shifts: shiftsCreateNestedOneWithoutWorker_assignmentsInput
+    worker_profiles: worker_profilesCreateNestedOneWithoutWorker_assignmentsInput
+  }
+
+  export type worker_assignmentsUncheckedCreateWithoutDisputesInput = {
+    id?: string
+    shift_id: string
+    application_id: string
+    worker_profile_id: string
+    checkin_method?: $Enums.checkin_method_enum | null
+    checked_in_at?: Date | string | null
+    checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    payment_status?: $Enums.payment_status_enum
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    ratings?: ratingsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
+    transactions?: transactionsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
+  }
+
+  export type worker_assignmentsCreateOrConnectWithoutDisputesInput = {
+    where: worker_assignmentsWhereUniqueInput
+    create: XOR<worker_assignmentsCreateWithoutDisputesInput, worker_assignmentsUncheckedCreateWithoutDisputesInput>
+  }
+
   export type usersUpsertWithoutDisputes_disputes_against_userTousersInput = {
     update: XOR<usersUpdateWithoutDisputes_disputes_against_userTousersInput, usersUncheckedUpdateWithoutDisputes_disputes_against_userTousersInput>
     create: XOR<usersCreateWithoutDisputes_disputes_against_userTousersInput, usersUncheckedCreateWithoutDisputes_disputes_against_userTousersInput>
@@ -64611,6 +65288,67 @@ export namespace Prisma {
     reports?: reportsUncheckedUpdateManyWithoutShiftsNestedInput
     transactions?: transactionsUncheckedUpdateManyWithoutShiftsNestedInput
     worker_assignments?: worker_assignmentsUncheckedUpdateManyWithoutShiftsNestedInput
+  }
+
+  export type worker_assignmentsUpsertWithoutDisputesInput = {
+    update: XOR<worker_assignmentsUpdateWithoutDisputesInput, worker_assignmentsUncheckedUpdateWithoutDisputesInput>
+    create: XOR<worker_assignmentsCreateWithoutDisputesInput, worker_assignmentsUncheckedCreateWithoutDisputesInput>
+    where?: worker_assignmentsWhereInput
+  }
+
+  export type worker_assignmentsUpdateToOneWithWhereWithoutDisputesInput = {
+    where?: worker_assignmentsWhereInput
+    data: XOR<worker_assignmentsUpdateWithoutDisputesInput, worker_assignmentsUncheckedUpdateWithoutDisputesInput>
+  }
+
+  export type worker_assignmentsUpdateWithoutDisputesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
+    checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    ratings?: ratingsUpdateManyWithoutWorker_assignmentsNestedInput
+    transactions?: transactionsUpdateManyWithoutWorker_assignmentsNestedInput
+    applications?: applicationsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
+    shifts?: shiftsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
+    worker_profiles?: worker_profilesUpdateOneRequiredWithoutWorker_assignmentsNestedInput
+  }
+
+  export type worker_assignmentsUncheckedUpdateWithoutDisputesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shift_id?: StringFieldUpdateOperationsInput | string
+    application_id?: StringFieldUpdateOperationsInput | string
+    worker_profile_id?: StringFieldUpdateOperationsInput | string
+    checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
+    checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    ratings?: ratingsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
+    transactions?: transactionsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
   }
 
   export type usersCreateWithoutNotificationsInput = {
@@ -65162,12 +65900,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsCreateNestedManyWithoutWorker_assignmentsInput
     applications: applicationsCreateNestedOneWithoutWorker_assignmentsInput
     shifts: shiftsCreateNestedOneWithoutWorker_assignmentsInput
@@ -65182,12 +65928,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
   }
 
@@ -65465,12 +66219,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUpdateManyWithoutWorker_assignmentsNestedInput
     applications?: applicationsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
     shifts?: shiftsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
@@ -65485,12 +66247,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
   }
 
@@ -65769,6 +66539,8 @@ export namespace Prisma {
     id?: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolution_note?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -65779,15 +66551,19 @@ export namespace Prisma {
     users_disputes_raised_byTousers: usersCreateNestedOneWithoutDisputes_disputes_raised_byTousersInput
     users_disputes_resolved_byTousers?: usersCreateNestedOneWithoutDisputes_disputes_resolved_byTousersInput
     shifts?: shiftsCreateNestedOneWithoutDisputesInput
+    worker_assignments?: worker_assignmentsCreateNestedOneWithoutDisputesInput
   }
 
   export type disputesUncheckedCreateWithoutReportsInput = {
     id?: string
     shift_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -66585,6 +67361,8 @@ export namespace Prisma {
     id?: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolution_note?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -66595,15 +67373,19 @@ export namespace Prisma {
     users_disputes_raised_byTousers: usersCreateNestedOneWithoutDisputes_disputes_raised_byTousersInput
     reports?: reportsCreateNestedOneWithoutDisputesInput
     users_disputes_resolved_byTousers?: usersCreateNestedOneWithoutDisputes_disputes_resolved_byTousersInput
+    worker_assignments?: worker_assignmentsCreateNestedOneWithoutDisputesInput
   }
 
   export type disputesUncheckedCreateWithoutShiftsInput = {
     id?: string
     report_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -66938,12 +67720,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsCreateNestedManyWithoutWorker_assignmentsInput
     applications: applicationsCreateNestedOneWithoutWorker_assignmentsInput
@@ -66957,12 +67747,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
   }
@@ -67331,12 +68129,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsCreateNestedManyWithoutWorker_assignmentsInput
     applications: applicationsCreateNestedOneWithoutWorker_assignmentsInput
     shifts: shiftsCreateNestedOneWithoutWorker_assignmentsInput
@@ -67351,12 +68157,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
   }
 
@@ -67519,12 +68333,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUpdateManyWithoutWorker_assignmentsNestedInput
     applications?: applicationsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
     shifts?: shiftsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
@@ -67539,12 +68361,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
   }
 
@@ -68579,6 +69409,54 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type disputesCreateWithoutWorker_assignmentsInput = {
+    id?: string
+    description?: string | null
+    status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
+    resolution_note?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    users_disputes_against_userTousers: usersCreateNestedOneWithoutDisputes_disputes_against_userTousersInput
+    users_disputes_raised_byTousers: usersCreateNestedOneWithoutDisputes_disputes_raised_byTousersInput
+    reports?: reportsCreateNestedOneWithoutDisputesInput
+    users_disputes_resolved_byTousers?: usersCreateNestedOneWithoutDisputes_disputes_resolved_byTousersInput
+    shifts?: shiftsCreateNestedOneWithoutDisputesInput
+  }
+
+  export type disputesUncheckedCreateWithoutWorker_assignmentsInput = {
+    id?: string
+    report_id?: string | null
+    shift_id?: string | null
+    raised_by: string
+    against_user: string
+    description?: string | null
+    status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
+    resolved_by?: string | null
+    resolution_note?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
+  export type disputesCreateOrConnectWithoutWorker_assignmentsInput = {
+    where: disputesWhereUniqueInput
+    create: XOR<disputesCreateWithoutWorker_assignmentsInput, disputesUncheckedCreateWithoutWorker_assignmentsInput>
+  }
+
+  export type disputesCreateManyWorker_assignmentsInputEnvelope = {
+    data: disputesCreateManyWorker_assignmentsInput | disputesCreateManyWorker_assignmentsInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ratingsCreateWithoutWorker_assignmentsInput = {
     id?: string
     overall_score: number
@@ -68878,6 +69756,22 @@ export namespace Prisma {
   export type worker_profilesCreateOrConnectWithoutWorker_assignmentsInput = {
     where: worker_profilesWhereUniqueInput
     create: XOR<worker_profilesCreateWithoutWorker_assignmentsInput, worker_profilesUncheckedCreateWithoutWorker_assignmentsInput>
+  }
+
+  export type disputesUpsertWithWhereUniqueWithoutWorker_assignmentsInput = {
+    where: disputesWhereUniqueInput
+    update: XOR<disputesUpdateWithoutWorker_assignmentsInput, disputesUncheckedUpdateWithoutWorker_assignmentsInput>
+    create: XOR<disputesCreateWithoutWorker_assignmentsInput, disputesUncheckedCreateWithoutWorker_assignmentsInput>
+  }
+
+  export type disputesUpdateWithWhereUniqueWithoutWorker_assignmentsInput = {
+    where: disputesWhereUniqueInput
+    data: XOR<disputesUpdateWithoutWorker_assignmentsInput, disputesUncheckedUpdateWithoutWorker_assignmentsInput>
+  }
+
+  export type disputesUpdateManyWithWhereWithoutWorker_assignmentsInput = {
+    where: disputesScalarWhereInput
+    data: XOR<disputesUpdateManyMutationInput, disputesUncheckedUpdateManyWithoutWorker_assignmentsInput>
   }
 
   export type ratingsUpsertWithWhereUniqueWithoutWorker_assignmentsInput = {
@@ -69714,12 +70608,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsCreateNestedManyWithoutWorker_assignmentsInput
     applications: applicationsCreateNestedOneWithoutWorker_assignmentsInput
@@ -69733,12 +70635,20 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+    disputes?: disputesUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     ratings?: ratingsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
     transactions?: transactionsUncheckedCreateNestedManyWithoutWorker_assignmentsInput
   }
@@ -71690,9 +72600,12 @@ export namespace Prisma {
     id?: string
     report_id?: string | null
     shift_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -71706,9 +72619,12 @@ export namespace Prisma {
     id?: string
     report_id?: string | null
     shift_id?: string | null
+    assignment_id?: string | null
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -71722,10 +72638,13 @@ export namespace Prisma {
     id?: string
     report_id?: string | null
     shift_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolution_note?: string | null
     created_at?: Date | string
     updated_at?: Date | string
@@ -72013,6 +72932,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72023,15 +72944,19 @@ export namespace Prisma {
     reports?: reportsUpdateOneWithoutDisputesNestedInput
     users_disputes_resolved_byTousers?: usersUpdateOneWithoutDisputes_disputes_resolved_byTousersNestedInput
     shifts?: shiftsUpdateOneWithoutDisputesNestedInput
+    worker_assignments?: worker_assignmentsUpdateOneWithoutDisputesNestedInput
   }
 
   export type disputesUncheckedUpdateWithoutUsers_disputes_against_userTousersInput = {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72045,9 +72970,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72061,6 +72989,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72071,15 +73001,19 @@ export namespace Prisma {
     reports?: reportsUpdateOneWithoutDisputesNestedInput
     users_disputes_resolved_byTousers?: usersUpdateOneWithoutDisputes_disputes_resolved_byTousersNestedInput
     shifts?: shiftsUpdateOneWithoutDisputesNestedInput
+    worker_assignments?: worker_assignmentsUpdateOneWithoutDisputesNestedInput
   }
 
   export type disputesUncheckedUpdateWithoutUsers_disputes_raised_byTousersInput = {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72093,9 +73027,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72109,6 +73046,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72119,16 +73058,20 @@ export namespace Prisma {
     users_disputes_raised_byTousers?: usersUpdateOneRequiredWithoutDisputes_disputes_raised_byTousersNestedInput
     reports?: reportsUpdateOneWithoutDisputesNestedInput
     shifts?: shiftsUpdateOneWithoutDisputesNestedInput
+    worker_assignments?: worker_assignmentsUpdateOneWithoutDisputesNestedInput
   }
 
   export type disputesUncheckedUpdateWithoutUsers_disputes_resolved_byTousersInput = {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -72141,10 +73084,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73150,6 +74096,13 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
@@ -73163,12 +74116,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUpdateManyWithoutWorker_assignmentsNestedInput
     shifts?: shiftsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
@@ -73182,12 +74143,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
   }
@@ -73199,6 +74168,13 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73710,10 +74686,13 @@ export namespace Prisma {
   export type disputesCreateManyReportsInput = {
     id?: string
     shift_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -73727,6 +74706,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73737,15 +74718,19 @@ export namespace Prisma {
     users_disputes_raised_byTousers?: usersUpdateOneRequiredWithoutDisputes_disputes_raised_byTousersNestedInput
     users_disputes_resolved_byTousers?: usersUpdateOneWithoutDisputes_disputes_resolved_byTousersNestedInput
     shifts?: shiftsUpdateOneWithoutDisputesNestedInput
+    worker_assignments?: worker_assignmentsUpdateOneWithoutDisputesNestedInput
   }
 
   export type disputesUncheckedUpdateWithoutReportsInput = {
     id?: StringFieldUpdateOperationsInput | string
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73758,10 +74743,13 @@ export namespace Prisma {
   export type disputesUncheckedUpdateManyWithoutReportsInput = {
     id?: StringFieldUpdateOperationsInput | string
     shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73801,10 +74789,13 @@ export namespace Prisma {
   export type disputesCreateManyShiftsInput = {
     id?: string
     report_id?: string | null
+    assignment_id?: string | null
     raised_by: string
     against_user: string
     description?: string | null
     status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
     resolved_by?: string | null
     resolution_note?: string | null
     created_at?: Date | string
@@ -73872,6 +74863,13 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
@@ -73969,6 +74967,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -73979,15 +74979,19 @@ export namespace Prisma {
     users_disputes_raised_byTousers?: usersUpdateOneRequiredWithoutDisputes_disputes_raised_byTousersNestedInput
     reports?: reportsUpdateOneWithoutDisputesNestedInput
     users_disputes_resolved_byTousers?: usersUpdateOneWithoutDisputes_disputes_resolved_byTousersNestedInput
+    worker_assignments?: worker_assignmentsUpdateOneWithoutDisputesNestedInput
   }
 
   export type disputesUncheckedUpdateWithoutShiftsInput = {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74000,10 +75004,13 @@ export namespace Prisma {
   export type disputesUncheckedUpdateManyWithoutShiftsInput = {
     id?: StringFieldUpdateOperationsInput | string
     report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    assignment_id?: NullableStringFieldUpdateOperationsInput | string | null
     raised_by?: StringFieldUpdateOperationsInput | string
     against_user?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
     resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74173,12 +75180,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUpdateManyWithoutWorker_assignmentsNestedInput
     applications?: applicationsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
@@ -74192,12 +75207,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
   }
@@ -74209,6 +75232,13 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -74405,6 +75435,25 @@ export namespace Prisma {
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type disputesCreateManyWorker_assignmentsInput = {
+    id?: string
+    report_id?: string | null
+    shift_id?: string | null
+    raised_by: string
+    against_user: string
+    description?: string | null
+    status?: $Enums.report_status_enum
+    decision?: string | null
+    resolved_amount?: Decimal | DecimalJsLike | number | string | null
+    resolved_by?: string | null
+    resolution_note?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+  }
+
   export type ratingsCreateManyWorker_assignmentsInput = {
     id?: string
     shift_id: string
@@ -74437,6 +75486,63 @@ export namespace Prisma {
     deleted_at?: Date | string | null
     created_by?: string | null
     updated_by?: string | null
+  }
+
+  export type disputesUpdateWithoutWorker_assignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    users_disputes_against_userTousers?: usersUpdateOneRequiredWithoutDisputes_disputes_against_userTousersNestedInput
+    users_disputes_raised_byTousers?: usersUpdateOneRequiredWithoutDisputes_disputes_raised_byTousersNestedInput
+    reports?: reportsUpdateOneWithoutDisputesNestedInput
+    users_disputes_resolved_byTousers?: usersUpdateOneWithoutDisputes_disputes_resolved_byTousersNestedInput
+    shifts?: shiftsUpdateOneWithoutDisputesNestedInput
+  }
+
+  export type disputesUncheckedUpdateWithoutWorker_assignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    raised_by?: StringFieldUpdateOperationsInput | string
+    against_user?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
+    resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type disputesUncheckedUpdateManyWithoutWorker_assignmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    report_id?: NullableStringFieldUpdateOperationsInput | string | null
+    shift_id?: NullableStringFieldUpdateOperationsInput | string | null
+    raised_by?: StringFieldUpdateOperationsInput | string
+    against_user?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: Enumreport_status_enumFieldUpdateOperationsInput | $Enums.report_status_enum
+    decision?: NullableStringFieldUpdateOperationsInput | string | null
+    resolved_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    resolved_by?: NullableStringFieldUpdateOperationsInput | string | null
+    resolution_note?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ratingsUpdateWithoutWorker_assignmentsInput = {
@@ -74580,6 +75686,13 @@ export namespace Prisma {
     checkin_method?: $Enums.checkin_method_enum | null
     checked_in_at?: Date | string | null
     checked_out_at?: Date | string | null
+    checkout_by?: string | null
+    completion_status?: $Enums.assignment_completion_enum
+    worker_confirmed_at?: Date | string | null
+    business_confirmed_at?: Date | string | null
+    auto_confirm_at?: Date | string | null
+    paid_amount?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
     payment_status?: $Enums.payment_status_enum
     created_at?: Date | string
     updated_at?: Date | string
@@ -74705,12 +75818,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUpdateManyWithoutWorker_assignmentsNestedInput
     applications?: applicationsUpdateOneRequiredWithoutWorker_assignmentsNestedInput
@@ -74724,12 +75845,20 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    disputes?: disputesUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     ratings?: ratingsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
     transactions?: transactionsUncheckedUpdateManyWithoutWorker_assignmentsNestedInput
   }
@@ -74741,6 +75870,13 @@ export namespace Prisma {
     checkin_method?: NullableEnumcheckin_method_enumFieldUpdateOperationsInput | $Enums.checkin_method_enum | null
     checked_in_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checked_out_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkout_by?: NullableStringFieldUpdateOperationsInput | string | null
+    completion_status?: Enumassignment_completion_enumFieldUpdateOperationsInput | $Enums.assignment_completion_enum
+    worker_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    business_confirmed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    auto_confirm_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paid_amount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_status?: Enumpayment_status_enumFieldUpdateOperationsInput | $Enums.payment_status_enum
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

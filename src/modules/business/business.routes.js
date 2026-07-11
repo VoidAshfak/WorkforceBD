@@ -16,6 +16,7 @@ import {
   deleteShiftRules,
   listApplicantsRules,
   applicationIdRules,
+  assignmentIdRules,
   bulkDecisionRules,
   topUpRules,
   listWalletTxRules,
@@ -56,6 +57,12 @@ router.get("/shifts/:id/cancellation-preview", verified, shiftIdRules, businessC
 router.delete("/shifts/:id", verified, deleteShiftRules, businessController.deleteShift);
 router.get("/shifts/:id/applicants", listApplicantsRules, businessController.listApplicants);
 router.get("/shifts/:id/roster", shiftIdRules, businessController.getRoster);
+
+// Completion handshake — confirm/stamp check-outs and mark absentees.
+// assignment ids come from the roster (GET /shifts/:id/roster).
+router.post("/assignments/:id/checkout", verified, assignmentIdRules, businessController.checkoutWorker);
+router.post("/assignments/:id/confirm", verified, assignmentIdRules, businessController.confirmCheckout);
+router.post("/assignments/:id/no-show", verified, assignmentIdRules, businessController.markNoShow);
 
 // Applicant decisions — hiring/screening requires verification
 router.patch("/applications/:id/shortlist", verified, applicationIdRules, businessController.shortlistApplicant);

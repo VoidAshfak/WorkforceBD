@@ -68,6 +68,16 @@ export const PENALTY_DEMAND_SATURATION_RATIO = 3;
 export const RELIABILITY_MAX_SCORE = 5;
 export const RELIABILITY_NEUTRAL_NORM = 0.5;
 
+// Completion handshake (check-out → mutual confirm → pay).
+// After one side checks out, the other side has this long to confirm or dispute;
+// past the deadline the handshake auto-confirms and the worker is paid. This is
+// the unsupervised path — nobody has to be on-site or online for money to move.
+export const HANDSHAKE_AUTO_CONFIRM_HOURS = 12;
+// How often the in-process sweeper looks for overdue handshakes / attendance.
+export const HANDSHAKE_SWEEP_INTERVAL_MINUTES = 10;
+// Admin ruling options when resolving a payment dispute.
+export const DISPUTE_DECISIONS = ["pay_full", "pay_partial", "deny"];
+
 // App operating timezone. Shift `shift_date`/`start_time`/`end_time` columns store
 // Bangladesh wall-clock (UTC+6, no DST) with no zone info. This offset converts
 // those naive values into real UTC instants when comparing against `now`

@@ -4,6 +4,7 @@ import app from "./app.js";
 import { env } from "./config/env.js";
 import { logger } from "./config/logger.js";
 import { initSocket } from "./socket/io.js";
+import { startHandshakeSweeper } from "./jobs/handshakeSweeper.js";
 
 // Wrap Express in a raw HTTP server so Socket.IO can share the same port.
 const httpServer = createServer(app);
@@ -11,6 +12,8 @@ initSocket(httpServer);
 
 httpServer.listen(env.port, () => {
   logger.info(`Server running on port ${env.port} [${env.nodeEnv}]`);
+  // Unsupervised completion path: auto-checkout, auto-confirm, finalize.
+  startHandshakeSweeper();
 });
 
 process.on("unhandledRejection", (reason) => {

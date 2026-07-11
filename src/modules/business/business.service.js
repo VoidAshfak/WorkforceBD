@@ -128,14 +128,23 @@ const shiftEscrowCost = (payAmount, workersNeeded) =>
 
 /**
  * Platform commission on the total worker pay of a shift (screen 7 breakdown).
- * Shown to the business at creation; only the worker pay is escrowed today —
- * fee capture is deferred with the payment gateway.
+ * Escrowed together with the worker pay at submit; captured per worker slot at
+ * payout time, proportional to what was actually paid (no work → no fee).
  * @param {Prisma.Decimal|string|number} payAmount
  * @param {number} workersNeeded
  * @returns {Prisma.Decimal}
  */
 const shiftPlatformFee = (payAmount, workersNeeded) =>
   shiftEscrowCost(payAmount, workersNeeded).times(PLATFORM_FEE_PERCENT).dividedBy(100).toDecimalPlaces(2);
+
+/**
+ * Platform fee owed on an actual worker payout (proportional — a partial
+ * dispute ruling is fee'd on the ruled amount, a no-show/denial on nothing).
+ * @param {Prisma.Decimal|string|number} paidAmount
+ * @returns {Prisma.Decimal}
+ */
+const platformFeeOn = (paidAmount) =>
+  new Prisma.Decimal(paidAmount).times(PLATFORM_FEE_PERCENT).dividedBy(100).toDecimalPlaces(2);
 
 /**
  * Appends a ledger row for a business-wallet move, stamping the resulting balance
@@ -259,6 +268,117 @@ export const releaseShiftEscrow = async (tx, shift, totalPaid, actorId) => {
     });
   }
   logger.info(`Shift escrow released | shiftId=${shift.id} spent=${spent} returned=${unspent}`);
+};
+
+/**
+ * Releases ONE worker slot's slice of a shift's escrow as part of the completion
+ * handshake. A slot's slice is `pay_amount` plus its platform fee; the worker
+ * payout and the fee (proportional to what was actually paid) become spend, and
+ * the remainder (partial dispute ruling / no-show) returns to spendable balance.
+ * `shifts.escrow_amount` is decremented so it always reflects what is still
+ * held; the last slice (plus unfilled slots) is finalized by
+ * `finalizeShiftIfSettled`. Must run inside the payment transaction.
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} tx
+ * @param {{ id: string, business_profile_id: string, escrow_status: string, pay_amount: Prisma.Decimal|string|number, title?: string }} shift
+ * @param {Prisma.Decimal|string|number} paidAmount amount actually paid to the worker (0..pay_amount)
+ * @param {string|null} actorId
+ */
+export const releaseEscrowSliceTx = async (tx, shift, paidAmount, actorId) => {
+  if (shift.escrow_status !== "held") return;
+  // Fresh remaining hold — shifts escrowed before fee capture hold less than
+  // pay+fee per slot, so the slice is clamped to what is actually left.
+  const fresh = await tx.shifts.findUnique({
+    where: { id: shift.id },
+    select: { escrow_amount: true, escrow_status: true },
+  });
+  if (!fresh || fresh.escrow_status !== "held") return;
+
+  const pay = new Prisma.Decimal(shift.pay_amount);
+  let slice = pay.plus(platformFeeOn(pay));
+  if (slice.greaterThan(fresh.escrow_amount)) slice = new Prisma.Decimal(fresh.escrow_amount);
+
+  const paid = new Prisma.Decimal(paidAmount);
+  let fee = platformFeeOn(paid);
+  if (paid.plus(fee).greaterThan(slice)) fee = slice.minus(paid); // legacy clamp
+  const spent = paid.plus(fee);
+  const unspent = slice.minus(spent);
+
+  const wallet = await businessRepository.ensureBusinessWallet(shift.business_profile_id, actorId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  const updated = await businessRepository.updateBusinessWallet(wallet.id, {
+    held: new Prisma.Decimal(wallet.held).minus(slice),
+    balance: new Prisma.Decimal(wallet.balance).plus(unspent),
+    total_spent: new Prisma.Decimal(wallet.total_spent).plus(spent),
+    updated_by: actorId,
+  }, tx);
+  await tx.shifts.update({
+    where: { id: shift.id },
+    data: { escrow_amount: { decrement: slice }, updated_by: actorId },
+  });
+
+  if (paid.greaterThan(0)) {
+    await recordWalletLedger(tx, updated, {
+      type: "debit", amount: paid, description: `Worker payout: "${shift.title ?? "shift"}"`, shiftId: shift.id, userId: actorId,
+    });
+  }
+  if (fee.greaterThan(0)) {
+    await recordWalletLedger(tx, updated, {
+      type: "debit", amount: fee, description: `Platform fee (${PLATFORM_FEE_PERCENT}%): "${shift.title ?? "shift"}"`, shiftId: shift.id, userId: actorId,
+    });
+  }
+  if (unspent.greaterThan(0)) {
+    await recordWalletLedger(tx, updated, {
+      type: "credit", amount: unspent, description: "Escrow slice remainder returned", shiftId: shift.id, userId: actorId,
+    });
+  }
+  logger.info(`Escrow slice released | shiftId=${shift.id} paid=${paid} fee=${fee} returned=${unspent}`);
+};
+
+/**
+ * Closes out a shift's escrow once every handshake is resolved: whatever is still
+ * held (unfilled slots, denied disputes already returned as slices) goes back to
+ * the spendable balance and the escrow is marked `released`. Idempotent.
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} tx
+ * @param {{ id: string, business_profile_id: string, escrow_status: string, escrow_amount: Prisma.Decimal|string|number }} shift
+ * @param {string|null} actorId
+ */
+export const finalizeShiftEscrowTx = async (tx, shift, actorId) => {
+  if (shift.escrow_status !== "held") return;
+  const remaining = new Prisma.Decimal(shift.escrow_amount);
+  if (remaining.greaterThan(0)) {
+    await returnToWallet(tx, shift.business_profile_id, actorId, remaining, {
+      shiftId: shift.id, description: "Unused escrow returned",
+    });
+  }
+  await businessRepository.updateShift(shift.id, {
+    escrow_status: "released", escrow_amount: 0, updated_by: actorId,
+  }, tx);
+  logger.info(`Shift escrow finalized | shiftId=${shift.id} returned=${remaining}`);
+};
+
+/**
+ * Charges the business wallet's spendable balance directly (no hold involved).
+ * Used when an admin dispute ruling pays a worker AFTER that slot's escrow was
+ * already refunded (e.g. a no-show marking overturned). The balance may go
+ * negative — the ruling stands and the business owes the platform.
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} tx
+ * @param {string} profileId
+ * @param {string|null} actorId
+ * @param {Prisma.Decimal|string|number} amount
+ * @param {{ shiftId?: string, description?: string }} [meta]
+ */
+export const chargeBusinessWalletTx = async (tx, profileId, actorId, amount, meta = {}) => {
+  const amt = new Prisma.Decimal(amount);
+  if (amt.lessThanOrEqualTo(0)) return;
+  const wallet = await businessRepository.ensureBusinessWallet(profileId, actorId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  const updated = await businessRepository.updateBusinessWallet(wallet.id, {
+    balance: new Prisma.Decimal(wallet.balance).minus(amt),
+    total_spent: new Prisma.Decimal(wallet.total_spent).plus(amt),
+    updated_by: actorId,
+  }, tx);
+  await recordWalletLedger(tx, updated, {
+    type: "debit", amount: amt, description: meta.description ?? "Dispute resolution charge", shiftId: meta.shiftId, userId: actorId,
+  });
+  logger.info(`Business wallet charged | profileId=${profileId} amount=${amt} shiftId=${meta.shiftId ?? "n/a"}`);
 };
 
 /**
@@ -443,12 +563,13 @@ export const createShift = async (userId, data) => {
     }
   }
 
-  // Submitting straight to review (not a draft) escrows the shift's full cost now.
+  // Submitting straight to review (not a draft) escrows the shift's full cost
+  // now — worker pay plus the platform fee (fee is captured at payout time).
   const isSubmitting = !data.draft;
   const status = isSubmitting ? "pending_approval" : "draft";
   const workersNeeded = Number(data.workers_needed);
-  const cost = shiftEscrowCost(data.pay_amount, workersNeeded);
   const platformFee = shiftPlatformFee(data.pay_amount, workersNeeded);
+  const cost = shiftEscrowCost(data.pay_amount, workersNeeded).plus(platformFee);
 
   const shiftData = {
     business_profile_id: profile.id,
@@ -623,7 +744,8 @@ export const publishShift = async (userId, shiftId) => {
   if (!shift) throw new AppError("Shift not found", 404);
   if (shift.status !== "draft") throw new AppError("Only draft shifts can be submitted", 409);
 
-  const cost = shiftEscrowCost(shift.pay_amount, shift.workers_needed);
+  const cost = shiftEscrowCost(shift.pay_amount, shift.workers_needed)
+    .plus(shiftPlatformFee(shift.pay_amount, shift.workers_needed));
 
   // Reserve the escrow and flip status atomically.
   const updated = await prisma.$transaction(async (tx) => {
@@ -737,7 +859,10 @@ export const previewShiftCancellation = async (userId, shiftId) => {
     businessRepository.findHiredForCancellation(shiftId),
     businessRepository.countActiveApplicants(shiftId),
   ]);
-  return assembleCancellation(shift, hired, applicantCount, new Date()).dto;
+  // Workers already paid through the completion handshake keep their pay —
+  // they are not compensated again.
+  const unpaid = hired.filter((h) => !h.worker_assignments[0]?.paid_at);
+  return assembleCancellation(shift, unpaid, applicantCount, new Date()).dto;
 };
 
 /**
@@ -760,10 +885,12 @@ export const deleteShift = async (userId, shiftId, { reason, acknowledgePenalty 
   }
 
   const now = new Date();
-  const [hired, applicantCount] = await Promise.all([
+  const [allHired, applicantCount] = await Promise.all([
     businessRepository.findHiredForCancellation(shiftId),
     businessRepository.countActiveApplicants(shiftId),
   ]);
+  // Already-paid workers keep their handshake payout — compensate only the rest.
+  const hired = allHired.filter((h) => !h.worker_assignments[0]?.paid_at);
   const { dto, perWorker, totalPenalty } = assembleCancellation(shift, hired, applicantCount, now);
 
   // Gate the money move behind an explicit acknowledgement; return the breakdown.
@@ -903,8 +1030,25 @@ export const listApplicants = async (userId, shiftId, query) => {
 };
 
 /**
+ * Roster row state blending attendance and the completion handshake.
+ * @param {object} a roster assignment row
+ */
+const deriveRosterStatus = (a) => {
+  switch (a.completion_status) {
+    case "no_show": return "no_show";
+    case "disputed": return "disputed";
+    case "confirmed":
+    case "resolved": return "paid";
+    case "worker_done": return "awaiting_business_confirm";
+    case "business_done": return "awaiting_worker_confirm";
+    default:
+      return a.checked_out_at ? "checked_out" : a.checked_in_at ? "checked_in" : "waiting";
+  }
+};
+
+/**
  * Live-attendance roster for an owned shift: every hired worker with their
- * derived check-in state, plus the QR token the business displays on-site.
+ * derived check-in/handshake state, plus the QR token the business displays on-site.
  * @param {string} userId
  * @param {string} shiftId
  */
@@ -916,11 +1060,21 @@ export const getShiftRoster = async (userId, shiftId) => {
   const rows = await businessRepository.findShiftRoster(shiftId);
   const roster = rows.map((a) => ({
     assignment_id: a.id,
+    application_id: a.application_id,
     worker: a.worker_profiles,
-    status: a.checked_out_at ? "checked_out" : a.checked_in_at ? "checked_in" : "waiting",
+    status: deriveRosterStatus(a),
     checked_in_at: a.checked_in_at,
     checked_out_at: a.checked_out_at,
     checkin_method: a.checkin_method,
+    completion_status: a.completion_status,
+    auto_confirm_at: a.auto_confirm_at,
+    paid_amount: a.paid_amount,
+    paid_at: a.paid_at,
+    // What the business can do next on this row (drives roster action buttons).
+    next_action: a.completion_status === "worker_done" ? "confirm_checkout"
+      : a.completion_status === "pending" && a.checked_in_at ? "checkout"
+      : a.completion_status === "pending" && !a.checked_in_at ? "mark_no_show"
+      : null,
   }));
   const checkedIn = rows.filter((a) => a.checked_in_at).length;
 

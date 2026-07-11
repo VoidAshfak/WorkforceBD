@@ -290,25 +290,32 @@ model business_profiles {
 }
 
 model disputes {
-  id                                 String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  report_id                          String?            @db.Uuid
-  shift_id                           String?            @db.Uuid
-  raised_by                          String             @db.Uuid
-  against_user                       String             @db.Uuid
+  id                                 String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  report_id                          String?             @db.Uuid
+  shift_id                           String?             @db.Uuid
+  assignment_id                      String?             @db.Uuid
+  raised_by                          String              @db.Uuid
+  against_user                       String              @db.Uuid
   description                        String?
-  status                             report_status_enum @default(open)
-  resolved_by                        String?            @db.Uuid
+  status                             report_status_enum  @default(open)
+  decision                           String?             @db.VarChar(20)
+  resolved_amount                    Decimal?            @db.Decimal(10, 2)
+  resolved_by                        String?             @db.Uuid
   resolution_note                    String?
-  created_at                         DateTime           @default(now()) @db.Timestamptz(6)
-  updated_at                         DateTime           @default(now()) @db.Timestamptz(6)
-  deleted_at                         DateTime?          @db.Timestamptz(6)
-  created_by                         String?            @db.Uuid
-  updated_by                         String?            @db.Uuid
-  users_disputes_against_userTousers users              @relation("disputes_against_userTousers", fields: [against_user], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users_disputes_raised_byTousers    users              @relation("disputes_raised_byTousers", fields: [raised_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  reports                            reports?           @relation(fields: [report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users_disputes_resolved_byTousers  users?             @relation("disputes_resolved_byTousers", fields: [resolved_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  shifts                             shifts?            @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  created_at                         DateTime            @default(now()) @db.Timestamptz(6)
+  updated_at                         DateTime            @default(now()) @db.Timestamptz(6)
+  deleted_at                         DateTime?           @db.Timestamptz(6)
+  created_by                         String?             @db.Uuid
+  updated_by                         String?             @db.Uuid
+  users_disputes_against_userTousers users               @relation("disputes_against_userTousers", fields: [against_user], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_disputes_raised_byTousers    users               @relation("disputes_raised_byTousers", fields: [raised_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reports                            reports?            @relation(fields: [report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users_disputes_resolved_byTousers  users?              @relation("disputes_resolved_byTousers", fields: [resolved_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shifts                             shifts?             @relation(fields: [shift_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  worker_assignments                 worker_assignments? @relation(fields: [assignment_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([status], map: "idx_disputes_status")
+  @@index([assignment_id], map: "idx_disputes_assignment")
 }
 
 model notifications {
@@ -579,28 +586,37 @@ model business_wallet_transactions {
 }
 
 model worker_assignments {
-  id                String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  shift_id          String               @db.Uuid
-  application_id    String               @db.Uuid
-  worker_profile_id String               @db.Uuid
-  checkin_method    checkin_method_enum?
-  checked_in_at     DateTime?            @db.Timestamptz(6)
-  checked_out_at    DateTime?            @db.Timestamptz(6)
-  payment_status    payment_status_enum  @default(pending)
-  created_at        DateTime             @default(now()) @db.Timestamptz(6)
-  updated_at        DateTime             @default(now()) @db.Timestamptz(6)
-  deleted_at        DateTime?            @db.Timestamptz(6)
-  created_by        String?              @db.Uuid
-  updated_by        String?              @db.Uuid
-  ratings           ratings[]
-  transactions      transactions[]
-  applications      applications         @relation(fields: [application_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  shifts            shifts               @relation(fields: [shift_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  worker_profiles   worker_profiles      @relation(fields: [worker_profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                    String                     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  shift_id              String                     @db.Uuid
+  application_id        String                     @db.Uuid
+  worker_profile_id     String                     @db.Uuid
+  checkin_method        checkin_method_enum?
+  checked_in_at         DateTime?                  @db.Timestamptz(6)
+  checked_out_at        DateTime?                  @db.Timestamptz(6)
+  checkout_by           String?                    @db.Uuid
+  completion_status     assignment_completion_enum @default(pending)
+  worker_confirmed_at   DateTime?                  @db.Timestamptz(6)
+  business_confirmed_at DateTime?                  @db.Timestamptz(6)
+  auto_confirm_at       DateTime?                  @db.Timestamptz(6)
+  paid_amount           Decimal?                   @db.Decimal(10, 2)
+  paid_at               DateTime?                  @db.Timestamptz(6)
+  payment_status        payment_status_enum        @default(pending)
+  created_at            DateTime                   @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime                   @default(now()) @db.Timestamptz(6)
+  deleted_at            DateTime?                  @db.Timestamptz(6)
+  created_by            String?                    @db.Uuid
+  updated_by            String?                    @db.Uuid
+  disputes              disputes[]
+  ratings               ratings[]
+  transactions          transactions[]
+  applications          applications               @relation(fields: [application_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shifts                shifts                     @relation(fields: [shift_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  worker_profiles       worker_profiles            @relation(fields: [worker_profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([shift_id, worker_profile_id])
   @@index([shift_id], map: "idx_assignments_shift")
   @@index([worker_profile_id], map: "idx_assignments_worker")
+  @@index([completion_status, auto_confirm_at], map: "idx_assignments_handshake")
 }
 
 model worker_categories {
@@ -713,6 +729,16 @@ model chat_messages {
 
   @@index([conversation_id, created_at(sort: Desc)], map: "idx_chat_messages_conversation")
   @@index([conversation_id, sender_role, read_at], map: "idx_chat_messages_unread")
+}
+
+enum assignment_completion_enum {
+  pending
+  worker_done
+  business_done
+  confirmed
+  disputed
+  resolved
+  no_show
 }
 
 enum application_status_enum {

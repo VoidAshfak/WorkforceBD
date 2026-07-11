@@ -77,10 +77,13 @@ export const findWorkerApplications = (workerProfileId, { status, skip, take }) 
           zones: { select: { name: true } },
         },
       },
-      // Drives the "checked in / in progress" activity state for hired workers.
+      // Drives the "checked in / in progress / handshake" activity state for hired workers.
       worker_assignments: {
         where: { deleted_at: null },
-        select: { checked_in_at: true, checked_out_at: true, payment_status: true },
+        select: {
+          id: true, checked_in_at: true, checked_out_at: true, payment_status: true,
+          completion_status: true, paid_amount: true, paid_at: true, auto_confirm_at: true,
+        },
         take: 1,
       },
     },
@@ -136,6 +139,7 @@ export const findAssignmentContext = (applicationId, workerProfileId) => {
       id: true,
       checked_in_at: true,
       checked_out_at: true,
+      completion_status: true,
       shift_id: true,
       shifts: {
         select: {
@@ -189,13 +193,25 @@ export const setCheckIn = async (assignmentId, method, at) => {
 };
 
 /**
- * Stamps a check-out on the assignment.
+ * Stamps a worker check-out and opens the completion handshake: the assignment
+ * moves to `worker_done` and the business gets until `autoConfirmAt` to confirm
+ * or dispute before the handshake auto-confirms.
  * @param {string} assignmentId
+ * @param {string} userId the worker stamping the check-out
+ * @param {Date} autoConfirmAt
  */
-export const setCheckOut = (assignmentId) => {
+export const setCheckOut = (assignmentId, userId, autoConfirmAt) => {
+  const now = new Date();
   return prisma.worker_assignments.update({
     where: { id: assignmentId },
-    data: { checked_out_at: new Date() },
+    data: {
+      checked_out_at: now,
+      checkout_by: userId,
+      completion_status: "worker_done",
+      worker_confirmed_at: now,
+      auto_confirm_at: autoConfirmAt,
+      updated_by: userId,
+    },
   });
 };
 

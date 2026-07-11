@@ -19,5 +19,7 @@ router.patch("/:id/withdraw", applicationIdRules, applicationController.withdraw
 // live attendance — requires an admin-verified worker profile
 router.post("/:id/check-in", requireVerifiedProfile("worker"), checkInRules, applicationController.checkIn);
 router.post("/:id/check-out", requireVerifiedProfile("worker"), applicationIdRules, applicationController.checkOut);
+// completion handshake — worker confirms a business-stamped check-out (releases payment)
+router.post("/:id/confirm-checkout", requireVerifiedProfile("worker"), applicationIdRules, applicationController.confirmCheckout);
 
 export default router;

@@ -2,6 +2,7 @@ import { validationResult } from "express-validator";
 import { sendSuccess, sendError } from "../../utils/response.js";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import * as businessService from "./business.service.js";
+import * as handshakeService from "../payment/handshake.service.js";
 
 /** Rejects the request when validation rules failed. Returns true if handled. */
 const failedValidation = (req, res) => {
@@ -186,4 +187,24 @@ export const bulkDecideApplicants = asyncHandler(async (req, res) => {
   const { action, application_ids } = req.body;
   const result = await businessService.bulkDecideApplicants(req.user.id, req.params.id, { action, application_ids });
   return sendSuccess(res, 200, `Bulk ${action} applied`, result);
+});
+
+/* ---------------------- Completion handshake ----------------------- */
+
+export const checkoutWorker = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const assignment = await handshakeService.businessCheckoutWorker(req.user.id, req.params.id);
+  return sendSuccess(res, 200, "Worker checked out — awaiting worker confirmation", assignment);
+});
+
+export const confirmCheckout = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const assignment = await handshakeService.businessConfirmCheckout(req.user.id, req.params.id);
+  return sendSuccess(res, 200, "Check-out confirmed — worker paid", assignment);
+});
+
+export const markNoShow = asyncHandler(async (req, res) => {
+  if (failedValidation(req, res)) return;
+  const assignment = await handshakeService.businessMarkNoShow(req.user.id, req.params.id);
+  return sendSuccess(res, 200, "Worker marked as no-show", assignment);
 });

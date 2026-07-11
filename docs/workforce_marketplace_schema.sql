@@ -441,8 +441,10 @@ CREATE TABLE shifts (
     -- Cancellation reason (if cancelled)
     cancellation_reason     TEXT,
 
-    -- Escrow: full estimated cost (pay_amount × workers_needed) reserved from the
-    -- business wallet when the shift is submitted for review, released at settlement.
+    -- Escrow: full cost — worker pay + platform fee ((pay_amount × workers_needed)
+    -- × 1.10) — reserved from the business wallet when the shift is submitted.
+    -- escrow_amount always reflects what is STILL held: each completed handshake
+    -- releases one slot's slice (pay + fee); finalize returns the leftover.
     escrow_amount           NUMERIC(10,2) NOT NULL DEFAULT 0.00,
     escrow_status           escrow_status_enum NOT NULL DEFAULT 'none',
 
@@ -478,6 +480,18 @@ CREATE TABLE applications (
     UNIQUE (shift_id, worker_profile_id)
 );
 
+-- Completion-handshake lifecycle of one assignment:
+--   pending       → not checked out yet
+--   worker_done   → worker checked out; business confirm window open
+--   business_done → business stamped the check-out; worker confirm window open
+--   confirmed     → handshake complete (explicit or auto) — worker paid
+--   disputed      → frozen; an admin must rule
+--   resolved      → admin ruled (full / partial / no pay)
+--   no_show       → worker never arrived; escrow slice returned to business
+CREATE TYPE assignment_completion_enum AS ENUM (
+    'pending', 'worker_done', 'business_done', 'confirmed', 'disputed', 'resolved', 'no_show'
+);
+
 -- Confirmed worker assignments (selected + confirmed workers for a shift)
 CREATE TABLE worker_assignments (
     id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -489,6 +503,15 @@ CREATE TABLE worker_assignments (
     checkin_method      checkin_method_enum,
     checked_in_at       TIMESTAMPTZ,
     checked_out_at      TIMESTAMPTZ,
+    checkout_by         UUID,                               -- user who stamped the check-out (worker, business, NULL = sweeper)
+
+    -- Completion handshake (worker ↔ business mutual confirm, then pay)
+    completion_status     assignment_completion_enum NOT NULL DEFAULT 'pending',
+    worker_confirmed_at   TIMESTAMPTZ,
+    business_confirmed_at TIMESTAMPTZ,
+    auto_confirm_at       TIMESTAMPTZ,                      -- deadline; past it the sweeper auto-confirms + pays
+    paid_amount           DECIMAL(10,2),                    -- what was actually paid (full pay, or admin's partial ruling)
+    paid_at               TIMESTAMPTZ,
 
     -- Payment status for this assignment
     payment_status      payment_status_enum NOT NULL DEFAULT 'pending',
@@ -574,15 +597,20 @@ CREATE TABLE reports (
     updated_by      UUID
 );
 
--- Disputes (payment or work disputes — escalated reports)
+-- Disputes (payment or work disputes — escalated reports).
+-- A dispute tied to an assignment freezes that assignment's handshake
+-- (completion_status = 'disputed') until an admin rules.
 CREATE TABLE disputes (
     id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     report_id       UUID REFERENCES reports(id),
     shift_id        UUID REFERENCES shifts(id),
+    assignment_id   UUID REFERENCES worker_assignments(id), -- the frozen payment slice
     raised_by       UUID NOT NULL REFERENCES users(id),
     against_user    UUID NOT NULL REFERENCES users(id),
     description     TEXT,
     status          report_status_enum NOT NULL DEFAULT 'open',
+    decision        VARCHAR(20),                            -- pay_full | pay_partial | deny
+    resolved_amount DECIMAL(10,2),                          -- amount actually paid by the ruling
     resolved_by     UUID REFERENCES users(id),
     resolution_note TEXT,
 
@@ -838,6 +866,11 @@ CREATE INDEX idx_applications_status ON applications(status);
 -- Worker assignments
 CREATE INDEX idx_assignments_shift ON worker_assignments(shift_id);
 CREATE INDEX idx_assignments_worker ON worker_assignments(worker_profile_id);
+CREATE INDEX idx_assignments_handshake ON worker_assignments(completion_status, auto_confirm_at);
+
+-- Disputes
+CREATE INDEX idx_disputes_status ON disputes(status);
+CREATE INDEX idx_disputes_assignment ON disputes(assignment_id);
 
 -- Ratings
 CREATE INDEX idx_ratings_rated_user ON ratings(rated_user_id);
@@ -970,13 +1003,17 @@ INSERT INTO categories (id, name) VALUES
 
 -- ESCROW MODEL (implemented):
 --   business_wallets funds shift escrow. On submit-for-review the shift's full
---   cost (pay_amount × workers_needed) moves balance → held + shifts.escrow_status='held'.
---   Cancel/reject → held back to balance ('refunded'). Settlement pays attended
---   workers from held, returns the unspent remainder to balance ('released').
+--   cost — worker pay + 10% platform fee — moves balance → held +
+--   shifts.escrow_status='held'. Cancel/reject/expiry → held back to balance
+--   ('refunded'). Each completed handshake releases one slot's slice: worker
+--   payout + fee (proportional to the payout) become spend, the remainder
+--   returns to balance. Finalize returns the leftover (unfilled slots) and
+--   marks 'released'. Ended shifts with zero hires auto-expire (cancelled +
+--   full refund) via the handshake sweeper.
 
 -- FUTURE FEATURES (not in MVP, easy to add):
 --   - Business wallet top-up via MFS corporate checkout (bKash/Nagad B2B)
---   - Hourly billing (rate/hour, break, platform fee) replacing flat pay_amount
+--   - Hourly billing (rate/hour, break) replacing flat pay_amount
 --   - QR/PIN check-in: already supported via checkin_method enum
 --   - Branch-level hiring: set branch_id on shifts
 --   - Worker badges: add worker_badges table

@@ -64,19 +64,20 @@ export const findWorkerProfileId = async (userId) => {
 };
 
 /**
- * Flat pay still owed: accepted applications on completed (un-settled) shifts.
+ * Flat pay still owed: attended assignments whose completion handshake has not
+ * paid out yet (open, awaiting confirmation, or frozen by a dispute).
  * @param {string} workerProfileId
  * @returns {Promise<number>}
  */
 export const sumPendingSettlement = async (workerProfileId) => {
-  const rows = await prisma.applications.findMany({
+  const rows = await prisma.worker_assignments.findMany({
     where: {
       worker_profile_id: workerProfileId,
-      status: "accepted",
       deleted_at: null,
-      shifts: { status: "completed", deleted_at: null },
-      // Only attended shifts will actually be paid at settlement.
-      worker_assignments: { some: { checked_in_at: { not: null }, deleted_at: null } },
+      checked_in_at: { not: null },
+      paid_at: null,
+      completion_status: { in: ["pending", "worker_done", "business_done", "disputed"] },
+      shifts: { deleted_at: null, status: { not: "cancelled" } },
     },
     select: { shifts: { select: { pay_amount: true } } },
   });
@@ -209,6 +210,239 @@ export const updatePayout = (id, data, client = prisma) => {
   return client.payout_requests.update({ where: { id }, data, select: payoutSelect });
 };
 
+/* --------------------------- Handshake ----------------------------- */
+
+// Everything the handshake engine needs alongside an assignment row: the shift
+// (money + timing + owner), the worker (wallet owner) and the application (status).
+const assignmentContextInclude = {
+  shifts: {
+    select: {
+      id: true, title: true, status: true, shift_date: true, start_time: true, end_time: true,
+      pay_amount: true, workers_needed: true, business_profile_id: true,
+      escrow_amount: true, escrow_status: true,
+      business_profiles: { select: { user_id: true } },
+    },
+  },
+  worker_profiles: { select: { id: true, user_id: true, full_name: true } },
+  applications: { select: { id: true, status: true } },
+};
+
+/**
+ * @param {string} assignmentId
+ * @param {import("@prisma/client").Prisma.TransactionClient} [client]
+ */
+export const findAssignmentWithContext = (assignmentId, client = prisma) => {
+  return client.worker_assignments.findFirst({
+    where: { id: assignmentId, deleted_at: null },
+    include: assignmentContextInclude,
+  });
+};
+
+/**
+ * Assignment scoped to the owning business (404 guard for business handshake ops).
+ * @param {string} assignmentId
+ * @param {string} businessProfileId
+ */
+export const findAssignmentForBusiness = (assignmentId, businessProfileId) => {
+  return prisma.worker_assignments.findFirst({
+    where: { id: assignmentId, deleted_at: null, shifts: { business_profile_id: businessProfileId } },
+    include: assignmentContextInclude,
+  });
+};
+
+/**
+ * Assignment scoped to the owning worker, looked up by its application.
+ * @param {string} applicationId
+ * @param {string} workerProfileId
+ */
+export const findAssignmentForWorker = (applicationId, workerProfileId) => {
+  return prisma.worker_assignments.findFirst({
+    where: { application_id: applicationId, worker_profile_id: workerProfileId, deleted_at: null },
+    include: assignmentContextInclude,
+  });
+};
+
+/**
+ * Atomically claims an assignment for payment: flips it out of `fromStatuses`
+ * only if it has not been paid yet. Returns the number of rows updated — 0 means
+ * a concurrent pay/settle/sweep won the race, or the state changed underneath.
+ * @param {string} assignmentId
+ * @param {string[]} fromStatuses completion states the claim is valid from
+ * @param {object} data new payment/completion fields
+ * @param {import("@prisma/client").Prisma.TransactionClient} [client]
+ * @returns {Promise<number>}
+ */
+export const claimAssignmentPayment = async (assignmentId, fromStatuses, data, client = prisma) => {
+  const { count } = await client.worker_assignments.updateMany({
+    where: { id: assignmentId, paid_at: null, completion_status: { in: fromStatuses }, deleted_at: null },
+    data,
+  });
+  return count;
+};
+
+/**
+ * @param {string} assignmentId
+ * @param {object} data
+ * @param {import("@prisma/client").Prisma.TransactionClient} [client]
+ */
+export const updateAssignment = (assignmentId, data, client = prisma) => {
+  return client.worker_assignments.update({ where: { id: assignmentId }, data });
+};
+
+/**
+ * Assignments on a shift whose handshake is still open (blocks finalization).
+ * @param {string} shiftId
+ * @param {import("@prisma/client").Prisma.TransactionClient} [client]
+ */
+export const countUnresolvedAssignments = (shiftId, client = prisma) => {
+  return client.worker_assignments.count({
+    where: {
+      shift_id: shiftId,
+      deleted_at: null,
+      completion_status: { in: ["pending", "worker_done", "business_done", "disputed"] },
+    },
+  });
+};
+
+/** All assignments on a shift with handshake context (settle loop). @param {string} shiftId */
+export const findShiftAssignments = (shiftId) => {
+  return prisma.worker_assignments.findMany({
+    where: { shift_id: shiftId, deleted_at: null },
+    include: assignmentContextInclude,
+  });
+};
+
+/**
+ * Handshakes whose confirm window has lapsed — the sweeper auto-confirms these.
+ * @param {Date} now
+ * @param {number} take
+ */
+export const findDueHandshakes = (now, take = 100) => {
+  return prisma.worker_assignments.findMany({
+    where: {
+      deleted_at: null,
+      paid_at: null,
+      completion_status: { in: ["worker_done", "business_done"] },
+      auto_confirm_at: { lte: now },
+    },
+    include: assignmentContextInclude,
+    take,
+  });
+};
+
+// Statuses a shift can be in while its roster still has open attendance.
+const LIVE_SHIFT_STATUSES = [
+  "published", "applications_open", "worker_selected", "worker_confirmed",
+  "worker_arriving", "checked_in", "active",
+];
+
+/**
+ * Live shifts dated today-or-earlier that have at least one hired worker. The
+ * sweeper computes each shift's real end instant in JS (date + time columns are
+ * wall-clock), closes open attendance on the truly-ended ones, and advances them
+ * to `completed` (also un-sticks shifts whose roster resolved without a status
+ * bump, e.g. everyone marked no-show mid-run).
+ * @param {Date} maxDate latest shift_date to consider
+ */
+export const findLiveShiftsForAttendanceSweep = (maxDate) => {
+  return prisma.shifts.findMany({
+    where: {
+      deleted_at: null,
+      status: { in: LIVE_SHIFT_STATUSES },
+      shift_date: { lte: maxDate },
+      worker_assignments: { some: { deleted_at: null } },
+    },
+    select: {
+      id: true, title: true, status: true, shift_date: true, start_time: true, end_time: true,
+      pay_amount: true, workers_needed: true, business_profile_id: true,
+      escrow_amount: true, escrow_status: true,
+      business_profiles: { select: { user_id: true } },
+      worker_assignments: {
+        where: { deleted_at: null, completion_status: "pending" },
+        include: { worker_profiles: { select: { id: true, user_id: true, full_name: true } }, applications: { select: { id: true, status: true } } },
+      },
+    },
+    take: 100,
+  });
+};
+
+// Pre-work statuses an unhired shift can expire from. `worker_selected`+
+// implies hires exist; drafts hold no money and stay editable.
+const EXPIRABLE_SHIFT_STATUSES = ["pending_approval", "published", "applications_open"];
+export { EXPIRABLE_SHIFT_STATUSES };
+
+/**
+ * Dated shifts that nobody was ever hired for — candidates for auto-expiry
+ * (cancel + full escrow refund). The sweeper end-checks each one in JS.
+ * @param {Date} maxDate latest shift_date to consider
+ */
+export const findExpiredUnhiredShifts = (maxDate) => {
+  return prisma.shifts.findMany({
+    where: {
+      deleted_at: null,
+      status: { in: EXPIRABLE_SHIFT_STATUSES },
+      shift_date: { lte: maxDate },
+      worker_assignments: { none: { deleted_at: null } },
+    },
+    select: {
+      id: true, title: true, status: true, shift_date: true, start_time: true, end_time: true,
+      business_profile_id: true, escrow_amount: true, escrow_status: true,
+      business_profiles: { select: { user_id: true } },
+    },
+    take: 100,
+  });
+};
+
+/**
+ * Done shifts still holding escrow with every handshake resolved — the sweeper
+ * finalizes these (covers restarts that missed an inline finalize).
+ */
+export const findShiftsAwaitingFinalize = () => {
+  return prisma.shifts.findMany({
+    where: {
+      deleted_at: null,
+      status: { in: ["completed", "payment_pending", "paid"] },
+      escrow_status: "held",
+      worker_assignments: {
+        none: {
+          deleted_at: null,
+          completion_status: { in: ["pending", "worker_done", "business_done", "disputed"] },
+        },
+      },
+    },
+    select: { id: true },
+    take: 100,
+  });
+};
+
+/**
+ * Increments a worker reputation counter (completed_shift_count / no_show_count).
+ * @param {string} workerProfileId
+ * @param {"completed_shift_count"|"no_show_count"} field
+ * @param {import("@prisma/client").Prisma.TransactionClient} [client]
+ */
+export const incrementWorkerCounter = (workerProfileId, field, client = prisma) => {
+  return client.worker_profiles.update({
+    where: { id: workerProfileId },
+    data: { [field]: { increment: 1 } },
+  });
+};
+
+/**
+ * Loads a shift's finalize-relevant columns inside a transaction.
+ * @param {string} shiftId
+ * @param {import("@prisma/client").Prisma.TransactionClient} [client]
+ */
+export const findShiftForFinalize = (shiftId, client = prisma) => {
+  return client.shifts.findFirst({
+    where: { id: shiftId, deleted_at: null },
+    select: {
+      id: true, title: true, status: true, business_profile_id: true,
+      escrow_amount: true, escrow_status: true, pay_amount: true,
+    },
+  });
+};
+
 /* --------------------------- Settlement ---------------------------- */
 
 /**
@@ -227,60 +461,10 @@ export const findOwnedShiftForSettle = (shiftId, userId) => {
 };
 
 /**
- * Accepted (hired) applications for a shift, with the worker's user id and the
- * roster assignment's attendance stamps — settlement pays only attended workers.
- * @param {string} shiftId
- */
-export const findAcceptedApplications = (shiftId) => {
-  return prisma.applications.findMany({
-    where: { shift_id: shiftId, status: "accepted", deleted_at: null },
-    select: {
-      id: true,
-      worker_profiles: { select: { user_id: true } },
-      worker_assignments: {
-        where: { deleted_at: null },
-        select: { checked_in_at: true, checked_out_at: true },
-        take: 1,
-      },
-    },
-  });
-};
-
-/**
- * Flags accepted-but-absent applications as no_show (attendance failure).
- * @param {string[]} applicationIds
- * @param {import("@prisma/client").Prisma.TransactionClient} [client]
- */
-export const markNoShow = (applicationIds, client = prisma) => {
-  if (applicationIds.length === 0) return { count: 0 };
-  return client.applications.updateMany({
-    where: { id: { in: applicationIds } },
-    data: { status: "no_show" },
-  });
-};
-
-/**
  * @param {string} shiftId
  * @param {object} data
  * @param {import("@prisma/client").Prisma.TransactionClient} [client]
  */
 export const updateShiftStatus = (shiftId, data, client = prisma) => {
   return client.shifts.update({ where: { id: shiftId }, data, select: { id: true, status: true } });
-};
-
-/**
- * Atomically claims a completed shift for settlement (completed → paid). Returns
- * the number of rows flipped — 0 means a concurrent settle already won the race.
- * Run first inside the settlement transaction to serialize on the shift row.
- * @param {string} shiftId
- * @param {string} userId
- * @param {import("@prisma/client").Prisma.TransactionClient} client
- * @returns {Promise<number>}
- */
-export const claimShiftForSettlement = async (shiftId, userId, client) => {
-  const { count } = await client.shifts.updateMany({
-    where: { id: shiftId, status: "completed" },
-    data: { status: "paid", updated_by: userId },
-  });
-  return count;
 };

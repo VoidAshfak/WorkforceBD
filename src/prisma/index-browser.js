@@ -319,10 +319,13 @@ exports.Prisma.DisputesScalarFieldEnum = {
   id: 'id',
   report_id: 'report_id',
   shift_id: 'shift_id',
+  assignment_id: 'assignment_id',
   raised_by: 'raised_by',
   against_user: 'against_user',
   description: 'description',
   status: 'status',
+  decision: 'decision',
+  resolved_amount: 'resolved_amount',
   resolved_by: 'resolved_by',
   resolution_note: 'resolution_note',
   created_at: 'created_at',
@@ -534,6 +537,13 @@ exports.Prisma.Worker_assignmentsScalarFieldEnum = {
   checkin_method: 'checkin_method',
   checked_in_at: 'checked_in_at',
   checked_out_at: 'checked_out_at',
+  checkout_by: 'checkout_by',
+  completion_status: 'completion_status',
+  worker_confirmed_at: 'worker_confirmed_at',
+  business_confirmed_at: 'business_confirmed_at',
+  auto_confirm_at: 'auto_confirm_at',
+  paid_amount: 'paid_amount',
+  paid_at: 'paid_at',
   payment_status: 'payment_status',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -768,6 +778,16 @@ exports.checkin_method_enum = exports.$Enums.checkin_method_enum = {
   gps: 'gps',
   qr: 'qr',
   pin: 'pin'
+};
+
+exports.assignment_completion_enum = exports.$Enums.assignment_completion_enum = {
+  pending: 'pending',
+  worker_done: 'worker_done',
+  business_done: 'business_done',
+  confirmed: 'confirmed',
+  disputed: 'disputed',
+  resolved: 'resolved',
+  no_show: 'no_show'
 };
 
 exports.Prisma.ModelName = {

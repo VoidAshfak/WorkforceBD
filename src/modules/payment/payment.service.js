@@ -3,7 +3,8 @@ import { prisma } from "../../db/index.js";
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import { createNotification } from "../notification/notification.service.js";
-import { releaseShiftEscrow, advanceShiftStatus } from "../business/business.service.js";
+import { advanceShiftStatus } from "../business/business.service.js";
+import { settleShiftAssignments, finalizeShiftIfSettled } from "./handshake.service.js";
 import * as paymentRepository from "./payment.repository.js";
 
 // Minimum a worker may withdraw in one payout request (BDT).
@@ -185,89 +186,47 @@ export const completeShift = async (userId, shiftId) => {
 };
 
 /**
- * Settles a completed shift: pays every hired worker the flat shift pay, logs
- * the ledger entries atomically, then flips the shift to 'paid'. One-shot — a
- * second call is rejected by the status guard. Workers are notified in real time.
+ * Settles a completed shift — the business's "confirm everything" shortcut over
+ * the completion handshake. Absent workers become no-shows, forgotten check-outs
+ * are stamped, every open handshake is confirmed and paid the flat shift pay,
+ * and each slot's escrow slice is released. Disputed assignments stay frozen for
+ * the admin: the shift parks at `payment_pending` and closes automatically when
+ * the last dispute is resolved. Idempotent per assignment.
  * @param {string} userId
  * @param {string} shiftId
  */
 export const settleShift = async (userId, shiftId) => {
   const shift = await getOwnedShiftOrThrow(userId, shiftId);
-  if (shift.status === "paid" || shift.status === "closed") {
+  if (["paid", "closed"].includes(shift.status)) {
     throw new AppError("This shift is already settled", 409);
   }
-  if (shift.status !== "completed") throw new AppError("Complete the shift before settling payment", 409);
+  if (!["completed", "payment_pending"].includes(shift.status)) {
+    throw new AppError("Complete the shift before settling payment", 409);
+  }
 
-  const accepted = await paymentRepository.findAcceptedApplications(shiftId);
-  if (accepted.length === 0) throw new AppError("No hired workers to pay for this shift", 400);
+  const summary = await settleShiftAssignments(shift, userId);
+  if (summary.paid + summary.no_show + summary.disputed + summary.skipped === 0) {
+    throw new AppError("No hired workers to settle for this shift", 400);
+  }
 
-  // Pay only workers who actually checked in; the rest are marked no_show.
-  const attended = accepted.filter((app) => app.worker_assignments[0]?.checked_in_at);
-  const noShow = accepted.filter((app) => !app.worker_assignments[0]?.checked_in_at);
-
-  const payEach = new Prisma.Decimal(shift.pay_amount);
-
-  // Credit attended workers, flag absentees, and close the shift in one transaction.
-  await prisma.$transaction(async (tx) => {
-    // Claim the shift first — a concurrent settle that loses this race gets 0 and aborts.
-    const claimed = await paymentRepository.claimShiftForSettlement(shiftId, userId, tx);
-    if (claimed === 0) throw new AppError("This shift is already settled", 409);
-
-    await paymentRepository.markNoShow(noShow.map((app) => app.id), tx);
-
-    for (const app of attended) {
-      const workerUserId = app.worker_profiles.user_id;
-      const wallet = await paymentRepository.ensureWallet(workerUserId, tx);
-      const newBalance = new Prisma.Decimal(wallet.balance).plus(payEach);
-      const newEarned = new Prisma.Decimal(wallet.total_earned).plus(payEach);
-
-      await paymentRepository.updateWallet(wallet.id, {
-        balance: newBalance,
-        total_earned: newEarned,
-        updated_by: userId,
-      }, tx);
-      await paymentRepository.createTransaction({
-        wallet_id: wallet.id,
-        shift_id: shiftId,
-        type: "credit",
-        amount: payEach,
-        balance_after: newBalance,
-        description: `Earnings: "${shift.title}"`,
-        created_by: userId,
-      }, tx);
-    }
-
-    // Release the business escrow: paid amount becomes spend, unspent (no-shows /
-    // unfilled slots) returns to the business wallet's spendable balance.
-    await releaseShiftEscrow(tx, shift, payEach.times(attended.length), userId);
-
-    // Roadmap: settlement is the final event — money's out, shift is closed.
-    await advanceShiftStatus(shiftId, "closed", userId, tx);
-  });
-
-  // Notify paid workers after commit so a delivery failure can't roll back payment.
-  await Promise.all(
-    attended.map((app) =>
-      createNotification({
-        user_id: app.worker_profiles.user_id,
-        type: "in_app",
-        priority: "high",
-        title: "Payment received!",
-        body: `৳${payEach} for "${shift.title}" has been credited to your wallet.`,
-        data: { kind: "payment_received", shift_id: shiftId },
-      })
-    )
-  );
+  // Everything resolved → finalize (returns leftover escrow, closes the shift).
+  // Open disputes → park at payment_pending until the admin rules.
+  const finalized = await finalizeShiftIfSettled(shiftId, userId);
+  if (!finalized && summary.disputed > 0) {
+    await advanceShiftStatus(shiftId, "payment_pending", userId);
+  }
 
   logger.info(
-    `Shift settled | userId=${userId} shiftId=${shiftId} paid=${attended.length} no_show=${noShow.length} each=${payEach}`,
+    `Shift settled | userId=${userId} shiftId=${shiftId} paid=${summary.paid} no_show=${summary.no_show} disputed=${summary.disputed} closed=${finalized}`,
   );
   return {
     shift_id: shiftId,
-    workers_paid: attended.length,
-    no_show: noShow.length,
-    amount_each: payEach,
-    total_paid: payEach.times(attended.length),
+    workers_paid: summary.paid,
+    no_show: summary.no_show,
+    disputes_held: summary.disputed,
+    already_settled: summary.skipped,
+    amount_each: new Prisma.Decimal(shift.pay_amount),
+    closed: finalized,
   };
 };
 

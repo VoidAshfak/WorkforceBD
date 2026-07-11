@@ -5,11 +5,13 @@ import {
   CHECKIN_RADIUS_METERS,
   CHECKIN_GRACE_MINUTES,
   CHECKIN_MAX_ACCURACY_METERS,
+  HANDSHAKE_AUTO_CONFIRM_HOURS,
 } from "../../constants.js";
 import { verifyCheckinCode } from "../../utils/qrToken.js";
 import { buildRoadmap } from "../../utils/shiftRoadmap.js";
 import { shiftInstant } from "../../utils/shiftTime.js";
 import { advanceShiftStatus } from "../business/business.service.js";
+import { workerConfirmCheckout } from "../payment/handshake.service.js";
 import * as applicationRepository from "./application.repository.js";
 import * as notificationRepository from "../notification/notification.repository.js";
 
@@ -39,8 +41,29 @@ const deriveActivity = (application) => {
   if (application.status === "pending") return { activity_status: "pending", message: "Application under review.", next_action: null };
   if (application.status === "shortlisted") return { activity_status: "shortlisted", message: "You've been shortlisted.", next_action: null };
 
-  // Hired (accepted): position within the run.
-  if (assignment?.payment_status === "paid" || assignment?.checked_out_at || SHIFT_DONE_STATUSES.includes(shiftStatus)) {
+  // Hired: position within the run, driven by the completion handshake.
+  switch (assignment?.completion_status) {
+    case "disputed":
+      return { activity_status: "disputed", message: "Payment is on hold while a dispute is reviewed.", next_action: null };
+    case "no_show":
+      return { activity_status: "no_show", message: "You were marked absent for this shift. Raise a dispute if this is wrong.", next_action: "raise_dispute" };
+    case "confirmed":
+    case "resolved": {
+      const paid = assignment.paid_amount != null && Number(assignment.paid_amount) > 0;
+      return {
+        activity_status: "completed",
+        message: paid ? `Shift completed — ৳${assignment.paid_amount} paid to your wallet.` : "Shift resolved — no payment was issued.",
+        next_action: null,
+      };
+    }
+    case "business_done":
+      return { activity_status: "confirm_needed", message: "The business checked you out. Confirm to release your payment, or raise a dispute.", next_action: "confirm_checkout" };
+    case "worker_done":
+      return { activity_status: "awaiting_confirmation", message: "Checked out — waiting for the business to confirm your payment.", next_action: null };
+    default:
+      break;
+  }
+  if (assignment?.checked_out_at || SHIFT_DONE_STATUSES.includes(shiftStatus)) {
     return { activity_status: "completed", message: "Shift completed.", next_action: null };
   }
   if (assignment?.checked_in_at) {
@@ -322,7 +345,10 @@ export const checkIn = async (userId, applicationId, { method, coordinates, qr_t
 };
 
 /**
- * Worker checks out of a shift they previously checked into.
+ * Worker checks out of a shift they previously checked into. This is the
+ * worker's half of the completion handshake: the assignment moves to
+ * `worker_done` and the business gets a confirm window to approve or dispute —
+ * past it the handshake auto-confirms and the worker is paid.
  * @param {string} userId
  * @param {string} applicationId
  */
@@ -330,11 +356,26 @@ export const checkOut = async (userId, applicationId) => {
   const assignment = await getCheckinContext(userId, applicationId);
   if (!assignment.checked_in_at) throw new AppError("You have not checked in yet", 409);
   if (assignment.checked_out_at) throw new AppError("You have already checked out", 409);
+  if (assignment.completion_status !== "pending") {
+    throw new AppError(`This assignment is already '${assignment.completion_status}'`, 409);
+  }
 
-  const updated = await applicationRepository.setCheckOut(assignment.id);
+  const autoConfirmAt = new Date(Date.now() + HANDSHAKE_AUTO_CONFIRM_HOURS * 60 * 60 * 1000);
+  const updated = await applicationRepository.setCheckOut(assignment.id, userId, autoConfirmAt);
+
+  // The business closes the handshake: confirm releases payment, dispute
+  // freezes it, silence auto-confirms at the deadline.
+  await createNotification({
+    user_id: assignment.shifts.business_profiles.user_id,
+    type: "in_app",
+    priority: "high",
+    title: "Worker checked out — confirm completion",
+    body: `A worker checked out of "${assignment.shifts.title}". Confirm to release their payment, or raise a dispute. It auto-confirms in ${HANDSHAKE_AUTO_CONFIRM_HOURS}h.`,
+    data: { kind: "worker_checkout", shift_id: assignment.shift_id, assignment_id: assignment.id, auto_confirm_at: autoConfirmAt },
+  });
 
   // Roadmap: once every checked-in worker has left and the shift window has
-  // ended, the work is over — mark the shift completed (unlocks settlement).
+  // ended, the work is over — mark the shift completed (unlocks finalization).
   const [checkedIn, checkedOut] = await Promise.all([
     applicationRepository.countCheckedIn(assignment.shift_id),
     applicationRepository.countCheckedOut(assignment.shift_id),
@@ -344,6 +385,15 @@ export const checkOut = async (userId, applicationId) => {
     await advanceShiftStatus(assignment.shift_id, "completed", userId);
   }
 
-  logger.info(`Worker checked out | userId=${userId} app=${applicationId}`);
+  logger.info(`Worker checked out | userId=${userId} app=${applicationId} autoConfirmAt=${autoConfirmAt.toISOString()}`);
   return updated;
 };
+
+/**
+ * Worker confirms a business-stamped check-out — completes the handshake and
+ * releases payment immediately. Thin wrapper over the handshake engine.
+ * @param {string} userId
+ * @param {string} applicationId
+ */
+export const confirmCheckout = (userId, applicationId) =>
+  workerConfirmCheckout(userId, applicationId);
