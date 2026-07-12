@@ -182,3 +182,11 @@ export const revokeRefreshToken = (token) => {
     data: { is_revoked: true },
   });
 };
+
+/**
+ * Audit row for a sign-in attempt (success or failed).
+ * @param {{ user_id?: string|null, identifier: string, method: string, active_role?: string|null, status: "success"|"failed", failure_reason?: string|null, ip_address?: string, user_agent?: string }} data
+ */
+export const createLoginHistory = (data) => {
+  return prisma.login_history.create({ data });
+};

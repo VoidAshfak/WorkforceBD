@@ -107,6 +107,22 @@ const resolveActiveRole = (user, requestedRole) => {
 };
 
 /**
+ * Fire-and-forget audit row for a sign-in attempt — a history write failure
+ * must never block or fail the login itself.
+ * @param {{ user_id?: string|null, identifier: string, method: string, active_role?: string|null, status: "success"|"failed", failure_reason?: string|null }} data
+ * @param {{ ipAddress?: string, userAgent?: string }} meta
+ */
+const recordLogin = (data, meta = {}) => {
+  authRepository
+    .createLoginHistory({
+      ...data,
+      ...(meta.ipAddress && { ip_address: meta.ipAddress }),
+      ...(meta.userAgent && { user_agent: meta.userAgent }),
+    })
+    .catch((err) => logger.error(`Login history write failed: ${err.message}`));
+};
+
+/**
  * Creates session + tokens for an authenticated user. The access token carries
  * the active account context (`active_role`), persisted on the session so it
  * survives token refresh.
@@ -161,6 +177,7 @@ export const verifyOtpAndAuthenticate = async (phone, otpCode, role, meta = {}) 
   const otpRecord = await authRepository.findValidOtp(phone, hashOtp(otpCode), OTP_PURPOSE);
   if (!otpRecord) {
     logger.warn(`OTP invalid or expired | phone=${phone}`);
+    recordLogin({ identifier: phone, method: "otp", status: "failed", failure_reason: "invalid_otp" }, meta);
     throw new AppError("Invalid or expired OTP", 400);
   }
 
@@ -172,6 +189,7 @@ export const verifyOtpAndAuthenticate = async (phone, otpCode, role, meta = {}) 
   // Admins are kept out of the public OTP flow — they use the dedicated admin portal.
   if (user?.roles.includes("admin")) {
     logger.warn(`Admin blocked from public auth flow | userId=${user.id}`);
+    recordLogin({ user_id: user.id, identifier: phone, method: "otp", status: "failed", failure_reason: "admin_on_public_flow" }, meta);
     throw new AppError("Admins must sign in through the admin portal", 403);
   }
 
@@ -203,6 +221,7 @@ export const verifyOtpAndAuthenticate = async (phone, otpCode, role, meta = {}) 
 
   if (!user.is_active) {
     logger.warn(`Login blocked — account deactivated | userId=${user.id}`);
+    recordLogin({ user_id: user.id, identifier: phone, method: "otp", status: "failed", failure_reason: "account_deactivated" }, meta);
     throw new AppError("Account is deactivated", 403);
   }
 
@@ -210,6 +229,7 @@ export const verifyOtpAndAuthenticate = async (phone, otpCode, role, meta = {}) 
   const activeRole = resolveActiveRole(user, role);
   const { accessToken, refreshToken } = await issueTokens(user, activeRole, meta);
   const activeProfile = await buildActiveProfile(activeRole, user.id);
+  recordLogin({ user_id: user.id, identifier: phone, method: "otp", active_role: activeRole, status: "success" }, meta);
   logger.info(`Session issued | userId=${user.id} active_role=${activeRole ?? "none"}`);
   return {
     accessToken,
@@ -252,9 +272,16 @@ const getAdminByCredentials = async (username, password) => {
  * exists after the code is verified (step 2).
  * @param {string} username
  * @param {string} password
+ * @param {{ ipAddress?: string, userAgent?: string }} meta
  */
-export const adminLogin = async (username, password) => {
-  const user = await getAdminByCredentials(username, password);
+export const adminLogin = async (username, password, meta = {}) => {
+  let user;
+  try {
+    user = await getAdminByCredentials(username, password);
+  } catch (err) {
+    recordLogin({ identifier: username, method: "admin_password", status: "failed", failure_reason: "invalid_credentials" }, meta);
+    throw err;
+  }
   if (!user.email) {
     logger.error(`Admin has no email for 2FA | userId=${user.id}`);
     throw new AppError("No email is configured for this admin account", 500);
@@ -292,16 +319,24 @@ export const adminLogin = async (username, password) => {
  * @param {{ ipAddress?: string, userAgent?: string }} meta
  */
 export const adminVerify2fa = async (username, code, meta = {}) => {
-  const user = await getAdminByCredentials(username);
+  let user;
+  try {
+    user = await getAdminByCredentials(username);
+  } catch (err) {
+    recordLogin({ identifier: username, method: "admin_2fa", status: "failed", failure_reason: "invalid_credentials" }, meta);
+    throw err;
+  }
 
   const otpRecord = await authRepository.findValidOtp(user.phone, hashOtp(code), ADMIN_2FA_PURPOSE);
   if (!otpRecord) {
     logger.warn(`Admin 2FA code invalid | userId=${user.id}`);
+    recordLogin({ user_id: user.id, identifier: username, method: "admin_2fa", status: "failed", failure_reason: "invalid_code" }, meta);
     throw new AppError("Invalid or expired code", 400);
   }
   await authRepository.markOtpAsUsed(otpRecord.id);
 
   const { accessToken, refreshToken } = await issueTokens(user, "admin", meta);
+  recordLogin({ user_id: user.id, identifier: username, method: "admin_2fa", active_role: "admin", status: "success" }, meta);
   logger.info(`Admin session issued | userId=${user.id}`);
   return {
     accessToken,

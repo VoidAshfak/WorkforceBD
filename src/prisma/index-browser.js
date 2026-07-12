@@ -202,6 +202,19 @@ exports.Prisma.SessionsScalarFieldEnum = {
   active_role: 'active_role'
 };
 
+exports.Prisma.Login_historyScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  identifier: 'identifier',
+  method: 'method',
+  active_role: 'active_role',
+  status: 'status',
+  failure_reason: 'failure_reason',
+  ip_address: 'ip_address',
+  user_agent: 'user_agent',
+  created_at: 'created_at'
+};
+
 exports.Prisma.SkillsScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -813,6 +826,7 @@ exports.Prisma.ModelName = {
   otp_requests: 'otp_requests',
   refresh_tokens: 'refresh_tokens',
   sessions: 'sessions',
+  login_history: 'login_history',
   skills: 'skills',
   spatial_ref_sys: 'spatial_ref_sys',
   users: 'users',

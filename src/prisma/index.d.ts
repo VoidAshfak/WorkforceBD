@@ -44,6 +44,11 @@ export type refresh_tokens = $Result.DefaultSelection<Prisma.$refresh_tokensPayl
  */
 export type sessions = $Result.DefaultSelection<Prisma.$sessionsPayload>
 /**
+ * Model login_history
+ * 
+ */
+export type login_history = $Result.DefaultSelection<Prisma.$login_historyPayload>
+/**
  * Model skills
  * 
  */
@@ -632,6 +637,16 @@ export class PrismaClient<
     * ```
     */
   get sessions(): Prisma.sessionsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.login_history`: Exposes CRUD operations for the **login_history** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Login_histories
+    * const login_histories = await prisma.login_history.findMany()
+    * ```
+    */
+  get login_history(): Prisma.login_historyDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.skills`: Exposes CRUD operations for the **skills** model.
@@ -1342,6 +1357,7 @@ export namespace Prisma {
     otp_requests: 'otp_requests',
     refresh_tokens: 'refresh_tokens',
     sessions: 'sessions',
+    login_history: 'login_history',
     skills: 'skills',
     spatial_ref_sys: 'spatial_ref_sys',
     users: 'users',
@@ -1384,7 +1400,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "categories" | "cities" | "devices" | "otp_requests" | "refresh_tokens" | "sessions" | "skills" | "spatial_ref_sys" | "users" | "platform_settings" | "zones" | "applications" | "business_branches" | "business_favorite_workers" | "business_profiles" | "disputes" | "notifications" | "payout_requests" | "ratings" | "reports" | "shifts" | "transactions" | "user_sanctions" | "wallets" | "business_wallets" | "business_wallet_transactions" | "worker_assignments" | "worker_categories" | "worker_preferred_zones" | "worker_profiles" | "worker_skills" | "chat_conversations" | "chat_messages"
+      modelProps: "categories" | "cities" | "devices" | "otp_requests" | "refresh_tokens" | "sessions" | "login_history" | "skills" | "spatial_ref_sys" | "users" | "platform_settings" | "zones" | "applications" | "business_branches" | "business_favorite_workers" | "business_profiles" | "disputes" | "notifications" | "payout_requests" | "ratings" | "reports" | "shifts" | "transactions" | "user_sanctions" | "wallets" | "business_wallets" | "business_wallet_transactions" | "worker_assignments" | "worker_categories" | "worker_preferred_zones" | "worker_profiles" | "worker_skills" | "chat_conversations" | "chat_messages"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1829,6 +1845,80 @@ export namespace Prisma {
           count: {
             args: Prisma.sessionsCountArgs<ExtArgs>
             result: $Utils.Optional<SessionsCountAggregateOutputType> | number
+          }
+        }
+      }
+      login_history: {
+        payload: Prisma.$login_historyPayload<ExtArgs>
+        fields: Prisma.login_historyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.login_historyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.login_historyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload>
+          }
+          findFirst: {
+            args: Prisma.login_historyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.login_historyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload>
+          }
+          findMany: {
+            args: Prisma.login_historyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload>[]
+          }
+          create: {
+            args: Prisma.login_historyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload>
+          }
+          createMany: {
+            args: Prisma.login_historyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.login_historyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload>[]
+          }
+          delete: {
+            args: Prisma.login_historyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload>
+          }
+          update: {
+            args: Prisma.login_historyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload>
+          }
+          deleteMany: {
+            args: Prisma.login_historyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.login_historyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.login_historyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload>[]
+          }
+          upsert: {
+            args: Prisma.login_historyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$login_historyPayload>
+          }
+          aggregate: {
+            args: Prisma.Login_historyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLogin_history>
+          }
+          groupBy: {
+            args: Prisma.login_historyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Login_historyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.login_historyCountArgs<ExtArgs>
+            result: $Utils.Optional<Login_historyCountAggregateOutputType> | number
           }
         }
       }
@@ -3944,6 +4034,7 @@ export namespace Prisma {
     otp_requests?: otp_requestsOmit
     refresh_tokens?: refresh_tokensOmit
     sessions?: sessionsOmit
+    login_history?: login_historyOmit
     skills?: skillsOmit
     spatial_ref_sys?: spatial_ref_sysOmit
     users?: usersOmit
@@ -4204,6 +4295,7 @@ export namespace Prisma {
   export type UsersCountOutputType = {
     chat_messages: number
     devices: number
+    login_history: number
     disputes_disputes_against_userTousers: number
     disputes_disputes_raised_byTousers: number
     disputes_disputes_resolved_byTousers: number
@@ -4224,6 +4316,7 @@ export namespace Prisma {
   export type UsersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chat_messages?: boolean | UsersCountOutputTypeCountChat_messagesArgs
     devices?: boolean | UsersCountOutputTypeCountDevicesArgs
+    login_history?: boolean | UsersCountOutputTypeCountLogin_historyArgs
     disputes_disputes_against_userTousers?: boolean | UsersCountOutputTypeCountDisputes_disputes_against_userTousersArgs
     disputes_disputes_raised_byTousers?: boolean | UsersCountOutputTypeCountDisputes_disputes_raised_byTousersArgs
     disputes_disputes_resolved_byTousers?: boolean | UsersCountOutputTypeCountDisputes_disputes_resolved_byTousersArgs
@@ -4264,6 +4357,13 @@ export namespace Prisma {
    */
   export type UsersCountOutputTypeCountDevicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: devicesWhereInput
+  }
+
+  /**
+   * UsersCountOutputType without action
+   */
+  export type UsersCountOutputTypeCountLogin_historyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: login_historyWhereInput
   }
 
   /**
@@ -11810,6 +11910,1153 @@ export namespace Prisma {
 
 
   /**
+   * Model login_history
+   */
+
+  export type AggregateLogin_history = {
+    _count: Login_historyCountAggregateOutputType | null
+    _min: Login_historyMinAggregateOutputType | null
+    _max: Login_historyMaxAggregateOutputType | null
+  }
+
+  export type Login_historyMinAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    identifier: string | null
+    method: string | null
+    active_role: string | null
+    status: string | null
+    failure_reason: string | null
+    ip_address: string | null
+    user_agent: string | null
+    created_at: Date | null
+  }
+
+  export type Login_historyMaxAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    identifier: string | null
+    method: string | null
+    active_role: string | null
+    status: string | null
+    failure_reason: string | null
+    ip_address: string | null
+    user_agent: string | null
+    created_at: Date | null
+  }
+
+  export type Login_historyCountAggregateOutputType = {
+    id: number
+    user_id: number
+    identifier: number
+    method: number
+    active_role: number
+    status: number
+    failure_reason: number
+    ip_address: number
+    user_agent: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type Login_historyMinAggregateInputType = {
+    id?: true
+    user_id?: true
+    identifier?: true
+    method?: true
+    active_role?: true
+    status?: true
+    failure_reason?: true
+    ip_address?: true
+    user_agent?: true
+    created_at?: true
+  }
+
+  export type Login_historyMaxAggregateInputType = {
+    id?: true
+    user_id?: true
+    identifier?: true
+    method?: true
+    active_role?: true
+    status?: true
+    failure_reason?: true
+    ip_address?: true
+    user_agent?: true
+    created_at?: true
+  }
+
+  export type Login_historyCountAggregateInputType = {
+    id?: true
+    user_id?: true
+    identifier?: true
+    method?: true
+    active_role?: true
+    status?: true
+    failure_reason?: true
+    ip_address?: true
+    user_agent?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type Login_historyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which login_history to aggregate.
+     */
+    where?: login_historyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of login_histories to fetch.
+     */
+    orderBy?: login_historyOrderByWithRelationInput | login_historyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: login_historyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` login_histories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` login_histories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned login_histories
+    **/
+    _count?: true | Login_historyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Login_historyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Login_historyMaxAggregateInputType
+  }
+
+  export type GetLogin_historyAggregateType<T extends Login_historyAggregateArgs> = {
+        [P in keyof T & keyof AggregateLogin_history]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLogin_history[P]>
+      : GetScalarType<T[P], AggregateLogin_history[P]>
+  }
+
+
+
+
+  export type login_historyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: login_historyWhereInput
+    orderBy?: login_historyOrderByWithAggregationInput | login_historyOrderByWithAggregationInput[]
+    by: Login_historyScalarFieldEnum[] | Login_historyScalarFieldEnum
+    having?: login_historyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Login_historyCountAggregateInputType | true
+    _min?: Login_historyMinAggregateInputType
+    _max?: Login_historyMaxAggregateInputType
+  }
+
+  export type Login_historyGroupByOutputType = {
+    id: string
+    user_id: string | null
+    identifier: string
+    method: string
+    active_role: string | null
+    status: string
+    failure_reason: string | null
+    ip_address: string | null
+    user_agent: string | null
+    created_at: Date
+    _count: Login_historyCountAggregateOutputType | null
+    _min: Login_historyMinAggregateOutputType | null
+    _max: Login_historyMaxAggregateOutputType | null
+  }
+
+  type GetLogin_historyGroupByPayload<T extends login_historyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Login_historyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Login_historyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Login_historyGroupByOutputType[P]>
+            : GetScalarType<T[P], Login_historyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type login_historySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    identifier?: boolean
+    method?: boolean
+    active_role?: boolean
+    status?: boolean
+    failure_reason?: boolean
+    ip_address?: boolean
+    user_agent?: boolean
+    created_at?: boolean
+    users?: boolean | login_history$usersArgs<ExtArgs>
+  }, ExtArgs["result"]["login_history"]>
+
+  export type login_historySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    identifier?: boolean
+    method?: boolean
+    active_role?: boolean
+    status?: boolean
+    failure_reason?: boolean
+    ip_address?: boolean
+    user_agent?: boolean
+    created_at?: boolean
+    users?: boolean | login_history$usersArgs<ExtArgs>
+  }, ExtArgs["result"]["login_history"]>
+
+  export type login_historySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    identifier?: boolean
+    method?: boolean
+    active_role?: boolean
+    status?: boolean
+    failure_reason?: boolean
+    ip_address?: boolean
+    user_agent?: boolean
+    created_at?: boolean
+    users?: boolean | login_history$usersArgs<ExtArgs>
+  }, ExtArgs["result"]["login_history"]>
+
+  export type login_historySelectScalar = {
+    id?: boolean
+    user_id?: boolean
+    identifier?: boolean
+    method?: boolean
+    active_role?: boolean
+    status?: boolean
+    failure_reason?: boolean
+    ip_address?: boolean
+    user_agent?: boolean
+    created_at?: boolean
+  }
+
+  export type login_historyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "identifier" | "method" | "active_role" | "status" | "failure_reason" | "ip_address" | "user_agent" | "created_at", ExtArgs["result"]["login_history"]>
+  export type login_historyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | login_history$usersArgs<ExtArgs>
+  }
+  export type login_historyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | login_history$usersArgs<ExtArgs>
+  }
+  export type login_historyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    users?: boolean | login_history$usersArgs<ExtArgs>
+  }
+
+  export type $login_historyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "login_history"
+    objects: {
+      users: Prisma.$usersPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      user_id: string | null
+      identifier: string
+      method: string
+      active_role: string | null
+      status: string
+      failure_reason: string | null
+      ip_address: string | null
+      user_agent: string | null
+      created_at: Date
+    }, ExtArgs["result"]["login_history"]>
+    composites: {}
+  }
+
+  type login_historyGetPayload<S extends boolean | null | undefined | login_historyDefaultArgs> = $Result.GetResult<Prisma.$login_historyPayload, S>
+
+  type login_historyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<login_historyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Login_historyCountAggregateInputType | true
+    }
+
+  export interface login_historyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['login_history'], meta: { name: 'login_history' } }
+    /**
+     * Find zero or one Login_history that matches the filter.
+     * @param {login_historyFindUniqueArgs} args - Arguments to find a Login_history
+     * @example
+     * // Get one Login_history
+     * const login_history = await prisma.login_history.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends login_historyFindUniqueArgs>(args: SelectSubset<T, login_historyFindUniqueArgs<ExtArgs>>): Prisma__login_historyClient<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Login_history that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {login_historyFindUniqueOrThrowArgs} args - Arguments to find a Login_history
+     * @example
+     * // Get one Login_history
+     * const login_history = await prisma.login_history.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends login_historyFindUniqueOrThrowArgs>(args: SelectSubset<T, login_historyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__login_historyClient<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Login_history that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {login_historyFindFirstArgs} args - Arguments to find a Login_history
+     * @example
+     * // Get one Login_history
+     * const login_history = await prisma.login_history.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends login_historyFindFirstArgs>(args?: SelectSubset<T, login_historyFindFirstArgs<ExtArgs>>): Prisma__login_historyClient<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Login_history that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {login_historyFindFirstOrThrowArgs} args - Arguments to find a Login_history
+     * @example
+     * // Get one Login_history
+     * const login_history = await prisma.login_history.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends login_historyFindFirstOrThrowArgs>(args?: SelectSubset<T, login_historyFindFirstOrThrowArgs<ExtArgs>>): Prisma__login_historyClient<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Login_histories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {login_historyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Login_histories
+     * const login_histories = await prisma.login_history.findMany()
+     * 
+     * // Get first 10 Login_histories
+     * const login_histories = await prisma.login_history.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const login_historyWithIdOnly = await prisma.login_history.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends login_historyFindManyArgs>(args?: SelectSubset<T, login_historyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Login_history.
+     * @param {login_historyCreateArgs} args - Arguments to create a Login_history.
+     * @example
+     * // Create one Login_history
+     * const Login_history = await prisma.login_history.create({
+     *   data: {
+     *     // ... data to create a Login_history
+     *   }
+     * })
+     * 
+     */
+    create<T extends login_historyCreateArgs>(args: SelectSubset<T, login_historyCreateArgs<ExtArgs>>): Prisma__login_historyClient<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Login_histories.
+     * @param {login_historyCreateManyArgs} args - Arguments to create many Login_histories.
+     * @example
+     * // Create many Login_histories
+     * const login_history = await prisma.login_history.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends login_historyCreateManyArgs>(args?: SelectSubset<T, login_historyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Login_histories and returns the data saved in the database.
+     * @param {login_historyCreateManyAndReturnArgs} args - Arguments to create many Login_histories.
+     * @example
+     * // Create many Login_histories
+     * const login_history = await prisma.login_history.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Login_histories and only return the `id`
+     * const login_historyWithIdOnly = await prisma.login_history.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends login_historyCreateManyAndReturnArgs>(args?: SelectSubset<T, login_historyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Login_history.
+     * @param {login_historyDeleteArgs} args - Arguments to delete one Login_history.
+     * @example
+     * // Delete one Login_history
+     * const Login_history = await prisma.login_history.delete({
+     *   where: {
+     *     // ... filter to delete one Login_history
+     *   }
+     * })
+     * 
+     */
+    delete<T extends login_historyDeleteArgs>(args: SelectSubset<T, login_historyDeleteArgs<ExtArgs>>): Prisma__login_historyClient<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Login_history.
+     * @param {login_historyUpdateArgs} args - Arguments to update one Login_history.
+     * @example
+     * // Update one Login_history
+     * const login_history = await prisma.login_history.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends login_historyUpdateArgs>(args: SelectSubset<T, login_historyUpdateArgs<ExtArgs>>): Prisma__login_historyClient<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Login_histories.
+     * @param {login_historyDeleteManyArgs} args - Arguments to filter Login_histories to delete.
+     * @example
+     * // Delete a few Login_histories
+     * const { count } = await prisma.login_history.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends login_historyDeleteManyArgs>(args?: SelectSubset<T, login_historyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Login_histories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {login_historyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Login_histories
+     * const login_history = await prisma.login_history.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends login_historyUpdateManyArgs>(args: SelectSubset<T, login_historyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Login_histories and returns the data updated in the database.
+     * @param {login_historyUpdateManyAndReturnArgs} args - Arguments to update many Login_histories.
+     * @example
+     * // Update many Login_histories
+     * const login_history = await prisma.login_history.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Login_histories and only return the `id`
+     * const login_historyWithIdOnly = await prisma.login_history.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends login_historyUpdateManyAndReturnArgs>(args: SelectSubset<T, login_historyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Login_history.
+     * @param {login_historyUpsertArgs} args - Arguments to update or create a Login_history.
+     * @example
+     * // Update or create a Login_history
+     * const login_history = await prisma.login_history.upsert({
+     *   create: {
+     *     // ... data to create a Login_history
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Login_history we want to update
+     *   }
+     * })
+     */
+    upsert<T extends login_historyUpsertArgs>(args: SelectSubset<T, login_historyUpsertArgs<ExtArgs>>): Prisma__login_historyClient<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Login_histories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {login_historyCountArgs} args - Arguments to filter Login_histories to count.
+     * @example
+     * // Count the number of Login_histories
+     * const count = await prisma.login_history.count({
+     *   where: {
+     *     // ... the filter for the Login_histories we want to count
+     *   }
+     * })
+    **/
+    count<T extends login_historyCountArgs>(
+      args?: Subset<T, login_historyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Login_historyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Login_history.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Login_historyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Login_historyAggregateArgs>(args: Subset<T, Login_historyAggregateArgs>): Prisma.PrismaPromise<GetLogin_historyAggregateType<T>>
+
+    /**
+     * Group by Login_history.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {login_historyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends login_historyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: login_historyGroupByArgs['orderBy'] }
+        : { orderBy?: login_historyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, login_historyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLogin_historyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the login_history model
+   */
+  readonly fields: login_historyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for login_history.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__login_historyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    users<T extends login_history$usersArgs<ExtArgs> = {}>(args?: Subset<T, login_history$usersArgs<ExtArgs>>): Prisma__usersClient<$Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the login_history model
+   */
+  interface login_historyFieldRefs {
+    readonly id: FieldRef<"login_history", 'String'>
+    readonly user_id: FieldRef<"login_history", 'String'>
+    readonly identifier: FieldRef<"login_history", 'String'>
+    readonly method: FieldRef<"login_history", 'String'>
+    readonly active_role: FieldRef<"login_history", 'String'>
+    readonly status: FieldRef<"login_history", 'String'>
+    readonly failure_reason: FieldRef<"login_history", 'String'>
+    readonly ip_address: FieldRef<"login_history", 'String'>
+    readonly user_agent: FieldRef<"login_history", 'String'>
+    readonly created_at: FieldRef<"login_history", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * login_history findUnique
+   */
+  export type login_historyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    /**
+     * Filter, which login_history to fetch.
+     */
+    where: login_historyWhereUniqueInput
+  }
+
+  /**
+   * login_history findUniqueOrThrow
+   */
+  export type login_historyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    /**
+     * Filter, which login_history to fetch.
+     */
+    where: login_historyWhereUniqueInput
+  }
+
+  /**
+   * login_history findFirst
+   */
+  export type login_historyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    /**
+     * Filter, which login_history to fetch.
+     */
+    where?: login_historyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of login_histories to fetch.
+     */
+    orderBy?: login_historyOrderByWithRelationInput | login_historyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for login_histories.
+     */
+    cursor?: login_historyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` login_histories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` login_histories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of login_histories.
+     */
+    distinct?: Login_historyScalarFieldEnum | Login_historyScalarFieldEnum[]
+  }
+
+  /**
+   * login_history findFirstOrThrow
+   */
+  export type login_historyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    /**
+     * Filter, which login_history to fetch.
+     */
+    where?: login_historyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of login_histories to fetch.
+     */
+    orderBy?: login_historyOrderByWithRelationInput | login_historyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for login_histories.
+     */
+    cursor?: login_historyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` login_histories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` login_histories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of login_histories.
+     */
+    distinct?: Login_historyScalarFieldEnum | Login_historyScalarFieldEnum[]
+  }
+
+  /**
+   * login_history findMany
+   */
+  export type login_historyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    /**
+     * Filter, which login_histories to fetch.
+     */
+    where?: login_historyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of login_histories to fetch.
+     */
+    orderBy?: login_historyOrderByWithRelationInput | login_historyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing login_histories.
+     */
+    cursor?: login_historyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` login_histories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` login_histories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of login_histories.
+     */
+    distinct?: Login_historyScalarFieldEnum | Login_historyScalarFieldEnum[]
+  }
+
+  /**
+   * login_history create
+   */
+  export type login_historyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a login_history.
+     */
+    data: XOR<login_historyCreateInput, login_historyUncheckedCreateInput>
+  }
+
+  /**
+   * login_history createMany
+   */
+  export type login_historyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many login_histories.
+     */
+    data: login_historyCreateManyInput | login_historyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * login_history createManyAndReturn
+   */
+  export type login_historyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * The data used to create many login_histories.
+     */
+    data: login_historyCreateManyInput | login_historyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * login_history update
+   */
+  export type login_historyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a login_history.
+     */
+    data: XOR<login_historyUpdateInput, login_historyUncheckedUpdateInput>
+    /**
+     * Choose, which login_history to update.
+     */
+    where: login_historyWhereUniqueInput
+  }
+
+  /**
+   * login_history updateMany
+   */
+  export type login_historyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update login_histories.
+     */
+    data: XOR<login_historyUpdateManyMutationInput, login_historyUncheckedUpdateManyInput>
+    /**
+     * Filter which login_histories to update
+     */
+    where?: login_historyWhereInput
+    /**
+     * Limit how many login_histories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * login_history updateManyAndReturn
+   */
+  export type login_historyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * The data used to update login_histories.
+     */
+    data: XOR<login_historyUpdateManyMutationInput, login_historyUncheckedUpdateManyInput>
+    /**
+     * Filter which login_histories to update
+     */
+    where?: login_historyWhereInput
+    /**
+     * Limit how many login_histories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * login_history upsert
+   */
+  export type login_historyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the login_history to update in case it exists.
+     */
+    where: login_historyWhereUniqueInput
+    /**
+     * In case the login_history found by the `where` argument doesn't exist, create a new login_history with this data.
+     */
+    create: XOR<login_historyCreateInput, login_historyUncheckedCreateInput>
+    /**
+     * In case the login_history was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<login_historyUpdateInput, login_historyUncheckedUpdateInput>
+  }
+
+  /**
+   * login_history delete
+   */
+  export type login_historyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    /**
+     * Filter which login_history to delete.
+     */
+    where: login_historyWhereUniqueInput
+  }
+
+  /**
+   * login_history deleteMany
+   */
+  export type login_historyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which login_histories to delete
+     */
+    where?: login_historyWhereInput
+    /**
+     * Limit how many login_histories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * login_history.users
+   */
+  export type login_history$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the users
+     */
+    select?: usersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the users
+     */
+    omit?: usersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: usersInclude<ExtArgs> | null
+    where?: usersWhereInput
+  }
+
+  /**
+   * login_history without action
+   */
+  export type login_historyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model skills
    */
 
@@ -14254,6 +15501,7 @@ export namespace Prisma {
     business_profiles?: boolean | users$business_profilesArgs<ExtArgs>
     chat_messages?: boolean | users$chat_messagesArgs<ExtArgs>
     devices?: boolean | users$devicesArgs<ExtArgs>
+    login_history?: boolean | users$login_historyArgs<ExtArgs>
     disputes_disputes_against_userTousers?: boolean | users$disputes_disputes_against_userTousersArgs<ExtArgs>
     disputes_disputes_raised_byTousers?: boolean | users$disputes_disputes_raised_byTousersArgs<ExtArgs>
     disputes_disputes_resolved_byTousers?: boolean | users$disputes_disputes_resolved_byTousersArgs<ExtArgs>
@@ -14333,6 +15581,7 @@ export namespace Prisma {
     business_profiles?: boolean | users$business_profilesArgs<ExtArgs>
     chat_messages?: boolean | users$chat_messagesArgs<ExtArgs>
     devices?: boolean | users$devicesArgs<ExtArgs>
+    login_history?: boolean | users$login_historyArgs<ExtArgs>
     disputes_disputes_against_userTousers?: boolean | users$disputes_disputes_against_userTousersArgs<ExtArgs>
     disputes_disputes_raised_byTousers?: boolean | users$disputes_disputes_raised_byTousersArgs<ExtArgs>
     disputes_disputes_resolved_byTousers?: boolean | users$disputes_disputes_resolved_byTousersArgs<ExtArgs>
@@ -14361,6 +15610,7 @@ export namespace Prisma {
       business_profiles: Prisma.$business_profilesPayload<ExtArgs> | null
       chat_messages: Prisma.$chat_messagesPayload<ExtArgs>[]
       devices: Prisma.$devicesPayload<ExtArgs>[]
+      login_history: Prisma.$login_historyPayload<ExtArgs>[]
       disputes_disputes_against_userTousers: Prisma.$disputesPayload<ExtArgs>[]
       disputes_disputes_raised_byTousers: Prisma.$disputesPayload<ExtArgs>[]
       disputes_disputes_resolved_byTousers: Prisma.$disputesPayload<ExtArgs>[]
@@ -14792,6 +16042,7 @@ export namespace Prisma {
     business_profiles<T extends users$business_profilesArgs<ExtArgs> = {}>(args?: Subset<T, users$business_profilesArgs<ExtArgs>>): Prisma__business_profilesClient<$Result.GetResult<Prisma.$business_profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     chat_messages<T extends users$chat_messagesArgs<ExtArgs> = {}>(args?: Subset<T, users$chat_messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     devices<T extends users$devicesArgs<ExtArgs> = {}>(args?: Subset<T, users$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$devicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    login_history<T extends users$login_historyArgs<ExtArgs> = {}>(args?: Subset<T, users$login_historyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$login_historyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     disputes_disputes_against_userTousers<T extends users$disputes_disputes_against_userTousersArgs<ExtArgs> = {}>(args?: Subset<T, users$disputes_disputes_against_userTousersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     disputes_disputes_raised_byTousers<T extends users$disputes_disputes_raised_byTousersArgs<ExtArgs> = {}>(args?: Subset<T, users$disputes_disputes_raised_byTousersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     disputes_disputes_resolved_byTousers<T extends users$disputes_disputes_resolved_byTousersArgs<ExtArgs> = {}>(args?: Subset<T, users$disputes_disputes_resolved_byTousersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$disputesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -15310,6 +16561,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DevicesScalarFieldEnum | DevicesScalarFieldEnum[]
+  }
+
+  /**
+   * users.login_history
+   */
+  export type users$login_historyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the login_history
+     */
+    select?: login_historySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the login_history
+     */
+    omit?: login_historyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: login_historyInclude<ExtArgs> | null
+    where?: login_historyWhereInput
+    orderBy?: login_historyOrderByWithRelationInput | login_historyOrderByWithRelationInput[]
+    cursor?: login_historyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Login_historyScalarFieldEnum | Login_historyScalarFieldEnum[]
   }
 
   /**
@@ -45855,6 +47130,22 @@ export namespace Prisma {
   export type SessionsScalarFieldEnum = (typeof SessionsScalarFieldEnum)[keyof typeof SessionsScalarFieldEnum]
 
 
+  export const Login_historyScalarFieldEnum: {
+    id: 'id',
+    user_id: 'user_id',
+    identifier: 'identifier',
+    method: 'method',
+    active_role: 'active_role',
+    status: 'status',
+    failure_reason: 'failure_reason',
+    ip_address: 'ip_address',
+    user_agent: 'user_agent',
+    created_at: 'created_at'
+  };
+
+  export type Login_historyScalarFieldEnum = (typeof Login_historyScalarFieldEnum)[keyof typeof Login_historyScalarFieldEnum]
+
+
   export const SkillsScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -47280,6 +48571,86 @@ export namespace Prisma {
     active_role?: StringNullableWithAggregatesFilter<"sessions"> | string | null
   }
 
+  export type login_historyWhereInput = {
+    AND?: login_historyWhereInput | login_historyWhereInput[]
+    OR?: login_historyWhereInput[]
+    NOT?: login_historyWhereInput | login_historyWhereInput[]
+    id?: UuidFilter<"login_history"> | string
+    user_id?: UuidNullableFilter<"login_history"> | string | null
+    identifier?: StringFilter<"login_history"> | string
+    method?: StringFilter<"login_history"> | string
+    active_role?: StringNullableFilter<"login_history"> | string | null
+    status?: StringFilter<"login_history"> | string
+    failure_reason?: StringNullableFilter<"login_history"> | string | null
+    ip_address?: StringNullableFilter<"login_history"> | string | null
+    user_agent?: StringNullableFilter<"login_history"> | string | null
+    created_at?: DateTimeFilter<"login_history"> | Date | string
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
+  }
+
+  export type login_historyOrderByWithRelationInput = {
+    id?: SortOrder
+    user_id?: SortOrderInput | SortOrder
+    identifier?: SortOrder
+    method?: SortOrder
+    active_role?: SortOrderInput | SortOrder
+    status?: SortOrder
+    failure_reason?: SortOrderInput | SortOrder
+    ip_address?: SortOrderInput | SortOrder
+    user_agent?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    users?: usersOrderByWithRelationInput
+  }
+
+  export type login_historyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: login_historyWhereInput | login_historyWhereInput[]
+    OR?: login_historyWhereInput[]
+    NOT?: login_historyWhereInput | login_historyWhereInput[]
+    user_id?: UuidNullableFilter<"login_history"> | string | null
+    identifier?: StringFilter<"login_history"> | string
+    method?: StringFilter<"login_history"> | string
+    active_role?: StringNullableFilter<"login_history"> | string | null
+    status?: StringFilter<"login_history"> | string
+    failure_reason?: StringNullableFilter<"login_history"> | string | null
+    ip_address?: StringNullableFilter<"login_history"> | string | null
+    user_agent?: StringNullableFilter<"login_history"> | string | null
+    created_at?: DateTimeFilter<"login_history"> | Date | string
+    users?: XOR<UsersNullableScalarRelationFilter, usersWhereInput> | null
+  }, "id">
+
+  export type login_historyOrderByWithAggregationInput = {
+    id?: SortOrder
+    user_id?: SortOrderInput | SortOrder
+    identifier?: SortOrder
+    method?: SortOrder
+    active_role?: SortOrderInput | SortOrder
+    status?: SortOrder
+    failure_reason?: SortOrderInput | SortOrder
+    ip_address?: SortOrderInput | SortOrder
+    user_agent?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    _count?: login_historyCountOrderByAggregateInput
+    _max?: login_historyMaxOrderByAggregateInput
+    _min?: login_historyMinOrderByAggregateInput
+  }
+
+  export type login_historyScalarWhereWithAggregatesInput = {
+    AND?: login_historyScalarWhereWithAggregatesInput | login_historyScalarWhereWithAggregatesInput[]
+    OR?: login_historyScalarWhereWithAggregatesInput[]
+    NOT?: login_historyScalarWhereWithAggregatesInput | login_historyScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"login_history"> | string
+    user_id?: UuidNullableWithAggregatesFilter<"login_history"> | string | null
+    identifier?: StringWithAggregatesFilter<"login_history"> | string
+    method?: StringWithAggregatesFilter<"login_history"> | string
+    active_role?: StringNullableWithAggregatesFilter<"login_history"> | string | null
+    status?: StringWithAggregatesFilter<"login_history"> | string
+    failure_reason?: StringNullableWithAggregatesFilter<"login_history"> | string | null
+    ip_address?: StringNullableWithAggregatesFilter<"login_history"> | string | null
+    user_agent?: StringNullableWithAggregatesFilter<"login_history"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"login_history"> | Date | string
+  }
+
   export type skillsWhereInput = {
     AND?: skillsWhereInput | skillsWhereInput[]
     OR?: skillsWhereInput[]
@@ -47434,6 +48805,7 @@ export namespace Prisma {
     business_profiles?: XOR<Business_profilesNullableScalarRelationFilter, business_profilesWhereInput> | null
     chat_messages?: Chat_messagesListRelationFilter
     devices?: DevicesListRelationFilter
+    login_history?: Login_historyListRelationFilter
     disputes_disputes_against_userTousers?: DisputesListRelationFilter
     disputes_disputes_raised_byTousers?: DisputesListRelationFilter
     disputes_disputes_resolved_byTousers?: DisputesListRelationFilter
@@ -47472,6 +48844,7 @@ export namespace Prisma {
     business_profiles?: business_profilesOrderByWithRelationInput
     chat_messages?: chat_messagesOrderByRelationAggregateInput
     devices?: devicesOrderByRelationAggregateInput
+    login_history?: login_historyOrderByRelationAggregateInput
     disputes_disputes_against_userTousers?: disputesOrderByRelationAggregateInput
     disputes_disputes_raised_byTousers?: disputesOrderByRelationAggregateInput
     disputes_disputes_resolved_byTousers?: disputesOrderByRelationAggregateInput
@@ -47513,6 +48886,7 @@ export namespace Prisma {
     business_profiles?: XOR<Business_profilesNullableScalarRelationFilter, business_profilesWhereInput> | null
     chat_messages?: Chat_messagesListRelationFilter
     devices?: DevicesListRelationFilter
+    login_history?: Login_historyListRelationFilter
     disputes_disputes_against_userTousers?: DisputesListRelationFilter
     disputes_disputes_raised_byTousers?: DisputesListRelationFilter
     disputes_disputes_resolved_byTousers?: DisputesListRelationFilter
@@ -50726,6 +52100,96 @@ export namespace Prisma {
     active_role?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type login_historyCreateInput = {
+    id?: string
+    identifier: string
+    method: string
+    active_role?: string | null
+    status: string
+    failure_reason?: string | null
+    ip_address?: string | null
+    user_agent?: string | null
+    created_at?: Date | string
+    users?: usersCreateNestedOneWithoutLogin_historyInput
+  }
+
+  export type login_historyUncheckedCreateInput = {
+    id?: string
+    user_id?: string | null
+    identifier: string
+    method: string
+    active_role?: string | null
+    status: string
+    failure_reason?: string | null
+    ip_address?: string | null
+    user_agent?: string | null
+    created_at?: Date | string
+  }
+
+  export type login_historyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    failure_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: usersUpdateOneWithoutLogin_historyNestedInput
+  }
+
+  export type login_historyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    failure_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type login_historyCreateManyInput = {
+    id?: string
+    user_id?: string | null
+    identifier: string
+    method: string
+    active_role?: string | null
+    status: string
+    failure_reason?: string | null
+    ip_address?: string | null
+    user_agent?: string | null
+    created_at?: Date | string
+  }
+
+  export type login_historyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    failure_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type login_historyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    identifier?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    failure_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type skillsCreateInput = {
     id?: string
     name: string
@@ -50888,6 +52352,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -50926,6 +52391,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -50964,6 +52430,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -51002,6 +52469,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -54458,6 +55926,50 @@ export namespace Prisma {
     _max?: NestedEnumsession_status_enumFilter<$PrismaModel>
   }
 
+  export type UsersNullableScalarRelationFilter = {
+    is?: usersWhereInput | null
+    isNot?: usersWhereInput | null
+  }
+
+  export type login_historyCountOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    identifier?: SortOrder
+    method?: SortOrder
+    active_role?: SortOrder
+    status?: SortOrder
+    failure_reason?: SortOrder
+    ip_address?: SortOrder
+    user_agent?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type login_historyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    identifier?: SortOrder
+    method?: SortOrder
+    active_role?: SortOrder
+    status?: SortOrder
+    failure_reason?: SortOrder
+    ip_address?: SortOrder
+    user_agent?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type login_historyMinOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    identifier?: SortOrder
+    method?: SortOrder
+    active_role?: SortOrder
+    status?: SortOrder
+    failure_reason?: SortOrder
+    ip_address?: SortOrder
+    user_agent?: SortOrder
+    created_at?: SortOrder
+  }
+
   export type CategoriesNullableScalarRelationFilter = {
     is?: categoriesWhereInput | null
     isNot?: categoriesWhereInput | null
@@ -54622,6 +56134,12 @@ export namespace Prisma {
     none?: devicesWhereInput
   }
 
+  export type Login_historyListRelationFilter = {
+    every?: login_historyWhereInput
+    some?: login_historyWhereInput
+    none?: login_historyWhereInput
+  }
+
   export type DisputesListRelationFilter = {
     every?: disputesWhereInput
     some?: disputesWhereInput
@@ -54679,6 +56197,10 @@ export namespace Prisma {
   }
 
   export type devicesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type login_historyOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -55254,11 +56776,6 @@ export namespace Prisma {
   export type ReportsNullableScalarRelationFilter = {
     is?: reportsWhereInput | null
     isNot?: reportsWhereInput | null
-  }
-
-  export type UsersNullableScalarRelationFilter = {
-    is?: usersWhereInput | null
-    isNot?: usersWhereInput | null
   }
 
   export type ShiftsNullableScalarRelationFilter = {
@@ -57060,6 +58577,22 @@ export namespace Prisma {
     deleteMany?: refresh_tokensScalarWhereInput | refresh_tokensScalarWhereInput[]
   }
 
+  export type usersCreateNestedOneWithoutLogin_historyInput = {
+    create?: XOR<usersCreateWithoutLogin_historyInput, usersUncheckedCreateWithoutLogin_historyInput>
+    connectOrCreate?: usersCreateOrConnectWithoutLogin_historyInput
+    connect?: usersWhereUniqueInput
+  }
+
+  export type usersUpdateOneWithoutLogin_historyNestedInput = {
+    create?: XOR<usersCreateWithoutLogin_historyInput, usersUncheckedCreateWithoutLogin_historyInput>
+    connectOrCreate?: usersCreateOrConnectWithoutLogin_historyInput
+    upsert?: usersUpsertWithoutLogin_historyInput
+    disconnect?: usersWhereInput | boolean
+    delete?: usersWhereInput | boolean
+    connect?: usersWhereUniqueInput
+    update?: XOR<XOR<usersUpdateToOneWithWhereWithoutLogin_historyInput, usersUpdateWithoutLogin_historyInput>, usersUncheckedUpdateWithoutLogin_historyInput>
+  }
+
   export type categoriesCreateNestedOneWithoutSkillsInput = {
     create?: XOR<categoriesCreateWithoutSkillsInput, categoriesUncheckedCreateWithoutSkillsInput>
     connectOrCreate?: categoriesCreateOrConnectWithoutSkillsInput
@@ -57156,6 +58689,13 @@ export namespace Prisma {
     connectOrCreate?: devicesCreateOrConnectWithoutUsersInput | devicesCreateOrConnectWithoutUsersInput[]
     createMany?: devicesCreateManyUsersInputEnvelope
     connect?: devicesWhereUniqueInput | devicesWhereUniqueInput[]
+  }
+
+  export type login_historyCreateNestedManyWithoutUsersInput = {
+    create?: XOR<login_historyCreateWithoutUsersInput, login_historyUncheckedCreateWithoutUsersInput> | login_historyCreateWithoutUsersInput[] | login_historyUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: login_historyCreateOrConnectWithoutUsersInput | login_historyCreateOrConnectWithoutUsersInput[]
+    createMany?: login_historyCreateManyUsersInputEnvelope
+    connect?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
   }
 
   export type disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput = {
@@ -57293,6 +58833,13 @@ export namespace Prisma {
     connectOrCreate?: devicesCreateOrConnectWithoutUsersInput | devicesCreateOrConnectWithoutUsersInput[]
     createMany?: devicesCreateManyUsersInputEnvelope
     connect?: devicesWhereUniqueInput | devicesWhereUniqueInput[]
+  }
+
+  export type login_historyUncheckedCreateNestedManyWithoutUsersInput = {
+    create?: XOR<login_historyCreateWithoutUsersInput, login_historyUncheckedCreateWithoutUsersInput> | login_historyCreateWithoutUsersInput[] | login_historyUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: login_historyCreateOrConnectWithoutUsersInput | login_historyCreateOrConnectWithoutUsersInput[]
+    createMany?: login_historyCreateManyUsersInputEnvelope
+    connect?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
   }
 
   export type disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput = {
@@ -57453,6 +59000,20 @@ export namespace Prisma {
     update?: devicesUpdateWithWhereUniqueWithoutUsersInput | devicesUpdateWithWhereUniqueWithoutUsersInput[]
     updateMany?: devicesUpdateManyWithWhereWithoutUsersInput | devicesUpdateManyWithWhereWithoutUsersInput[]
     deleteMany?: devicesScalarWhereInput | devicesScalarWhereInput[]
+  }
+
+  export type login_historyUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<login_historyCreateWithoutUsersInput, login_historyUncheckedCreateWithoutUsersInput> | login_historyCreateWithoutUsersInput[] | login_historyUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: login_historyCreateOrConnectWithoutUsersInput | login_historyCreateOrConnectWithoutUsersInput[]
+    upsert?: login_historyUpsertWithWhereUniqueWithoutUsersInput | login_historyUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: login_historyCreateManyUsersInputEnvelope
+    set?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
+    disconnect?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
+    delete?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
+    connect?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
+    update?: login_historyUpdateWithWhereUniqueWithoutUsersInput | login_historyUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: login_historyUpdateManyWithWhereWithoutUsersInput | login_historyUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: login_historyScalarWhereInput | login_historyScalarWhereInput[]
   }
 
   export type disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput = {
@@ -57721,6 +59282,20 @@ export namespace Prisma {
     update?: devicesUpdateWithWhereUniqueWithoutUsersInput | devicesUpdateWithWhereUniqueWithoutUsersInput[]
     updateMany?: devicesUpdateManyWithWhereWithoutUsersInput | devicesUpdateManyWithWhereWithoutUsersInput[]
     deleteMany?: devicesScalarWhereInput | devicesScalarWhereInput[]
+  }
+
+  export type login_historyUncheckedUpdateManyWithoutUsersNestedInput = {
+    create?: XOR<login_historyCreateWithoutUsersInput, login_historyUncheckedCreateWithoutUsersInput> | login_historyCreateWithoutUsersInput[] | login_historyUncheckedCreateWithoutUsersInput[]
+    connectOrCreate?: login_historyCreateOrConnectWithoutUsersInput | login_historyCreateOrConnectWithoutUsersInput[]
+    upsert?: login_historyUpsertWithWhereUniqueWithoutUsersInput | login_historyUpsertWithWhereUniqueWithoutUsersInput[]
+    createMany?: login_historyCreateManyUsersInputEnvelope
+    set?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
+    disconnect?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
+    delete?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
+    connect?: login_historyWhereUniqueInput | login_historyWhereUniqueInput[]
+    update?: login_historyUpdateWithWhereUniqueWithoutUsersInput | login_historyUpdateWithWhereUniqueWithoutUsersInput[]
+    updateMany?: login_historyUpdateManyWithWhereWithoutUsersInput | login_historyUpdateManyWithWhereWithoutUsersInput[]
+    deleteMany?: login_historyScalarWhereInput | login_historyScalarWhereInput[]
   }
 
   export type disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput = {
@@ -61402,6 +62977,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -61439,6 +63015,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -61492,6 +63069,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -61529,6 +63107,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -61604,6 +63183,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -61641,6 +63221,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -61737,6 +63318,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -61774,6 +63356,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -61847,6 +63430,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -61884,6 +63468,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -61970,6 +63555,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -62007,6 +63593,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -62019,6 +63606,174 @@ export namespace Prisma {
     reports_reports_reported_idTousers?: reportsUncheckedUpdateManyWithoutUsers_reports_reported_idTousersNestedInput
     reports_reports_reporter_idTousers?: reportsUncheckedUpdateManyWithoutUsers_reports_reporter_idTousersNestedInput
     reports_reports_resolved_byTousers?: reportsUncheckedUpdateManyWithoutUsers_reports_resolved_byTousersNestedInput
+    user_sanctions_user_sanctions_issued_byTousers?: user_sanctionsUncheckedUpdateManyWithoutUsers_user_sanctions_issued_byTousersNestedInput
+    user_sanctions_user_sanctions_user_idTousers?: user_sanctionsUncheckedUpdateManyWithoutUsers_user_sanctions_user_idTousersNestedInput
+    wallets?: walletsUncheckedUpdateOneWithoutUsersNestedInput
+    worker_profiles?: worker_profilesUncheckedUpdateOneWithoutUsersNestedInput
+  }
+
+  export type usersCreateWithoutLogin_historyInput = {
+    id?: string
+    phone: string
+    email?: string | null
+    username?: string | null
+    password_hash?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
+    roles?: usersCreaterolesInput | string[]
+    is_active?: boolean
+    is_phone_verified?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
+    devices?: devicesCreateNestedManyWithoutUsersInput
+    disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
+    disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
+    disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
+    notifications?: notificationsCreateNestedManyWithoutUsersInput
+    payout_requests_payout_requests_processed_byTousers?: payout_requestsCreateNestedManyWithoutUsers_payout_requests_processed_byTousersInput
+    payout_requests_payout_requests_user_idTousers?: payout_requestsCreateNestedManyWithoutUsers_payout_requests_user_idTousersInput
+    ratings_ratings_rated_user_idTousers?: ratingsCreateNestedManyWithoutUsers_ratings_rated_user_idTousersInput
+    ratings_ratings_rater_user_idTousers?: ratingsCreateNestedManyWithoutUsers_ratings_rater_user_idTousersInput
+    refresh_tokens?: refresh_tokensCreateNestedManyWithoutUsersInput
+    reports_reports_reported_idTousers?: reportsCreateNestedManyWithoutUsers_reports_reported_idTousersInput
+    reports_reports_reporter_idTousers?: reportsCreateNestedManyWithoutUsers_reports_reporter_idTousersInput
+    reports_reports_resolved_byTousers?: reportsCreateNestedManyWithoutUsers_reports_resolved_byTousersInput
+    sessions?: sessionsCreateNestedManyWithoutUsersInput
+    user_sanctions_user_sanctions_issued_byTousers?: user_sanctionsCreateNestedManyWithoutUsers_user_sanctions_issued_byTousersInput
+    user_sanctions_user_sanctions_user_idTousers?: user_sanctionsCreateNestedManyWithoutUsers_user_sanctions_user_idTousersInput
+    wallets?: walletsCreateNestedOneWithoutUsersInput
+    worker_profiles?: worker_profilesCreateNestedOneWithoutUsersInput
+  }
+
+  export type usersUncheckedCreateWithoutLogin_historyInput = {
+    id?: string
+    phone: string
+    email?: string | null
+    username?: string | null
+    password_hash?: string | null
+    full_name?: string | null
+    profile_picture?: string | null
+    roles?: usersCreaterolesInput | string[]
+    is_active?: boolean
+    is_phone_verified?: boolean
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    created_by?: string | null
+    updated_by?: string | null
+    business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
+    chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+    devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
+    disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
+    disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
+    notifications?: notificationsUncheckedCreateNestedManyWithoutUsersInput
+    payout_requests_payout_requests_processed_byTousers?: payout_requestsUncheckedCreateNestedManyWithoutUsers_payout_requests_processed_byTousersInput
+    payout_requests_payout_requests_user_idTousers?: payout_requestsUncheckedCreateNestedManyWithoutUsers_payout_requests_user_idTousersInput
+    ratings_ratings_rated_user_idTousers?: ratingsUncheckedCreateNestedManyWithoutUsers_ratings_rated_user_idTousersInput
+    ratings_ratings_rater_user_idTousers?: ratingsUncheckedCreateNestedManyWithoutUsers_ratings_rater_user_idTousersInput
+    refresh_tokens?: refresh_tokensUncheckedCreateNestedManyWithoutUsersInput
+    reports_reports_reported_idTousers?: reportsUncheckedCreateNestedManyWithoutUsers_reports_reported_idTousersInput
+    reports_reports_reporter_idTousers?: reportsUncheckedCreateNestedManyWithoutUsers_reports_reporter_idTousersInput
+    reports_reports_resolved_byTousers?: reportsUncheckedCreateNestedManyWithoutUsers_reports_resolved_byTousersInput
+    sessions?: sessionsUncheckedCreateNestedManyWithoutUsersInput
+    user_sanctions_user_sanctions_issued_byTousers?: user_sanctionsUncheckedCreateNestedManyWithoutUsers_user_sanctions_issued_byTousersInput
+    user_sanctions_user_sanctions_user_idTousers?: user_sanctionsUncheckedCreateNestedManyWithoutUsers_user_sanctions_user_idTousersInput
+    wallets?: walletsUncheckedCreateNestedOneWithoutUsersInput
+    worker_profiles?: worker_profilesUncheckedCreateNestedOneWithoutUsersInput
+  }
+
+  export type usersCreateOrConnectWithoutLogin_historyInput = {
+    where: usersWhereUniqueInput
+    create: XOR<usersCreateWithoutLogin_historyInput, usersUncheckedCreateWithoutLogin_historyInput>
+  }
+
+  export type usersUpsertWithoutLogin_historyInput = {
+    update: XOR<usersUpdateWithoutLogin_historyInput, usersUncheckedUpdateWithoutLogin_historyInput>
+    create: XOR<usersCreateWithoutLogin_historyInput, usersUncheckedCreateWithoutLogin_historyInput>
+    where?: usersWhereInput
+  }
+
+  export type usersUpdateToOneWithWhereWithoutLogin_historyInput = {
+    where?: usersWhereInput
+    data: XOR<usersUpdateWithoutLogin_historyInput, usersUncheckedUpdateWithoutLogin_historyInput>
+  }
+
+  export type usersUpdateWithoutLogin_historyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: usersUpdaterolesInput | string[]
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    is_phone_verified?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
+    devices?: devicesUpdateManyWithoutUsersNestedInput
+    disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
+    disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
+    disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
+    notifications?: notificationsUpdateManyWithoutUsersNestedInput
+    payout_requests_payout_requests_processed_byTousers?: payout_requestsUpdateManyWithoutUsers_payout_requests_processed_byTousersNestedInput
+    payout_requests_payout_requests_user_idTousers?: payout_requestsUpdateManyWithoutUsers_payout_requests_user_idTousersNestedInput
+    ratings_ratings_rated_user_idTousers?: ratingsUpdateManyWithoutUsers_ratings_rated_user_idTousersNestedInput
+    ratings_ratings_rater_user_idTousers?: ratingsUpdateManyWithoutUsers_ratings_rater_user_idTousersNestedInput
+    refresh_tokens?: refresh_tokensUpdateManyWithoutUsersNestedInput
+    reports_reports_reported_idTousers?: reportsUpdateManyWithoutUsers_reports_reported_idTousersNestedInput
+    reports_reports_reporter_idTousers?: reportsUpdateManyWithoutUsers_reports_reporter_idTousersNestedInput
+    reports_reports_resolved_byTousers?: reportsUpdateManyWithoutUsers_reports_resolved_byTousersNestedInput
+    sessions?: sessionsUpdateManyWithoutUsersNestedInput
+    user_sanctions_user_sanctions_issued_byTousers?: user_sanctionsUpdateManyWithoutUsers_user_sanctions_issued_byTousersNestedInput
+    user_sanctions_user_sanctions_user_idTousers?: user_sanctionsUpdateManyWithoutUsers_user_sanctions_user_idTousersNestedInput
+    wallets?: walletsUpdateOneWithoutUsersNestedInput
+    worker_profiles?: worker_profilesUpdateOneWithoutUsersNestedInput
+  }
+
+  export type usersUncheckedUpdateWithoutLogin_historyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    password_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    full_name?: NullableStringFieldUpdateOperationsInput | string | null
+    profile_picture?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: usersUpdaterolesInput | string[]
+    is_active?: BoolFieldUpdateOperationsInput | boolean
+    is_phone_verified?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_by?: NullableStringFieldUpdateOperationsInput | string | null
+    updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
+    chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+    devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
+    disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
+    disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
+    notifications?: notificationsUncheckedUpdateManyWithoutUsersNestedInput
+    payout_requests_payout_requests_processed_byTousers?: payout_requestsUncheckedUpdateManyWithoutUsers_payout_requests_processed_byTousersNestedInput
+    payout_requests_payout_requests_user_idTousers?: payout_requestsUncheckedUpdateManyWithoutUsers_payout_requests_user_idTousersNestedInput
+    ratings_ratings_rated_user_idTousers?: ratingsUncheckedUpdateManyWithoutUsers_ratings_rated_user_idTousersNestedInput
+    ratings_ratings_rater_user_idTousers?: ratingsUncheckedUpdateManyWithoutUsers_ratings_rater_user_idTousersNestedInput
+    refresh_tokens?: refresh_tokensUncheckedUpdateManyWithoutUsersNestedInput
+    reports_reports_reported_idTousers?: reportsUncheckedUpdateManyWithoutUsers_reports_reported_idTousersNestedInput
+    reports_reports_reporter_idTousers?: reportsUncheckedUpdateManyWithoutUsers_reports_reporter_idTousersNestedInput
+    reports_reports_resolved_byTousers?: reportsUncheckedUpdateManyWithoutUsers_reports_resolved_byTousersNestedInput
+    sessions?: sessionsUncheckedUpdateManyWithoutUsersNestedInput
     user_sanctions_user_sanctions_issued_byTousers?: user_sanctionsUncheckedUpdateManyWithoutUsers_user_sanctions_issued_byTousersNestedInput
     user_sanctions_user_sanctions_user_idTousers?: user_sanctionsUncheckedUpdateManyWithoutUsers_user_sanctions_user_idTousersNestedInput
     wallets?: walletsUncheckedUpdateOneWithoutUsersNestedInput
@@ -62279,6 +64034,40 @@ export namespace Prisma {
 
   export type devicesCreateManyUsersInputEnvelope = {
     data: devicesCreateManyUsersInput | devicesCreateManyUsersInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type login_historyCreateWithoutUsersInput = {
+    id?: string
+    identifier: string
+    method: string
+    active_role?: string | null
+    status: string
+    failure_reason?: string | null
+    ip_address?: string | null
+    user_agent?: string | null
+    created_at?: Date | string
+  }
+
+  export type login_historyUncheckedCreateWithoutUsersInput = {
+    id?: string
+    identifier: string
+    method: string
+    active_role?: string | null
+    status: string
+    failure_reason?: string | null
+    ip_address?: string | null
+    user_agent?: string | null
+    created_at?: Date | string
+  }
+
+  export type login_historyCreateOrConnectWithoutUsersInput = {
+    where: login_historyWhereUniqueInput
+    create: XOR<login_historyCreateWithoutUsersInput, login_historyUncheckedCreateWithoutUsersInput>
+  }
+
+  export type login_historyCreateManyUsersInputEnvelope = {
+    data: login_historyCreateManyUsersInput | login_historyCreateManyUsersInput[]
     skipDuplicates?: boolean
   }
 
@@ -63208,6 +64997,38 @@ export namespace Prisma {
     deleted_at?: DateTimeNullableFilter<"devices"> | Date | string | null
     created_by?: UuidNullableFilter<"devices"> | string | null
     updated_by?: UuidNullableFilter<"devices"> | string | null
+  }
+
+  export type login_historyUpsertWithWhereUniqueWithoutUsersInput = {
+    where: login_historyWhereUniqueInput
+    update: XOR<login_historyUpdateWithoutUsersInput, login_historyUncheckedUpdateWithoutUsersInput>
+    create: XOR<login_historyCreateWithoutUsersInput, login_historyUncheckedCreateWithoutUsersInput>
+  }
+
+  export type login_historyUpdateWithWhereUniqueWithoutUsersInput = {
+    where: login_historyWhereUniqueInput
+    data: XOR<login_historyUpdateWithoutUsersInput, login_historyUncheckedUpdateWithoutUsersInput>
+  }
+
+  export type login_historyUpdateManyWithWhereWithoutUsersInput = {
+    where: login_historyScalarWhereInput
+    data: XOR<login_historyUpdateManyMutationInput, login_historyUncheckedUpdateManyWithoutUsersInput>
+  }
+
+  export type login_historyScalarWhereInput = {
+    AND?: login_historyScalarWhereInput | login_historyScalarWhereInput[]
+    OR?: login_historyScalarWhereInput[]
+    NOT?: login_historyScalarWhereInput | login_historyScalarWhereInput[]
+    id?: UuidFilter<"login_history"> | string
+    user_id?: UuidNullableFilter<"login_history"> | string | null
+    identifier?: StringFilter<"login_history"> | string
+    method?: StringFilter<"login_history"> | string
+    active_role?: StringNullableFilter<"login_history"> | string | null
+    status?: StringFilter<"login_history"> | string
+    failure_reason?: StringNullableFilter<"login_history"> | string | null
+    ip_address?: StringNullableFilter<"login_history"> | string | null
+    user_agent?: StringNullableFilter<"login_history"> | string | null
+    created_at?: DateTimeFilter<"login_history"> | Date | string
   }
 
   export type disputesUpsertWithWhereUniqueWithoutUsers_disputes_against_userTousersInput = {
@@ -65378,6 +67199,7 @@ export namespace Prisma {
     updated_by?: string | null
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -65415,6 +67237,7 @@ export namespace Prisma {
     updated_by?: string | null
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -65727,6 +67550,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -65764,6 +67588,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -65932,6 +67757,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
     notifications?: notificationsCreateNestedManyWithoutUsersInput
@@ -65969,6 +67795,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
     notifications?: notificationsUncheckedCreateNestedManyWithoutUsersInput
@@ -66011,6 +67838,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
     notifications?: notificationsCreateNestedManyWithoutUsersInput
@@ -66048,6 +67876,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
     notifications?: notificationsUncheckedCreateNestedManyWithoutUsersInput
@@ -66131,6 +67960,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     notifications?: notificationsCreateNestedManyWithoutUsersInput
@@ -66168,6 +67998,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     notifications?: notificationsUncheckedCreateNestedManyWithoutUsersInput
@@ -66381,6 +68212,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
     notifications?: notificationsUpdateManyWithoutUsersNestedInput
@@ -66418,6 +68250,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
     notifications?: notificationsUncheckedUpdateManyWithoutUsersNestedInput
@@ -66466,6 +68299,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
     notifications?: notificationsUpdateManyWithoutUsersNestedInput
@@ -66503,6 +68337,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
     notifications?: notificationsUncheckedUpdateManyWithoutUsersNestedInput
@@ -66598,6 +68433,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     notifications?: notificationsUpdateManyWithoutUsersNestedInput
@@ -66635,6 +68471,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     notifications?: notificationsUncheckedUpdateManyWithoutUsersNestedInput
@@ -66844,6 +68681,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -66881,6 +68719,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -66934,6 +68773,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -66971,6 +68811,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -67008,6 +68849,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -67045,6 +68887,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -67087,6 +68930,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -67124,6 +68968,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -67212,6 +69057,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -67249,6 +69095,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -67297,6 +69144,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -67334,6 +69182,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -67467,6 +69316,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -67504,6 +69354,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -67546,6 +69397,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -67583,6 +69435,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -67802,6 +69655,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -67839,6 +69693,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -67887,6 +69742,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -67924,6 +69780,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -68120,6 +69977,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -68157,6 +70015,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -68199,6 +70058,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -68236,6 +70096,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -68278,6 +70139,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -68315,6 +70177,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -68489,6 +70352,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -68526,6 +70390,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -68574,6 +70439,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -68611,6 +70477,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -68659,6 +70526,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -68696,6 +70564,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -70097,6 +71966,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -70134,6 +72004,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -70176,6 +72047,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -70213,6 +72085,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -70266,6 +72139,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -70303,6 +72177,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -70351,6 +72226,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -70388,6 +72264,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -70513,6 +72390,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -70550,6 +72428,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -70635,6 +72514,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -70672,6 +72552,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -72325,6 +74206,7 @@ export namespace Prisma {
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesCreateNestedManyWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -72362,6 +74244,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     chat_messages?: chat_messagesUncheckedCreateNestedManyWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -72564,6 +74447,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUpdateManyWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -72601,6 +74485,7 @@ export namespace Prisma {
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     chat_messages?: chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -73488,6 +75373,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_profiles?: business_profilesCreateNestedOneWithoutUsersInput
     devices?: devicesCreateNestedManyWithoutUsersInput
+    login_history?: login_historyCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -73525,6 +75411,7 @@ export namespace Prisma {
     updated_by?: string | null
     business_profiles?: business_profilesUncheckedCreateNestedOneWithoutUsersInput
     devices?: devicesUncheckedCreateNestedManyWithoutUsersInput
+    login_history?: login_historyUncheckedCreateNestedManyWithoutUsersInput
     disputes_disputes_against_userTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_against_userTousersInput
     disputes_disputes_raised_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_raised_byTousersInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedCreateNestedManyWithoutUsers_disputes_resolved_byTousersInput
@@ -73619,6 +75506,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUpdateOneWithoutUsersNestedInput
     devices?: devicesUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -73656,6 +75544,7 @@ export namespace Prisma {
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
     business_profiles?: business_profilesUncheckedUpdateOneWithoutUsersNestedInput
     devices?: devicesUncheckedUpdateManyWithoutUsersNestedInput
+    login_history?: login_historyUncheckedUpdateManyWithoutUsersNestedInput
     disputes_disputes_against_userTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_against_userTousersNestedInput
     disputes_disputes_raised_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_raised_byTousersNestedInput
     disputes_disputes_resolved_byTousers?: disputesUncheckedUpdateManyWithoutUsers_disputes_resolved_byTousersNestedInput
@@ -74198,6 +76087,18 @@ export namespace Prisma {
     updated_by?: string | null
   }
 
+  export type login_historyCreateManyUsersInput = {
+    id?: string
+    identifier: string
+    method: string
+    active_role?: string | null
+    status: string
+    failure_reason?: string | null
+    ip_address?: string | null
+    user_agent?: string | null
+    created_at?: Date | string
+  }
+
   export type disputesCreateManyUsers_disputes_against_userTousersInput = {
     id?: string
     report_id?: string | null
@@ -74528,6 +76429,42 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_by?: NullableStringFieldUpdateOperationsInput | string | null
     updated_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type login_historyUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    failure_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type login_historyUncheckedUpdateWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    failure_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type login_historyUncheckedUpdateManyWithoutUsersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    active_role?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    failure_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    ip_address?: NullableStringFieldUpdateOperationsInput | string | null
+    user_agent?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type disputesUpdateWithoutUsers_disputes_against_userTousersInput = {

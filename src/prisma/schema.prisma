@@ -110,6 +110,26 @@ model sessions {
   @@index([user_id], map: "idx_sessions_user_id")
 }
 
+// Audit trail of every sign-in attempt (success and failed), for all roles.
+// user_id is null when the attempt never resolved to an account (unknown
+// username/phone); identifier keeps what was typed so patterns stay visible.
+model login_history {
+  id             String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id        String?  @db.Uuid
+  identifier     String   @db.VarChar(100)
+  method         String   @db.VarChar(20) // otp | admin_password | admin_2fa
+  active_role    String?  @db.VarChar(20)
+  status         String   @db.VarChar(10) // success | failed
+  failure_reason String?  @db.VarChar(100)
+  ip_address     String?  @db.Inet
+  user_agent     String?
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  users          users?   @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([user_id, created_at(sort: Desc)], map: "idx_login_history_user_created")
+  @@index([created_at(sort: Desc)], map: "idx_login_history_created")
+}
+
 model skills {
   id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name          String          @unique @db.VarChar(100)
@@ -152,6 +172,7 @@ model users {
   business_profiles                                   business_profiles?
   chat_messages                                       chat_messages[]
   devices                                             devices[]
+  login_history                                       login_history[]
   disputes_disputes_against_userTousers               disputes[]         @relation("disputes_against_userTousers")
   disputes_disputes_raised_byTousers                  disputes[]         @relation("disputes_raised_byTousers")
   disputes_disputes_resolved_byTousers                disputes[]         @relation("disputes_resolved_byTousers")

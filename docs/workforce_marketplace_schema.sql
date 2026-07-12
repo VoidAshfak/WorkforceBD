@@ -135,6 +135,22 @@ CREATE TABLE sessions (
     updated_by      UUID
 );
 
+-- Login History (audit trail of every sign-in attempt, success and failed)
+-- user_id is NULL when the attempt never resolved to an account (unknown
+-- username/phone); identifier keeps what was typed so patterns stay visible.
+CREATE TABLE login_history (
+    id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id         UUID REFERENCES users(id) ON DELETE SET NULL,
+    identifier      VARCHAR(100) NOT NULL,          -- phone or username attempted
+    method          VARCHAR(20) NOT NULL,           -- 'otp', 'admin_password', 'admin_2fa'
+    active_role     VARCHAR(20),                    -- role the session was issued as (success only)
+    status          VARCHAR(10) NOT NULL,           -- 'success', 'failed'
+    failure_reason  VARCHAR(100),                   -- e.g. 'invalid_otp', 'invalid_credentials', 'account_deactivated'
+    ip_address      INET,
+    user_agent      TEXT,
+    created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- Refresh Tokens
 CREATE TABLE refresh_tokens (
     id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -852,6 +868,8 @@ CREATE INDEX idx_otp_expires_at ON otp_requests(expires_at);
 
 -- Sessions / Tokens
 CREATE INDEX idx_sessions_user_id ON sessions(user_id);
+CREATE INDEX idx_login_history_user_created ON login_history(user_id, created_at DESC);
+CREATE INDEX idx_login_history_created ON login_history(created_at DESC);
 CREATE INDEX idx_refresh_tokens_user_id ON refresh_tokens(user_id);
 CREATE INDEX idx_devices_user_id ON devices(user_id);
 

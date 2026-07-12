@@ -39,7 +39,8 @@ export const adminLogin = asyncHandler(async (req, res) => {
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
 
   const { username, password } = req.body;
-  const result = await authService.adminLogin(username, password);
+  const meta = { ipAddress: req.ip, userAgent: req.headers["user-agent"] };
+  const result = await authService.adminLogin(username, password, meta);
   return sendSuccess(res, 200, "Verification code sent to your email", result);
 });
 
