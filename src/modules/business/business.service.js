@@ -1178,6 +1178,9 @@ export const acceptApplicant = async (userId, applicationId) => {
       worker_profile_id: application.worker_profiles.id,
       created_by: userId,
     }, tx);
+    // Denormalized filled-slot counter — lets discovery compare against
+    // workers_needed in SQL (accepted apps never un-hire, so it only grows).
+    await businessRepository.updateShift(shift.id, { hired_count: { increment: 1 } }, tx);
     // Roadmap: first hire → workers selected; last slot filled → workers confirmed.
     const target = accepted + 1 >= shift.workers_needed ? "worker_confirmed" : "worker_selected";
     await advanceShiftStatus(shift.id, target, userId, tx);

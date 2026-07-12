@@ -2,7 +2,7 @@ import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import * as shiftRepository from "./shift.repository.js";
 
-const { OPEN_STATUSES } = shiftRepository;
+const { openToWorkersWhere } = shiftRepository;
 
 // "High pay" threshold in BDT — shifts at or above this are surfaced in the High Pay tab
 const HIGH_PAY_THRESHOLD = 1000;
@@ -58,7 +58,8 @@ const toShiftDto = (shift, myApp) => {
 const buildWhere = (filter, preferredZoneIds, extra) => {
   const where = {
     deleted_at: null,
-    status: { in: OPEN_STATUSES },
+    // Openness lives under AND — the urgent tab owns the top-level OR below.
+    AND: [openToWorkersWhere()],
     shift_date: { gte: today() },
   };
 
@@ -154,7 +155,7 @@ export const getShiftDetail = async (userId, id) => {
 export const getDashboard = async (userId) => {
   const preferredZoneIds = await shiftRepository.findPreferredZoneIds(userId);
   // Exclude the worker's own business's shifts from every discovery counter too.
-  const base = { deleted_at: null, status: { in: OPEN_STATUSES }, business_profiles: { user_id: { not: userId } } };
+  const base = { deleted_at: null, AND: [openToWorkersWhere()], business_profiles: { user_id: { not: userId } } };
 
   const [shiftsToday, nearby, urgent] = await Promise.all([
     shiftRepository.countShifts({

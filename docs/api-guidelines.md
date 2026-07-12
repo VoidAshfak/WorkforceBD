@@ -798,7 +798,7 @@ Worker-facing shift discovery feed and detail. All endpoints require:
 - `Authorization: Bearer <access_token>`
 - Active context must be `worker` (see [Account context](#account-context-active-role))
 
-Only shifts with status `published` or `applications_open` (and `shift_date` today or later) appear in discovery. A worker's **own business's** shifts are excluded from the feed, the dashboard counters, and cannot be applied to (a single user may hold both a worker and a business profile — same identity — but can't work their own posts; see the self-dealing `403` on [POST `/applications`](#post-applications)). Each shift carries computed slot counters:
+A shift appears in discovery while `shift_date` is today or later **and** it can still take workers: status `published`/`applications_open`, **or** status `worker_selected`/`worker_confirmed`/`checked_in`/`active` with open capacity (`hired_count < workers_needed`) — so a partially-staffed shift stays visible even after hiring started or the shift went live. A worker's **own business's** shifts are excluded from the feed, the dashboard counters, and cannot be applied to (a single user may hold both a worker and a business profile — same identity — but can't work their own posts; see the self-dealing `403` on [POST `/applications`](#post-applications)). Each shift carries computed slot counters:
 
 | Field | Meaning |
 |---|---|
@@ -1002,7 +1002,7 @@ Worker applies to shifts and tracks application state. All endpoints require:
 
 ### POST `/applications`
 
-Apply to a shift. Requires a verified worker profile. On success the owning business is notified instantly (`notification:new`, `data.kind = "new_applicant"` with `shift_id` + `application_id`).
+Apply to a shift. Requires a verified worker profile. A shift stays applyable until its end time as long as a slot is open — including after hiring started or the shift went live (a business may need to fill a spot mid-shift). On success the owning business is notified instantly (`notification:new`, `data.kind = "new_applicant"` with `shift_id` + `application_id`).
 
 **Request Body**
 ```json
@@ -1043,8 +1043,8 @@ Apply to a shift. Requires a verified worker profile. On success the owning busi
 | `403` | `Complete your worker profile to continue` | No worker profile yet |
 | `403` | `You can't apply to a shift posted by your own business account` | Self-dealing — the shift's owning user is you (one identity may hold both profiles) |
 | `404` | `Shift not found` | Unknown/deleted shift |
-| `409` | `This shift is not accepting applications` | Shift not in an applyable state |
-| `409` | `This shift has already passed` | `shift_date` in the past |
+| `409` | `This shift is not accepting applications` | Shift not in an applyable state (`published`/`applications_open`/`worker_selected`/`worker_confirmed`/`checked_in`/`active`) |
+| `409` | `This shift has already ended` | The shift's end time has passed |
 | `409` | `This shift is already full` | All slots accepted |
 | `409` | `You have already applied to this shift` | Active application exists |
 | `409` | `You have withdrawn from this shift and cannot apply again` | Prior withdrawal (terminal) |

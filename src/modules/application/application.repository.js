@@ -16,7 +16,8 @@ export const findShiftById = (shiftId) => {
   return prisma.shifts.findFirst({
     where: { id: shiftId, deleted_at: null },
     select: {
-      id: true, status: true, title: true, shift_date: true, workers_needed: true,
+      id: true, status: true, title: true, shift_date: true, start_time: true, end_time: true,
+      workers_needed: true,
       business_profiles: { select: { user_id: true } },
     },
   });

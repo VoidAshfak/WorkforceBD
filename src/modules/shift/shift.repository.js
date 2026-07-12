@@ -4,6 +4,27 @@ import { Prisma } from "../../prisma/index.js";
 // Shifts visible to workers in discovery
 export const OPEN_STATUSES = ["published", "applications_open"];
 
+// Hiring already started (or the shift is running) but slots may remain open.
+// Accepted applications never un-hire, so hired_count only grows — a shift in
+// these states with hired_count < workers_needed genuinely has open spots.
+export const PARTIALLY_HIRED_STATUSES = ["worker_selected", "worker_confirmed", "checked_in", "active"];
+
+/**
+ * Where-clause fragment for "workers can still be hired": fully open statuses,
+ * or mid-lifecycle statuses with unfilled capacity (column-to-column compare).
+ * Compose under AND — discovery's urgent tab already owns the top-level OR.
+ * @returns {object}
+ */
+export const openToWorkersWhere = () => ({
+  OR: [
+    { status: { in: OPEN_STATUSES } },
+    {
+      status: { in: PARTIALLY_HIRED_STATUSES },
+      hired_count: { lt: prisma.shifts.fields.workers_needed },
+    },
+  ],
+});
+
 /**
  * Fetches lng/lat for the given shift ids. `coordinates` is a PostGIS geography
  * column Prisma maps as Unsupported and can't select, so pull it via raw SQL

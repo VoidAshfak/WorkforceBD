@@ -28284,6 +28284,7 @@ export namespace Prisma {
   export type ShiftsAvgAggregateOutputType = {
     pay_amount: Decimal | null
     workers_needed: number | null
+    hired_count: number | null
     platform_fee: Decimal | null
     escrow_amount: Decimal | null
   }
@@ -28291,6 +28292,7 @@ export namespace Prisma {
   export type ShiftsSumAggregateOutputType = {
     pay_amount: Decimal | null
     workers_needed: number | null
+    hired_count: number | null
     platform_fee: Decimal | null
     escrow_amount: Decimal | null
   }
@@ -28310,6 +28312,7 @@ export namespace Prisma {
     pay_amount: Decimal | null
     currency: string | null
     workers_needed: number | null
+    hired_count: number | null
     gender_preference: $Enums.gender_enum | null
     meal_included: boolean | null
     transport_support: boolean | null
@@ -28352,6 +28355,7 @@ export namespace Prisma {
     pay_amount: Decimal | null
     currency: string | null
     workers_needed: number | null
+    hired_count: number | null
     gender_preference: $Enums.gender_enum | null
     meal_included: boolean | null
     transport_support: boolean | null
@@ -28394,6 +28398,7 @@ export namespace Prisma {
     pay_amount: number
     currency: number
     workers_needed: number
+    hired_count: number
     gender_preference: number
     meal_included: number
     transport_support: number
@@ -28427,6 +28432,7 @@ export namespace Prisma {
   export type ShiftsAvgAggregateInputType = {
     pay_amount?: true
     workers_needed?: true
+    hired_count?: true
     platform_fee?: true
     escrow_amount?: true
   }
@@ -28434,6 +28440,7 @@ export namespace Prisma {
   export type ShiftsSumAggregateInputType = {
     pay_amount?: true
     workers_needed?: true
+    hired_count?: true
     platform_fee?: true
     escrow_amount?: true
   }
@@ -28453,6 +28460,7 @@ export namespace Prisma {
     pay_amount?: true
     currency?: true
     workers_needed?: true
+    hired_count?: true
     gender_preference?: true
     meal_included?: true
     transport_support?: true
@@ -28495,6 +28503,7 @@ export namespace Prisma {
     pay_amount?: true
     currency?: true
     workers_needed?: true
+    hired_count?: true
     gender_preference?: true
     meal_included?: true
     transport_support?: true
@@ -28537,6 +28546,7 @@ export namespace Prisma {
     pay_amount?: true
     currency?: true
     workers_needed?: true
+    hired_count?: true
     gender_preference?: true
     meal_included?: true
     transport_support?: true
@@ -28667,6 +28677,7 @@ export namespace Prisma {
     pay_amount: Decimal
     currency: string
     workers_needed: number
+    hired_count: number
     gender_preference: $Enums.gender_enum | null
     meal_included: boolean
     transport_support: boolean
@@ -28729,6 +28740,7 @@ export namespace Prisma {
     pay_amount?: boolean
     currency?: boolean
     workers_needed?: boolean
+    hired_count?: boolean
     gender_preference?: boolean
     meal_included?: boolean
     transport_support?: boolean
@@ -28784,6 +28796,7 @@ export namespace Prisma {
     pay_amount?: boolean
     currency?: boolean
     workers_needed?: boolean
+    hired_count?: boolean
     gender_preference?: boolean
     meal_included?: boolean
     transport_support?: boolean
@@ -28831,6 +28844,7 @@ export namespace Prisma {
     pay_amount?: boolean
     currency?: boolean
     workers_needed?: boolean
+    hired_count?: boolean
     gender_preference?: boolean
     meal_included?: boolean
     transport_support?: boolean
@@ -28878,6 +28892,7 @@ export namespace Prisma {
     pay_amount?: boolean
     currency?: boolean
     workers_needed?: boolean
+    hired_count?: boolean
     gender_preference?: boolean
     meal_included?: boolean
     transport_support?: boolean
@@ -28906,7 +28921,7 @@ export namespace Prisma {
     escrow_status?: boolean
   }
 
-  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "gender_preference" | "meal_included" | "transport_support" | "uniform_provided" | "tips_expected" | "experience_required" | "languages" | "customer_facing" | "reporting_details" | "dress_code" | "manager_contact" | "is_urgent" | "platform_fee" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token" | "escrow_amount" | "escrow_status", ExtArgs["result"]["shifts"]>
+  export type shiftsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "business_profile_id" | "branch_id" | "title" | "description" | "category_id" | "role_type" | "shift_type" | "shift_date" | "start_time" | "end_time" | "pay_amount" | "currency" | "workers_needed" | "hired_count" | "gender_preference" | "meal_included" | "transport_support" | "uniform_provided" | "tips_expected" | "experience_required" | "languages" | "customer_facing" | "reporting_details" | "dress_code" | "manager_contact" | "is_urgent" | "platform_fee" | "address" | "landmark" | "zone_id" | "status" | "cancellation_reason" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "checkin_qr_token" | "escrow_amount" | "escrow_status", ExtArgs["result"]["shifts"]>
   export type shiftsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     applications?: boolean | shifts$applicationsArgs<ExtArgs>
     chat_conversations?: boolean | shifts$chat_conversationsArgs<ExtArgs>
@@ -28964,6 +28979,7 @@ export namespace Prisma {
       pay_amount: Prisma.Decimal
       currency: string
       workers_needed: number
+      hired_count: number
       gender_preference: $Enums.gender_enum | null
       meal_included: boolean
       transport_support: boolean
@@ -29438,6 +29454,7 @@ export namespace Prisma {
     readonly pay_amount: FieldRef<"shifts", 'Decimal'>
     readonly currency: FieldRef<"shifts", 'String'>
     readonly workers_needed: FieldRef<"shifts", 'Int'>
+    readonly hired_count: FieldRef<"shifts", 'Int'>
     readonly gender_preference: FieldRef<"shifts", 'gender_enum'>
     readonly meal_included: FieldRef<"shifts", 'Boolean'>
     readonly transport_support: FieldRef<"shifts", 'Boolean'>
@@ -44987,6 +45004,7 @@ export namespace Prisma {
     pay_amount: 'pay_amount',
     currency: 'currency',
     workers_needed: 'workers_needed',
+    hired_count: 'hired_count',
     gender_preference: 'gender_preference',
     meal_included: 'meal_included',
     transport_support: 'transport_support',
@@ -47544,6 +47562,7 @@ export namespace Prisma {
     pay_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
     currency?: StringFilter<"shifts"> | string
     workers_needed?: IntFilter<"shifts"> | number
+    hired_count?: IntFilter<"shifts"> | number
     gender_preference?: Enumgender_enumNullableFilter<"shifts"> | $Enums.gender_enum | null
     meal_included?: BoolFilter<"shifts"> | boolean
     transport_support?: BoolFilter<"shifts"> | boolean
@@ -47598,6 +47617,7 @@ export namespace Prisma {
     pay_amount?: SortOrder
     currency?: SortOrder
     workers_needed?: SortOrder
+    hired_count?: SortOrder
     gender_preference?: SortOrderInput | SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
@@ -47655,6 +47675,7 @@ export namespace Prisma {
     pay_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
     currency?: StringFilter<"shifts"> | string
     workers_needed?: IntFilter<"shifts"> | number
+    hired_count?: IntFilter<"shifts"> | number
     gender_preference?: Enumgender_enumNullableFilter<"shifts"> | $Enums.gender_enum | null
     meal_included?: BoolFilter<"shifts"> | boolean
     transport_support?: BoolFilter<"shifts"> | boolean
@@ -47709,6 +47730,7 @@ export namespace Prisma {
     pay_amount?: SortOrder
     currency?: SortOrder
     workers_needed?: SortOrder
+    hired_count?: SortOrder
     gender_preference?: SortOrderInput | SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
@@ -47760,6 +47782,7 @@ export namespace Prisma {
     pay_amount?: DecimalWithAggregatesFilter<"shifts"> | Decimal | DecimalJsLike | number | string
     currency?: StringWithAggregatesFilter<"shifts"> | string
     workers_needed?: IntWithAggregatesFilter<"shifts"> | number
+    hired_count?: IntWithAggregatesFilter<"shifts"> | number
     gender_preference?: Enumgender_enumNullableWithAggregatesFilter<"shifts"> | $Enums.gender_enum | null
     meal_included?: BoolWithAggregatesFilter<"shifts"> | boolean
     transport_support?: BoolWithAggregatesFilter<"shifts"> | boolean
@@ -51086,6 +51109,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -51139,6 +51163,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -51186,6 +51211,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -51239,6 +51265,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -51289,6 +51316,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -51329,6 +51357,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -51371,6 +51400,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -54467,6 +54497,7 @@ export namespace Prisma {
     pay_amount?: SortOrder
     currency?: SortOrder
     workers_needed?: SortOrder
+    hired_count?: SortOrder
     gender_preference?: SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
@@ -54498,6 +54529,7 @@ export namespace Prisma {
   export type shiftsAvgOrderByAggregateInput = {
     pay_amount?: SortOrder
     workers_needed?: SortOrder
+    hired_count?: SortOrder
     platform_fee?: SortOrder
     escrow_amount?: SortOrder
   }
@@ -54517,6 +54549,7 @@ export namespace Prisma {
     pay_amount?: SortOrder
     currency?: SortOrder
     workers_needed?: SortOrder
+    hired_count?: SortOrder
     gender_preference?: SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
@@ -54559,6 +54592,7 @@ export namespace Prisma {
     pay_amount?: SortOrder
     currency?: SortOrder
     workers_needed?: SortOrder
+    hired_count?: SortOrder
     gender_preference?: SortOrder
     meal_included?: SortOrder
     transport_support?: SortOrder
@@ -54589,6 +54623,7 @@ export namespace Prisma {
   export type shiftsSumOrderByAggregateInput = {
     pay_amount?: SortOrder
     workers_needed?: SortOrder
+    hired_count?: SortOrder
     platform_fee?: SortOrder
     escrow_amount?: SortOrder
   }
@@ -59513,6 +59548,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -59564,6 +59600,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -59695,6 +59732,7 @@ export namespace Prisma {
     pay_amount?: DecimalFilter<"shifts"> | Decimal | DecimalJsLike | number | string
     currency?: StringFilter<"shifts"> | string
     workers_needed?: IntFilter<"shifts"> | number
+    hired_count?: IntFilter<"shifts"> | number
     gender_preference?: Enumgender_enumNullableFilter<"shifts"> | $Enums.gender_enum | null
     meal_included?: BoolFilter<"shifts"> | boolean
     transport_support?: BoolFilter<"shifts"> | boolean
@@ -62425,6 +62463,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -62477,6 +62516,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -62738,6 +62778,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -62790,6 +62831,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -62989,6 +63031,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -63041,6 +63084,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -63320,6 +63364,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -63371,6 +63416,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -64119,6 +64165,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -64170,6 +64217,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -64745,6 +64793,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -64797,6 +64846,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -65204,6 +65254,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -65256,6 +65307,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -66112,6 +66164,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -66164,6 +66217,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -66449,6 +66503,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -66501,6 +66556,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -66820,6 +66876,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -66872,6 +66929,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -67193,6 +67251,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -67245,6 +67304,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -68191,6 +68251,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -68243,6 +68304,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -68401,6 +68463,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -68453,6 +68516,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -69590,6 +69654,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -69642,6 +69707,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -69868,6 +69934,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -69920,6 +69987,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -71358,6 +71426,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -71410,6 +71479,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -71660,6 +71730,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -71712,6 +71783,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -72091,6 +72163,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -72146,6 +72219,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -72197,6 +72271,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -72246,6 +72321,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -73765,6 +73841,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -73949,6 +74026,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -74001,6 +74079,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -74050,6 +74129,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -74197,6 +74277,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -74237,6 +74318,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -74288,6 +74370,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -74337,6 +74420,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -74412,6 +74496,7 @@ export namespace Prisma {
     pay_amount: Decimal | DecimalJsLike | number | string
     currency?: string
     workers_needed?: number
+    hired_count?: number
     gender_preference?: $Enums.gender_enum | null
     meal_included?: boolean
     transport_support?: boolean
@@ -74555,6 +74640,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -74606,6 +74692,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean
@@ -74655,6 +74742,7 @@ export namespace Prisma {
     pay_amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     currency?: StringFieldUpdateOperationsInput | string
     workers_needed?: IntFieldUpdateOperationsInput | number
+    hired_count?: IntFieldUpdateOperationsInput | number
     gender_preference?: NullableEnumgender_enumFieldUpdateOperationsInput | $Enums.gender_enum | null
     meal_included?: BoolFieldUpdateOperationsInput | boolean
     transport_support?: BoolFieldUpdateOperationsInput | boolean

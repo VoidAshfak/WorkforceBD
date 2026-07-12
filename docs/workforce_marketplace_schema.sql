@@ -401,6 +401,11 @@ CREATE TABLE shifts (
 
     -- Staffing
     workers_needed          SMALLINT NOT NULL DEFAULT 1,
+    -- Denormalized count of accepted applications (slots filled). Monotonic —
+    -- accepted apps never un-hire. Lets discovery filter "has open spots"
+    -- (hired_count < workers_needed) in SQL even after the shift status moves
+    -- past applications_open (worker_selected / checked_in / active).
+    hired_count             SMALLINT NOT NULL DEFAULT 0,
     gender_preference       gender_enum,                -- NULL = any gender
 
     -- Benefits

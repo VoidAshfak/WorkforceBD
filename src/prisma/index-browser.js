@@ -426,6 +426,7 @@ exports.Prisma.ShiftsScalarFieldEnum = {
   pay_amount: 'pay_amount',
   currency: 'currency',
   workers_needed: 'workers_needed',
+  hired_count: 'hired_count',
   gender_preference: 'gender_preference',
   meal_included: 'meal_included',
   transport_support: 'transport_support',

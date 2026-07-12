@@ -9,14 +9,18 @@ import {
 } from "../../constants.js";
 import { verifyCheckinCode } from "../../utils/qrToken.js";
 import { buildRoadmap } from "../../utils/shiftRoadmap.js";
-import { shiftInstant } from "../../utils/shiftTime.js";
+import { shiftInstant, shiftWindow } from "../../utils/shiftTime.js";
 import { advanceShiftStatus } from "../business/business.service.js";
 import { workerConfirmCheckout } from "../payment/handshake.service.js";
 import * as applicationRepository from "./application.repository.js";
 import * as notificationRepository from "../notification/notification.repository.js";
 
-// Shift states that accept new applications
-const APPLYABLE_SHIFT_STATUSES = ["published", "applications_open"];
+// Shift states that accept new applications. Mid-lifecycle states stay
+// applyable while capacity remains (a business may need to fill a spot after
+// hiring started or even mid-shift); the capacity check below rejects full ones.
+const APPLYABLE_SHIFT_STATUSES = [
+  "published", "applications_open", "worker_selected", "worker_confirmed", "checked_in", "active",
+];
 // Application states a worker is allowed to withdraw from
 const WITHDRAWABLE_STATUSES = ["pending", "shortlisted"];
 // Shift states where check-in/out is no longer permitted.
@@ -97,13 +101,6 @@ const getWorkerProfile = async (userId) => {
   return profile;
 };
 
-/** Today at local midnight. */
-const today = () => {
-  const d = new Date();
-  d.setHours(0, 0, 0, 0);
-  return d;
-};
-
 /**
  * Worker applies to a shift. Enforces verification, shift openness,
  * capacity, and the unique (shift, worker) constraint.
@@ -123,7 +120,11 @@ export const applyToShift = async (userId, { shift_id, note }) => {
   if (!APPLYABLE_SHIFT_STATUSES.includes(shift.status)) {
     throw new AppError("This shift is not accepting applications", 409);
   }
-  if (shift.shift_date < today()) throw new AppError("This shift has already passed", 409);
+  // Time gate is the shift's actual end instant, not the calendar day — a shift
+  // running until tonight stays applyable all day.
+  if (shiftWindow(shift).end <= new Date()) {
+    throw new AppError("This shift has already ended", 409);
+  }
 
   const accepted = await applicationRepository.countAccepted(shift_id);
   if (accepted >= shift.workers_needed) throw new AppError("This shift is already full", 409);
