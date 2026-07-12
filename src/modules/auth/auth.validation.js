@@ -52,10 +52,12 @@ export const adminVerify2faRules = [
     .isNumeric().withMessage("Code must be numeric"),
 ];
 
+// refresh_token may arrive in the body (worker/business) or in the admin
+// httpOnly cookie — the controller enforces that at least one is present.
 export const refreshTokenRules = [
-  body("refresh_token").trim().notEmpty().withMessage("Refresh token is required"),
+  body("refresh_token").optional().trim().notEmpty().withMessage("Refresh token must not be empty"),
 ];
 
 export const logoutRules = [
-  body("refresh_token").trim().notEmpty().withMessage("Refresh token is required"),
+  body("refresh_token").optional().trim().notEmpty().withMessage("Refresh token must not be empty"),
 ];

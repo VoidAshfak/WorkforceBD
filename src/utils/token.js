@@ -4,10 +4,11 @@ import { env } from "../config/env.js";
 
 /**
  * @param {{ id: string, roles: string[], active_role?: string|null }} payload
+ * @param {string} [expiresIn] override lifetime (admin sessions run shorter)
  * @returns {string}
  */
-export const generateAccessToken = (payload) => {
-  return jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtAccessExpiresIn });
+export const generateAccessToken = (payload, expiresIn = env.jwtAccessExpiresIn) => {
+  return jwt.sign(payload, env.jwtSecret, { expiresIn });
 };
 
 /**

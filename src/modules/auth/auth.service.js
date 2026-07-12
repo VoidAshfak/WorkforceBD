@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { env } from "../../config/env.js";
+import { ADMIN_ACCESS_TOKEN_EXPIRES, ADMIN_IDLE_TIMEOUT_MINUTES } from "../../constants.js";
 import { logger } from "../../config/logger.js";
 import { AppError } from "../../utils/AppError.js";
 import { generateOtp, hashOtp } from "../../utils/otp.js";
@@ -114,14 +115,20 @@ const resolveActiveRole = (user, requestedRole) => {
  * @param {{ ipAddress?: string, userAgent?: string }} meta
  */
 const issueTokens = async (user, activeRole, meta = {}) => {
-  const accessToken = generateAccessToken({ id: user.id, roles: user.roles, active_role: activeRole });
+  // Admin sessions run tighter: a 5-minute access token forces a frequent
+  // refresh cadence, and the session's expires_at acts as a sliding 10-minute
+  // idle deadline (extended on every refresh, enforced in refreshAccessToken).
+  const isAdmin = activeRole === "admin";
+  const accessToken = isAdmin
+    ? generateAccessToken({ id: user.id, roles: user.roles, active_role: activeRole }, ADMIN_ACCESS_TOKEN_EXPIRES)
+    : generateAccessToken({ id: user.id, roles: user.roles, active_role: activeRole });
   const refreshTokenValue = generateRefreshToken();
 
   const session = await authRepository.createSession({
     user_id: user.id,
     access_token: accessToken,
     active_role: activeRole,
-    expires_at: new Date(Date.now() + 15 * 60 * 1000),
+    expires_at: new Date(Date.now() + (isAdmin ? ADMIN_IDLE_TIMEOUT_MINUTES : 15) * 60 * 1000),
     ...(meta.ipAddress && { ip_address: meta.ipAddress }),
     ...(meta.userAgent && { user_agent: meta.userAgent }),
   });
@@ -334,6 +341,15 @@ export const refreshAccessToken = async (refreshToken) => {
     throw new AppError("Session is no longer active", 401);
   }
 
+  // Admin idle timeout: expires_at is a sliding deadline extended on every
+  // refresh. An admin who stayed idle past it must sign in again (with 2FA).
+  const isAdminSession = record.sessions.active_role === "admin";
+  if (isAdminSession && record.sessions.expires_at < new Date()) {
+    logger.warn(`Admin session idle-expired | sessionId=${record.session_id}`);
+    await authRepository.revokeSession(record.session_id);
+    throw new AppError("Session expired due to inactivity", 401);
+  }
+
   const user = record.users;
 
   // A blocked account cannot renew: its sessions were revoked at block time and
@@ -356,11 +372,19 @@ export const refreshAccessToken = async (refreshToken) => {
   // Carry the session's account context forward; fall back to a default if unset
   // (e.g. a session created before active_role existed).
   const activeRole = record.sessions.active_role ?? resolveActiveRole(user);
-  const accessToken = generateAccessToken({ id: user.id, roles: user.roles, active_role: activeRole });
+  const accessToken = isAdminSession
+    ? generateAccessToken({ id: user.id, roles: user.roles, active_role: activeRole }, ADMIN_ACCESS_TOKEN_EXPIRES)
+    : generateAccessToken({ id: user.id, roles: user.roles, active_role: activeRole });
   // Keep the session's access_token current so a context switch can locate it.
-  await authRepository.updateSession(record.session_id, { access_token: accessToken, active_role: activeRole });
+  // Admin refresh also slides the idle deadline forward.
+  await authRepository.updateSession(record.session_id, {
+    access_token: accessToken,
+    active_role: activeRole,
+    ...(isAdminSession && { expires_at: new Date(Date.now() + ADMIN_IDLE_TIMEOUT_MINUTES * 60 * 1000) }),
+  });
   logger.info(`Tokens rotated | userId=${user.id} active_role=${activeRole ?? "none"}`);
-  return { accessToken, refreshToken: newRefreshToken };
+  // active_role lets the controller decide token delivery (admin → httpOnly cookie).
+  return { accessToken, refreshToken: newRefreshToken, active_role: activeRole };
 };
 
 /**

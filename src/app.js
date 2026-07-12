@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 import { httpLogger } from "./config/logger.js";
 import { env } from "./config/env.js";
 import authRoutes from "./modules/auth/auth.routes.js";
@@ -28,6 +29,7 @@ app.use(cors({
 }));
 app.use(httpLogger);
 app.use(express.json());
+app.use(cookieParser()); // admin refresh token rides an httpOnly session cookie
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/worker", workerRoutes);

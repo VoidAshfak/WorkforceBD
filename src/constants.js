@@ -89,6 +89,13 @@ export const DISPUTE_DECISIONS = ["pay_full", "pay_partial", "deny"];
 // (check-in/out window, cancellation timing, shift expiry). See utils/shiftTime.js.
 export const APP_TZ_OFFSET_MINUTES = 360;
 
+// Admin portal session policy. Admin access tokens are deliberately short so an
+// idle dashboard must refresh often; each refresh slides the session's idle
+// deadline forward. Idle past the window → the next refresh is rejected and the
+// admin must sign in again (with 2FA).
+export const ADMIN_ACCESS_TOKEN_EXPIRES = "5m";
+export const ADMIN_IDLE_TIMEOUT_MINUTES = 10;
+
 // Chat tuning.
 // Max length of a single chat message body.
 export const CHAT_MESSAGE_MAX_LENGTH = 2000;
