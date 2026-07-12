@@ -2,7 +2,7 @@ import { Prisma } from "../../prisma/index.js";
 import { prisma } from "../../db/index.js";
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
-import { HANDSHAKE_AUTO_CONFIRM_HOURS, PLATFORM_FEE_PERCENT } from "../../constants.js";
+import { setting } from "../../config/settings.js";
 import { shiftWindow } from "../../utils/shiftTime.js";
 import { createNotification } from "../notification/notification.service.js";
 import {
@@ -23,7 +23,7 @@ import * as paymentRepository from "./payment.repository.js";
 
 /** Confirm-window deadline starting now. */
 const autoConfirmDeadline = () =>
-  new Date(Date.now() + HANDSHAKE_AUTO_CONFIRM_HOURS * 60 * 60 * 1000);
+  new Date(Date.now() + setting("HANDSHAKE_AUTO_CONFIRM_HOURS") * 60 * 60 * 1000);
 
 /* ============================================================
  * Core payment (one assignment = one escrow slice)
@@ -85,9 +85,10 @@ const payAssignment = async (assignment, {
         await chargeBusinessWalletTx(tx, shift.business_profile_id, actorId, amt, {
           shiftId: shift.id, description: `Dispute ruling payout: "${shift.title}"`,
         });
-        const fee = amt.times(PLATFORM_FEE_PERCENT).dividedBy(100).toDecimalPlaces(2);
+        const feePercent = setting("PLATFORM_FEE_PERCENT");
+        const fee = amt.times(feePercent).dividedBy(100).toDecimalPlaces(2);
         await chargeBusinessWalletTx(tx, shift.business_profile_id, actorId, fee, {
-          shiftId: shift.id, description: `Platform fee (${PLATFORM_FEE_PERCENT}%): "${shift.title}"`,
+          shiftId: shift.id, description: `Platform fee (${feePercent}%): "${shift.title}"`, referenceId: "platform_fee",
         });
       }
     });
@@ -276,7 +277,7 @@ export const businessCheckoutWorker = async (userId, assignmentId) => {
     type: "in_app",
     priority: "high",
     title: "Business checked you out",
-    body: `"${assignment.shifts.title}" marked you checked out. Confirm to release your payment, or raise a dispute if something is wrong. It auto-confirms in ${HANDSHAKE_AUTO_CONFIRM_HOURS}h.`,
+    body: `"${assignment.shifts.title}" marked you checked out. Confirm to release your payment, or raise a dispute if something is wrong. It auto-confirms in ${setting("HANDSHAKE_AUTO_CONFIRM_HOURS")}h.`,
     data: { kind: "business_checkout", shift_id: assignment.shift_id, assignment_id: assignment.id, application_id: assignment.application_id, auto_confirm_at: deadline },
   });
 
@@ -560,7 +561,7 @@ export const sweepHandshakes = async () => {
           type: "in_app",
           priority: "normal",
           title: "Checked out automatically",
-          body: `"${shift.title}" ended — you were checked out automatically. Payment releases once the business confirms or in ${HANDSHAKE_AUTO_CONFIRM_HOURS}h.`,
+          body: `"${shift.title}" ended — you were checked out automatically. Payment releases once the business confirms or in ${setting("HANDSHAKE_AUTO_CONFIRM_HOURS")}h.`,
           data: { kind: "auto_checkout", shift_id: shift.id, assignment_id: a.id },
         });
         await createNotification({
@@ -568,7 +569,7 @@ export const sweepHandshakes = async () => {
           type: "in_app",
           priority: "normal",
           title: "Worker auto-checked out",
-          body: `${a.worker_profiles.full_name ?? "A worker"} was auto-checked out of "${shift.title}". Confirm or dispute within ${HANDSHAKE_AUTO_CONFIRM_HOURS}h, or it auto-confirms.`,
+          body: `${a.worker_profiles.full_name ?? "A worker"} was auto-checked out of "${shift.title}". Confirm or dispute within ${setting("HANDSHAKE_AUTO_CONFIRM_HOURS")}h, or it auto-confirms.`,
           data: { kind: "auto_checkout", shift_id: shift.id, assignment_id: a.id },
         });
       }

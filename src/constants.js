@@ -1,4 +1,9 @@
 // Shared application-wide constants.
+//
+// Many of the numeric values below are only DEFAULTS: keys listed in
+// config/settings.js SETTING_DEFS can be overridden at runtime from the admin
+// panel (platform_settings table) without a redeploy. Consumers of those keys
+// read them via `setting("KEY")`, never from this file directly.
 
 // Shift check-in tuning.
 // GPS check-in: worker must be within this many metres of the shift coordinates.

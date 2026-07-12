@@ -17,7 +17,7 @@ CREATE TYPE gender_enum AS ENUM ('male', 'female', 'other', 'prefer_not_to_say')
 
 CREATE TYPE verification_status_enum AS ENUM ('unverified', 'pending', 'verified', 'rejected');
 
-CREATE TYPE otp_purpose_enum AS ENUM ('login', 'register', 'reset', 'verify_phone');
+CREATE TYPE otp_purpose_enum AS ENUM ('login', 'register', 'reset', 'verify_phone', 'admin_2fa');
 
 CREATE TYPE session_status_enum AS ENUM ('active', 'expired', 'revoked');
 
@@ -76,7 +76,11 @@ CREATE TABLE users (
 
     -- Identity
     phone           VARCHAR(15) NOT NULL UNIQUE,   -- Primary login: +880XXXXXXXXXX
-    email           VARCHAR(255) UNIQUE,            -- Optional
+    email           VARCHAR(255) UNIQUE,            -- Optional (required for admins — receives the 2FA code)
+    -- Admin portal credentials (NULL for worker/business — they use phone OTP).
+    -- Login = username + password + 6-digit code mailed to `email`.
+    username        VARCHAR(50) UNIQUE,
+    password_hash   TEXT,                           -- bcrypt
     full_name       VARCHAR(100),
     profile_picture TEXT,                           -- URL to object storage
 
@@ -641,6 +645,18 @@ CREATE TABLE user_sanctions (
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     deleted_at      TIMESTAMPTZ,
     created_by      UUID,
+    updated_by      UUID
+);
+
+
+-- Runtime-tunable platform constants (admin panel — no redeploy needed).
+-- One row per overridden key; a missing row means the compiled default in
+-- src/constants.js applies. Tunable keys + bounds: src/config/settings.js.
+CREATE TABLE platform_settings (
+    key             VARCHAR(60) PRIMARY KEY,        -- e.g. 'PLATFORM_FEE_PERCENT'
+    value           JSONB NOT NULL,                 -- numbers today
+    description     TEXT,
+    updated_at      TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_by      UUID
 );
 

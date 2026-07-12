@@ -137,6 +137,8 @@ model users {
   id                                                  String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   phone                                               String             @unique @db.VarChar(15)
   email                                               String?            @unique @db.VarChar(255)
+  username                                            String?            @unique @db.VarChar(50)
+  password_hash                                       String?
   full_name                                           String?            @db.VarChar(100)
   profile_picture                                     String?
   roles                                               String[]           @default([])
@@ -171,6 +173,18 @@ model users {
   @@index([deleted_at], map: "idx_users_deleted_at", where: raw("(deleted_at IS NULL)"))
   @@index([phone], map: "idx_users_phone")
   @@index([roles], map: "idx_users_roles", type: Gin)
+}
+
+// Runtime-tunable platform constants (fee %, check-in radius, handshake timing…).
+// Admin edits these from the dashboard — no redeploy needed. Values are JSON
+// (numbers today); src/config/settings.js caches them in-process and falls back
+// to the compiled defaults in src/constants.js for missing keys.
+model platform_settings {
+  key         String   @id @db.VarChar(60)
+  value       Json
+  description String?
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_by  String?  @db.Uuid
 }
 
 model zones {
@@ -797,6 +811,7 @@ enum otp_purpose_enum {
   register
   reset
   verify_phone
+  admin_2fa
 }
 
 enum payment_method_enum {

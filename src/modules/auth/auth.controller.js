@@ -23,6 +23,25 @@ export const verifyOtp = asyncHandler(async (req, res) => {
   return sendSuccess(res, 200, "Authentication successful", result);
 });
 
+export const adminLogin = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
+
+  const { username, password } = req.body;
+  const result = await authService.adminLogin(username, password);
+  return sendSuccess(res, 200, "Verification code sent to your email", result);
+});
+
+export const adminVerify2fa = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());
+
+  const { username, code } = req.body;
+  const meta = { ipAddress: req.ip, userAgent: req.headers["user-agent"] };
+  const result = await authService.adminVerify2fa(username, code, meta);
+  return sendSuccess(res, 200, "Admin authentication successful", result);
+});
+
 export const refreshToken = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return sendError(res, 422, "Validation failed", errors.array());

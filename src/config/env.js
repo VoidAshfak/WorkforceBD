@@ -15,4 +15,11 @@ export const env = {
     apiKey: process.env.CLOUDINARY_API_KEY,
     apiSecret: process.env.CLOUDINARY_API_SECRET,
   },
+  // Gmail SMTP for transactional mail (admin 2FA codes). Use a Google
+  // "App Password" (Account → Security → 2-Step Verification → App passwords),
+  // not the account password. Missing creds → mail is logged instead of sent.
+  gmail: {
+    user: process.env.GMAIL_USER,
+    appPassword: process.env.GMAIL_APP_PASSWORD,
+  },
 };

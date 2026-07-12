@@ -47,3 +47,43 @@ export const decideShiftPostRules = [
     .bail()
     .isLength({ max: 500 }).withMessage("note must be under 500 chars"),
 ];
+
+export const analyticsRules = [
+  query("days").optional().isInt({ min: 7, max: 90 }).toInt().withMessage("days must be 7–90"),
+];
+
+export const listUsersRules = [
+  query("role").optional().isIn(["worker", "business", "admin"]).withMessage("role must be 'worker', 'business' or 'admin'"),
+  query("status").optional().isIn(["active", "blocked"]).withMessage("status must be 'active' or 'blocked'"),
+  query("search").optional().trim().isLength({ max: 100 }).withMessage("search must be under 100 chars"),
+  query("page").optional().isInt({ min: 1 }).toInt().withMessage("page must be a positive integer"),
+  query("limit").optional().isInt({ min: 1, max: 50 }).toInt().withMessage("limit must be 1–50"),
+];
+
+export const userIdRules = [
+  param("userId").isUUID().withMessage("Invalid user id"),
+];
+
+export const blockUserRules = [
+  param("userId").isUUID().withMessage("Invalid user id"),
+  body("reason")
+    .trim()
+    .notEmpty().withMessage("reason is required")
+    .bail()
+    .isLength({ max: 500 }).withMessage("reason must be under 500 chars"),
+  body("severity").optional().isIn(["low", "medium", "high", "critical"]).withMessage("Invalid severity"),
+];
+
+export const unblockUserRules = [
+  param("userId").isUUID().withMessage("Invalid user id"),
+  body("note").optional().trim().isLength({ max: 500 }).withMessage("note must be under 500 chars"),
+];
+
+export const updateSettingRules = [
+  param("key").trim().notEmpty().withMessage("Setting key is required"),
+  body("value").isNumeric().withMessage("value must be a number").toFloat(),
+];
+
+export const settingKeyRules = [
+  param("key").trim().notEmpty().withMessage("Setting key is required"),
+];

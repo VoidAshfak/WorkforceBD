@@ -3,7 +3,9 @@
 // When a business deletes a shift that already has hired workers, the workers are
 // owed compensation. This module decides *whether* a penalty applies and computes
 // a per-worker penalty *rate* (a fraction of the shift's pay_amount). The caller
-// turns rates into money and moves it. All tuning lives in constants.js.
+// turns rates into money and moves it. Rate knobs are runtime-tunable platform
+// settings (admin panel — see config/settings.js); structural values stay in
+// constants.js.
 //
 // Rate = timing base (dominant) + four capped adjustment factors, clamped:
 //   base                 how close `now` is to the shift start (instant floors higher)
@@ -13,18 +15,12 @@
 //   + demand              applicants-per-slot on this shift (in-demand worker)
 
 import {
-  CANCEL_FREE_NOTICE_HOURS,
-  PENALTY_MIN_RATE,
-  PENALTY_MAX_RATE,
-  PENALTY_TIMING_MIN_RATE,
-  PENALTY_TIMING_MAX_RATE,
-  PENALTY_INSTANT_BASE,
-  PENALTY_FACTOR_WEIGHT,
   PENALTY_DURATION_SATURATION_HOURS,
   PENALTY_DEMAND_SATURATION_RATIO,
   RELIABILITY_MAX_SCORE,
   RELIABILITY_NEUTRAL_NORM,
 } from "../constants.js";
+import { setting } from "../config/settings.js";
 
 const HOUR_MS = 3600000;
 const clamp01 = (n) => Math.min(1, Math.max(0, n));
@@ -49,10 +45,10 @@ const reliabilityNorm = (score) => {
  * @param {number} hoursToStart
  */
 const timingBase = (shiftType, hoursToStart) => {
-  const closeness = clamp01(1 - hoursToStart / CANCEL_FREE_NOTICE_HOURS);
-  const scheduled =
-    PENALTY_TIMING_MIN_RATE + (PENALTY_TIMING_MAX_RATE - PENALTY_TIMING_MIN_RATE) * closeness;
-  return shiftType === "instant" ? Math.max(PENALTY_INSTANT_BASE, scheduled) : scheduled;
+  const minRate = setting("PENALTY_TIMING_MIN_RATE");
+  const closeness = clamp01(1 - hoursToStart / setting("CANCEL_FREE_NOTICE_HOURS"));
+  const scheduled = minRate + (setting("PENALTY_TIMING_MAX_RATE") - minRate) * closeness;
+  return shiftType === "instant" ? Math.max(setting("PENALTY_INSTANT_BASE"), scheduled) : scheduled;
 };
 
 /**
@@ -100,7 +96,7 @@ export const computeCancellation = ({
   let reason = "penalty";
   if (hired.length === 0) reason = "no_workers_hired";
   else if (isExpired) reason = "shift_expired";
-  else if (shiftType !== "instant" && hoursToStart > CANCEL_FREE_NOTICE_HOURS) reason = "outside_notice_window";
+  else if (shiftType !== "instant" && hoursToStart > setting("CANCEL_FREE_NOTICE_HOURS")) reason = "outside_notice_window";
 
   if (reason !== "penalty") {
     return {
@@ -115,16 +111,17 @@ export const computeCancellation = ({
   }
 
   // Shift-level factors (identical for every hired worker on this shift).
+  const factorWeight = setting("PENALTY_FACTOR_WEIGHT");
   const base = timingBase(shiftType, hoursToStart);
-  const businessAdj = PENALTY_FACTOR_WEIGHT * (1 - reliabilityNorm(businessReliabilityScore));
+  const businessAdj = factorWeight * (1 - reliabilityNorm(businessReliabilityScore));
   const demandRatio = workersNeeded > 0 ? applicantCount / workersNeeded : 0;
-  const demandAdj = PENALTY_FACTOR_WEIGHT * clamp01(demandRatio / PENALTY_DEMAND_SATURATION_RATIO);
+  const demandAdj = factorWeight * clamp01(demandRatio / PENALTY_DEMAND_SATURATION_RATIO);
 
   const per_worker = hired.map((w) => {
     const hoursSinceHired = w.hiredAt ? (now.getTime() - w.hiredAt.getTime()) / HOUR_MS : 0;
-    const durationAdj = PENALTY_FACTOR_WEIGHT * clamp01(hoursSinceHired / PENALTY_DURATION_SATURATION_HOURS);
-    const workerAdj = PENALTY_FACTOR_WEIGHT * reliabilityNorm(w.reliabilityScore);
-    const rate = clamp(base + durationAdj + workerAdj + businessAdj + demandAdj, PENALTY_MIN_RATE, PENALTY_MAX_RATE);
+    const durationAdj = factorWeight * clamp01(hoursSinceHired / PENALTY_DURATION_SATURATION_HOURS);
+    const workerAdj = factorWeight * reliabilityNorm(w.reliabilityScore);
+    const rate = clamp(base + durationAdj + workerAdj + businessAdj + demandAdj, setting("PENALTY_MIN_RATE"), setting("PENALTY_MAX_RATE"));
     return {
       worker_profile_id: w.workerProfileId,
       user_id: w.userId,

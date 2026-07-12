@@ -14,6 +14,19 @@ export const otpSendLimiter = rateLimit({
 });
 
 /**
+ * 5 admin portal attempts per IP per 15 minutes — covers both the password
+ * step and the 2FA code step (brute-force protection on each factor).
+ */
+export const adminAuthLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  keyGenerator: ipKeyGenerator,
+  message: { success: false, message: "Too many attempts. Try again in 15 minutes." },
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+});
+
+/**
  * 5 verify attempts per IP per 15 minutes.
  * Prevents brute-forcing the 6-digit OTP (1M combinations).
  */

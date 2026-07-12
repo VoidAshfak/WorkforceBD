@@ -5,10 +5,15 @@ import { env } from "./config/env.js";
 import { logger } from "./config/logger.js";
 import { initSocket } from "./socket/io.js";
 import { startHandshakeSweeper } from "./jobs/handshakeSweeper.js";
+import { startSettings } from "./config/settings.js";
 
 // Wrap Express in a raw HTTP server so Socket.IO can share the same port.
 const httpServer = createServer(app);
 initSocket(httpServer);
+
+// Runtime-tunable settings must be cached before any request computes fees,
+// geofences, or deadlines from them.
+await startSettings();
 
 httpServer.listen(env.port, () => {
   logger.info(`Server running on port ${env.port} [${env.nodeEnv}]`);

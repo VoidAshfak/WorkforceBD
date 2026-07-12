@@ -10,6 +10,28 @@ export const findUserById = (userId) => {
   return prisma.users.findUnique({ where: { id: userId } });
 };
 
+/** @param {string} username admin portal login name */
+export const findUserByUsername = (username) => {
+  return prisma.users.findUnique({ where: { username } });
+};
+
+/**
+ * Revokes every active session (and its refresh tokens) a user holds.
+ * Used when an admin blocks an account — no device stays signed in.
+ * @param {string} userId
+ * @param {import("../../prisma/index.js").Prisma.TransactionClient} [client]
+ */
+export const revokeAllUserSessions = async (userId, client = prisma) => {
+  await client.sessions.updateMany({
+    where: { user_id: userId, status: "active" },
+    data: { status: "revoked" },
+  });
+  await client.refresh_tokens.updateMany({
+    where: { user_id: userId, is_revoked: false },
+    data: { is_revoked: true },
+  });
+};
+
 /** @param {{ phone: string, roles: string[] }} data */
 export const createUser = (data) => {
   return prisma.users.create({ data });

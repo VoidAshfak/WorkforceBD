@@ -10,7 +10,8 @@
     "db:pull": "prisma db pull",
     "db:generate": "prisma generate",
     "db:sync": "prisma db pull && prisma generate",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "admin:create": "node scripts/createAdmin.js"
   },
   "author": "nishan|fahim|asif",
   "license": "ISC",
@@ -27,6 +28,7 @@
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
+    "nodemailer": "^9.0.3",
     "socket.io": "^4.8.3"
   },
   "devDependencies": {

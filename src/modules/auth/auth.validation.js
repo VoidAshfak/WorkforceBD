@@ -31,6 +31,27 @@ export const switchRoleRules = [
     .isIn(["worker", "business"]).withMessage("Role must be 'worker' or 'business'"),
 ];
 
+export const adminLoginRules = [
+  body("username")
+    .trim()
+    .notEmpty().withMessage("Username is required")
+    .isLength({ min: 3, max: 50 }).withMessage("Username must be 3-50 characters"),
+  body("password")
+    .notEmpty().withMessage("Password is required")
+    .isLength({ min: 8, max: 128 }).withMessage("Password must be 8-128 characters"),
+];
+
+export const adminVerify2faRules = [
+  body("username")
+    .trim()
+    .notEmpty().withMessage("Username is required"),
+  body("code")
+    .trim()
+    .notEmpty().withMessage("Code is required")
+    .isLength({ min: 6, max: 6 }).withMessage("Code must be 6 digits")
+    .isNumeric().withMessage("Code must be numeric"),
+];
+
 export const refreshTokenRules = [
   body("refresh_token").trim().notEmpty().withMessage("Refresh token is required"),
 ];

@@ -1,12 +1,7 @@
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import { createNotification } from "../notification/notification.service.js";
-import {
-  CHECKIN_RADIUS_METERS,
-  CHECKIN_GRACE_MINUTES,
-  CHECKIN_MAX_ACCURACY_METERS,
-  HANDSHAKE_AUTO_CONFIRM_HOURS,
-} from "../../constants.js";
+import { setting } from "../../config/settings.js";
 import { verifyCheckinCode } from "../../utils/qrToken.js";
 import { buildRoadmap } from "../../utils/shiftRoadmap.js";
 import { shiftInstant, shiftWindow } from "../../utils/shiftTime.js";
@@ -244,7 +239,7 @@ const checkinWindow = ({ shift_date, start_time, end_time }) => {
   const open = shiftInstant(shift_date, start_time);
   let close = shiftInstant(shift_date, end_time);
   if (close <= open) close = new Date(close.getTime() + 24 * 60 * 60 * 1000);
-  open.setMinutes(open.getMinutes() - CHECKIN_GRACE_MINUTES);
+  open.setMinutes(open.getMinutes() - setting("CHECKIN_GRACE_MINUTES"));
   return { open, close };
 };
 
@@ -279,17 +274,18 @@ const getCheckinContext = async (userId, applicationId) => {
  */
 const assertWithinGeofence = async (shift, coordinates) => {
   if (!coordinates) throw new AppError("coordinates are required to check in", 422);
-  if (coordinates.accuracy != null && coordinates.accuracy > CHECKIN_MAX_ACCURACY_METERS) {
+  if (coordinates.accuracy != null && coordinates.accuracy > setting("CHECKIN_MAX_ACCURACY_METERS")) {
     throw new AppError(
       `Location accuracy is too low (±${Math.round(coordinates.accuracy)}m). Move to open sky and retry`,
       422,
     );
   }
+  const radius = setting("CHECKIN_RADIUS_METERS");
   const within = await applicationRepository.isWithinShiftGeofence(
-    shift.id, coordinates.latitude, coordinates.longitude, CHECKIN_RADIUS_METERS,
+    shift.id, coordinates.latitude, coordinates.longitude, radius,
   );
   if (!within) {
-    throw new AppError(`You must be within ${CHECKIN_RADIUS_METERS}m of the shift location`, 422);
+    throw new AppError(`You must be within ${radius}m of the shift location`, 422);
   }
 };
 
@@ -361,7 +357,8 @@ export const checkOut = async (userId, applicationId) => {
     throw new AppError(`This assignment is already '${assignment.completion_status}'`, 409);
   }
 
-  const autoConfirmAt = new Date(Date.now() + HANDSHAKE_AUTO_CONFIRM_HOURS * 60 * 60 * 1000);
+  const autoConfirmHours = setting("HANDSHAKE_AUTO_CONFIRM_HOURS");
+  const autoConfirmAt = new Date(Date.now() + autoConfirmHours * 60 * 60 * 1000);
   const updated = await applicationRepository.setCheckOut(assignment.id, userId, autoConfirmAt);
 
   // The business closes the handshake: confirm releases payment, dispute
@@ -371,7 +368,7 @@ export const checkOut = async (userId, applicationId) => {
     type: "in_app",
     priority: "high",
     title: "Worker checked out — confirm completion",
-    body: `A worker checked out of "${assignment.shifts.title}". Confirm to release their payment, or raise a dispute. It auto-confirms in ${HANDSHAKE_AUTO_CONFIRM_HOURS}h.`,
+    body: `A worker checked out of "${assignment.shifts.title}". Confirm to release their payment, or raise a dispute. It auto-confirms in ${autoConfirmHours}h.`,
     data: { kind: "worker_checkout", shift_id: assignment.shift_id, assignment_id: assignment.id, auto_confirm_at: autoConfirmAt },
   });
 

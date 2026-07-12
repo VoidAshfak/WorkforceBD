@@ -2,12 +2,7 @@ import { Prisma } from "../../prisma/index.js";
 import { AppError } from "../../utils/AppError.js";
 import { logger } from "../../config/logger.js";
 import { prisma } from "../../db/index.js";
-import {
-  BUSINESS_WALLET_SEED_BALANCE,
-  MIN_BUSINESS_TOPUP,
-  PLATFORM_FEE_PERCENT,
-  LARGE_REQUEST_WORKER_THRESHOLD,
-} from "../../constants.js";
+import { setting } from "../../config/settings.js";
 import * as businessRepository from "./business.repository.js";
 import * as paymentRepository from "../payment/payment.repository.js";
 import { createNotification } from "../notification/notification.service.js";
@@ -109,7 +104,7 @@ const toShiftDto = (shift) => {
       platform_fee: fee,
       total_cost: workerPay.plus(fee),
     },
-    is_large_request: shift.workers_needed > LARGE_REQUEST_WORKER_THRESHOLD,
+    is_large_request: shift.workers_needed > setting("LARGE_REQUEST_WORKER_THRESHOLD"),
   };
 };
 
@@ -135,7 +130,7 @@ const shiftEscrowCost = (payAmount, workersNeeded) =>
  * @returns {Prisma.Decimal}
  */
 const shiftPlatformFee = (payAmount, workersNeeded) =>
-  shiftEscrowCost(payAmount, workersNeeded).times(PLATFORM_FEE_PERCENT).dividedBy(100).toDecimalPlaces(2);
+  shiftEscrowCost(payAmount, workersNeeded).times(setting("PLATFORM_FEE_PERCENT")).dividedBy(100).toDecimalPlaces(2);
 
 /**
  * Platform fee owed on an actual worker payout (proportional — a partial
@@ -144,7 +139,7 @@ const shiftPlatformFee = (payAmount, workersNeeded) =>
  * @returns {Prisma.Decimal}
  */
 const platformFeeOn = (paidAmount) =>
-  new Prisma.Decimal(paidAmount).times(PLATFORM_FEE_PERCENT).dividedBy(100).toDecimalPlaces(2);
+  new Prisma.Decimal(paidAmount).times(setting("PLATFORM_FEE_PERCENT")).dividedBy(100).toDecimalPlaces(2);
 
 /**
  * Appends a ledger row for a business-wallet move, stamping the resulting balance
@@ -154,7 +149,7 @@ const platformFeeOn = (paidAmount) =>
  * @param {{ id: string, balance: Prisma.Decimal, held: Prisma.Decimal }} wallet updated wallet
  * @param {{ type: "credit"|"debit", amount: Prisma.Decimal|string|number, description?: string, shiftId?: string, userId?: string }} entry
  */
-const recordWalletLedger = (client, wallet, { type, amount, description, shiftId, userId }) =>
+const recordWalletLedger = (client, wallet, { type, amount, description, shiftId, userId, referenceId }) =>
   businessRepository.createBusinessWalletTransaction({
     business_wallet_id: wallet.id,
     type,
@@ -163,6 +158,7 @@ const recordWalletLedger = (client, wallet, { type, amount, description, shiftId
     held_after: wallet.held,
     description: description ?? null,
     shift_id: shiftId ?? null,
+    reference_id: referenceId ?? null,
     created_by: userId ?? null,
   }, client);
 
@@ -177,7 +173,7 @@ const recordWalletLedger = (client, wallet, { type, amount, description, shiftId
  * @param {{ shiftId?: string, description?: string }} [meta]
  */
 const reserveFromWallet = async (tx, profileId, userId, cost, meta = {}) => {
-  const wallet = await businessRepository.ensureBusinessWallet(profileId, userId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  const wallet = await businessRepository.ensureBusinessWallet(profileId, userId, setting("BUSINESS_WALLET_SEED_BALANCE"), tx);
   if (new Prisma.Decimal(wallet.balance).lessThan(cost)) {
     throw new AppError(
       `Insufficient wallet balance to publish this shift. Required ৳${cost}, available ৳${wallet.balance}. Top up your wallet to continue.`,
@@ -203,7 +199,7 @@ const reserveFromWallet = async (tx, profileId, userId, cost, meta = {}) => {
  * @param {{ shiftId?: string, description?: string }} [meta]
  */
 const returnToWallet = async (tx, profileId, userId, amount, meta = {}) => {
-  const wallet = await businessRepository.ensureBusinessWallet(profileId, userId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  const wallet = await businessRepository.ensureBusinessWallet(profileId, userId, setting("BUSINESS_WALLET_SEED_BALANCE"), tx);
   const amt = new Prisma.Decimal(amount);
   const updated = await businessRepository.updateBusinessWallet(wallet.id, {
     balance: new Prisma.Decimal(wallet.balance).plus(amt),
@@ -243,7 +239,7 @@ export const refundShiftEscrow = async (shift, actorId, tx = prisma) => {
  */
 export const releaseShiftEscrow = async (tx, shift, totalPaid, actorId) => {
   if (shift.escrow_status !== "held") return;
-  const wallet = await businessRepository.ensureBusinessWallet(shift.business_profile_id, actorId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  const wallet = await businessRepository.ensureBusinessWallet(shift.business_profile_id, actorId, setting("BUSINESS_WALLET_SEED_BALANCE"), tx);
   const escrow = new Prisma.Decimal(shift.escrow_amount);
   const spent = new Prisma.Decimal(totalPaid);
   const unspent = escrow.minus(spent);
@@ -303,7 +299,7 @@ export const releaseEscrowSliceTx = async (tx, shift, paidAmount, actorId) => {
   const spent = paid.plus(fee);
   const unspent = slice.minus(spent);
 
-  const wallet = await businessRepository.ensureBusinessWallet(shift.business_profile_id, actorId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  const wallet = await businessRepository.ensureBusinessWallet(shift.business_profile_id, actorId, setting("BUSINESS_WALLET_SEED_BALANCE"), tx);
   const updated = await businessRepository.updateBusinessWallet(wallet.id, {
     held: new Prisma.Decimal(wallet.held).minus(slice),
     balance: new Prisma.Decimal(wallet.balance).plus(unspent),
@@ -321,8 +317,9 @@ export const releaseEscrowSliceTx = async (tx, shift, paidAmount, actorId) => {
     });
   }
   if (fee.greaterThan(0)) {
+    // reference_id "platform_fee" is the stable analytics key for fee revenue.
     await recordWalletLedger(tx, updated, {
-      type: "debit", amount: fee, description: `Platform fee (${PLATFORM_FEE_PERCENT}%): "${shift.title ?? "shift"}"`, shiftId: shift.id, userId: actorId,
+      type: "debit", amount: fee, description: `Platform fee (${setting("PLATFORM_FEE_PERCENT")}%): "${shift.title ?? "shift"}"`, shiftId: shift.id, userId: actorId, referenceId: "platform_fee",
     });
   }
   if (unspent.greaterThan(0)) {
@@ -369,14 +366,14 @@ export const finalizeShiftEscrowTx = async (tx, shift, actorId) => {
 export const chargeBusinessWalletTx = async (tx, profileId, actorId, amount, meta = {}) => {
   const amt = new Prisma.Decimal(amount);
   if (amt.lessThanOrEqualTo(0)) return;
-  const wallet = await businessRepository.ensureBusinessWallet(profileId, actorId, BUSINESS_WALLET_SEED_BALANCE, tx);
+  const wallet = await businessRepository.ensureBusinessWallet(profileId, actorId, setting("BUSINESS_WALLET_SEED_BALANCE"), tx);
   const updated = await businessRepository.updateBusinessWallet(wallet.id, {
     balance: new Prisma.Decimal(wallet.balance).minus(amt),
     total_spent: new Prisma.Decimal(wallet.total_spent).plus(amt),
     updated_by: actorId,
   }, tx);
   await recordWalletLedger(tx, updated, {
-    type: "debit", amount: amt, description: meta.description ?? "Dispute resolution charge", shiftId: meta.shiftId, userId: actorId,
+    type: "debit", amount: amt, description: meta.description ?? "Dispute resolution charge", shiftId: meta.shiftId, userId: actorId, referenceId: meta.referenceId,
   });
   logger.info(`Business wallet charged | profileId=${profileId} amount=${amt} shiftId=${meta.shiftId ?? "n/a"}`);
 };
@@ -388,7 +385,7 @@ export const chargeBusinessWalletTx = async (tx, profileId, actorId, amount, met
  */
 export const getWallet = async (userId) => {
   const profile = await getProfileSummaryOrThrow(userId);
-  return businessRepository.ensureBusinessWallet(profile.id, userId, BUSINESS_WALLET_SEED_BALANCE);
+  return businessRepository.ensureBusinessWallet(profile.id, userId, setting("BUSINESS_WALLET_SEED_BALANCE"));
 };
 
 /**
@@ -401,11 +398,12 @@ export const getWallet = async (userId) => {
 export const topUpWallet = async (userId, { amount, method }) => {
   const profile = await getProfileSummaryOrThrow(userId);
   const amt = new Prisma.Decimal(amount);
-  if (amt.lessThan(MIN_BUSINESS_TOPUP)) {
-    throw new AppError(`Minimum top-up is ৳${MIN_BUSINESS_TOPUP}`, 400);
+  const minTopup = setting("MIN_BUSINESS_TOPUP");
+  if (amt.lessThan(minTopup)) {
+    throw new AppError(`Minimum top-up is ৳${minTopup}`, 400);
   }
 
-  const wallet = await businessRepository.ensureBusinessWallet(profile.id, userId, BUSINESS_WALLET_SEED_BALANCE);
+  const wallet = await businessRepository.ensureBusinessWallet(profile.id, userId, setting("BUSINESS_WALLET_SEED_BALANCE"));
   const updated = await prisma.$transaction(async (tx) => {
     const w = await businessRepository.updateBusinessWallet(wallet.id, {
       balance: new Prisma.Decimal(wallet.balance).plus(amt),
@@ -427,7 +425,7 @@ export const topUpWallet = async (userId, { amount, method }) => {
  */
 export const listWalletTransactions = async (userId, query) => {
   const profile = await getProfileSummaryOrThrow(userId);
-  const wallet = await businessRepository.ensureBusinessWallet(profile.id, userId, BUSINESS_WALLET_SEED_BALANCE);
+  const wallet = await businessRepository.ensureBusinessWallet(profile.id, userId, setting("BUSINESS_WALLET_SEED_BALANCE"));
   const page = Math.max(1, query.page ?? 1);
   const limit = Math.min(50, Math.max(1, query.limit ?? 20));
   const skip = (page - 1) * limit;

@@ -1,12 +1,16 @@
+import bcrypt from "bcryptjs";
 import { env } from "../../config/env.js";
 import { logger } from "../../config/logger.js";
 import { AppError } from "../../utils/AppError.js";
 import { generateOtp, hashOtp } from "../../utils/otp.js";
+import { sendMail } from "../../utils/mailer.js";
 import { generateAccessToken, generateRefreshToken, hashRefreshToken } from "../../utils/token.js";
 import * as authRepository from "./auth.repository.js";
 
 // Single passwordless flow — purpose is no longer branched on (register/login unified).
 const OTP_PURPOSE = "login";
+// Second factor of the admin portal login (code mailed to the admin's Gmail).
+const ADMIN_2FA_PURPOSE = "admin_2fa";
 
 /**
  * Generates and stores a hashed OTP. Logs the plain OTP to console in dev (no SMS yet).
@@ -209,6 +213,97 @@ export const verifyOtpAndAuthenticate = async (phone, otpCode, role, meta = {}) 
   };
 };
 
+/* ============================================================
+ * Admin portal login (username + password + email 2FA)
+ * ========================================================== */
+
+/** Masks an email for the 2FA prompt: to***@gmail.com */
+const maskEmail = (email) => {
+  const [local, domain] = email.split("@");
+  return `${local.slice(0, 2)}***@${domain}`;
+};
+
+/**
+ * Resolves an admin user by portal credentials. Every failure mode returns the
+ * same generic 401 so usernames can't be probed.
+ * @param {string} username
+ * @param {string} [password] when given, must match the stored hash
+ */
+const getAdminByCredentials = async (username, password) => {
+  const user = await authRepository.findUserByUsername(username);
+  const invalid = new AppError("Invalid credentials", 401);
+  if (!user || !user.roles.includes("admin") || !user.is_active || user.deleted_at) throw invalid;
+  if (password !== undefined) {
+    if (!user.password_hash || !(await bcrypt.compare(password, user.password_hash))) throw invalid;
+  }
+  return user;
+};
+
+/**
+ * Admin login, step 1: verify username + password, then mail a 6-digit code to
+ * the admin's registered email. Tokens are NOT issued yet — the session only
+ * exists after the code is verified (step 2).
+ * @param {string} username
+ * @param {string} password
+ */
+export const adminLogin = async (username, password) => {
+  const user = await getAdminByCredentials(username, password);
+  if (!user.email) {
+    logger.error(`Admin has no email for 2FA | userId=${user.id}`);
+    throw new AppError("No email is configured for this admin account", 500);
+  }
+
+  const code = generateOtp();
+  const expiresAt = new Date(Date.now() + env.otpExpiresInMinutes * 60 * 1000);
+  await authRepository.createOtpRequest({
+    phone: user.phone,
+    otp_code: hashOtp(code),
+    purpose: ADMIN_2FA_PURPOSE,
+    expires_at: expiresAt,
+  });
+
+  const sent = await sendMail({
+    to: user.email,
+    subject: "Workforce BD admin sign-in code",
+    text: `Your admin sign-in code is ${code}. It expires in ${env.otpExpiresInMinutes} minutes. If you didn't try to sign in, change your password immediately.`,
+  });
+  if (!sent) logger.debug(`Admin 2FA code for ${username}: ${code}`); // dev fallback (no Gmail creds)
+
+  logger.info(`Admin 2FA code issued | userId=${user.id}`);
+  return {
+    two_factor_required: true,
+    email_hint: maskEmail(user.email),
+    expires_in_minutes: env.otpExpiresInMinutes,
+  };
+};
+
+/**
+ * Admin login, step 2: verify the mailed code and issue an admin session.
+ * The access token carries active_role "admin".
+ * @param {string} username
+ * @param {string} code
+ * @param {{ ipAddress?: string, userAgent?: string }} meta
+ */
+export const adminVerify2fa = async (username, code, meta = {}) => {
+  const user = await getAdminByCredentials(username);
+
+  const otpRecord = await authRepository.findValidOtp(user.phone, hashOtp(code), ADMIN_2FA_PURPOSE);
+  if (!otpRecord) {
+    logger.warn(`Admin 2FA code invalid | userId=${user.id}`);
+    throw new AppError("Invalid or expired code", 400);
+  }
+  await authRepository.markOtpAsUsed(otpRecord.id);
+
+  const { accessToken, refreshToken } = await issueTokens(user, "admin", meta);
+  logger.info(`Admin session issued | userId=${user.id}`);
+  return {
+    accessToken,
+    refreshToken,
+    user: { ...formatUser(user), username: user.username },
+    active_role: "admin",
+  };
+};
+
 /**
  * Issues new access token from a valid, non-revoked refresh token.
  * @param {string} refreshToken
@@ -240,6 +335,13 @@ export const refreshAccessToken = async (refreshToken) => {
   }
 
   const user = record.users;
+
+  // A blocked account cannot renew: its sessions were revoked at block time and
+  // this stops any refresh token that slipped through.
+  if (!user.is_active) {
+    logger.warn(`Refresh blocked — account deactivated | userId=${user.id}`);
+    throw new AppError("Account is deactivated", 403);
+  }
 
   // Rotate: revoke old token, issue new one (store hash only)
   await authRepository.revokeRefreshToken(tokenHash);

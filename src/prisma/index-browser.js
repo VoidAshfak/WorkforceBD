@@ -226,6 +226,8 @@ exports.Prisma.UsersScalarFieldEnum = {
   id: 'id',
   phone: 'phone',
   email: 'email',
+  username: 'username',
+  password_hash: 'password_hash',
   full_name: 'full_name',
   profile_picture: 'profile_picture',
   roles: 'roles',
@@ -235,6 +237,14 @@ exports.Prisma.UsersScalarFieldEnum = {
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
   created_by: 'created_by',
+  updated_by: 'updated_by'
+};
+
+exports.Prisma.Platform_settingsScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  description: 'description',
+  updated_at: 'updated_at',
   updated_by: 'updated_by'
 };
 
@@ -630,6 +640,10 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
@@ -654,7 +668,8 @@ exports.otp_purpose_enum = exports.$Enums.otp_purpose_enum = {
   login: 'login',
   register: 'register',
   reset: 'reset',
-  verify_phone: 'verify_phone'
+  verify_phone: 'verify_phone',
+  admin_2fa: 'admin_2fa'
 };
 
 exports.session_status_enum = exports.$Enums.session_status_enum = {
@@ -801,6 +816,7 @@ exports.Prisma.ModelName = {
   skills: 'skills',
   spatial_ref_sys: 'spatial_ref_sys',
   users: 'users',
+  platform_settings: 'platform_settings',
   zones: 'zones',
   applications: 'applications',
   business_branches: 'business_branches',
