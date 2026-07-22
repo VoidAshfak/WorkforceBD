@@ -92,7 +92,9 @@ export const createShift = (data, client = prisma) => client.shifts.create({ dat
 /**
  * Finds a live (not cancelled/deleted) shift by the same business that overlaps
  * the given slot — same category, date and start time. Used to warn on an
- * accidental duplicate post before creating another one.
+ * accidental duplicate post before creating another one. Drafts are ignored: an
+ * unsubmitted draft is not a posting, and it would otherwise block the business
+ * from submitting that very draft's contents.
  * @param {{ businessProfileId: string, categoryId: string, shiftDate: Date, startTime: Date }} opts
  */
 export const findDuplicateShift = ({ businessProfileId, categoryId, shiftDate, startTime }) => {
@@ -103,7 +105,7 @@ export const findDuplicateShift = ({ businessProfileId, categoryId, shiftDate, s
       shift_date: shiftDate,
       start_time: startTime,
       deleted_at: null,
-      status: { not: "cancelled" },
+      status: { notIn: ["cancelled", "draft"] },
     },
     select: { id: true, title: true },
   });
@@ -142,7 +144,8 @@ export const findOwnedShiftBasic = (shiftId, businessProfileId) => {
   return prisma.shifts.findFirst({
     where: { id: shiftId, business_profile_id: businessProfileId, deleted_at: null },
     select: {
-      id: true, status: true, workers_needed: true, shift_date: true,
+      id: true, title: true, status: true, workers_needed: true, category_id: true,
+      shift_date: true, start_time: true, end_time: true,
       pay_amount: true, business_profile_id: true, escrow_amount: true, escrow_status: true,
     },
   });

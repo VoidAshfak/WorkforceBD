@@ -2,6 +2,7 @@ import { Router } from "express";
 import authenticate from "../../middleware/authenticate.js";
 import requireActiveRole from "../../middleware/requireActiveRole.js";
 import requireVerifiedProfile from "../../middleware/requireVerifiedProfile.js";
+import stripEmptyStrings from "../../middleware/stripEmptyStrings.js";
 import * as businessController from "./business.controller.js";
 import {
   createProfileRules,
@@ -47,7 +48,7 @@ router.post("/wallet/topup", verified, topUpRules, businessController.topUpWalle
 router.get("/dashboard", businessController.getDashboard);
 
 // Shift management — reads open; create/edit/publish/cancel require verification
-router.post("/shifts", verified, createShiftRules, businessController.createShift);
+router.post("/shifts", verified, stripEmptyStrings, createShiftRules, businessController.createShift);
 router.get("/shifts", listShiftsRules, businessController.listShifts);
 router.get("/shifts/:id", shiftIdRules, businessController.getShift);
 router.patch("/shifts/:id", verified, updateShiftRules, businessController.updateShift);

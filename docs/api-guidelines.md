@@ -1652,6 +1652,8 @@ Home dashboard counters (screen 8).
 
 Creates a shift (create-shift wizard, screens 9–11). Submits it for admin review (`pending_approval`) unless `draft: true`. A shift becomes worker-visible only after an admin approves it. Submitting (not `draft`) **escrows the shift cost** — see the note above.
 
+> **Saving a draft.** With `draft: true` the ✅ fields below become optional, so a half-filled wizard can be parked at any step — send whatever the business has typed so far. Whatever *is* sent is still format-checked (a bad `shift_date` or a `pay_amount` ≤ 0 is rejected either way), and empty strings are treated as "not filled in". The near-duplicate guard is skipped for drafts. Finish the draft with [PATCH `/business/shifts/:id`](#patch-businessshiftsid) and submit it with [PATCH `/business/shifts/:id/publish`](#patch-businessshiftsidpublish), which re-checks that everything required is present. `missing_fields` on the shift tells you what is still empty.
+
 **Body**
 
 | Field | Type | Required | Notes |
@@ -1663,7 +1665,7 @@ Creates a shift (create-shift wizard, screens 9–11). Submits it for admin revi
 | `start_time` | string | ✅ | `HH:MM` (24h) |
 | `end_time` | string | ✅ | `HH:MM` (24h) |
 | `pay_amount` | number | ✅ | flat pay per worker (BDT), > 0 |
-| `workers_needed` | int | ✅ | ≥ 1 |
+| `workers_needed` | int | ✅ | ≥ 1; defaults to 1 on a draft that omits it |
 | `role_type` | string | — | max 100, e.g. `Waiter` |
 | `description` | string | — | |
 | `gender_preference` | enum | — | `male` \| `female` \| `other` \| `prefer_not_to_say` |
@@ -1683,7 +1685,7 @@ Creates a shift (create-shift wizard, screens 9–11). Submits it for admin revi
 | `landmark` | string | — | defaults to the business profile landmark |
 | `latitude` | number | — | map pin, −90..90; **must be sent with `longitude`**. Omitted → falls back to the business location |
 | `longitude` | number | — | map pin, −180..180; must be sent with `latitude` |
-| `draft` | bool | — | `true` saves as `draft` instead of submitting for review |
+| `draft` | bool | — | `true` saves as `draft` instead of submitting for review; the required fields above are then optional |
 | `allow_duplicate` | bool | — | `true` bypasses the near-duplicate guard (see `409` below) |
 
 **Response `201`** — `"Shift submitted for admin review"` (status `pending_approval`) or `"Shift saved as draft"` (status `draft`), with the created shift (including its `cost_breakdown`, see GET below).
@@ -1696,8 +1698,8 @@ Creates a shift (create-shift wizard, screens 9–11). Submits it for admin revi
 | `400` | `Shift date cannot be in the past` | `shift_date` < today |
 | `402` | `Insufficient wallet balance to publish this shift. …` | Wallet can't cover the escrow (only when not `draft`) |
 | `404` | `Create your business profile first` | No business profile yet |
-| `409` | `You already have a similar shift … Resubmit with allow_duplicate=true …` | Same category + date + start time as a live shift; resend with `allow_duplicate: true` |
-| `422` | `Validation failed` (incl. `end_time must be after start_time`) | Invalid/missing fields, or `end_time` ≤ `start_time` |
+| `409` | `You already have a similar shift … Resubmit with allow_duplicate=true …` | Same category + date + start time as a live shift (drafts don't count, and the guard is skipped when saving a draft); resend with `allow_duplicate: true` |
+| `422` | `Validation failed` (incl. `end_time must be after start_time`) | Invalid fields, missing required fields (not when `draft: true`), or `end_time` ≤ `start_time` |
 
 ---
 
@@ -1707,7 +1709,7 @@ Lists the business's own shifts, paginated, newest first.
 
 **Query:** `status` (any shift status), `page` (default 1), `limit` (default 10, max 50).
 
-**Response `200`** — `{ items: [...], pagination: {...} }`. Each item carries `filled`, `capacity`, `is_full`, `applicants_waiting`, `is_editable`, `is_large_request`, and `cost_breakdown`.
+**Response `200`** — `{ items: [...], pagination: {...} }`. Each item carries `filled`, `capacity`, `is_full`, `applicants_waiting`, `is_editable`, `is_large_request`, `missing_fields`, and `cost_breakdown`. Filter with `status=draft` to build the "continue where you left off" list.
 
 ---
 
@@ -1720,6 +1722,7 @@ Counters on the returned shift:
 - `applicants_waiting` — pending + shortlisted applicants
 - `is_editable` — `true` only while the shift is `draft`/`published`/`applications_open` **and** nobody is hired yet. Use it to show/hide the edit button; the journey bar is driven by `status`.
 - `is_large_request` — `true` when `workers_needed` exceeds the large-request threshold (20)
+- `missing_fields` — labels of the fields a `draft` still has to fill in before it can be submitted (`title`, `category`, `shift date`, `start time`, `end time`, `pay amount`). Empty array for every other status. Use it to gate the "Submit for review" button on the draft-resume screen.
 - `cost_breakdown` — `{ worker_pay, workers_needed, total_worker_pay, platform_fee, total_cost }` for the compensation screen. `platform_fee` is 10% of total worker pay; **`total_cost` (pay + fee) is what gets escrowed at submit**. The fee is captured per worker slot at payout time, proportional to what was actually paid — no-shows and denied disputes incur no fee.
 - `coordinates` — `{ latitude, longitude }` map pin, or `null` if unset (detail only, not on the list).
 - `roadmap` — status journey bar (detail only): `{ current, is_cancelled, is_draft, steps: [{ key, label, reached, current }] }`, built from the shift's status against `shift_status_enum`. Auto-advances as the shift progresses — see below.
@@ -1758,9 +1761,11 @@ Edits an owned shift. Allowed only while `draft`/`published`/`applications_open`
 
 Submits a draft shift for admin review (`draft` → `pending_approval`). It becomes worker-visible only after an admin approves it. **Escrows the shift cost** from the business wallet (see the escrow note above).
 
+This is where a half-filled draft is held to the full requirements: `title`, `category_id`, `shift_date`, `start_time`, `end_time` and `pay_amount` must all be set (see `missing_fields`), and the date must not have passed while the draft sat around. Fill the gaps with PATCH `/business/shifts/:id` first.
+
 **Response `200`** — `"Shift submitted for admin review"`.
 
-**Errors:** `409 Only draft shifts can be submitted`, `402 Insufficient wallet balance to publish this shift. …`, `404`.
+**Errors:** `409 Only draft shifts can be submitted`, `422 Complete the shift before submitting — missing: <fields>`, `400 Shift date cannot be in the past`, `402 Insufficient wallet balance to publish this shift. …`, `404`.
 
 ---
 

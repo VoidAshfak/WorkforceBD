@@ -5,6 +5,28 @@ const TIME_24H = /^([01]\d|2[0-3]):([0-5]\d)$/;
 const SHIFT_TYPES = ["instant", "scheduled", "prebooked"];
 const GENDERS = ["male", "female", "other", "prefer_not_to_say"];
 
+// Values that count as "not filled in yet" on a half-finished wizard form.
+const isBlank = (value) => value === undefined || value === null || `${value}`.trim() === "";
+
+/** True when the request asks to park the shift as a draft instead of submitting it. */
+export const isDraftRequest = (req) => req.body?.draft === true || req.body?.draft === "true";
+
+/**
+ * Presence rule that only applies when the shift is being submitted. A draft may
+ * be saved half-filled; the missing fields are demanded again at publish time.
+ * @param {string} field
+ * @param {string} message
+ */
+const requiredUnlessDraft = (field, message) =>
+  body(field).custom((value, { req }) => {
+    if (isDraftRequest(req) || !isBlank(value)) return true;
+    throw new Error(message);
+  });
+
+// Format checks run on whatever was sent; absent/null fields are skipped so a
+// draft can leave them out entirely.
+const whenPresent = (field) => body(field).optional({ values: "null" });
+
 // Rejects a shift whose end time is not strictly after its start time (edge
 // case: "Invalid Time"). Only fires when both are present (update is partial).
 const endAfterStart = (endTime, { req }) => {
@@ -81,27 +103,39 @@ export const preferencesRules = [
 /* ------------------------------ Shifts ----------------------------- */
 
 export const createShiftRules = [
-  body("title").trim().notEmpty().withMessage("Shift title is required").isLength({ max: 200 }),
-  body("description").optional().trim(),
-  body("category_id").notEmpty().withMessage("category_id is required").isUUID().withMessage("category_id must be a valid UUID"),
-  body("role_type").optional().trim().isLength({ max: 100 }),
-  body("shift_type").notEmpty().isIn(SHIFT_TYPES).withMessage(`shift_type must be one of: ${SHIFT_TYPES.join(", ")}`),
-  body("shift_date").notEmpty().isDate({ format: "YYYY-MM-DD" }).withMessage("shift_date must be YYYY-MM-DD"),
-  body("start_time").notEmpty().matches(TIME_24H).withMessage("start_time must be HH:MM (24h)"),
-  body("end_time").notEmpty().matches(TIME_24H).withMessage("end_time must be HH:MM (24h)").custom(endAfterStart),
-  body("pay_amount").notEmpty().isFloat({ gt: 0 }).withMessage("pay_amount must be greater than 0"),
-  body("workers_needed").notEmpty().isInt({ min: 1, max: 1000 }).withMessage("workers_needed must be at least 1"),
-  body("gender_preference").optional().isIn(GENDERS).withMessage("Invalid gender_preference"),
-  body("meal_included").optional().isBoolean(),
-  body("transport_support").optional().isBoolean(),
+  // Declared first so `draft` is already a real boolean when the rules below read it.
+  body("draft").optional().isBoolean().withMessage("draft must be a boolean").toBoolean(),
+  // Bypass the near-duplicate guard when the business confirms the repeat is intentional.
+  body("allow_duplicate").optional().isBoolean().withMessage("allow_duplicate must be a boolean").toBoolean(),
+
+  // Required to submit for review — skipped entirely while saving a draft.
+  requiredUnlessDraft("title", "Shift title is required"),
+  requiredUnlessDraft("category_id", "category_id is required"),
+  requiredUnlessDraft("shift_type", "shift_type is required"),
+  requiredUnlessDraft("shift_date", "shift_date is required"),
+  requiredUnlessDraft("start_time", "start_time is required"),
+  requiredUnlessDraft("end_time", "end_time is required"),
+  requiredUnlessDraft("pay_amount", "pay_amount is required"),
+  requiredUnlessDraft("workers_needed", "workers_needed is required"),
+
+  whenPresent("title").trim().isLength({ max: 200 }),
+  whenPresent("description").trim(),
+  whenPresent("category_id").isUUID().withMessage("category_id must be a valid UUID"),
+  whenPresent("role_type").trim().isLength({ max: 100 }),
+  whenPresent("shift_type").isIn(SHIFT_TYPES).withMessage(`shift_type must be one of: ${SHIFT_TYPES.join(", ")}`),
+  whenPresent("shift_date").isDate({ format: "YYYY-MM-DD" }).withMessage("shift_date must be YYYY-MM-DD"),
+  whenPresent("start_time").matches(TIME_24H).withMessage("start_time must be HH:MM (24h)"),
+  whenPresent("end_time").matches(TIME_24H).withMessage("end_time must be HH:MM (24h)").custom(endAfterStart),
+  whenPresent("pay_amount").isFloat({ gt: 0 }).withMessage("pay_amount must be greater than 0"),
+  whenPresent("workers_needed").isInt({ min: 1, max: 1000 }).withMessage("workers_needed must be at least 1"),
+  whenPresent("gender_preference").isIn(GENDERS).withMessage("Invalid gender_preference"),
+  whenPresent("meal_included").isBoolean(),
+  whenPresent("transport_support").isBoolean(),
   ...detailRules({ body }),
   ...coordinateRules({ body }),
-  body("zone_id").optional().isUUID().withMessage("zone_id must be a valid UUID"),
-  body("address").optional().trim().isLength({ max: 500 }),
-  body("landmark").optional().trim().isLength({ max: 200 }),
-  body("draft").optional().isBoolean().withMessage("draft must be a boolean"),
-  // Bypass the near-duplicate guard when the business confirms the repeat is intentional.
-  body("allow_duplicate").optional().isBoolean().withMessage("allow_duplicate must be a boolean"),
+  whenPresent("zone_id").isUUID().withMessage("zone_id must be a valid UUID"),
+  whenPresent("address").trim().isLength({ max: 500 }),
+  whenPresent("landmark").trim().isLength({ max: 200 }),
 ];
 
 export const updateShiftRules = [

@@ -404,19 +404,23 @@ CREATE TABLE shifts (
     branch_id               UUID REFERENCES business_branches(id),
 
     -- Basic info
-    title                   VARCHAR(200) NOT NULL,
+    -- title/category_id/shift_date/start_time/end_time/pay_amount are NULLable so
+    -- the create-shift wizard can park a half-filled form as a `draft`. The
+    -- shifts_complete_unless_draft CHECK below re-imposes them for every other
+    -- status, so anything that ever leaves `draft` is guaranteed complete.
+    title                   VARCHAR(200),
     description             TEXT,
-    category_id             UUID NOT NULL REFERENCES categories(id),
+    category_id             UUID REFERENCES categories(id),
     role_type               VARCHAR(100),               -- e.g. "Waiter", "Event Helper"
     shift_type              shift_type_enum NOT NULL DEFAULT 'scheduled',
 
     -- Scheduling
-    shift_date              DATE NOT NULL,
-    start_time              TIME NOT NULL,
-    end_time                TIME NOT NULL,
+    shift_date              DATE,
+    start_time              TIME,
+    end_time                TIME,
 
     -- Compensation
-    pay_amount              NUMERIC(10,2) NOT NULL,
+    pay_amount              NUMERIC(10,2),
     currency                VARCHAR(3) NOT NULL DEFAULT 'BDT',
 
     -- Staffing
@@ -478,7 +482,16 @@ CREATE TABLE shifts (
     updated_at              TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     deleted_at              TIMESTAMPTZ,
     created_by              UUID,
-    updated_by              UUID
+    updated_by              UUID,
+
+    -- Only a draft may be incomplete. Submitting (draft -> pending_approval) and
+    -- every later state require the full posting.
+    CONSTRAINT shifts_complete_unless_draft CHECK (
+        status = 'draft' OR (
+            title IS NOT NULL AND category_id IS NOT NULL AND shift_date IS NOT NULL
+            AND start_time IS NOT NULL AND end_time IS NOT NULL AND pay_amount IS NOT NULL
+        )
+    )
 );
 
 

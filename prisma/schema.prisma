@@ -462,15 +462,15 @@ model shifts {
   id                  String                    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   business_profile_id String                    @db.Uuid
   branch_id           String?                   @db.Uuid
-  title               String                    @db.VarChar(200)
+  title               String?                   @db.VarChar(200)
   description         String?
-  category_id         String                    @db.Uuid
+  category_id         String?                   @db.Uuid
   role_type           String?                   @db.VarChar(100)
   shift_type          shift_type_enum           @default(scheduled)
-  shift_date          DateTime                  @db.Date
-  start_time          DateTime                  @db.Time(6)
-  end_time            DateTime                  @db.Time(6)
-  pay_amount          Decimal                   @db.Decimal(10, 2)
+  shift_date          DateTime?                 @db.Date
+  start_time          DateTime?                 @db.Time(6)
+  end_time            DateTime?                 @db.Time(6)
+  pay_amount          Decimal?                  @db.Decimal(10, 2)
   currency            String                    @default("BDT") @db.VarChar(3)
   workers_needed      Int                       @default(1) @db.SmallInt
   hired_count         Int                       @default(0) @db.SmallInt
@@ -508,7 +508,7 @@ model shifts {
   reports             reports[]
   business_branches   business_branches?        @relation(fields: [branch_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   business_profiles   business_profiles         @relation(fields: [business_profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  categories          categories                @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  categories          categories?               @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   zones               zones?                    @relation(fields: [zone_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   transactions        transactions[]
   worker_assignments  worker_assignments[]

@@ -59,6 +59,28 @@ const timeStringToDate = (hhmm) => {
   return new Date(`1970-01-01T${hhmm}:00Z`);
 };
 
+/** Accepts the boolean or its string form (form-encoded clients send "true"). */
+const isDraftFlag = (value) => value === true || value === "true";
+
+// Fields a shift must carry before it can leave `draft` and go to admin review.
+// Drafts may miss any of them; the columns are nullable for exactly that reason.
+const REQUIRED_TO_SUBMIT = [
+  ["title", "title"],
+  ["category_id", "category"],
+  ["shift_date", "shift date"],
+  ["start_time", "start time"],
+  ["end_time", "end time"],
+  ["pay_amount", "pay amount"],
+];
+
+/**
+ * Labels of the still-empty fields that block submitting a shift for review.
+ * @param {object} shift
+ * @returns {string[]}
+ */
+const missingForSubmit = (shift) =>
+  REQUIRED_TO_SUBMIT.filter(([field]) => shift[field] == null).map(([, label]) => label);
+
 /**
  * Full profile for the owner, or 404. Used by read endpoints.
  * @param {string} userId
@@ -86,7 +108,10 @@ const getProfileSummaryOrThrow = async (userId) => {
 const toShiftDto = (shift) => {
   const { applications, _count, ...rest } = shift;
   const filled = applications?.length ?? 0;
-  const workerPay = shiftEscrowCost(shift.pay_amount, shift.workers_needed);
+  // An unfinished draft can still have no pay set — show it as zero cost.
+  const workerPay = shift.pay_amount != null
+    ? shiftEscrowCost(shift.pay_amount, shift.workers_needed)
+    : new Prisma.Decimal(0);
   const fee = new Prisma.Decimal(shift.platform_fee ?? 0);
   return {
     ...rest,
@@ -96,6 +121,8 @@ const toShiftDto = (shift) => {
     applicants_waiting: _count?.applications ?? 0,
     // Drives the edit button: false once hired or in a locked state.
     is_editable: isShiftEditable(shift.status, filled),
+    // Draft resume: what a half-filled draft still needs before it can be submitted.
+    missing_fields: shift.status === "draft" ? missingForSubmit(shift) : [],
     // Compensation breakdown for the review screen (screen 7).
     cost_breakdown: {
       worker_pay: shift.pay_amount,
@@ -521,17 +548,22 @@ export const updatePreferences = async (userId, data) => {
 
 /**
  * Creates a shift. Submits it for admin review by default; pass `draft: true` to
- * save a draft. A submitted shift becomes worker-visible only after an admin
- * approves it (`pending_approval` → `published`). Location falls back to the
- * business profile when omitted.
+ * save a draft. A draft may be half-filled — the fields required to go live are
+ * demanded again by {@link publishShift}. A submitted shift becomes worker-visible
+ * only after an admin approves it (`pending_approval` → `published`). Location
+ * falls back to the business profile when omitted.
  * @param {string} userId
  * @param {object} data
  */
 export const createShift = async (userId, data) => {
   const profile = await getProfileSummaryOrThrow(userId);
 
-  const category = await businessRepository.findActiveCategory(data.category_id);
-  if (!category) throw new AppError("Invalid category", 400);
+  const isDraft = isDraftFlag(data.draft);
+
+  if (data.category_id) {
+    const category = await businessRepository.findActiveCategory(data.category_id);
+    if (!category) throw new AppError("Invalid category", 400);
+  }
 
   const zoneId = data.zone_id ?? profile.zone_id ?? null;
   if (zoneId && data.zone_id) {
@@ -539,14 +571,16 @@ export const createShift = async (userId, data) => {
     if (!zone) throw new AppError("Invalid zone", 400);
   }
 
-  const shiftDate = new Date(data.shift_date);
-  if (shiftDate < today()) throw new AppError("Shift date cannot be in the past", 400);
+  const shiftDate = data.shift_date ? new Date(data.shift_date) : null;
+  if (shiftDate && shiftDate < today()) throw new AppError("Shift date cannot be in the past", 400);
 
-  const startTime = timeStringToDate(data.start_time);
+  const startTime = timeStringToDate(data.start_time) ?? null;
 
   // Duplicate guard: same category + date + start time as a live shift usually
   // means a double-tap. Block unless the business confirms it's intentional.
-  if (!data.allow_duplicate) {
+  // Drafts are exempt — parking the same form twice is normal, and the guard
+  // runs again for real when the draft is submitted.
+  if (!isDraft && !data.allow_duplicate) {
     const dup = await businessRepository.findDuplicateShift({
       businessProfileId: profile.id,
       categoryId: data.category_id,
@@ -563,23 +597,26 @@ export const createShift = async (userId, data) => {
 
   // Submitting straight to review (not a draft) escrows the shift's full cost
   // now — worker pay plus the platform fee (fee is captured at payout time).
-  const isSubmitting = !data.draft;
+  const isSubmitting = !isDraft;
   const status = isSubmitting ? "pending_approval" : "draft";
-  const workersNeeded = Number(data.workers_needed);
-  const platformFee = shiftPlatformFee(data.pay_amount, workersNeeded);
-  const cost = shiftEscrowCost(data.pay_amount, workersNeeded).plus(platformFee);
+  const workersNeeded = data.workers_needed != null ? Number(data.workers_needed) : 1;
+  // A draft may still have no pay set — money math waits until it is filled in.
+  const platformFee = data.pay_amount != null ? shiftPlatformFee(data.pay_amount, workersNeeded) : new Prisma.Decimal(0);
+  const cost = data.pay_amount != null
+    ? shiftEscrowCost(data.pay_amount, workersNeeded).plus(platformFee)
+    : new Prisma.Decimal(0);
 
   const shiftData = {
     business_profile_id: profile.id,
-    title: data.title,
+    title: data.title ?? null,
     description: data.description ?? null,
-    category_id: data.category_id,
+    category_id: data.category_id ?? null,
     role_type: data.role_type ?? null,
-    shift_type: data.shift_type,
+    shift_type: data.shift_type ?? undefined,
     shift_date: shiftDate,
     start_time: startTime,
-    end_time: timeStringToDate(data.end_time),
-    pay_amount: data.pay_amount,
+    end_time: timeStringToDate(data.end_time) ?? null,
+    pay_amount: data.pay_amount ?? null,
     platform_fee: platformFee,
     workers_needed: workersNeeded,
     gender_preference: data.gender_preference ?? null,
@@ -716,10 +753,11 @@ export const updateShift = async (userId, shiftId, data) => {
   if (data.workers_needed !== undefined) patch.workers_needed = Number(data.workers_needed);
 
   // Keep the fee in step with any pay/capacity change (display breakdown).
+  // A draft with no pay yet stays at zero until the amount is filled in.
   if (data.pay_amount !== undefined || data.workers_needed !== undefined) {
     const pay = data.pay_amount ?? shift.pay_amount;
     const workers = data.workers_needed !== undefined ? Number(data.workers_needed) : shift.workers_needed;
-    patch.platform_fee = shiftPlatformFee(pay, workers);
+    patch.platform_fee = pay != null ? shiftPlatformFee(pay, workers) : new Prisma.Decimal(0);
   }
 
   await businessRepository.updateShift(shiftId, patch);
@@ -732,7 +770,9 @@ export const updateShift = async (userId, shiftId, data) => {
 };
 
 /**
- * Submits a draft shift for admin review (draft → pending_approval).
+ * Submits a draft shift for admin review (draft → pending_approval). This is
+ * where a half-filled draft is held to the full requirements: everything the
+ * create form could skip must be present, and the date must still be valid.
  * @param {string} userId
  * @param {string} shiftId
  */
@@ -741,6 +781,13 @@ export const publishShift = async (userId, shiftId) => {
   const shift = await businessRepository.findOwnedShiftBasic(shiftId, profile.id);
   if (!shift) throw new AppError("Shift not found", 404);
   if (shift.status !== "draft") throw new AppError("Only draft shifts can be submitted", 409);
+
+  const missing = missingForSubmit(shift);
+  if (missing.length) {
+    throw new AppError(`Complete the shift before submitting — missing: ${missing.join(", ")}`, 422);
+  }
+  // A draft can sit around until its date has passed.
+  if (shift.shift_date < today()) throw new AppError("Shift date cannot be in the past", 400);
 
   const cost = shiftEscrowCost(shift.pay_amount, shift.workers_needed)
     .plus(shiftPlatformFee(shift.pay_amount, shift.workers_needed));
